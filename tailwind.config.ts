@@ -11,6 +11,9 @@ const config: Config = {
         creatBright: "#ED145A",
         creatDark: "#C00848",
       },
+      animation: {
+        "spin-fast": "spin 0.5s ease-in-out forwards",
+      },
     },
   },
   plugins: [],

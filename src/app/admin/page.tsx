@@ -29,31 +29,20 @@ const Dashboard = async () => {
   };
 
   return (
-    <main className="relative bg-zinc-100 pb-9">
-      <nav className="flex justify-between items-center w-full p-4">
-        <Link className="w-32 block" href="/">
+    <main className="relative bg-zinc-100 pb-9 min-h-screen">
+      <nav className="flex justify-between items-center w-full p-4 md:px-8">
+        <Link className="w-32 md:w-48 block" href="/">
           <img
             src="/logo-horizontal.svg"
             alt="The logo of the company, flower pattern of left and horizontal text CREAT on right"
-          ></img>
+          />
         </Link>
-
         <Menu {...userData} />
       </nav>
-      <Form />
-      <section className="w-full px-4 mt-6">
-        <div className="w-full flex flex-col bg-white drop-shadow gap-y-6 rounded-lg p-4">
-          {/* heading and desc */}
-          <div className="flex flex-col">
-            <h1 className="text-2xl font-bold capitalize leading-tight">
-              content overview
-            </h1>
-            <p>View and manage the contents of website</p>
-          </div>
-          {/* upload form */}
-          <Preview />
-        </div>
-      </section>
+      <div className="flex md:px-8 gap-x-8">
+        <Form />
+        <Preview />
+      </div>
     </main>
   );
 };

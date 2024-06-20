@@ -98,7 +98,7 @@ const Nav = () => {
         whileHover={{
           rotate: menuState ? 30 : 0,
         }}
-        className="fixed top-[6px] right-4 z-50"
+        className="fixed top-[6px] md:top-[12px] right-4 md:right-[22px] z-50"
       >
         <MenuIcon
           toggled={menuState}
@@ -121,11 +121,11 @@ const Nav = () => {
             exit="exit"
             className="fixed right-0 top-0 h-full w-full max-w-[769px] bg-zinc-900 z-40"
           >
-            <div className="flex flex-col h-full px-12 py-16 md:px-32 md:py-36 gap-y-4">
-              <h1 className="text-xs md:text-base uppercase text-white/50">
+            <div className="grid grid-rows-10 h-full px-12 md:px-32">
+              <h1 className="text-xs md:text-base uppercase text-white/50 row-span-1 row-start-2">
                 navigation
               </h1>
-              <div className="text-5xl md:text-7xl flex flex-col gap-y-4 capitalize text-white flex-grow">
+              <div className="text-5xl md:text-7xl flex flex-col gap-y-4 capitalize text-white row-span-5 row-start-3">
                 {items.map((item, index) => (
                   <motion.div
                     key={item.label}
@@ -145,7 +145,7 @@ const Nav = () => {
                 ))}
               </div>
 
-              <div className="flex flex-col gap-y-4">
+              <div className="flex flex-col gap-y-4 row-start-9">
                 {/*label*/}
                 <div className="flex text-xs md:text-base uppercase text-white/50 gap-x-4">
                   <h1>socials</h1>
@@ -233,6 +233,23 @@ const Nav = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <nav className="w-full fixed top-0 left-0 md:h-28 px-12 py-4 flex justify-between">
+        <div className="h-full w-auto">
+          <img
+            src="/logo-horizontal-outline.svg"
+            alt="logo of the company CREAT"
+            className="h-full w-fit"
+          />
+        </div>
+        <div className="w-1/2 h-full flex items-center justify-end gap-x-4">
+          {items.map((item, index) => (
+            <Link key={index} href={item.href} className="uppercase text-lg">
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      </nav>
     </>
   );
 };

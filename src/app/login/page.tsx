@@ -1,13 +1,17 @@
 "use client";
 import { useState } from "react";
 import { login } from "./actions";
-import { ImSpinner9, ImWarning } from "react-icons/im";
-import { AnimatePresence, motion } from "framer-motion";
+import { ImSpinner9 } from "react-icons/im";
+import {
+  BsFillQuestionCircleFill,
+  BsExclamationCircleFill,
+} from "react-icons/bs";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [message, setMessage] = useState<string>("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -17,17 +21,49 @@ export default function Login() {
     try {
       const response = await login(formData);
       if (response?.error) {
-        setError(true);
         const normalizedError = response.error.toLowerCase();
         const errorKeywords = ["invalid", "login", "credentials", "incorrect"];
         if (
           errorKeywords.some((keyword) => normalizedError.includes(keyword))
         ) {
-          setMessage("Giriş bilgiləri yalnışdır");
-        } else
-          setMessage(
-            "Gözlənilməz xəta baş verdi. İnternet bağlantınızı yoxlayın və yenidən cəhd edin",
-          );
+          setError(true);
+          if (!toast.isActive(0)) {
+            toast.error("Giriş bilgiləri yalnışdır!", {
+              toastId: 0,
+              position: "top-left",
+              autoClose: 3000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              theme: "light",
+              transition: Slide,
+              icon: () => (
+                <BsExclamationCircleFill className="text-lg text-red-500" />
+              ),
+            });
+          }
+        } else {
+          if (!toast.isActive(1)) {
+            toast.error(
+              "Gözlənilməz xəta baş verdi. İnternet bağlantınızı yoxlayın və yenidən cəhd edin",
+              {
+                toastId: 1,
+                position: "top-left",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "light",
+                transition: Slide,
+                icon: () => (
+                  <BsFillQuestionCircleFill className="text-lg text-amber-500" />
+                ),
+              },
+            );
+          }
+        }
       }
     } finally {
       setLoading(false);
@@ -36,24 +72,20 @@ export default function Login() {
 
   return (
     <main className="w-full min-h-screen flex flex-col bg-zinc-100">
-      <AnimatePresence mode="wait">
-        {error && (
-          <motion.div
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            exit={{ y: -100 }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="w-[calc(100%-32px)] md:w-fit bg-red-500 h-16 fixed top-4 left-4 rounded-lg flex"
-          >
-            <div className="h-full aspect-square flex items-center justify-center">
-              <ImWarning className="text-white text-xl" />
-            </div>
-            <div className="w-full h-full flex items-center md:pr-[22px]">
-              <h1 className="text-white font-semibold">{message}</h1>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        limit={2}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Slide}
+      />
 
       <div className="w-full h-full flex flex-col flex-grow items-center justify-center">
         <div className="flex flex-col gap-y-1 p-4 rounded-lg bg-white drop-shadow-lg">

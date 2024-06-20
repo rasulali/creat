@@ -2,25 +2,46 @@
 
 import { useRouter } from "next/navigation";
 import { createClient } from "../../../utils/supabase/client";
-import { IoPersonCircleOutline, IoLogOutOutline } from "react-icons/io5";
+import {
+  IoPersonCircleOutline,
+  IoLogOutOutline,
+  IoRefresh,
+} from "react-icons/io5";
 import { FaTrash, FaUpload, FaPen, FaMagnifyingGlass } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
+import r2 from "../../../utils/cloudflare/upload";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import { BsExclamationCircleFill } from "react-icons/bs";
+import "react-toastify/dist/ReactToastify.css";
 
 interface MenuDataType {
   name: string;
   email: string;
   role: string;
 }
-
 const supabase = createClient();
 
 export const Menu: React.FC<MenuDataType> = (props) => {
-  const menuRef = useRef<HTMLDivElement>(null);
+  const [menuState, setMenuState] = useState(false);
+  const [modalLogOutState, setModalLogOutState] = useState(false);
+  const router = useRouter();
+  const handleLogOut = async () => {
+    await supabase.auth.signOut();
+    router.push("/login");
+  };
 
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  const iconRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      if (
+        menuRef.current &&
+        iconRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        !iconRef.current.contains(event.target as Node)
+      ) {
         setMenuState(false);
       }
     };
@@ -31,49 +52,48 @@ export const Menu: React.FC<MenuDataType> = (props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const [menuState, setMenuState] = useState(false);
-  const [modalLogOutState, setModalLogOutState] = useState(false);
-  const router = useRouter();
-  const handleLogOut = async () => {
-    await supabase.auth.signOut();
-    router.push("/login");
-  };
-
   return (
-    <div
-      className="w-1/2 h-full
-  relative flex justify-end"
-    >
+    <>
       {/* name*/}
-      <IoPersonCircleOutline
-        onClick={() => setMenuState(!menuState)}
-        className="text-4xl fill-black hover:fill-creatBright
-        transition-colors duration-100"
-      />
       <div
-        style={{ display: menuState ? "flex" : "none" }}
-        ref={menuRef}
-        className="absolute top-14 right-2 w-fit bg-white
-        z-10 flex-col rounded border"
+        ref={iconRef}
+        onMouseDown={() => {
+          setMenuState(!menuState);
+        }}
+        className="cursor-pointer"
       >
-        <div className="flex justify-between p-2 items-center border-b">
-          <div className="flex flex-col">
-            <h1 className="text-base leading-none capitalize font-semibold">
-              {props.name}
-            </h1>
-            <h1 className="text-sm leading-none lowercase text-neutral-500">
-              {props.role}
+        <IoPersonCircleOutline
+          className="text-4xl md:text-6xl fill-black hover:fill-creatBright
+        transition-colors duration-100"
+        />
+      </div>
+      {menuState && (
+        <div
+          ref={menuRef}
+          className="absolute md:top-[76px] md:right-[62px] w-fit bg-white
+        z-10 flex-col rounded drop-shadow-xl flex"
+        >
+          <div className="flex justify-between p-2 md:px-6 md:py-3 items-center border-b">
+            <div className="flex flex-col">
+              <h1 className="text-base md:text-xl leading-none capitalize font-semibold">
+                {props.name}
+              </h1>
+              <h1 className="text-sm md:text-lg leading-none lowercase text-neutral-500">
+                {props.role}
+              </h1>
+            </div>
+            <button onMouseDown={() => setModalLogOutState(true)}>
+              <IoLogOutOutline className="text-2xl md:text-3xl hover:text-red-500 transition-colors duration-100" />
+            </button>
+          </div>
+          <div className="p-2 md:px-6 md:py-3">
+            <h1 className="text-base md:text-xl leading-none lowercase">
+              {props.email}
             </h1>
           </div>
-          <button onMouseDown={() => setModalLogOutState(true)}>
-            <IoLogOutOutline className="text-2xl hover:text-red-500 transition-colors duration-100" />
-          </button>
         </div>
-        <div className="p-2">
-          <h1 className="text-base leading-none lowercase">{props.email}</h1>
-        </div>
-      </div>
+      )}
+
       {/* backdrop of modal */}
       <div
         onMouseDown={() => setModalLogOutState(false)}
@@ -106,53 +126,45 @@ export const Menu: React.FC<MenuDataType> = (props) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
 export const Form = () => {
-  const handleSelect = (e: React.SyntheticEvent<HTMLSelectElement>) => {
-    const selectedOption = e.currentTarget;
-    if (selectedOption) {
-      selectedOption.style.color = "black";
-    }
-  };
+  const imageUploadRef = useRef<HTMLInputElement>(null);
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
-  const handleCloudflare = (props: File[]) => {
-    // if image name does not start $ it's name should be replaced by _
-    //else keep the name as it is and apply it to the alt of the image in supabase
-    console.log(props);
-  };
+  useEffect(() => {
+    const pageSelect = document.getElementById("page") as HTMLSelectElement;
+    const categorySelect = document.getElementById(
+      "category",
+    ) as HTMLSelectElement;
 
-  const handleUpload = async (props: any) => {
-    const { data: newProject, error: errorUpload } = await supabase
-      .from("images")
-      .insert([
-        {
-          category: "",
-          name: "",
-          description: "",
-          page: "",
-          images: "",
-        },
-      ]);
+    const handleSelectChange = (event: Event) => {
+      const target = event.target as HTMLSelectElement;
 
-    if (errorUpload) {
-      console.error("Error uploading image data:", errorUpload);
-      // Handle error (e.g., display error message to user)
-    } else {
-      console.log("Image data uploaded successfully:", newProject);
-      // Handle success (e.g., update UI, redirect, etc.)
-      //reset the form
-    }
-  };
+      if (target.value === "placeholder") {
+        target.style.color = "#71717a";
+      } else {
+        target.style.color = "black";
+      }
+    };
 
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    pageSelect.addEventListener("change", handleSelectChange);
+    categorySelect.addEventListener("change", handleSelectChange);
+
+    return () => {
+      pageSelect.removeEventListener("change", handleSelectChange);
+      categorySelect.removeEventListener("change", handleSelectChange);
+    };
+  }, []);
+
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     // custom error if non selected page
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     if (!formData.has("page")) {
-      const page = document.getElementById("page") as HTMLInputElement;
+      const page = document.getElementById("page") as HTMLSelectElement;
       page?.focus();
       page?.setCustomValidity("Please select a page");
       page?.reportValidity();
@@ -161,36 +173,186 @@ export const Form = () => {
     }
     // custom error if non selected category
     if (!formData.has("category")) {
-      const category = document.getElementById("category") as HTMLInputElement;
+      const category = document.getElementById("category") as HTMLSelectElement;
       category?.focus();
       category?.setCustomValidity("Please select a category");
       category?.reportValidity();
       category.setCustomValidity("");
       return;
     }
-    const data: {
-      page: string;
-      category: string;
-      name: string;
-      description?: string;
-      images: string[];
-    } = {
+
+    const uploadData = {
       page: formData.get("page") as string,
       category: formData.get("category") as string,
       name: formData.get("name") as string,
-      description: (formData.get("description") as string) || undefined,
-      images: selectedImages.map((image) => image.name),
+      description: formData.get("description") as string,
     };
 
-    // log out the data for debugging
-    console.log(JSON.stringify(data, null, 2));
+    const form = e.currentTarget;
+
+    try {
+      const dir = `${uploadData.category}_${uploadData.name}`;
+      await handleR2Upload(selectedImages, dir);
+
+      interface ImageUrlMap {
+        [imageName: string]: string;
+      }
+      const images = selectedImages.reduce((prev: ImageUrlMap, image) => {
+        const url = handleImageUrl({
+          endpoint: "https://pub-5c15a84b97fc4cc889a06969fb95be5f.r2.dev",
+          dir,
+          name: image.name,
+        });
+        prev[image.name] = url;
+        return prev;
+      }, {});
+
+      await handleSupabaseUpload({ ...uploadData, images });
+      form.reset();
+      document
+        .getElementById("page")
+        ?.dispatchEvent(new Event("change", { bubbles: true }));
+      document
+        .getElementById("category")
+        ?.dispatchEvent(new Event("change", { bubbles: true }));
+      setSelectedImages([]);
+      if (!toast.isActive(1)) {
+        toast.success(
+          "Project uploaded successfully, changes may take few minutes to apply",
+          {
+            toastId: 1,
+            position: "top-left",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            theme: "light",
+            transition: Slide,
+          },
+        );
+      }
+    } catch (error) {
+      if (!toast.isActive(2)) {
+        toast.error(
+          "Something went wrong, please refresh the page and try again",
+          {
+            toastId: 2,
+            position: "top-left",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "light",
+            transition: Slide,
+            icon: () => (
+              <BsExclamationCircleFill className="text-lg text-red-500" />
+            ),
+          },
+        );
+      }
+    }
+  };
+
+  const handleR2Upload = async (images: File[], dir: string) => {
+    const uploadPromises = images.map(async (image) => {
+      const key = `${dir}/${image.name}`;
+      const uploadCommand = new PutObjectCommand({
+        Bucket: "creat",
+        Key: key,
+        Body: image,
+        ContentType: image.type,
+      });
+
+      return r2
+        .send(uploadCommand)
+        .then(() => key)
+        .catch((error) => {
+          if (error) {
+            if (!toast.isActive(key)) {
+              toast.error(`Error uploading image ${key}, plese try again`, {
+                toastId: key,
+                position: "top-left",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "light",
+                transition: Slide,
+                icon: () => (
+                  <BsExclamationCircleFill className="text-lg text-red-500" />
+                ),
+              });
+            }
+          }
+        });
+    });
+
+    return Promise.all(uploadPromises);
+  };
+
+  interface tableTypes {
+    page: string;
+    category: string;
+    name: string;
+    description?: string;
+    images: Record<string, string>;
+  }
+  const handleSupabaseUpload = async ({
+    page,
+    category,
+    name,
+    description,
+    images,
+  }: tableTypes) => {
+    const { error: insertErr } = await supabase.from("images").insert([
+      {
+        category,
+        name,
+        description,
+        page,
+        images,
+      },
+    ]);
+    if (insertErr) {
+      if (!toast.isActive(0)) {
+        toast.error(
+          `Error uploading data to Database, please try again. Error code: ${insertErr.code}`,
+          {
+            toastId: 0,
+            position: "top-left",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "light",
+            transition: Slide,
+            icon: () => (
+              <BsExclamationCircleFill className="text-lg text-red-500" />
+            ),
+          },
+        );
+      }
+    }
+  };
+
+  interface imageUrl {
+    endpoint: string;
+    dir: string;
+    name: string;
+  }
+  const handleImageUrl = ({ endpoint, dir, name }: imageUrl) => {
+    if (name.charAt(0) == "$") {
+      name = "%24" + name.slice(1);
+    }
+    return `${endpoint}/${dir}%2F${name}`;
   };
 
   const [fileHover, setFileHover] = useState(false);
   const [modalDeleteState, setModalDeleteState] = useState(false);
-
-  const imageUploadRef = useRef<HTMLInputElement>(null);
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
   const handleImageSelect = (e: React.SyntheticEvent<HTMLInputElement>) => {
     if ((e.target as HTMLInputElement).files?.length !== 0) {
@@ -329,8 +491,26 @@ export const Form = () => {
     }
   }, [modalDeleteState, renameState]);
 
+  const [resetForm, setResetForm] = useState(false);
+
   return (
     <>
+      {/* toast modal */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        limit={2}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Slide}
+      />
+
       {/* delete modal */}
       <div
         onMouseDown={() => setModalDeleteState(false)}
@@ -437,18 +617,43 @@ export const Form = () => {
         </div>
       </div>
 
-      <section className="w-full flex px-4 mt-6">
+      <section className="w-full md:w-[calc(50%-48px)] flex drop-shadow">
         {/* add new project */}
-        <div className="w-full flex flex-col bg-white drop-shadow gap-y-6 rounded-lg p-4">
+        <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4">
           {/* heading and desc */}
-          <div className="flex flex-col">
-            <h1 className="text-2xl font-bold capitalize leading-tight">
-              Add new project
-            </h1>
-            <p>Please review changes before publishing!</p>
+          <div className="flex justify-between items-center">
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-bold capitalize leading-tight">
+                Add new project
+              </h1>
+              <p>Please review changes before publishing!</p>
+            </div>
+            <IoRefresh
+              onMouseDown={() => {
+                setResetForm(true);
+                const form = document.getElementById(
+                  "uploadForm",
+                ) as HTMLFormElement;
+                form.reset();
+                document
+                  .getElementById("page")
+                  ?.dispatchEvent(new Event("change", { bubbles: true }));
+                document
+                  .getElementById("category")
+                  ?.dispatchEvent(new Event("change", { bubbles: true }));
+                setTimeout(() => {
+                  setResetForm(false);
+                }, 500);
+              }}
+              className={`md:text-3xl origin-center ${resetForm && "animate-spin-fast"}`}
+            />
           </div>
           {/* upload form */}
-          <form onSubmit={handleSubmit} className="flex flex-wrap gap-y-3">
+          <form
+            id="uploadForm"
+            onSubmit={handleSubmit}
+            className="flex flex-wrap gap-y-3"
+          >
             <span className="w-full">
               <label
                 htmlFor="page"
@@ -461,7 +666,6 @@ export const Form = () => {
                 name="page"
                 id="page"
                 required
-                onChange={handleSelect}
                 defaultValue="placeholder"
                 className="w-full bg-transparent border rounded-lg p-2
                 mt-0.5 text-zinc-500"
@@ -487,7 +691,6 @@ export const Form = () => {
                 name="category"
                 id="category"
                 required
-                onChange={handleSelect}
                 defaultValue="placeholder"
                 className="w-full bg-transparent border rounded-lg p-2 mt-0.5 text-zinc-500"
               >
@@ -596,7 +799,7 @@ export const Form = () => {
               >
                 <div
                   className="flex overflow-x-scroll p-2 gap-x-2 h-full relative
-            snap-x snap-mandatory"
+            snap-x snap-mandatory md:snap-none"
                 >
                   {selectedImages.map((image, index) => {
                     const imageUrl = URL.createObjectURL(image);
@@ -655,9 +858,9 @@ export const Form = () => {
             >
               Publish Changes
             </button>
-            <span className="text-zinc-500 text-sm">
+            <span className="text-zinc-500 text w-full">
               Fields marked with an asterisk
-              <span className="text-red-500 mx-1">*</span> are required.
+              <span className="text-red-500 mx-1">*</span>are required.
             </span>
           </form>
         </div>
@@ -696,56 +899,31 @@ export const Preview = () => {
     });
   };
 
-  type ImagesTableType = {
+  interface dataTableTypes {
+    date: string;
     category: string;
+    page: string;
     name: string;
     description?: string;
-    page: string;
-    images: object;
-    created_at: string;
-  };
-
-  const [imagesTable, setImagesTable] = useState<ImagesTableType[]>([]);
-  const [imagesTableError, setImagesTableError] =
-    useState<PostgrestError | null>(null);
+    images: Record<string, string>;
+  }
+  const [dataTable, setDataTable] = useState<dataTableTypes[]>([]);
+  const [dataError, setDataError] = useState<PostgrestError | null>(null);
 
   useEffect(() => {
     const handleTable = async () => {
-      const {
-        data: imagesTable,
-        error: imagesTableError,
-        status,
-      } = await supabase
+      const { data, error } = await supabase
         .from("images")
         .select("*")
         .order("created_at", { ascending: false });
-      if (imagesTable) {
-        setImagesTable(imagesTable);
-      } else if (imagesTableError) {
-        setImagesTableError(imagesTableError);
-      } else {
-        console.error(status);
+      if (data) {
+        setDataTable(data);
+      } else if (error) {
+        setDataError(error);
       }
     };
     handleTable();
   }, []);
-
-  interface FormattedDate {
-    date: string;
-    time: string;
-  }
-
-  const formatDate = (timestampString: string): FormattedDate => {
-    const timestamp = new Date(timestampString);
-    const day = String(timestamp.getDate()).padStart(2, "0");
-    const month = String(timestamp.getMonth() + 1).padStart(2, "0");
-    const year = timestamp.getFullYear();
-    const hours = String(timestamp.getHours()).padStart(2, "0");
-    const minutes = String(timestamp.getMinutes()).padStart(2, "0");
-    const date = `${day}/${month}/${year}`;
-    const time = `${hours}:${minutes}`;
-    return { date: date, time: time };
-  };
 
   const tableHeadings: (keyof ColumnWidth)[] = [
     "date",
@@ -757,38 +935,51 @@ export const Preview = () => {
   ];
 
   return (
-    <div className="flex flex-wrap gap-y-3">
-      <span className="w-full relative">
-        <input
-          type="text"
-          placeholder="Search Content from Database..."
-          className="w-full bg-transparent border rounded-lg p-2
+    <section className="w-full md:w-[calc(50%-48px)] drop-shadow">
+      <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4 min-h-[50vh]">
+        {/* heading and desc */}
+        <div className="flex flex-col">
+          <h1 className="text-2xl font-bold capitalize leading-tight">
+            content overview
+          </h1>
+          <p>View and manage the contents of website</p>
+        </div>
+
+        {/* preview */}
+        <div className="flex flex-wrap gap-y-3">
+          <span className="w-full relative">
+            <input
+              type="text"
+              placeholder="Search Content from Database..."
+              className="w-full bg-transparent border rounded-lg p-2
               placeholder-zinc-500"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <FaMagnifyingGlass
-          className="absolute top-1/2 -translate-y-1/2
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <FaMagnifyingGlass
+              className="absolute top-1/2 -translate-y-1/2
         text-zinc-500 right-2 text-lg pointer-events-none"
-        />
-      </span>
-      <div
-        className="w-full h-fit flex justify-between gap-x-2 border-b mt-6 pb-2
+            />
+          </span>
+          <div
+            className="w-full h-fit flex justify-between gap-x-2 border-b mt-6 pb-2
        text-zinc-500 font-medium overflow-x-scroll"
-      >
-        {tableHeadings.map((element, index) => {
-          return (
-            <h1
-              onMouseDown={() => handleColumnGrow(element)}
-              key={index}
-              className={`${columnWidth[element] > 1 && "text-blue-500"} cursor-pointer capitalize`}
-            >
-              {element}
-            </h1>
-          );
-        })}
+          >
+            {tableHeadings.map((element, index) => {
+              return (
+                <h1
+                  onMouseDown={() => handleColumnGrow(element)}
+                  key={index}
+                  className={`${columnWidth[element] > 1 && "text-blue-500"} cursor-pointer capitalize`}
+                >
+                  {element}
+                </h1>
+              );
+            })}
+          </div>
+          <div className="w-full flex gap-2"></div>
+        </div>
       </div>
-      <div className="w-full flex gap-2"></div>
-    </div>
+    </section>
   );
 };
