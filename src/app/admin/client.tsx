@@ -6,6 +6,7 @@ import {
   IoPersonCircleOutline,
   IoLogOutOutline,
   IoRefresh,
+  IoInformationOutline,
 } from "react-icons/io5";
 import { FaTrash, FaUpload, FaPen, FaMagnifyingGlass } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
@@ -63,7 +64,7 @@ export const Menu: React.FC<MenuDataType> = (props) => {
         className="cursor-pointer"
       >
         <IoPersonCircleOutline
-          className="text-4xl md:text-6xl fill-black hover:fill-creatBright
+          className="text-4xl md:text-5xl fill-black hover:fill-creatBright
         transition-colors duration-100"
         />
       </div>
@@ -218,7 +219,13 @@ export const Form = () => {
       setSelectedImages([]);
       if (!toast.isActive(1)) {
         toast.success(
-          "Project uploaded successfully, changes may take few minutes to apply",
+          <>
+            Project uploaded successfully
+            <br />
+            <span className="opacity-80">
+              Changes may take a few minutes to apply
+            </span>
+          </>,
           {
             toastId: 1,
             position: "top-left",
