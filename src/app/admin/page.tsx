@@ -32,10 +32,10 @@ const Dashboard = async () => {
     <main className="relative bg-zinc-100 pb-9 min-h-screen">
       <nav className="flex justify-between items-center w-full p-4 md:px-8">
         <Link className="w-32 md:w-48 block" href="/">
-          <img
-            src="/logo-horizontal.svg"
-            alt="The logo of the company, flower pattern of left and horizontal text CREAT on right"
-          />
+          {/* <img */}
+          {/*   src="/logo-horizontal.svg" */}
+          {/*   alt="The logo of the company, flower pattern of left and horizontal text CREAT on right" */}
+          {/* /> */}
         </Link>
         <Menu {...userData} />
       </nav>

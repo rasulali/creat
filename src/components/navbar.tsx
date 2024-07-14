@@ -121,6 +121,14 @@ const Nav = () => {
             exit="exit"
             className="fixed right-0 top-0 h-full w-full max-w-[769px] bg-zinc-900 z-40"
           >
+            <div className="mt-[6px] md:mt-[12px] ml-4 md:ml-[22px] w-12 aspect-square flex items-center justify-center">
+              <Link
+                href="/admin"
+                className="text-xs md:text-base uppercase text-white/50 hover:text-white transition-colors duration-300"
+              >
+                login
+              </Link>
+            </div>
             <div className="grid grid-rows-10 h-full px-12 md:px-32">
               <h1 className="text-xs md:text-base uppercase text-white/50 row-span-1 row-start-2">
                 navigation
@@ -233,23 +241,6 @@ const Nav = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <nav className="w-full fixed top-0 left-0 md:h-28 px-12 py-4 flex justify-between">
-        <div className="h-full w-auto">
-          <img
-            src="/logo-horizontal-outline.svg"
-            alt="logo of the company CREAT"
-            className="h-full w-fit"
-          />
-        </div>
-        <div className="w-1/2 h-full flex items-center justify-end gap-x-4">
-          {items.map((item, index) => (
-            <Link key={index} href={item.href} className="uppercase text-lg">
-              {item.label}
-            </Link>
-          ))}
-        </div>
-      </nav>
     </>
   );
 };
