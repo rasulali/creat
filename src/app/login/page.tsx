@@ -8,6 +8,8 @@ import {
 } from "react-icons/bs";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -128,8 +130,13 @@ export default function Login() {
             >
               {loading ? <ImSpinner9 className="animate-spin h-7" /> : "Login"}
             </button>
+            <Link className="uppercase text-lg mt-4 rounded-lg py-2 w-full text-center bg-white hover:bg-creatBright border-2
+          hover:text-white transition-colors duration-300 font-semibold text-creatBright border-creatBright" href="/">
+              home <RiArrowGoBackFill className="inline mb-1" />
+            </Link>
           </form>
         </div>
+
       </div>
     </main>
   );

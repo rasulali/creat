@@ -6,13 +6,16 @@ import Link from "next/link";
 
 const Dashboard = async () => {
   const supabase = createClient();
+
   const {
     data: { user },
+    error: authError,
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
+  if (authError || !user) {
+    redirect('/login');
   }
+
   const { data: userData } = await supabase
     .from("roles")
     .select("*")
@@ -30,16 +33,13 @@ const Dashboard = async () => {
 
   return (
     <main className="relative bg-zinc-100 pb-9 min-h-screen">
-      <nav className="flex justify-between items-center w-full p-4 md:px-8">
-        <Link className="w-32 md:w-48 block" href="/">
-          {/* <img */}
-          {/*   src="/logo-horizontal.svg" */}
-          {/*   alt="The logo of the company, flower pattern of left and horizontal text CREAT on right" */}
-          {/* /> */}
+      <nav className="flex justify-between items-center w-full p-4 lg:px-8">
+        <Link className="lg:h-12 h-9 flex w-fit" href="/">
+          <img src="/logo.svg" alt="logo" className="h-full w-full object-cover" />
         </Link>
         <Menu {...userData} />
       </nav>
-      <div className="flex md:px-8 gap-x-8">
+      <div className="flex gap-x-8 flex-col lg:flex-row lg:items-start items-center px-4 lg:p-0 gap-y-4">
         <Form />
         <Preview />
       </div>

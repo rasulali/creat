@@ -1,14 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { Tooltip } from 'react-tooltip'
 import { createClient } from "../../../utils/supabase/client";
 import {
   IoPersonCircleOutline,
   IoLogOutOutline,
   IoRefresh,
-  IoInformationOutline,
 } from "react-icons/io5";
 import { FaTrash, FaUpload, FaPen, FaMagnifyingGlass } from "react-icons/fa6";
+import { ImSpinner9 } from "react-icons/im"
 import { useEffect, useRef, useState } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
 import r2 from "../../../utils/cloudflare/upload";
@@ -29,8 +30,13 @@ export const Menu: React.FC<MenuDataType> = (props) => {
   const [modalLogOutState, setModalLogOutState] = useState(false);
   const router = useRouter();
   const handleLogOut = async () => {
-    await supabase.auth.signOut();
-    router.push("/login");
+    const { error } = await supabase.auth.signOut({ scope: 'local' })
+
+    if (error) {
+      router.refresh()
+    } else {
+      router.push('/login');
+    }
   };
 
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -64,31 +70,31 @@ export const Menu: React.FC<MenuDataType> = (props) => {
         className="cursor-pointer"
       >
         <IoPersonCircleOutline
-          className="text-4xl md:text-5xl fill-black hover:fill-creatBright
+          className="text-4xl lg:text-5xl fill-black hover:fill-creatBright
         transition-colors duration-100"
         />
       </div>
       {menuState && (
         <div
           ref={menuRef}
-          className="absolute md:top-[76px] md:right-[62px] w-fit bg-white
-        z-10 flex-col rounded drop-shadow-xl flex"
+          className="absolute lg:top-[76px] lg:right-[62px] w-fit bg-white
+        z-10 flex-col rounded drop-shadow-xl flex min-w-[300px]"
         >
-          <div className="flex justify-between p-2 md:px-6 md:py-3 items-center border-b">
+          <div className="flex gap-x-6 justify-between p-2 lg:px-6 lg:py-3 items-center border-b">
             <div className="flex flex-col">
-              <h1 className="text-base md:text-xl leading-none capitalize font-semibold">
+              <h1 className="text-base lg:text-xl leading-none capitalize font-semibold">
                 {props.name}
               </h1>
-              <h1 className="text-sm md:text-lg leading-none lowercase text-neutral-500">
+              <h1 className="text-sm lg:text-lg leading-none lowercase text-neutral-500">
                 {props.role}
               </h1>
             </div>
             <button onMouseDown={() => setModalLogOutState(true)}>
-              <IoLogOutOutline className="text-2xl md:text-3xl hover:text-red-500 transition-colors duration-100" />
+              <IoLogOutOutline className="text-2xl lg:text-3xl hover:text-red-500 transition-colors duration-100" />
             </button>
           </div>
-          <div className="p-2 md:px-6 md:py-3">
-            <h1 className="text-base md:text-xl leading-none lowercase">
+          <div className="p-2 lg:px-6 lg:py-3">
+            <h1 className="text-base lg:text-xl leading-none lowercase">
               {props.email}
             </h1>
           </div>
@@ -118,6 +124,7 @@ export const Menu: React.FC<MenuDataType> = (props) => {
             </button>
             <button
               onMouseDown={handleLogOut}
+              type="button"
               className="capitalize px-2 py-1 text-base bg-red-500
             text-white font-semibold rounded-lg hover:bg-transparent
             border-2 border-red-500 hover:text-red-500 transition-all duration-100"
@@ -192,55 +199,66 @@ export const Form = () => {
     const form = e.currentTarget;
 
     try {
+      setLoading(true);
       const dir = `${uploadData.category}_${uploadData.name}`;
-      await handleR2Upload(selectedImages, dir);
+      const r2Response = await handleR2Upload(selectedImages, dir);
 
-      interface ImageUrlMap {
-        [imageName: string]: string;
+      const hasR2Errors = r2Response.some(
+        (result) => result instanceof Error
+      );
+
+      if (hasR2Errors) {
+        throw new Error
       }
-      const images = selectedImages.reduce((prev: ImageUrlMap, image) => {
-        const url = handleImageUrl({
-          endpoint: "https://pub-5c15a84b97fc4cc889a06969fb95be5f.r2.dev",
-          dir,
-          name: image.name,
-        });
-        prev[image.name] = url;
-        return prev;
-      }, {});
+      else {
 
-      await handleSupabaseUpload({ ...uploadData, images });
-      form.reset();
-      document
-        .getElementById("page")
-        ?.dispatchEvent(new Event("change", { bubbles: true }));
-      document
-        .getElementById("category")
-        ?.dispatchEvent(new Event("change", { bubbles: true }));
-      setSelectedImages([]);
-      if (!toast.isActive(1)) {
-        toast.success(
-          <>
-            Project uploaded successfully
-            <br />
-            <span className="opacity-80">
-              Changes may take a few minutes to apply
-            </span>
-          </>,
-          {
-            toastId: 1,
-            position: "top-left",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            theme: "light",
-            transition: Slide,
-          },
-        );
+        interface ImageUrlMap {
+          [imageName: string]: string;
+        }
+        const images = selectedImages.reduce((prev: ImageUrlMap, image) => {
+          const url = handleImageUrl({
+            endpoint: "https://pub-5c15a84b97fc4cc889a06969fb95be5f.r2.dev",
+            dir,
+            name: image.name,
+          });
+          prev[image.name] = url;
+          return prev;
+        }, {});
+
+        await handleSupabaseUpload({ ...uploadData, images });
+        form.reset();
+        document
+          .getElementById("page")
+          ?.dispatchEvent(new Event("change", { bubbles: true }));
+        document
+          .getElementById("category")
+          ?.dispatchEvent(new Event("change", { bubbles: true }));
+        setSelectedImages([]);
+        if (!toast.isActive("sb")) {
+          toast.success(
+            <>
+              Project uploaded successfully
+              <br />
+              <span className="opacity-80">
+                Changes may take a few minutes to apply
+              </span>
+            </>,
+            {
+              toastId: "sb",
+              position: "top-left",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              theme: "light",
+              transition: Slide,
+            },
+          );
+        }
       }
     } catch (error) {
-      if (!toast.isActive(2)) {
+      if (!toast.isActive("r2") && !toast.isActive(2) && !toast.isActive("sb")) {
         toast.error(
           "Something went wrong, please refresh the page and try again",
           {
@@ -259,6 +277,8 @@ export const Form = () => {
           },
         );
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -277,9 +297,9 @@ export const Form = () => {
         .then(() => key)
         .catch((error) => {
           if (error) {
-            if (!toast.isActive(key)) {
+            if (!toast.isActive("r2")) {
               toast.error(`Error uploading image ${key}, plese try again`, {
-                toastId: key,
+                toastId: "r2",
                 position: "top-left",
                 autoClose: 3000,
                 hideProgressBar: true,
@@ -293,6 +313,7 @@ export const Form = () => {
                 ),
               });
             }
+            return error;
           }
         });
     });
@@ -352,10 +373,7 @@ export const Form = () => {
     name: string;
   }
   const handleImageUrl = ({ endpoint, dir, name }: imageUrl) => {
-    if (name.charAt(0) == "$") {
-      name = "%24" + name.slice(1);
-    }
-    return `${endpoint}/${dir}%2F${name}`;
+    return `${endpoint}/${encodeURIComponent(dir + "/" + name)}`;
   };
 
   const [fileHover, setFileHover] = useState(false);
@@ -499,6 +517,7 @@ export const Form = () => {
   }, [modalDeleteState, renameState]);
 
   const [resetForm, setResetForm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   return (
     <>
@@ -609,9 +628,9 @@ export const Form = () => {
               style={
                 !renameInputChanged
                   ? {
-                      filter: "grayscale(1)",
-                      pointerEvents: "none",
-                    }
+                    filter: "grayscale(1)",
+                    pointerEvents: "none",
+                  }
                   : {}
               }
               className="capitalize px-2 py-1 text-base bg-blue-500
@@ -624,7 +643,7 @@ export const Form = () => {
         </div>
       </div>
 
-      <section className="w-full md:w-[calc(50%-48px)] flex drop-shadow">
+      <section className="w-full lg:w-[calc(50%-48px)] flex drop-shadow">
         {/* add new project */}
         <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4">
           {/* heading and desc */}
@@ -652,7 +671,7 @@ export const Form = () => {
                   setResetForm(false);
                 }, 500);
               }}
-              className={`md:text-3xl origin-center ${resetForm && "animate-spin-fast"}`}
+              className={`lg:text-3xl origin-center ${resetForm && "animate-spin-fast"}`}
             />
           </div>
           {/* upload form */}
@@ -806,7 +825,7 @@ export const Form = () => {
               >
                 <div
                   className="flex overflow-x-scroll p-2 gap-x-2 h-full relative
-            snap-x snap-mandatory md:snap-none"
+            snap-x snap-mandatory lg:snap-none"
                 >
                   {selectedImages.map((image, index) => {
                     const imageUrl = URL.createObjectURL(image);
@@ -814,7 +833,7 @@ export const Form = () => {
                       <div
                         key={index}
                         className="relative shrink-0 inline-block h-full max-w-full
-                  group"
+                  group aspect-[4/3]"
                       >
                         <img
                           src={URL.createObjectURL(image)}
@@ -822,12 +841,17 @@ export const Form = () => {
                           draggable={false}
                           className="w-full h-full object-contain snap-center border"
                         />
+                        <Tooltip id={image.name} className="z-50" />
                         <div
                           className="absolute top-full left-1/2 -translate-y-full px-2
                   -translate-x-1/2 w-full h-8 bg-black/50
                   flex items-center justify-between"
                         >
-                          <h1 className="text-white text-lg">
+                          <h1
+                            data-tooltip-id={image.name}
+                            data-tooltip-content={image.name}
+                            data-tooltip-place="top-start"
+                            className="text-white text-lg">
                             {handleImageName(image.name)}
                           </h1>
                           <div className="flex gap-x-2">
@@ -865,6 +889,7 @@ export const Form = () => {
             >
               Publish Changes
             </button>
+            {loading ? <ImSpinner9 className="animate-spin my-auto ml-2 text-blue-600" /> : <span className="w-6 h-6 my-auto ml-2" />}
             <span className="text-zinc-500 text w-full">
               Fields marked with an asterisk
               <span className="text-red-500 mx-1">*</span>are required.
@@ -942,7 +967,7 @@ export const Preview = () => {
   ];
 
   return (
-    <section className="w-full md:w-[calc(50%-48px)] drop-shadow">
+    <section className="w-full lg:w-[calc(50%-48px)] drop-shadow">
       <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4 min-h-[50vh]">
         {/* heading and desc */}
         <div className="flex flex-col">
