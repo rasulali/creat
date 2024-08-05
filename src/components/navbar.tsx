@@ -95,9 +95,13 @@ const Nav = () => {
   const navRef = useRef(null)
   const menuInView = useInView(navRef);
   const menuRef = useRef(null)
+  const menuIconRef = useRef(null)
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
+      if (menuIconRef.current && (menuIconRef.current as Node).contains(event.target as Node)) {
+        return;
+      }
       if (menuRef.current && !(menuRef.current as Node).contains(event.target as Node)) {
         setMenuState(false);
       }
@@ -214,6 +218,7 @@ const Nav = () => {
             rotate: menuState ? 30 : 0,
           }}
           className="fixed z-50 top-3 right-3"
+          ref={menuIconRef}
         >
           <MenuIcon
             toggled={menuState}
