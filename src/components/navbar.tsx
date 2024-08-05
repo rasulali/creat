@@ -114,7 +114,7 @@ const Nav = () => {
     <>
       <div className="w-full flex flex-col">
 
-        <div className="w-full flex bg-zinc-100 justify-center">
+        <div className="w-full flex bg-zinc-100 justify-center z-10">
           <div className="flex md:py-4 items-center justify-between md:px-28 w-full max-w-[1920px]">
             <div className="flex md:text-lg text-zinc-600 md:gap-x-8">
               <Link href="mailto:contact@creat.az"
