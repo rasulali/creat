@@ -150,7 +150,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="w-full h-screen">
+      <section className="w-full">
         <div className="w-full overflow-hidden whitespace-nowrap border-y md:py-12">
           {[...Array(4)].map((_, index) => (
             <div key={index} className="inline-flex justify-center gap-x-12 mr-12 animate-slide [--slide-duration:12s]">
@@ -162,7 +162,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className="flex flex-col md:px-80 h-full w-full max-w-[1920px] mx-auto justify-center">
+        <div className="flex flex-col md:px-80 h-full w-full max-w-[1920px] mx-auto justify-center pt-24 pb-36">
           <div className="flex gap-x-2 items-center">
             <div className="h-px bg-creatBright w-8" />
             <h1 className="text-creatBright font-medium">Our Services</h1>
@@ -278,7 +278,11 @@ export default function Home() {
                 />
               </motion.div>
             </div>
-            <div className="w-3/5 absolute right-0 top-40 border-4 border-white rounded-2xl overflow-hidden bg-white flex flex-col">
+            <motion.div
+              initial={{ x: "50%" }}
+              animate={bannerInView ? { x: 0 } : { x: "50%" }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="w-3/5 absolute right-0 top-40 border-4 border-white rounded-2xl overflow-hidden bg-white flex flex-col">
               <div className="flex flex-nowrap">
                 <div
                   onMouseDown={() => setActiveTab(0)}
@@ -345,7 +349,7 @@ export default function Home() {
                   </div>
                 </Link>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
