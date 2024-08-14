@@ -14,17 +14,6 @@ const config: Config = {
       },
       animation: {
         "spin-fast": "spin 0.5s ease-in-out forwards",
-        slide: "slide var(--slide-duration) forwards linear infinite",
-      },
-      keyframes: {
-        slide: {
-          from: {
-            transform: "translateX(0)",
-          },
-          to: {
-            transform: "translateX(calc(-100% - 48px))",
-          },
-        },
       },
     },
   },
