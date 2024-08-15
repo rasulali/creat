@@ -36,7 +36,10 @@ const ProjectCard: React.FC<CardProps> = ({ projectsInView, delay, id, name, dat
         <motion.div
           initial={{ height: 0 }}
           animate={{ height: projectHover ? '100%' : 0 }}
-          exit={{ height: 0 }}
+          exit={{
+            height: 0,
+            transition: { duration: 0.2, ease: "linear" }
+          }}
           transition={{ duration: 0.5, ease: "linear" }}
           className="w-full overflow-hidden flex items-center">
           <p className="text-white">
@@ -81,7 +84,7 @@ const ProjectCard: React.FC<CardProps> = ({ projectsInView, delay, id, name, dat
         </defs>
       </svg>
       <motion.div
-        className="w-full h-full bg-creatBright/80"
+        className="w-full h-full bg-creatDark/90"
         style={{ maskImage: `url(#circleMask-${id})`, WebkitMaskImage: `url(#circleMask-${id})` }}
       />
     </motion.div>
@@ -90,12 +93,12 @@ const ProjectCard: React.FC<CardProps> = ({ projectsInView, delay, id, name, dat
         background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%)',
         opacity: projectHover ? 0 : 1,
       }}
-      className="absolute top-0 left-0 w-full h-full -z-30 pointer-events-none transition-all duration-300" />
+      className="absolute top-0 left-0 w-full h-full -z-30 pointer-events-none transition-all duration-200" />
     <div
       style={{
         opacity: projectHover ? 0 : 1,
       }}
-      className="absolute top-0 left-0 w-full h-full transition-all duration-300
+      className="absolute top-0 left-0 w-full h-full transition-all duration-200
                 bg-gradient-to-t from-zinc-900/50 to-zinc-900/10 -z-40 pointer-events-none" />
 
     <div className="w-full h-full absolute top-0 left-0 -z-50 pointer-events-none">

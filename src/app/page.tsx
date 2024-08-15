@@ -4,9 +4,11 @@ import Nav from "@/components/navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { FaArrowRight } from "react-icons/fa6";
+import { FaArrowLeft, FaArrowRight, FaStar } from "react-icons/fa6";
 import { motion, useInView } from "framer-motion";
 import ProjectCard from "@/components/projectCard";
+import { BiSolidQuoteRight } from "react-icons/bi";
+import Comment from "@/components/comment";
 
 export default function Home() {
   type partners = { logo: string, link: string, name: string }
@@ -103,7 +105,7 @@ export default function Home() {
 
   const projectsRef = useRef(null)
   const projectsInView = useInView(projectsRef, {
-    once: false,
+    once: true,
     margin: "0px 0px -240px 0px"
   });
 
@@ -231,7 +233,7 @@ export default function Home() {
             <Card
               icon={
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-20 h-20">
-                  <path className="fill-neutral-500 parent-group-hover:fill-zinc-900 transition-colors duration-300" d="M29 14h-1v-4h-2v4h-2v-4h-2v4h-1a1 1 0 0 0-1 1v4a5.01 5.01 0 0 0 4 4.899V27a1 1 0 0 1-1 1H5a1 1 0 0 1 0-2h5a3 3 0 0 0 0-6H5a1 1 0 0 1 0-2h5a3.003 3.003 0 0 0 3-3v-4h1a4.005 4.005 0 0 0 4-4V4h-3a3.98 3.98 0 0 0-2.747 1.106A6 6 0 0 0 7 2H4v3a6.007 6.007 0 0 0 6 6h1v4a1 1 0 0 1-1 1H5a3 3 0 0 0 0 6h5a1 1 0 0 1 0 2H5a3 3 0 0 0 0 6h18a3.003 3.003 0 0 0 3-3v-3.101A5.01 5.01 0 0 0 30 19v-4a1 1 0 0 0-1-1M13 8a2 2 0 0 1 2-2h1v1a2 2 0 0 1-2 2h-1Zm-3 1a4.005 4.005 0 0 1-4-4V4h1a4.005 4.005 0 0 1 4 4v1Zm18 10a3 3 0 0 1-6 0v-3h6Z">
+                  <path className="fill-neutral-700 parent-group-hover:fill-zinc-900 transition-colors duration-300" d="M29 14h-1v-4h-2v4h-2v-4h-2v4h-1a1 1 0 0 0-1 1v4a5.01 5.01 0 0 0 4 4.899V27a1 1 0 0 1-1 1H5a1 1 0 0 1 0-2h5a3 3 0 0 0 0-6H5a1 1 0 0 1 0-2h5a3.003 3.003 0 0 0 3-3v-4h1a4.005 4.005 0 0 0 4-4V4h-3a3.98 3.98 0 0 0-2.747 1.106A6 6 0 0 0 7 2H4v3a6.007 6.007 0 0 0 6 6h1v4a1 1 0 0 1-1 1H5a3 3 0 0 0 0 6h5a1 1 0 0 1 0 2H5a3 3 0 0 0 0 6h18a3.003 3.003 0 0 0 3-3v-3.101A5.01 5.01 0 0 0 30 19v-4a1 1 0 0 0-1-1M13 8a2 2 0 0 1 2-2h1v1a2 2 0 0 1-2 2h-1Zm-3 1a4.005 4.005 0 0 1-4-4V4h1a4.005 4.005 0 0 1 4 4v1Zm18 10a3 3 0 0 1-6 0v-3h6Z">
                   </path>
                 </svg>
               }
@@ -242,7 +244,7 @@ export default function Home() {
             <Card
               icon={
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-20 h-20" viewBox="0 0 512 512">
-                  <path className="fill-neutral-500 parent-group-hover:fill-zinc-900 transition-colors duration-300" d="M360.848 22.51L0 113.456L85.163 489.49L512 357.774zm104.72 313.314l-57.37 17.351l-15.834-86.248l-12.89 3.273l-63.58-158.109l47.772-12.67zM360.325 91.671l-47.631 12.46l-15.951-39.667L343.44 52.5zm-72.551-24.909l15.725 39.774l-174.233 45.575l-3.378-10.977l-77.612 36.79l-11.47-46.854zM112.81 442.594l-39.315-160.69l160.393-44.408l51.417 152.683zm161.436-272.773L60.488 227.809L48.43 178.555l86.453-7.41l-3.295-10.167l175.075-46.438l62.841 158.948l-13.363 4.236l50.876 75.809l-59.063 17.863zM148.565 378.208c-33.107-19.087-31.347-66.645 3.161-85.084c33.704-18.01 74.81-1.317 76.918 40.83c1.974 39.47-46.972 63.34-80.08 44.254m72.522-45.626c-3.004-35.527-36.778-49.694-66.138-34.006c-30.06 16.063-29.866 58.072-.753 74.214c27.301 15.137 69.957-3.951 66.891-40.208m-59.82 28.56l4.79-46.585l9.839-3.134l27.95 36.049l-7.579 4.212l-8.036-10.171l-17.476 5.113l-.78 11.991zm9.84-21.681l13.178-3.943l-11.696-15.71z" />
+                  <path className="fill-neutral-700 parent-group-hover:fill-zinc-900 transition-colors duration-300" d="M360.848 22.51L0 113.456L85.163 489.49L512 357.774zm104.72 313.314l-57.37 17.351l-15.834-86.248l-12.89 3.273l-63.58-158.109l47.772-12.67zM360.325 91.671l-47.631 12.46l-15.951-39.667L343.44 52.5zm-72.551-24.909l15.725 39.774l-174.233 45.575l-3.378-10.977l-77.612 36.79l-11.47-46.854zM112.81 442.594l-39.315-160.69l160.393-44.408l51.417 152.683zm161.436-272.773L60.488 227.809L48.43 178.555l86.453-7.41l-3.295-10.167l175.075-46.438l62.841 158.948l-13.363 4.236l50.876 75.809l-59.063 17.863zM148.565 378.208c-33.107-19.087-31.347-66.645 3.161-85.084c33.704-18.01 74.81-1.317 76.918 40.83c1.974 39.47-46.972 63.34-80.08 44.254m72.522-45.626c-3.004-35.527-36.778-49.694-66.138-34.006c-30.06 16.063-29.866 58.072-.753 74.214c27.301 15.137 69.957-3.951 66.891-40.208m-59.82 28.56l4.79-46.585l9.839-3.134l27.95 36.049l-7.579 4.212l-8.036-10.171l-17.476 5.113l-.78 11.991zm9.84-21.681l13.178-3.943l-11.696-15.71z" />
                 </svg>
               }
               link="/services/#" name="Tecnical Design"
@@ -252,7 +254,7 @@ export default function Home() {
             <Card
               icon={
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-20 h-20" viewBox="0 0 48 48">
-                  <path className="fill-neutral-500 parent-group-hover:fill-zinc-900 transition-colors duration-300" d="M14.79 26.746L8 35.347V40h34v2H7a1 1 0 0 1-1-1V7h2v25.12l5.33-6.751A3 3 0 1 1 19 23.946l6.633 2.21a2.995 2.995 0 0 1 3.41-.97l6.378-7.653a3 3 0 1 1 1.536 1.28l-6.378 7.654A3 3 0 1 1 25 28.054l-6.633-2.21a2.995 2.995 0 0 1-3.577.902" />
+                  <path className="fill-neutral-700 parent-group-hover:fill-zinc-900 transition-colors duration-300" d="M14.79 26.746L8 35.347V40h34v2H7a1 1 0 0 1-1-1V7h2v25.12l5.33-6.751A3 3 0 1 1 19 23.946l6.633 2.21a2.995 2.995 0 0 1 3.41-.97l6.378-7.653a3 3 0 1 1 1.536 1.28l-6.378 7.654A3 3 0 1 1 25 28.054l-6.633-2.21a2.995 2.995 0 0 1-3.577.902" />
                 </svg>
               }
               link="/services/#" name="Project Management"
@@ -432,9 +434,68 @@ export default function Home() {
               delay={0.2}
               name="Project Something"
               link="#"
-              date="August 20, 2022"
-              image="/projects/mine.jpg"
-              desc="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi natus accusantium incidunt aspernatur voluptatibus enim blanditiis perferendis! Nam placeat optio, voluptas non, enim consequuntur delectus excepturi itaque fugiat nesciunt nulla. Ullam, veniam, sit molestias alias nesciunt aut est pariatur harum blanditiis, iusto sunt! Consequatur incidunt dolorem consequuntur maxime dolorum blanditiis?"
+              date="January 1, 2000"
+              image="/projects/other.jpg"
+              desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut nisi minima repellat amet laborum. Vitae necessitatibus iste error nobis perferendis, possimus laborum, nulla rerum ex sint sequi eum? Nostrum sequi iste ea magnam, vel explicabo?"
+            />
+          </div>
+        </div>
+      </section>
+      <section className="w-full pt-36 pb-72 bg-zinc-100">
+        <div className="flex flex-col h-full w-full">
+          <div className="flex flex-col h-full w-full max-w-[1920px] mx-auto md:px-80">
+            <div className="flex gap-x-2 items-center mb-4">
+              <div className="h-px bg-creatBright w-8" />
+              <h1 className="text-creatBright font-medium">Testimonial</h1>
+            </div>
+            <div className="w-full flex justify-between items-center mb-16">
+              <h1 className="text-5xl font-medium leading-tight text-nowrap">
+                What Our <span className="text-creatBright font-bold">Clients</span> {" "}
+                Say<br /> About Us
+              </h1>
+              <div className="flex gap-x-10">
+                <div className="p-2 rounded-full bg-zinc-900 relative group hover:bg-creatBright transition-colors duration-300 cursor-pointer">
+                  <FaArrowLeft className="text-white text-xl" />
+                  <div
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                  w-[120%] h-[120%] border-2 group-hover:border-creatBright group-hover:border-r-white border-r-white border-zinc-900 rounded-full
+                  transition-all duration-300"/>
+                </div>
+                <div className="p-2 rounded-full bg-zinc-900 relative group hover:bg-creatBright transition-colors duration-300 cursor-pointer">
+                  <FaArrowRight className="text-white text-xl" />
+                  <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2
+                  w-[120%] h-[120%] border-2 group-hover:border-creatBright group-hover:border-l-white border-l-white border-zinc-900 rounded-full
+                  transition-all duration-300"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="w-full flex justify-center p-12 overflow-x-hidden gap-x-12">
+            <Comment stars={4} comment="Working with Creat was an absolute pleasure.
+        From start to finish, they were attentive to our needs,
+        transparent about the process. We couldn't be happier with our new project!"
+              name="Flankəs Bəsmənov"
+              role="Sifarişçi"
+            />
+            <Comment
+              stars={3}
+              comment="The service provided by Creat was very good. They were responsive to our feedback and delivered a satisfactory final product. There were some minor delays, but overall, a positive experience."
+              name="Alex Johnson"
+              role="Client"
+            />
+
+            <Comment
+              stars={5}
+              comment="Creat did an outstanding job on our project. The attention to detail and commitment to quality were evident throughout. We are extremely pleased with the results and the whole process was smooth"
+              name="Maria Gomez"
+              role="Customer"
+            />
+
+            <Comment
+              stars={2}
+              comment="Our experience with Creat was mixed. While they were professional, the project took longer than expected and didn't fully meet our needs. There were some communication issues along the way."
+              name="John Smith"
+              role="Partner"
             />
           </div>
         </div>
