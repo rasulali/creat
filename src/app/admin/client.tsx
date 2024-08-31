@@ -17,6 +17,7 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import { BsExclamationCircleFill } from "react-icons/bs";
 import "react-toastify/dist/ReactToastify.css";
+import { motion } from 'framer-motion'
 
 interface MenuDataType {
   name: string;
@@ -645,7 +646,12 @@ export const Form = () => {
 
       <section className="w-full lg:w-[calc(50%-48px)] flex drop-shadow">
         {/* add new project */}
-        <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4">
+        <div
+          style={{
+            background: resetForm ? "transparent" : "white",
+            pointerEvents: resetForm ? "none" : "auto"
+          }}
+          className="w-full flex flex-col gap-y-6 rounded-lg p-4">
           {/* heading and desc */}
           <div className="flex justify-between items-center">
             <div className="flex flex-col">
@@ -654,25 +660,28 @@ export const Form = () => {
               </h1>
               <p>Please review changes before publishing!</p>
             </div>
-            <IoRefresh
-              onMouseDown={() => {
-                setResetForm(true);
-                const form = document.getElementById(
-                  "uploadForm",
-                ) as HTMLFormElement;
-                form.reset();
-                document
-                  .getElementById("page")
-                  ?.dispatchEvent(new Event("change", { bubbles: true }));
-                document
-                  .getElementById("category")
-                  ?.dispatchEvent(new Event("change", { bubbles: true }));
-                setTimeout(() => {
-                  setResetForm(false);
-                }, 500);
-              }}
-              className={`lg:text-3xl origin-center ${resetForm && "animate-spin-fast"}`}
-            />
+            <motion.div
+              animate={{ rotate: resetForm ? 360 : [0, 360] }}
+            >
+              <IoRefresh
+                onMouseDown={() => {
+                  setResetForm(true);
+                  const form = document.getElementById(
+                    "uploadForm",
+                  ) as HTMLFormElement;
+                  form.reset();
+                  document
+                    .getElementById("page")
+                    ?.dispatchEvent(new Event("change", { bubbles: true }));
+                  document
+                    .getElementById("category")
+                    ?.dispatchEvent(new Event("change", { bubbles: true }));
+                  setTimeout(() => {
+                    setResetForm(false);
+                  }, 500);
+                }}
+                className="lg:text-3xl origin-center" />
+            </motion.div>
           </div>
           {/* upload form */}
           <form

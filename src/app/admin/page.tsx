@@ -35,7 +35,7 @@ const Dashboard = async () => {
     <main className="relative bg-zinc-100 pb-9 min-h-screen">
       <nav className="flex justify-between items-center w-full p-4 lg:px-8">
         <Link className="lg:h-12 h-9 flex w-fit" href="/">
-          <img src="/logo.svg" alt="logo" className="h-full w-full object-cover" />
+          <img src="/logos/horizontal_black.svg" alt="logo" className="h-full w-full object-cover" />
         </Link>
         <Menu {...userData} />
       </nav>

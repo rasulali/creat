@@ -24,9 +24,10 @@ const ProjectCard: React.FC<CardProps> = ({ projectsInView, delay, id, name, dat
     onHoverStart={() => { setProjectHover(true) }}
     onHoverEnd={() => { setProjectHover(false) }}
     transition={{ duration: 0.5, delay: delay }}
-    className="p-9 rounded-2xl overflow-hidden w-[410px] h-[500px] flex flex-col items-start border relative">
-
-
+    className="p-9 rounded-2xl overflow-hidden w-[410px] h-[500px] flex flex-col items-start border relative z-10">
+    <div className="w-full h-full absolute top-0 left-0 -z-50 pointer-events-none">
+      <Image src={image} width={400} height={500} alt="project1" className="w-full h-full object-cover" />
+    </div>
     <div className="flex flex-col mt-auto h-fit w-full gap-y-2">
       <Link href={link} className="text-3xl font-bold text-white hover:text-zinc-900 transition-colors duration-300">{name}</Link>
       <p className="text-white font-semibold">{date}</p>
@@ -101,9 +102,6 @@ const ProjectCard: React.FC<CardProps> = ({ projectsInView, delay, id, name, dat
       className="absolute top-0 left-0 w-full h-full transition-all duration-200
                 bg-gradient-to-t from-zinc-900/50 to-zinc-900/10 -z-40 pointer-events-none" />
 
-    <div className="w-full h-full absolute top-0 left-0 -z-50 pointer-events-none">
-      <Image src={image} width={400} height={500} alt="project1" className="w-full h-full object-cover" />
-    </div>
   </motion.div>
 }
 export default ProjectCard
