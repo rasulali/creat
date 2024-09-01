@@ -13,28 +13,120 @@ export default function Home() {
   type partners = { logo: string, name: string }
   const partners: partners[] = [
     {
-      logo: "/partners/AZERBLAST.png",
+      logo: "/partners/acpd.png",
+      name: "ACPD"
+    },
+    {
+      logo: "/partners/acwa.png",
+      name: "ACWA"
+    },
+    {
+      logo: "/partners/airlines.png",
+      name: "Airlines"
+    },
+    {
+      logo: "/partners/aqta.png",
+      name: "AQTA"
+    },
+    {
+      logo: "/partners/aretn.png",
+      name: "ARETN"
+    },
+    {
+      logo: "/partners/azerblast.png",
       name: "AzərBlast"
     },
     {
-      logo: "/partners/AZERGOLD.png",
+      logo: "/partners/azergold.png",
       name: "AzərGold"
     },
     {
-      logo: "/partners/BNA.png",
-      name: "Bakı Nəqliyyat Agentliyi"
+      logo: "/partners/bp.png",
+      name: "BP"
     },
     {
-      logo: "/partners/FOODCITY.png",
-      name: "FoodCity"
+      logo: "/partners/cop29.png",
+      name: "COP29"
     },
     {
-      logo: "/partners/NARGIZMALL.png",
-      name: "Nargis Mall"
+      logo: "/partners/cqa.png",
+      name: "CQA"
     },
     {
-      logo: "/partners/DTA.png",
-      name: "Azərbaycan Respublikası Dövlət Turizm Agentliyi"
+      logo: "/partners/ddf.png",
+      name: "DDF"
+    },
+    {
+      logo: "/partners/eco.png",
+      name: "ECO"
+    },
+    {
+      logo: "/partners/encotec.png",
+      name: "Encotec"
+    },
+    {
+      logo: "/partners/Frame 36.png",
+      name: "Frame 36"
+    },
+    {
+      logo: "/partners/ilf.png",
+      name: "ILF"
+    },
+    {
+      logo: "/partners/maqro.png",
+      name: "Maqro"
+    },
+    {
+      logo: "/partners/mst.png",
+      name: "MST"
+    },
+    {
+      logo: "/partners/nfc.png",
+      name: "NFC"
+    },
+    {
+      logo: "/partners/pmd.png",
+      name: "PMD"
+    },
+    {
+      logo: "/partners/powerchina.png",
+      name: "PowerChina"
+    },
+    {
+      logo: "/partners/qbti.png",
+      name: "QBTI"
+    },
+    {
+      logo: "/partners/referans.png",
+      name: "Referans"
+    },
+    {
+      logo: "/partners/sobsan.png",
+      name: "Sobsan"
+    },
+    {
+      logo: "/partners/socar.png",
+      name: "SOCAR"
+    },
+    {
+      logo: "/partners/suez.png",
+      name: "Suez"
+    },
+    {
+      logo: "/partners/surkahani.png",
+      name: "Surkhanı"
+    },
+    {
+      logo: "/partners/technol.png",
+      name: "Technol"
+    },
+    {
+      logo: "/partners/tractabel.png",
+      name: "Tractabel"
+    },
+    {
+      logo: "/partners/ypt.png",
+      name: "YPT"
     }
   ]
 
@@ -94,18 +186,102 @@ export default function Home() {
   });
   const [bgLoaded, setBgLoaded] = useState(false);
 
-  const [partnerCount, setPartnerCount] = useState<number | null>(null);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setPartnerCount(Math.floor(window.innerWidth / 1192) * 3)
-    }
-  }, []);
-
   const projectsRef = useRef(null)
   const projectsInView = useInView(projectsRef, {
     once: true,
     margin: "0px 0px -240px 0px"
   });
+
+  interface Comment {
+    stars: 1 | 2 | 3 | 4 | 5
+    comment: string
+    name: string
+    role: string
+  }
+
+  const comments: Comment[] = [
+    {
+      stars: 4,
+      comment: "Working with Creat was an absolute pleasure. From start to finish, they were attentive to our needs, transparent about the process. We couldn't be happier with our new project!",
+      name: "Flankəs Bəsmənov",
+      role: "Sifarişçi"
+    },
+    {
+      stars: 5,
+      comment: "Creat exceeded our expectations! The team's professionalism and creativity resulted in a project that perfectly aligns with our vision.",
+      name: "Aynur Məmmədov",
+      role: "Project Manager"
+    },
+    {
+      stars: 4,
+      comment: "The project was delivered on time, but there were a few communication hiccups along the way. Overall, we're satisfied with the outcome.",
+      name: "Leyla Hüseynova",
+      role: "Client"
+    },
+    {
+      stars: 5,
+      comment: "I was impressed with Creat's attention to detail and commitment to quality. They truly went above and beyond to ensure our satisfaction.",
+      name: "Rəsul Əliyev",
+      role: "Architect"
+    },
+    {
+      stars: 4,
+      comment: "Creat was fantastic to work with. They understood our needs and delivered a project that not only meets but exceeds our expectations.",
+      name: "Nigar Əliyeva",
+      role: "Design Lead"
+    }
+  ];
+
+  const [activeIndexTestimonial, setActiveIndexTestimonial] = useState(0);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [isAutoCycleOn, setIsAutoCycleOn] = useState(true);
+
+  const nextTestimonial = () => {
+    setActiveIndexTestimonial(prevIndex =>
+      prevIndex === comments.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const startAutoCycle = () => {
+    intervalRef.current = setInterval(() => {
+      nextTestimonial()
+      setIsAutoCycleOn(true);
+    }, 1500);
+  };
+
+  const stopAutoCycle = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsAutoCycleOn(false);
+  };
+
+  const handleClickLeftTestimonial = () => {
+    stopAutoCycle();
+    if (activeIndexTestimonial === 0) {
+      setActiveIndexTestimonial(comments.length - 1);
+    } else {
+      setActiveIndexTestimonial(prevIndex => prevIndex - 1);
+    }
+    timeoutRef.current = setTimeout(startAutoCycle, 5000);
+  };
+
+  const handleClickRightTestimonial = () => {
+    stopAutoCycle();
+    if (activeIndexTestimonial === comments.length - 1) {
+      setActiveIndexTestimonial(0);
+    } else {
+      setActiveIndexTestimonial(prevIndex => prevIndex + 1);
+    }
+    timeoutRef.current = setTimeout(startAutoCycle, 5000);
+  };
+
+  useEffect(() => {
+    startAutoCycle();
+    return () => {
+      stopAutoCycle();
+    };
+  }, []);
 
   return (
     <main className="bg-creatBG text-white">
@@ -179,19 +355,22 @@ export default function Home() {
       </section>
       <section className="w-full relative">
         <div className="relative w-full h-fit">
-          <div className="w-full overflow-hidden whitespace-nowrap border-y border-white/5 md:py-8 relative">
-            {[...Array(partnerCount || 4)].map((_, index) => (
+          <div className="w-full overflow-hidden whitespace-nowrap border-y border-white/10 md:py-4 relative">
+            {[...Array(2)].map((_, index) => (
               <motion.div
                 animate={{ x: 'calc(-100% - 0px' }}
                 transition={{
-                  duration: 12,
+                  duration: 60,
                   ease: 'linear',
                   repeat: Infinity,
                 }}
-                key={index} className="inline-flex justify-center">
+                key={index} className="inline-flex justify-center w-max">
                 {partners.map((partner, i) => (
-                  <div key={`${index}-${i}`} className="inline-block h-[64px] px-4">
-                    <Image src={partner.logo} alt={partner.name} width={256} quality={50} height={64} className="w-full h-full object-fit" />
+                  <div className="inline-flex items-center">
+                    <div key={`${index}-${i}`} className="inline-flex h-24">
+                      <Image src={partner.logo} alt={partner.name} width={512} quality={50} height={256} className="w-full h-full object-fit" />
+                    </div>
+                    <div className="h-1/2 w-0.5 bg-white/10 mx-4" />
                   </div>
 
                 ))}
@@ -440,7 +619,7 @@ cursor-pointer w-1/2 border-b`}>
           </div>
         </div>
         <svg
-          className="fill-creatBGLight absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-[calc(100%-1px)]" S
+          className="fill-creatBGLight absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-[calc(100%-1px)]"
           viewBox="0 0 1920 100" width="1920" height="100" ><path d="M0 57L26.7 56.5C53.3 56 106.7 55 160 54.2C213.3 53.3 266.7 52.7 320 50.5C373.3 48.3 426.7 44.7 480 41C533.3 37.3 586.7 33.7 640 40.2C693.3 46.7 746.7 63.3 800 64.5C853.3 65.7 906.7 51.3 960 47.2C1013.3 43 1066.7 49 1120 57.2C1173.3 65.3 1226.7 75.7 1280 74.8C1333.3 74 1386.7 62 1440 59.5C1493.3 57 1546.7 64 1600 68C1653.3 72 1706.7 73 1760 67C1813.3 61 1866.7 48 1893.3 41.5L1920 35L1920 0L1893.3 0C1866.7 0 1813.3 0 1760 0C1706.7 0 1653.3 0 1600 0C1546.7 0 1493.3 0 1440 0C1386.7 0 1333.3 0 1280 0C1226.7 0 1173.3 0 1120 0C1066.7 0 1013.3 0 960 0C906.7 0 853.3 0 800 0C746.7 0 693.3 0 640 0C586.7 0 533.3 0 480 0C426.7 0 373.3 0 320 0C266.7 0 213.3 0 160 0C106.7 0 53.3 0 26.7 0L0 0Z" strokeLinecap="round" strokeLinejoin="miter"></path></svg>
       </section>
       <section className="w-full pt-36 pb-72 relative">
@@ -469,15 +648,15 @@ cursor-pointer w-1/2 border-b`}>
               </div>
             </Link>
           </div>
-          <div className="flex w-full items-center justify-around gap-x-4">
+          <div className="flex w-full items-center justify-around gap-x-6">
 
             <ProjectCard projectsInView={projectsInView}
               id={1}
-              name="Project Gold Mine"
+              name="Smart Dayanacaq BNA"
               link="#"
-              date="August 20, 2022"
-              image="/projects/mine.jpg"
-              desc="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi natus accusantium incidunt aspernatur voluptatibus enim blanditiis perferendis! Nam placeat optio, voluptas non, enim consequuntur delectus excepturi itaque fugiat nesciunt nulla. Ullam, veniam, sit molestias alias nesciunt aut est pariatur harum blanditiis, iusto sunt! Consequatur incidunt dolorem consequuntur maxime dolorum blanditiis?"
+              date="June 25, 2022"
+              image="/projects/bna/1.jpg"
+              desc="100 smart bus stops have been designed in Baku. These stops, equipped with modern technology, will make public transport faster, easier, and more efficient. Our engineers have carefully planned every aspect of the project, providing a modern and effective smart bus stop system"
             />
 
             <ProjectCard projectsInView={projectsInView}
@@ -505,7 +684,7 @@ cursor-pointer w-1/2 border-b`}>
           className="fill-creatBG absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-[calc(100%-1px)]"
           viewBox="0 0 1920 100" width="1920" height="100" ><path d="M0 11L32 15.7C64 20.3 128 29.7 192 29C256 28.3 320 17.7 384 16.2C448 14.7 512 22.3 576 27.5C640 32.7 704 35.3 768 37.8C832 40.3 896 42.7 960 42.7C1024 42.7 1088 40.3 1152 39.2C1216 38 1280 38 1344 32C1408 26 1472 14 1536 12C1600 10 1664 18 1728 25.2C1792 32.3 1856 38.7 1888 41.8L1920 45L1920 0L1888 0C1856 0 1792 0 1728 0C1664 0 1600 0 1536 0C1472 0 1408 0 1344 0C1280 0 1216 0 1152 0C1088 0 1024 0 960 0C896 0 832 0 768 0C704 0 640 0 576 0C512 0 448 0 384 0C320 0 256 0 192 0C128 0 64 0 32 0L0 0Z" strokeLinecap="round" strokeLinejoin="miter"></path></svg>
       </section>
-      <section className="w-full pt-36 pb-72 bg-creatBGLight">
+      <section className="w-full py-36 bg-creatBGLight">
         <div className="flex flex-col h-full w-full">
           <div className="flex flex-col h-full w-full max-w-[1920px] mx-auto md:px-80">
             <div className="flex gap-x-2 items-center mb-4">
@@ -517,55 +696,144 @@ cursor-pointer w-1/2 border-b`}>
                 What Our <span className="text-creatBright font-bold">Clients</span> {" "}
                 Say<br /> About Us
               </h1>
-              <div className="flex gap-x-10">
-                <div className="p-2 rounded-full bg-zinc-900 relative group hover:bg-creatBright transition-colors duration-300 cursor-pointer">
-                  <FaArrowLeft className="text-white text-xl" />
-                  <div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                  w-[120%] h-[120%] border-2 group-hover:border-creatBright group-hover:border-r-white border-r-white border-zinc-900 rounded-full
-                  transition-all duration-300"/>
-                </div>
-                <div className="p-2 rounded-full bg-zinc-900 relative group hover:bg-creatBright transition-colors duration-300 cursor-pointer">
-                  <FaArrowRight className="text-white text-xl" />
-                  <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2
-                  w-[120%] h-[120%] border-2 group-hover:border-creatBright group-hover:border-l-white border-l-white border-zinc-900 rounded-full
-                  transition-all duration-300"/>
-                </div>
+            </div>
+          </div>
+          <div className="flex w-full items-center">
+            <div className="flex flex-col w-1/2 h-fit">
+              <motion.div
+                onHoverStart={() => stopAutoCycle()}
+                onHoverEnd={() => startAutoCycle()}
+                className="w-full overflow-hidden h-[280px] relative">
+                {comments.map((comment, index) => (
+                  <motion.div
+                    animate={{
+                      scale: index === activeIndexTestimonial
+                        ? 1
+                        : 0.8,
+                      x: index === activeIndexTestimonial ? 0 : -100,
+                      zIndex: index === activeIndexTestimonial ? 1 : 0,
+                    }}
+                    className="absolute top-4 right-4"
+                    transition={{
+                      mass: 0.5,
+                      stiffness: 100,
+                      type: 'spring',
+                    }}
+                    key={index}
+                  >
+                    <Comment
+                      stars={comment.stars}
+                      comment={comment.comment}
+                      name={comment.name}
+                      role={comment.role}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+              <div className="flex gap-x-12 w-fit items-center justify-center p-4 ml-auto mr-[303px] translate-x-1/2">
+                <motion.div
+                  animate={{
+                    scale: isAutoCycleOn ? 1 : 1.2,
+                    x: isAutoCycleOn ? 0 : -10,
+                  }}
+                  whileTap={{
+                    x: -10,
+                    rotate: -15,
+                  }}
+                  whileHover={{
+                    rotate: 15,
+                  }}
+                  onMouseDown={() => { handleClickLeftTestimonial() }}
+                  className={`w-10 h-10 bg-creatBright rounded-full flex items-center justify-center
+                  outline outline-2 outline-creatBright outline-offset-4 cursor-pointer`}>
+                  <motion.span
+                  >
+                    <FaArrowLeft className="text-xl text-white" />
+                  </motion.span>
+                </motion.div>
+                <motion.div
+                  animate={{
+                    scale: isAutoCycleOn ? 1 : 1.2,
+                    x: isAutoCycleOn ? 0 : 10,
+                  }}
+                  whileTap={{
+                    x: 10,
+                    rotate: 15,
+                  }}
+                  whileHover={{
+                    rotate: -15,
+                  }}
+                  onMouseDown={() => { handleClickRightTestimonial() }}
+                  className={`w-10 h-10 bg-creatBright rounded-full flex items-center justify-center
+                  outline outline-2 outline-creatBright outline-offset-4 cursor-pointer`}>
+                  <FaArrowRight className="text-xl text-white" />
+                </motion.div>
+              </div>
+            </div>
+            <div className="w-1/2 min-h-[500px] flex items-center justify-center relative p-4">
+              <div className="relative w-full pt-[63.27%]">
+                <svg
+                  viewBox="0 0 550 348"
+                  className="absolute inset-0 w-full h-full"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <mask id="svgMask">
+                      <path
+                        fill="white"
+                        d="M546.893 18.434C566.593 55.134 463.093 156.034 350.193 236.234C237.293 316.334 114.993 375.734 52.3931 334.534C-10.2069 293.434 -13.1069 151.834 28.2931 85.534C69.5931 19.234 155.193 28.234 269.593 18.834C383.893 9.53398 527.093 -18.166 546.893 18.434Z"
+                      />
+                    </mask>
+                  </defs>
+                  <foreignObject width="100%" height="100%" mask="url(#svgMask)">
+                    <div className="w-full h-full relative select-none pointer-events-none">
+                      <Image
+                        src="/hac.png"
+                        alt=""
+                        quality={50}
+                        width={1080}
+                        height={1080}
+                        className="w-full h-full object-cover object-left"
+                      />
+                    </div>
+                  </foreignObject>
+                </svg>
               </div>
             </div>
           </div>
-          <div className="w-full flex justify-center p-12 overflow-x-hidden gap-x-12">
-            <Comment stars={4} comment="Working with Creat was an absolute pleasure.
-        From start to finish, they were attentive to our needs,
-        transparent about the process. We couldn't be happier with our new project!"
-              name="Flankəs Bəsmənov"
-              role="Sifarişçi"
-            />
-            <Comment
-              stars={3}
-              comment="The service provided by Creat was very good. They were responsive to our feedback and delivered a satisfactory final product. There were some minor delays, but overall, a positive experience."
-              name="Alex Johnson"
-              role="Client"
-            />
-
-            <Comment
-              stars={5}
-              comment="Creat did an outstanding job on our project. The attention to detail and commitment to quality were evident throughout. We are extremely pleased with the results and the whole process was smooth"
-              name="Maria Gomez"
-              role="Customer"
-            />
-
-            <Comment
-              stars={2}
-              comment="Our experience with Creat was mixed. While they were professional, the project took longer than expected and didn't fully meet our needs. There were some communication issues along the way."
-              name="John Smith"
-              role="Partner"
-            />
-          </div>
         </div>
+      </section>
+      <section className="w-full min-h-[1000px] py-36 bg-creatBG relative flex items-center justify-center">
+        <div className="w-1/2 h-[400px] border rounded-2xl">
+        </div>
+        <svg
+          className="absolute w-full h-[300px] top-[-2px] left-0"
+          viewBox="0 0 1920 300">
+          <path d="M0 31L32 29C64 27 128 23 192 21C256 19 320 19 384 19.5C448 20 512 21 576 19.5C640 18 704 14 768 15.5C832 17 896 24 960 28C1024 32 1088 33 1152 30C1216 27 1280 20 1344 19.5C1408 19 1472 25 1536 28.5C1600 32 1664 33 1728 31.5C1792 30 1856 26 1888 24L1920 22L1920 0L1888 0C1856 0 1792 0 1728 0C1664 0 1600 0 1536 0C1472 0 1408 0 1344 0C1280 0 1216 0 1152 0C1088 0 1024 0 960 0C896 0 832 0 768 0C704 0 640 0 576 0C512 0 448 0 384 0C320 0 256 0 192 0C128 0 64 0 32 0L0 0Z" fill="#0c3d91"></path>
+          <path d="M0 55L32 52C64 49 128 43 192 40C256 37 320 37 384 39.5C448 42 512 47 576 45.5C640 44 704 36 768 35C832 34 896 40 960 46C1024 52 1088 58 1152 59C1216 60 1280 56 1344 55C1408 54 1472 56 1536 57C1600 58 1664 58 1728 59C1792 60 1856 62 1888 63L1920 64L1920 20L1888 22C1856 24 1792 28 1728 29.5C1664 31 1600 30 1536 26.5C1472 23 1408 17 1344 17.5C1280 18 1216 25 1152 28C1088 31 1024 30 960 26C896 22 832 15 768 13.5C704 12 640 16 576 17.5C512 19 448 18 384 17.5C320 17 256 17 192 19C128 21 64 25 32 27L0 29Z" fill="#073884"></path>
+          <path d="M0 73L32 73.5C64 74 128 75 192 76.5C256 78 320 80 384 82.5C448 85 512 88 576 83.5C640 79 704 67 768 66C832 65 896 75 960 82C1024 89 1088 93 1152 94C1216 95 1280 93 1344 90C1408 87 1472 83 1536 80.5C1600 78 1664 77 1728 81.5C1792 86 1856 96 1888 101L1920 106L1920 62L1888 61C1856 60 1792 58 1728 57C1664 56 1600 56 1536 55C1472 54 1408 52 1344 53C1280 54 1216 58 1152 57C1088 56 1024 50 960 44C896 38 832 32 768 33C704 34 640 42 576 43.5C512 45 448 40 384 37.5C320 35 256 35 192 38C128 41 64 47 32 50L0 53Z" fill="#053478"></path>
+          <path d="M0 85L32 88C64 91 128 97 192 98C256 99 320 95 384 97C448 99 512 107 576 105.5C640 104 704 93 768 92.5C832 92 896 102 960 107C1024 112 1088 112 1152 113C1216 114 1280 116 1344 114.5C1408 113 1472 108 1536 104.5C1600 101 1664 99 1728 101C1792 103 1856 109 1888 112L1920 115L1920 104L1888 99C1856 94 1792 84 1728 79.5C1664 75 1600 76 1536 78.5C1472 81 1408 85 1344 88C1280 91 1216 93 1152 92C1088 91 1024 87 960 80C896 73 832 63 768 64C704 65 640 77 576 81.5C512 86 448 83 384 80.5C320 78 256 76 192 74.5C128 73 64 72 32 71.5L0 71Z" fill="#052f6b"></path>
+          <path d="M0 112L32 118.5C64 125 128 138 192 139.5C256 141 320 131 384 133C448 135 512 149 576 151C640 153 704 143 768 142.5C832 142 896 151 960 152.5C1024 154 1088 148 1152 146.5C1216 145 1280 148 1344 151C1408 154 1472 157 1536 155.5C1600 154 1664 148 1728 147C1792 146 1856 150 1888 152L1920 154L1920 113L1888 110C1856 107 1792 101 1728 99C1664 97 1600 99 1536 102.5C1472 106 1408 111 1344 112.5C1280 114 1216 112 1152 111C1088 110 1024 110 960 105C896 100 832 90 768 90.5C704 91 640 102 576 103.5C512 105 448 97 384 95C320 93 256 97 192 96C128 95 64 89 32 86L0 83Z" fill="#052a5f"></path>
+          <path d="M0 136L32 142.5C64 149 128 162 192 162C256 162 320 149 384 151.5C448 154 512 172 576 174.5C640 177 704 164 768 161.5C832 159 896 167 960 167.5C1024 168 1088 161 1152 158.5C1216 156 1280 158 1344 163C1408 168 1472 176 1536 176C1600 176 1664 168 1728 165C1792 162 1856 164 1888 165L1920 166L1920 152L1888 150C1856 148 1792 144 1728 145C1664 146 1600 152 1536 153.5C1472 155 1408 152 1344 149C1280 146 1216 143 1152 144.5C1088 146 1024 152 960 150.5C896 149 832 140 768 140.5C704 141 640 151 576 149C512 147 448 133 384 131C320 129 256 139 192 137.5C128 136 64 123 32 116.5L0 110Z" fill="#062553"></path>
+          <path d="M0 205L32 209.5C64 214 128 223 192 227.5C256 232 320 232 384 232C448 232 512 232 576 230C640 228 704 224 768 222.5C832 221 896 222 960 226.5C1024 231 1088 239 1152 242C1216 245 1280 243 1344 245.5C1408 248 1472 255 1536 254.5C1600 254 1664 246 1728 238C1792 230 1856 222 1888 218L1920 214L1920 164L1888 163C1856 162 1792 160 1728 163C1664 166 1600 174 1536 174C1472 174 1408 166 1344 161C1280 156 1216 154 1152 156.5C1088 159 1024 166 960 165.5C896 165 832 157 768 159.5C704 162 640 175 576 172.5C512 170 448 152 384 149.5C320 147 256 160 192 160C128 160 64 147 32 140.5L0 134Z" fill="#072047"></path>
+        </svg>
+        <svg
+          className="absolute w-full h-[300px] bottom-0 left-0"
+          viewBox="0 0 1920 300">
+          <path d="M0 70L32 75.5C64 81 128 92 192 95.5C256 99 320 95 384 86C448 77 512 63 576 58C640 53 704 57 768 55.5C832 54 896 47 960 53C1024 59 1088 78 1152 88.5C1216 99 1280 101 1344 92C1408 83 1472 63 1536 51.5C1600 40 1664 37 1728 43C1792 49 1856 64 1888 71.5L1920 79L1920 0L1888 0C1856 0 1792 0 1728 0C1664 0 1600 0 1536 0C1472 0 1408 0 1344 0C1280 0 1216 0 1152 0C1088 0 1024 0 960 0C896 0 832 0 768 0C704 0 640 0 576 0C512 0 448 0 384 0C320 0 256 0 192 0C128 0 64 0 32 0L0 0Z" fill="#081731"></path>
+          <path d="M0 127L32 126.5C64 126 128 125 192 122.5C256 120 320 116 384 108.5C448 101 512 90 576 85.5C640 81 704 83 768 82.5C832 82 896 79 960 85C1024 91 1088 106 1152 117.5C1216 129 1280 137 1344 129.5C1408 122 1472 99 1536 87.5C1600 76 1664 76 1728 84C1792 92 1856 108 1888 116L1920 124L1920 77L1888 69.5C1856 62 1792 47 1728 41C1664 35 1600 38 1536 49.5C1472 61 1408 81 1344 90C1280 99 1216 97 1152 86.5C1088 76 1024 57 960 51C896 45 832 52 768 53.5C704 55 640 51 576 56C512 61 448 75 384 84C320 93 256 97 192 93.5C128 90 64 79 32 73.5L0 68Z" fill="#081c3c"></path>
+          <path d="M0 151L32 149C64 147 128 143 192 143C256 143 320 147 384 143.5C448 140 512 129 576 121C640 113 704 108 768 107.5C832 107 896 111 960 121C1024 131 1088 147 1152 156.5C1216 166 1280 169 1344 157.5C1408 146 1472 120 1536 111C1600 102 1664 110 1728 118C1792 126 1856 134 1888 138L1920 142L1920 122L1888 114C1856 106 1792 90 1728 82C1664 74 1600 74 1536 85.5C1472 97 1408 120 1344 127.5C1280 135 1216 127 1152 115.5C1088 104 1024 89 960 83C896 77 832 80 768 80.5C704 81 640 79 576 83.5C512 88 448 99 384 106.5C320 114 256 118 192 120.5C128 123 64 124 32 124.5L0 125Z" fill="#072047"></path>
+          <path d="M0 172L32 170C64 168 128 164 192 166C256 168 320 176 384 173.5C448 171 512 158 576 149C640 140 704 135 768 134C832 133 896 136 960 144C1024 152 1088 165 1152 173C1216 181 1280 184 1344 175.5C1408 167 1472 147 1536 137.5C1600 128 1664 129 1728 134C1792 139 1856 148 1888 152.5L1920 157L1920 140L1888 136C1856 132 1792 124 1728 116C1664 108 1600 100 1536 109C1472 118 1408 144 1344 155.5C1280 167 1216 164 1152 154.5C1088 145 1024 129 960 119C896 109 832 105 768 105.5C704 106 640 111 576 119C512 127 448 138 384 141.5C320 145 256 141 192 141C128 141 64 145 32 147L0 149Z" fill="#062553"></path>
+          <path d="M0 208L32 208C64 208 128 208 192 209C256 210 320 212 384 214C448 216 512 218 576 220.5C640 223 704 226 768 224.5C832 223 896 217 960 216C1024 215 1088 219 1152 221.5C1216 224 1280 225 1344 228C1408 231 1472 236 1536 233.5C1600 231 1664 221 1728 221.5C1792 222 1856 233 1888 238.5L1920 244L1920 155L1888 150.5C1856 146 1792 137 1728 132C1664 127 1600 126 1536 135.5C1472 145 1408 165 1344 173.5C1280 182 1216 179 1152 171C1088 163 1024 150 960 142C896 134 832 131 768 132C704 133 640 138 576 147C512 156 448 169 384 171.5C320 174 256 166 192 164C128 162 64 166 32 168L0 170Z" fill="#052a5f"></path>
+          <path d="M0 241L32 241.5C64 242 128 243 192 244C256 245 320 246 384 245.5C448 245 512 243 576 243C640 243 704 245 768 246C832 247 896 247 960 245C1024 243 1088 239 1152 241C1216 243 1280 251 1344 255.5C1408 260 1472 261 1536 259C1600 257 1664 252 1728 252.5C1792 253 1856 259 1888 262L1920 265L1920 242L1888 236.5C1856 231 1792 220 1728 219.5C1664 219 1600 229 1536 231.5C1472 234 1408 229 1344 226C1280 223 1216 222 1152 219.5C1088 217 1024 213 960 214C896 215 832 221 768 222.5C704 224 640 221 576 218.5C512 216 448 214 384 212C320 210 256 208 192 207C128 206 64 206 32 206L0 206Z" fill="#052f6b"></path>
+          <path d="M0 256L32 259C64 262 128 268 192 268.5C256 269 320 264 384 262.5C448 261 512 263 576 265C640 267 704 269 768 270C832 271 896 271 960 269C1024 267 1088 263 1152 262.5C1216 262 1280 265 1344 267C1408 269 1472 270 1536 271.5C1600 273 1664 275 1728 276C1792 277 1856 277 1888 277L1920 277L1920 263L1888 260C1856 257 1792 251 1728 250.5C1664 250 1600 255 1536 257C1472 259 1408 258 1344 253.5C1280 249 1216 241 1152 239C1088 237 1024 241 960 243C896 245 832 245 768 244C704 243 640 241 576 241C512 241 448 243 384 243.5C320 244 256 243 192 242C128 241 64 240 32 239.5L0 239Z" fill="#053478"></path>
+          <path d="M0 280L32 281.5C64 283 128 286 192 285.5C256 285 320 281 384 280.5C448 280 512 283 576 285C640 287 704 288 768 288C832 288 896 287 960 286.5C1024 286 1088 286 1152 285.5C1216 285 1280 284 1344 284C1408 284 1472 285 1536 286.5C1600 288 1664 290 1728 290.5C1792 291 1856 290 1888 289.5L1920 289L1920 275L1888 275C1856 275 1792 275 1728 274C1664 273 1600 271 1536 269.5C1472 268 1408 267 1344 265C1280 263 1216 260 1152 260.5C1088 261 1024 265 960 267C896 269 832 269 768 268C704 267 640 265 576 263C512 261 448 259 384 260.5C320 262 256 267 192 266.5C128 266 64 260 32 257L0 254Z" fill="#073884"></path>
+          <path d="M0 301L32 301C64 301 128 301 192 301C256 301 320 301 384 301C448 301 512 301 576 301C640 301 704 301 768 301C832 301 896 301 960 301C1024 301 1088 301 1152 301C1216 301 1280 301 1344 301C1408 301 1472 301 1536 301C1600 301 1664 301 1728 301C1792 301 1856 301 1888 301L1920 301L1920 287L1888 287.5C1856 288 1792 289 1728 288.5C1664 288 1600 286 1536 284.5C1472 283 1408 282 1344 282C1280 282 1216 283 1152 283.5C1088 284 1024 284 960 284.5C896 285 832 286 768 286C704 286 640 285 576 283C512 281 448 278 384 278.5C320 279 256 283 192 283.5C128 284 64 281 32 279.5L0 278Z" fill="#0c3d91"></path>
+        </svg>
       </section>
     </main>
     // TODO add keep alive to supabase via vercel https://github.com/travisvn/supabase-pause-prevention
-    // TODO finish Testimonial
+    // TODO finish contact form
+    // TODO finish footer
   );
 }

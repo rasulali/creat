@@ -42,20 +42,20 @@ const Nav = () => {
     },
     enter: {
       d: targetPath,
-      transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] },
+      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
     },
     exit: {
       d: initialPath,
-      transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] },
+      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
     },
   };
 
   const menuVariants = {
     initial: { x: "calc(100% + 100px)" },
-    enter: { x: "0", transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] } },
+    enter: { x: "0", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } },
     exit: {
       x: "calc(100% + 100px)",
-      transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] },
+      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
     },
   };
 
@@ -263,14 +263,14 @@ const Nav = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: menuState ? 1 : 0 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 backdrop-blur z-40"
+              className="fixed inset-0 backdrop-blur-sm z-40 bg-white/5"
             />
             <motion.div
               variants={menuVariants}
               initial="initial"
               animate="enter"
               exit="exit"
-              className="fixed right-0 top-0 h-full w-full max-w-[769px] bg-creatBGLight z-40"
+              className="fixed right-0 top-0 h-full w-full max-w-[769px] bg-[#053478] z-40"
               ref={menuRef}
             >
               <a href="/admin"
@@ -383,7 +383,7 @@ const Nav = () => {
                   </div>
                 </div>
               </div>
-              <svg className="absolute top-0 left-[-99px] w-[100px] h-full fill-creatBGLight stroke-none">
+              <svg className="absolute top-0 left-[-99px] w-[100px] h-full fill-[#053478] stroke-none">
                 <motion.path
                   variants={curve}
                   initial="initial"

@@ -24,7 +24,7 @@ const ProjectCard: React.FC<CardProps> = ({ projectsInView, delay, id, name, dat
     onHoverStart={() => { setProjectHover(true) }}
     onHoverEnd={() => { setProjectHover(false) }}
     transition={{ duration: 0.5, delay: delay }}
-    className="p-9 rounded-2xl overflow-hidden w-[410px] h-[500px] flex flex-col items-start border relative z-10">
+    className="p-9 rounded-2xl overflow-hidden w-[410px] h-[500px] flex flex-col items-start relative z-10 border-2 border-white/10">
     <div className="w-full h-full absolute top-0 left-0 -z-50 pointer-events-none">
       <Image src={image} width={400} height={500} alt="project1" className="w-full h-full object-cover" />
     </div>
@@ -43,7 +43,7 @@ const ProjectCard: React.FC<CardProps> = ({ projectsInView, delay, id, name, dat
           }}
           transition={{ duration: 0.5, ease: "linear" }}
           className="w-full overflow-hidden flex items-center">
-          <p className="text-white">
+          <p className="text-white font-medium text-lg">
             {desc}
           </p>
         </motion.div>
@@ -85,7 +85,7 @@ const ProjectCard: React.FC<CardProps> = ({ projectsInView, delay, id, name, dat
         </defs>
       </svg>
       <motion.div
-        className="w-full h-full bg-creatDark/90"
+        className="w-full h-full bg-creatDark/80"
         style={{ maskImage: `url(#circleMask-${id})`, WebkitMaskImage: `url(#circleMask-${id})` }}
       />
     </motion.div>
