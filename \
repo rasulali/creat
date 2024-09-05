@@ -4,7 +4,7 @@ import Nav from "@/components/navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import { FaArrowLeft, FaArrowRight, FaArrowRightLong } from "react-icons/fa6";
 import { motion, useInView } from "framer-motion";
 import ProjectCard from "@/components/projectCard";
 import Comment from "@/components/comment";
@@ -365,11 +365,6 @@ export default function Home() {
     margin: "0px 0px -200px 0px",
   });
 
-  const emailRef = useRef(null);
-  const emailInView = useInView(emailRef, {
-    once: true,
-  });
-
   return (
     <main className="bg-creatBG text-white">
       <Nav />
@@ -447,28 +442,25 @@ export default function Home() {
               <div className="h-px bg-creatBright w-8" />
               <h1 className="text-creatBright font-medium">Our Clients</h1>
             </div>
-            <div className="flex flex-col gap-y-16">
-              <div className="flex flex-col gap-y-4">
-                <TextAnim>
-                  <h1
-                    className="text-5xl font-medium">People who choose to work with <span className="text-creatBright">us</span></h1>
-                </TextAnim>
-                <TextAnim delay={0.1}>
-                  <p
-                    className="text-xl max-w-[500px] leading-relaxed">Over the course of {" "}
-                    <span className="relative">
-                      only 5 years
-                      <span className="absolute bottom-0 left-0 w-full h-px bg-creatBright" />
-                    </span>,
-                    we have been fortunate to work with a diverse range of clients,
-                    including government agencies, large corporations, and international companies.
-                    Our commitment to excellence and innovative solutions has allowed
-                    us to deliver impactful projects across industries and borders
-                  </p>
-                </TextAnim>
-
-              </div>
-              <TextAnim dir="<" delay={0.2}>
+            <div className="flex flex-col gap-y-8">
+              <TextAnim>
+                <h1
+                  className="text-5xl font-medium">People who choose to work with <span className="text-creatBright">us</span></h1>
+              </TextAnim>
+              <TextAnim>
+                <p
+                  className="text-xl max-w-[500px] leading-relaxed">Over the course of {" "}
+                  <span className="relative">
+                    only 5 years
+                    <span className="absolute bottom-0 left-0 w-full h-px bg-creatBright" />
+                  </span>,
+                  we have been fortunate to work with a diverse range of clients,
+                  including government agencies, large corporations, and international companies.
+                  Our commitment to excellence and innovative solutions has allowed
+                  us to deliver impactful projects across industries and borders
+                </p>
+              </TextAnim>
+              <TextAnim dir="<">
                 <h1
                   className="text-5xl text-right capitalize leading-snug">
                   Trusted by Leading Business <span className="relative">
@@ -489,9 +481,7 @@ export default function Home() {
                   x: Gindex % 2 ? 100 : -100,
                 }}
                 animate={{
-                  x: partnersInView ?
-                    Gindex === 5 ? 0 : Gindex % 2 ? -100 : 100
-                    : Gindex % 2 ? 100 : -100,
+                  x: partnersInView ? (Gindex % 2 ? -100 : 100) : Gindex % 2 ? 100 : -100,
                 }}
                 transition={{
                   type: "spring",
@@ -625,15 +615,13 @@ ${partnerHover === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
           </div>
 
           <div className="flex w-full justify-between items-end ">
-            <TextAnim>
-              <h1 className="text-5xl font-medium leading-tight">
-                Comprehensive Solutions <br /> Tailored to
-                <span className="inline-block relative px-6"> You
-                  <img src="/icons/circle.svg" alt="" className="absolute w-full
+            <h1 className="text-5xl font-medium leading-tight">
+              Comprehensive Solutions <br /> Tailored to
+              <span className="inline-block relative px-6"> You
+                <img src="/icons/circle.svg" alt="" className="absolute w-full
                     top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-                </span>
-              </h1>
-            </TextAnim>
+              </span>
+            </h1>
             <Link href="/services"
               className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit group border-2 border-white/10 font-medium
               hover:bg-creatBright hover:border-creatBright transition-all duration-300 flex md:gap-x-3 items-center
@@ -696,22 +684,16 @@ ${partnerHover === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
           </div>
 
           <div className="flex w-full justify-between items-end mb-16">
-            <TextAnim>
-              <h1 className="text-5xl font-medium leading-tight text-nowrap">
-                Discover the Power of<br />Excellence at
-                {" "}<span className="text-creatBright font-bold">Creat
-                </span>
-              </h1>
-            </TextAnim>
-            <div className="max-w-[50%]">
-              <TextAnim dir="<">
-                <p className="text-neutral-200 text-lg">
-                  At Creat, we are more than just a design company.
-                  We are your partners in turning visions into reality,
-                  dedicated to delivering superior quality and exceptional service every step of the way.
-                </p>
-              </TextAnim>
-            </div>
+            <h1 className="text-5xl font-medium leading-tight text-nowrap">
+              Discover the Power of<br />Excellence at
+              {" "}<span className="text-creatBright font-bold">Creat
+              </span>
+            </h1>
+            <p className="text-neutral-200 text-lg max-w-[50%]">
+              At Creat, we are more than just a design company.
+              We are your partners in turning visions into reality,
+              dedicated to delivering superior quality and exceptional service every step of the way.
+            </p>
           </div>
           <div className="relative w-full flex">
             <div ref={bannerRef} className="max-w-[60%]">
@@ -875,13 +857,11 @@ cursor-pointer w-1/2 border-b`}>
             <h1 className="text-creatBright font-medium">Our Projects</h1>
           </div>
           <div ref={projectsRef} className="w-full flex justify-between items-center mb-16">
-            <TextAnim>
-              <h1 className="text-5xl font-medium leading-tight text-nowrap">
-                Explore Our Projects <br /> That
-                {" "}<span className="text-creatBright font-bold uppercase">Inspire
-                </span>
-              </h1>
-            </TextAnim>
+            <h1 className="text-5xl font-medium leading-tight text-nowrap">
+              Explore Our Projects <br /> That
+              {" "}<span className="text-creatBright font-bold uppercase">Inspire
+              </span>
+            </h1>
             <Link href="/projects"
               className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit group border-2 border-white/10 font-medium
               hover:bg-creatBright hover:border-creatBright transition-all duration-300 flex md:gap-x-3 items-center
@@ -940,12 +920,10 @@ cursor-pointer w-1/2 border-b`}>
               <h1 className="text-creatBright font-medium">Testimonial</h1>
             </div>
             <div className="w-full flex justify-between items-center mb-16">
-              <TextAnim>
-                <h1 className="text-5xl font-medium leading-tight text-nowrap">
-                  What Our <span className="text-creatBright font-bold">Clients</span> {" "}
-                  Say<br /> About Us
-                </h1>
-              </TextAnim>
+              <h1 className="text-5xl font-medium leading-tight text-nowrap">
+                What Our <span className="text-creatBright font-bold">Clients</span> {" "}
+                Say<br /> About Us
+              </h1>
             </div>
           </div>
           <div className="flex w-full items-center">
@@ -1054,60 +1032,32 @@ cursor-pointer w-1/2 border-b`}>
         </div>
       </section>
       <section className="w-full min-h-[1000px] py-36 bg-creatBG relative flex items-center justify-center">
-        <motion.div
-          ref={emailRef}
-          initial={{
-            scale: 0.9,
-          }}
-          animate={{
-            scale: emailInView ? 1 : 0.9,
-          }}
-          transition={{
-            mass: 0.5,
-            stiffness: 100,
-          }}
-          className="max-h-[400px] rounded-2xl bg-creatBGLight/50 border-2
+        <div className="max-h-[400px] rounded-2xl bg-creatBGLight/50 border-2
           border-creatBGLight/50 flex gap-x-12 justify-between px-[60px] py-[72px]">
           <div className="flex flex-col gap-y-4">
-            <h1 className="text-4xl font-bold">Contact with us for <br />Further discussion</h1>
+            <h1 className="text-4xl font-bold">Contact With Us for <br />Further Discussion</h1>
             <p className="text-xl text-neutral-200">Do you have a big project in mind?<br />Let’s turn your vision into reality</p>
           </div>
-          <div className="my-auto flex items-center justify-center w-fit">
-            <svg viewBox="0 0 24 24" className="w-12 h-12">
-              <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}>
-                <motion.path
-                  strokeDasharray={20}
-                  strokeDashoffset={20}
-                  d="M3 12h17.5"
-                  initial={{ strokeDashoffset: 20 }}
-                  animate={{ strokeDashoffset: emailInView ? 0 : 20 }}
-                  transition={{ duration: 0.2 }}
-                />
-                <motion.path
-                  strokeDasharray={12}
-                  strokeDashoffset={12}
-                  d="M21 12l-7 7M21 12l-7 -7"
-                  initial={{ strokeDashoffset: 12 }}
-                  animate={{ strokeDashoffset: emailInView ? 0 : 10 }}
-                  transition={{ duration: 0.2, delay: 0.2 }}
-                />
-              </g>
-            </svg>
-          </div>
+          <svg viewBox="0 0 24 24" >
+            <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}>
+              <path strokeDasharray={20} strokeDashoffset={20} d="M3 12h17.5"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="20;0"></animate></path>
+              <path strokeDasharray={12} strokeDashoffset={12} d="M21 12l-7 7M21 12l-7 -7"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.2s" dur="0.2s" values="12;0"></animate></path>
+            </g>
+          </svg>
           <div className="flex flex-col gap-y-4">
             <h1 className="text-2xl font-bold">
               Submit Your Email
             </h1>
-            <form className="flex gap-x-4" onSubmit={(e) => e.preventDefault()}>
+            <div className="flex gap-x-4">
               <input type="email" className="min-w-[300px] px-6 py-5 rounded-lg
-                outline-none text-xl border-2 border-transparent focus:border-black text-black" placeholder="Enter your email" />
-              <button className="bg-black px-6 py-5 rounded-lg text-white text-xl font-bold
+                outline-none text-xl border-2 transition-colors border-creatBGLight focus:border-creatBG text-black" placeholder="Enter your email" />
+              <button className="bg-black px-6 py-5 rounded-lg text-white text-xl font-medium
                 group hover:bg-white hover:text-black transition-colors">
                 Submit
               </button>
-            </form>
+            </div>
           </div>
-        </motion.div>
+        </div>
         <svg
           className="absolute w-full h-[300px] top-[-2px] left-0"
           viewBox="0 0 1920 300">
@@ -1120,7 +1070,7 @@ cursor-pointer w-1/2 border-b`}>
           <path d="M0 205L32 209.5C64 214 128 223 192 227.5C256 232 320 232 384 232C448 232 512 232 576 230C640 228 704 224 768 222.5C832 221 896 222 960 226.5C1024 231 1088 239 1152 242C1216 245 1280 243 1344 245.5C1408 248 1472 255 1536 254.5C1600 254 1664 246 1728 238C1792 230 1856 222 1888 218L1920 214L1920 164L1888 163C1856 162 1792 160 1728 163C1664 166 1600 174 1536 174C1472 174 1408 166 1344 161C1280 156 1216 154 1152 156.5C1088 159 1024 166 960 165.5C896 165 832 157 768 159.5C704 162 640 175 576 172.5C512 170 448 152 384 149.5C320 147 256 160 192 160C128 160 64 147 32 140.5L0 134Z" fill="#072047"></path>
         </svg>
         <svg
-          className="absolute w-full h-[300px] bottom-0 left-0 translate-y-[1px]"
+          className="absolute w-full h-[300px] bottom-0 left-0"
           viewBox="0 0 1920 300">
           <path d="M0 70L32 75.5C64 81 128 92 192 95.5C256 99 320 95 384 86C448 77 512 63 576 58C640 53 704 57 768 55.5C832 54 896 47 960 53C1024 59 1088 78 1152 88.5C1216 99 1280 101 1344 92C1408 83 1472 63 1536 51.5C1600 40 1664 37 1728 43C1792 49 1856 64 1888 71.5L1920 79L1920 0L1888 0C1856 0 1792 0 1728 0C1664 0 1600 0 1536 0C1472 0 1408 0 1344 0C1280 0 1216 0 1152 0C1088 0 1024 0 960 0C896 0 832 0 768 0C704 0 640 0 576 0C512 0 448 0 384 0C320 0 256 0 192 0C128 0 64 0 32 0L0 0Z" fill="#081731"></path>
           <path d="M0 127L32 126.5C64 126 128 125 192 122.5C256 120 320 116 384 108.5C448 101 512 90 576 85.5C640 81 704 83 768 82.5C832 82 896 79 960 85C1024 91 1088 106 1152 117.5C1216 129 1280 137 1344 129.5C1408 122 1472 99 1536 87.5C1600 76 1664 76 1728 84C1792 92 1856 108 1888 116L1920 124L1920 77L1888 69.5C1856 62 1792 47 1728 41C1664 35 1600 38 1536 49.5C1472 61 1408 81 1344 90C1280 99 1216 97 1152 86.5C1088 76 1024 57 960 51C896 45 832 52 768 53.5C704 55 640 51 576 56C512 61 448 75 384 84C320 93 256 97 192 93.5C128 90 64 79 32 73.5L0 68Z" fill="#081c3c"></path>
@@ -1133,18 +1083,9 @@ cursor-pointer w-1/2 border-b`}>
           <path d="M0 301L32 301C64 301 128 301 192 301C256 301 320 301 384 301C448 301 512 301 576 301C640 301 704 301 768 301C832 301 896 301 960 301C1024 301 1088 301 1152 301C1216 301 1280 301 1344 301C1408 301 1472 301 1536 301C1600 301 1664 301 1728 301C1792 301 1856 301 1888 301L1920 301L1920 287L1888 287.5C1856 288 1792 289 1728 288.5C1664 288 1600 286 1536 284.5C1472 283 1408 282 1344 282C1280 282 1216 283 1152 283.5C1088 284 1024 284 960 284.5C896 285 832 286 768 286C704 286 640 285 576 283C512 281 448 278 384 278.5C320 279 256 283 192 283.5C128 284 64 281 32 279.5L0 278Z" fill="#0c3d91"></path>
         </svg>
       </section>
-      <footer className="flex flex-col items-center bg-creatBGLight">
-        <div className="py-24 flex items-center justify-center max-w-[1200px] mx-auto">
-        </div>
-        <div className="bg-creatBG flex items-center justify-center py-5 w-full gap-x-4 text-lg">
-          <h1 >©<span className="text-creatBright mx-1 font-medium">Creat LLC</span>2024</h1>
-          <div className="h-4 w-px bg-neutral-300" />
-          <span className="text-neutral-300">Built by
-            <Link target="_blank" href="https://github.com/rasulali/" className="mx-2 capitalize font-bold hover:text-white transition-colors">Rasul Ali</Link></span>
-        </div>
-      </footer>
     </main>
     // TODO add keep alive to supabase via vercel https://github.com/travisvn/supabase-pause-prevention
+    // TODO finish contact form
     // TODO finish footer
   );
 }
