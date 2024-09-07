@@ -7,6 +7,22 @@ import { FaSquareFacebook, FaSquareInstagram, FaLinkedin, FaRegUser, FaChevronDo
 import Logo from "./logo";
 import { Tooltip } from 'react-tooltip'
 import { GrLanguage } from "react-icons/gr";
+
+
+type Item = {
+  label: string;
+  href: string;
+};
+
+export const items: Item[] = [
+  { label: "portfolio", href: "/portfolio" },
+  { label: "services", href: "/services" },
+  { label: "home", href: "/" },
+  { label: "about", href: "/about" },
+  { label: "contact", href: "/contact" },
+];
+
+
 const Nav = () => {
   const [menuState, setMenuState] = useState(false);
 
@@ -83,18 +99,7 @@ const Nav = () => {
     },
   };
 
-  type Item = {
-    label: string;
-    href: string;
-  };
 
-  const items: Item[] = [
-    { label: "portfolio", href: "/portfolio" },
-    { label: "services", href: "/services" },
-    { label: "home", href: "/" },
-    { label: "about", href: "/about" },
-    { label: "contact", href: "/contact" },
-  ];
   const navRef = useRef(null)
   const menuInView = useInView(navRef);
   const menuRef = useRef(null)
