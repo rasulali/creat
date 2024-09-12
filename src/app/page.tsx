@@ -4,11 +4,15 @@ import Nav, { items } from "@/components/navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { FaArrowLeft, FaArrowRight, FaChevronDown, FaFacebookF, FaInstagram, FaLinkedinIn, FaX } from "react-icons/fa6";
-import { motion, useInView } from "framer-motion";
+import { FaArrowLeft, FaArrowRight, FaChevronDown, FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import ProjectCard from "@/components/projectCard";
 import Comment from "@/components/comment";
 import TextAnim from "@/components/animatedText";
+import { IoClose } from "react-icons/io5";
+import FullScreenImageViewer from "@/components/fullscreenImage";
+import Footer from "@/components/footer";
+import EmailForm from "@/components/email";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState(0);
@@ -164,194 +168,211 @@ export default function Home() {
   }, []);
 
 
-  type partners = { logo: string, name: string, link?: string, animated?: boolean, color?: string }
+  type partners = {
+    logo: string,
+    name: string,
+    link?: string,
+    animated?: boolean,
+    color?: string,
+    heading?: string,
+    desc?: string,
+    imageCount?: number
+  }
 
   const partners: partners[] = [
+    //1ci yere COP
+    //2-BP
+    //3-ILF
+    //4-SUEZ
     {
-      logo: "/partners/29.png",
+      logo: "/partners/1/logo.png",
       name: "The Conference of the Parties 29",
       link: "https://cop29.az/en",
       animated: true,
       color: "#006a72"
     },
     {
-      logo: "/partners/01.png",
+      logo: "/partners/2/logo.png",
       name: "Lightsource BP",
       link: "https://lightsourcebp.com/",
       color: "#009900"
     },
     {
-      logo: "/partners/06.png",
+      logo: "/partners/3/logo.png",
       name: "ILF Consulting Engineers",
       link: "https://www.ilf.com/",
       color: "#2f5291"
     },
     {
-      logo: "/partners/08.png",
+      logo: "/partners/4/logo.png",
       name: "Suez SA",
       link: "https://www.suez.com/en",
       color: "#7ecb23"
     },
     {
-      logo: "/partners/02.png",
+      logo: "/partners/5/logo.png",
       name: "PMD Projects LLC",
       link: "https://pmdprojects.az/",
       color: "#015ba9"
     },
     {
-      logo: "/partners/03.png",
+      logo: "/partners/6/logo.png",
       name: "Dashkasan Iron Ore LLC",
       link: "https://ddf.az",
       color: "#7c5541"
+    }, {
+      logo: "/partners/7/logo.png",
+      name: "BALKHOORMA LLC Natural Food Collection",
+      link: "https://balkhoorma.com/en",
+      color: "#558551",
+      animated: true,
+      heading: "Cənubi Qafqazda ilk meyvə-qurtma zavodu (Xurma)",
+      desc: "Balakən rayonu, Katex k. ərazisində 2.0 ha ərazidə yerləşən 1 ədəd 2 mərtəbəli ofis binası, 2 ədəd saoyuducu binası, 1 ədəd istehsalat binası, 10 nəfərlik qonaq evi və köməkçi binaları",
+      imageCount: 4
     },
     {
-      logo: "/partners/04.png",
+      logo: "/partners/8/logo.png",
       name: "Encotec Company",
       color: "#01205a",
       link: "https://www.encotec.az/"
     },
     {
-      logo: "/partners/05.png",
-      name: "AzerGold CJSC",
-      link: "https://azergold.az/en/",
-      color: "#fcaf17"
-    },
-    {
-      logo: "/partners/07.png",
-      name: "BALKHOORMA LLC Natural Food Collection",
-      link: "https://balkhoorma.com/en",
-      color: "#558551",
-      animated: true
-    },
-    {
-      logo: "/partners/09.png",
+      logo: "/partners/9/logo.png",
       name: "AzerBlast LLC",
       link: "https://azerblast.az/",
       color: "#e96453"
     },
     {
-      logo: "/partners/10.png",
+      logo: "/partners/10/logo.png",
       name: "Ministry of Ecology and Natural Resources",
       link: "https://eco.gov.az/",
       animated: true,
       color: "#fef212"
     },
     {
-      logo: "/partners/11.png",
+      logo: "/partners/11/logo.png",
       name: "Ministry of Economy of Azerbaijan Republic",
       link: "https://www.economy.gov.az/en",
       animated: true,
       color: "#a2925e"
     },
     {
-      logo: "/partners/12.png",
+      logo: "/partners/12/logo.png",
       name: "Azerbaijan Amelioration and Water Farm OJSC",
       link: "https://mst.gov.az/en",
       animated: true,
       color: "#0191cf"
     },
     {
-      logo: "/partners/13.png",
+      logo: "/partners/13/logo.png",
       name: "Restoration, Construction, and Management Service in the Karabakh Economic Region",
       animated: true,
       color: "#000000"
     },
     {
-      logo: "/partners/14.png",
+      logo: "/partners/14/logo.png",
       name: "Technol LLC",
       link: "https://technol.az/en/",
-      color: "#c82327"
+      color: "#c82327",
+      heading: "Cənubi Qafqazda ilk maşın-motor emalı yağları zavodu",
+      desc: "Sumqayıt şəhərində, 1.5 ha ərazidə yerləşən, 1 ədəd 2 mərtəbəli ofis binası, 1 ədəd istehsalat binası və 2 ədəd məhsul saxlama anbarı",
+      imageCount: 5
     },
     {
-      logo: "/partners/15.png",
+      logo: "/partners/15/logo.png",
       name: "Sobsan Paints",
       color: "#e12917",
       link: "https://sobsan.com/",
     },
     {
-      logo: "/partners/16.png",
+      logo: "/partners/16/logo.png",
       name: "ACWA Power",
       link: "https://www.acwapower.com/en/",
       color: "#bb332f"
     },
     {
-      logo: "/partners/17.png",
+      logo: "/partners/17/logo.png",
       name: "Tractabel",
       link: "https://tractebel-engie.com/en",
       color: "#09aafe"
     },
     {
-      logo: "/partners/18.png",
+      logo: "/partners/18/logo.png",
       name: "SOCAR Midstream Operations",
       link: "https://www.socarmidstream.az/",
       color: "#e4002b"
     },
     {
-      logo: "/partners/19.png",
+      logo: "/partners/19/logo.png",
       name: "Suraxanı Oil",
       link: "https://www.surakhani-oil.com/",
       color: "#f16333"
     },
     {
-      logo: "/partners/20.png",
+      logo: "/partners/20/logo.png",
       name: "Power Construction Corporation of China",
       color: "#c80b4b",
       link: "https://en.powerchina.cn/",
       animated: true
     },
     {
-      logo: "/partners/21.png",
+      logo: "/partners/21/logo.png",
       name: "MAQRO Group",
       link: "https://www.maqro.ge/",
       color: "#42a13e"
     },
     {
-      logo: "/partners/22.png",
+      logo: "/partners/22/logo.png",
       name: "Referans Clinical Laboratory and Polyclinic Center",
       color: "#0aa4c7",
       link: "https://referansclc.com/",
       animated: true
     },
     {
-      logo: "/partners/23.png",
+      logo: "/partners/23/logo.png",
       name: "Food Safety Agency of the Republic of Azerbaijan",
       link: "https://afsa.gov.az/",
       animated: true,
       color: "#d9a183"
     },
     {
-      logo: "/partners/24.png",
+      logo: "/partners/24/logo.png",
       name: "Azerbaijan Airlines",
       link: "https://azal.az/en/",
       color: "#56bfe7"
     },
     {
-      logo: "/partners/25.png",
+      logo: "/partners/25/logo.png",
       name: "YPT Yılmaz Proses Teknolojileri",
       link: "https://www.ypt.com.tr/",
       color: "#fbb900"
     },
     {
-      logo: "/partners/26.png",
+      logo: "/partners/26/logo.png",
       name: "CQA International LTD",
       color: "#7aa02f",
       link: "https://www.cqainternational.co.uk/",
     },
     {
-      logo: "/partners/27.png",
+      logo: "/partners/27/logo.png",
       name: "Bravo Supermarket Chain",
       link: "https://www.bravosupermarket.az/",
       color: "#77bc1f"
     },
     {
-      logo: "/partners/28.png",
+      logo: "/partners/28/logo.png",
       name: "Azerbaijan Company for Poultry Development",
       color: "#00495b",
       link: "https://az.linkedin.com/company/azerbaijan-company-for-poultry-development",
       animated: true
     },
+    {
+      logo: "/partners/29/logo.png",
+      name: "AzerGold CJSC",
+      link: "https://azergold.az/en/",
+      color: "#fcaf17"
+    },
   ];
-
 
   const handlePartnerHover = (index: number) => {
     setPartnerIndex(index)
@@ -366,69 +387,95 @@ export default function Home() {
 
   const [activePartner, setActivePartner] = useState(-1)
 
-  const emailRef = useRef(null);
-  const emailInView = useInView(emailRef, {
-    once: true,
-  });
+
+  const [fullScreenIndex, setFullScreenIndex] = useState<number | null>(null);
+
+  const images = activePartner < 0 ? [] : Array(partners[activePartner].imageCount || 0)
+    .fill(null)
+    .map((_, i) => `/partners/${activePartner + 1}/${i + 1}.jpeg`);
+
+  useEffect(() => {
+    if (activePartner > -1 && fullScreenIndex === null) {
+      const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          setActivePartner(-1);
+        }
+      };
+      document.addEventListener('keydown', handleEscape);
+      return () => {
+        document.removeEventListener('keydown', handleEscape);
+      };
+    }
+  }, [activePartner, fullScreenIndex]);
+
 
   return (
     <main className="bg-creatBG text-white">
-      <Nav />
       <section
-        className="flex justify-center w-full h-[calc(100vh-96px)] relative origin-center">
+        className="flex flex-col min-h-screen relative">
+        <Nav />
+        {fullScreenIndex !== null && activePartner >= 0 && (
+          <FullScreenImageViewer
+            images={images}
+            initialIndex={fullScreenIndex}
+            onClose={() => setFullScreenIndex(null)}
+          />
+        )}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
           <FaChevronDown className="text-white text-3xl animate-bounce" />
         </div>
-        <div className="w-full max-w-[1920px] h-full flex relative items-center">
-          <div className="md:pl-28 h-fit flex flex-col md:gap-y-4 flex-shrink-0 w-full relative">
-            <div className="h-[500px] flex absolute bottom-0 right-0">
-              <motion.svg className="w-full h-full" viewBox="0 0 3343 4102" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <motion.path
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{
-                    duration: 2,
-                    ease: [0.76, 0, 0.24, 1],
-                  }}
-                  className="stroke-white/70"
-                  strokeWidth={12}
-                  strokeDasharray="0 1"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M941.316 4094.88C941.316 4019.47 930.038 3910.91 1002.06 3865.86C1013.13 3858.94 1120.05 3801.11 1101.46 3797.32C1069.46 3790.8 929.704 3892.23 965.797 3798.91C975.21 3774.56 1244.21 3701.92 1029.6 3733.52C928.624 3748.39 935.798 3783.72 916.012 3674.86C905.372 3616.27 909.224 3558.52 892.184 3501.83C891.517 3499.59 889.783 3490.55 889.783 3487.99C826.17 3386.19 794.357 3335.31 794.357 3335.31C947.037 3546.51 1023.37 3652.12 1023.37 3652.12C1503.04 3760.26 1742.88 3814.34 1742.88 3814.34C1738.44 3802.56 1736.21 3796.68 1736.21 3796.68C1243.5 3688.22 997.158 3633.98 997.158 3633.98C916.998 3539.19 876.918 3491.8 876.918 3491.8C883.398 3573.91 795.598 3566.23 728.531 3566.23C597.385 3566.23 449.931 3527.94 388.224 3399.59C376.691 3375.62 323.651 3246.56 403.651 3310.99C450.264 3348.52 674.411 3532.91 719.971 3446.16C741.211 3405.72 769.291 3389.88 765.291 3339.12C771.344 3337.36 808.611 3299.78 866.438 3284.43C974.277 3255.8 917.212 3169.06 757.545 3242.23C643.318 3294.58 377.438 3248.7 485.665 3366.44C542.531 3428.31 683.358 3351.46 744.291 3321.46C816.291 3286.02 675.238 3333.24 663.158 3338.03C552.638 3381.8 483.584 3375.54 399.184 3292.67C367.224 3261.28 425.624 3172.98 495.544 3154.32C544.264 3141.34 812.998 3054.86 833.064 3057.92C926.224 3072.16 882.371 3145.96 811.145 3168.78C713.265 3200.14 384.931 3375.92 353.544 3214.31C343.998 3165.14 204.931 3111.86 462.118 2996.74C521.144 2970.32 679.998 2903.7 743.145 2929.72C803.118 2954.44 800.557 2961.5 759.557 3012.44C759.117 3012.99 635.944 3054.68 616.158 3063.16C585.251 3076.4 376.744 3185.7 347.931 3162.56C269.664 3099.74 338.224 3112.79 293.731 3031.36C258.411 2966.74 334.45 2908.15 363.25 2859.76C364.637 2857.46 377.184 2845.51 379.771 2842.92C423.704 2810.55 543.051 2731.56 592.504 2783.5C628.144 2820.94 538.251 2905.19 517.825 2939.04C494.185 2978.2 397.384 3037.48 504.384 2935.16C533.611 2907.22 573.758 2864.19 579.464 2823.31C593.091 2725.63 416.558 2833.32 406.584 2820.96C405.571 2819.7 379.091 2773.94 375.971 2768.47C129.771 2387.42 6.66406 2196.88 6.66406 2196.88C429.077 2242.7 640.292 2265.59 640.292 2265.59C636.865 2110.11 851.957 2083.39 954.264 2148.19C1021.52 2190.79 1089.2 2218.08 1164.2 2195.95C1345.24 2142.56 1209.41 2350.71 1102.14 2214.06C1090.97 2199.82 1130.36 2223.26 1169.54 2337.18C1188.38 2391.94 1290.33 2566.95 1244.68 2607.87C1239.69 2612.34 1070.01 2882.63 1064.3 2836.23C1050.29 2722.3 745.584 2484.08 843.57 2465C925.45 2449.04 812.916 2474 776.396 2424.98C703.556 2327.2 806.917 2388.78 893.197 2333.36C902.917 2327.12 916.184 2370.72 762.438 2351.8C655.371 2338.63 571.798 2111.32 942.158 2241.76C1016.82 2268.06 634.185 2173.43 666.691 2237.62C723.131 2349.08 907.904 2597.04 934.197 2664.46C1445.68 3384.6 1731 3777.12 1731 3777.12C1517.25 3459.67 1410.37 3300.96 1410.37 3300.96C1423.32 3188.58 1655.37 2920.48 1607.26 2852.47C1521.84 2731.7 1453.12 2634.98 1310.53 2584.63C1355.7 2652.44 1499.52 2758.16 1576.4 2792.71C1763.8 2876.9 1705.2 2893.54 1955.26 2964.14C2024.7 2983.75 2657.88 3259.47 2558.68 3176.03C2480.8 3110.52 2304.88 3087.55 2162.36 2982.9C2115.88 2948.76 2389.81 3071.67 2434.57 3080.83C2791.06 3153.82 2345.99 3038.27 2247.21 2949.2C2142.12 2854.43 2194.06 2735.7 2247.86 2611.34C2324.06 2435.2 2416.7 2026.44 2588.88 1986.02C2793.88 1937.88 2830.04 2013 2987.7 2063.66C3079.09 2093.03 3096.37 2145.47 3007.77 1986.99C2951.92 1887.11 2550.79 1620.6 2444.39 1563.31C2327.8 1500.54 2320.64 1470.66 2244.71 1379.12C2241.96 1375.8 1741.42 1702.43 1752.97 1762.12C1763.37 1815.96 1884.17 2059.24 1953.62 1968.9C2018.2 1884.9 2351.58 1516.24 2342.96 1543.91C2323.04 1607.75 1990.08 2026.36 1946.65 1989.5C1793.93 1859.9 1725.58 1624.71 1602.48 1887.1C1497.28 2111.28 1568.88 1873.34 1565.28 1806.95C1562.45 1754.66 1353.18 1673.94 1310.53 1737.91C1300.04 1753.63 1116.6 1799.79 998.744 2069.99C917.637 2255.88 1020.48 1905.27 1129.82 1828.2C1183.4 1790.46 1210.58 1738.75 1290.13 1711.19C1440.44 1659.14 1478.06 1779.03 1443.8 1695.92C1403.97 1593.43 1302.57 1611.26 1265.97 1408.84C1254.14 1343.42 1174.7 1342.68 1199.94 1240.3C1217.16 1170.47 1178.98 1114.4 1127.92 1075.19C1083.7 1041.24 1092.09 990.629 1103.1 947.816C1585.02 817.669 1845.21 724.149 1883.68 667.256C2102.61 597.963 2219.67 596.682 2234.84 663.442C2289.63 626.895 2282.62 593.816 2213.85 564.202C2204.69 500.096 2191.99 463.202 2175.68 453.509C1938.76 462.482 1728.2 527.363 1543.97 648.176C1207.81 763.403 1011.24 820.656 954.25 819.949C971.517 906.523 932.076 972.683 835.93 1018.42C993.69 973.896 1072.58 951.629 1072.58 951.629C1084.64 880.629 1073.82 841.175 1040.13 833.295C1000.69 842.202 980.971 846.656 980.971 846.656C900.691 517.749 1005.65 256.922 1295.86 64.189C1666.41 -69.931 1942.5 31.8554 2124.16 369.535C2162.3 476.829 2182.51 539.335 2184.75 557.055C2212.01 640.348 2173.21 793.056 2165.67 880.856C2159.01 958.189 2133.01 1310.98 1991.34 1148.04C1956.02 1107.42 1970.44 918.443 1933.76 960.416C1899.3 999.83 1833.94 977.496 1800.81 929.002C1753.49 859.762 1758.73 676.309 1782.05 776.323C1793.46 825.203 1821.68 972.283 1896.41 942.256C1926.54 930.136 1927.9 906.016 1942.4 940.416C1908.09 1007.3 2052.38 1296.26 1800.88 1574.19C1715.04 1669.04 1700.48 1736.9 1563.57 1753.75C1560.14 1754.16 1527 1759.54 1525.56 1760.12C1430.69 1753.47 1458.56 1666.47 1363.84 1596.66C1246.85 1510.44 1246.86 1380.55 1442.08 1383.67C1536.7 1385.18 1520.69 1389.67 1604.29 1407.22C1664.65 1419.88 1676.88 1355.9 1707.36 1308.42C1739.08 1258.99 1817.77 1065.55 1815.48 1007.7C1812.18 924.029 1880.14 948.642 1915.21 926.122C1989.38 878.496 1921.16 997.935 1942.53 906.922C1976.84 761.202 2173.78 704.256 2198.76 1011.28C2200.73 1035.54 2210.58 1141.91 2215.28 1155.84C2244.56 1239.46 2163.02 1359.6 2268.73 1463.1C2356.36 1548.91 2390.72 1581.23 2502.81 1641.68C2542.66 1663.18 2737.41 1795.56 2774.32 1828.11C2797.04 1848.16 2818.28 1861.18 2843.18 1877.24C2921.09 1970.88 2929.44 1962.98 3007.67 2037.19C3107.29 2131.71 3107.38 2227.06 3135.48 2364.47C3180.96 2586.92 3113.54 2811.58 3044.53 3023.28C2939.9 3175.36 2982.48 3147.99 2830.45 3313.7C2566.84 3601.06 2619.15 3920.34 2093.79 3766.94C1757.48 3668.74 1444.82 3344.79 1446.53 3347.4C1487.24 3409.71 1440.17 3385.4 1544.46 3485.14C1764.45 3695.48 2172.05 3929.9 2486.6 3829.98C2565.05 3805.04 2757.76 3586.58 2806.24 3496.04C2812.62 3484.12 2945.04 3215.36 2909.41 3338.99C2848.08 3551.87 2960.77 3476.15 2751.5 3697.68C2563.34 3896.87 2801.7 3713.79 2843.54 3654.06C2855.98 3636.3 2883.79 3806.38 2621.83 3919.62C2620.88 3920.03 2395.32 4071.15 2567.75 3984.5C2665.45 3935.4 2775.17 3896.72 2838.41 3802.92C2873.48 3750.92 2855.21 3931.52 2871.79 3973.38C2871.96 3973.8 2884.22 4088.22 2884.22 4088.22C2885.81 4093.5 2885.81 4095.72 2884.22 4094.88C3097.33 4094.88 3335.48 4088.22 3335.48 4088.22" />
-              </motion.svg>
-            </div>
-            <div className="md:px-3 md:py-1 md:border-x-2 border-x-creatBright backdrop-blur w-fit h-fit md:rounded-md bg-creatBright/25 cursor-default">
-              <h1 className="capitalize md:text-lg font-medium text-creatBright">
-                Trusted Project Partner
-              </h1>
-            </div>
-            <div className="flex flex-col md:gap-y-4">
-              <h1 className="md:text-7xl font-bold md:leading-[1.2] text-nowrap ">
-                Architectural <br />Services with
-                {" "}<span className="text-creatBright font-bold md:tracking-wide">
-                  Creat
-                </span>
-              </h1>
-              <p className="md:text-xl text-neutral-200 md:leading-8 md:ml-1 font-semibold">
-                Discover top-tier construction services with Creat.<br />From
-                concept to completion, we turn your vision into reality with <br />
-                expertise and dedication.
-              </p>
-              <div className="md:mt-4">
-                <Link href="/services"
-                  className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit bg-creatBright group
+        <div className="my-auto py-16">
+          <div className="w-full max-w-[1920px] h-full flex relative items-center">
+            <div className="md:pl-28 h-fit flex flex-col md:gap-y-4 flex-shrink-0 w-full relative">
+              <div className="h-[500px] flex absolute bottom-0 right-0">
+                <motion.svg className="w-full h-full" viewBox="0 0 3343 4102" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <motion.path
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{
+                      duration: 2,
+                      ease: [0.76, 0, 0.24, 1],
+                    }}
+                    className="stroke-white/70"
+                    strokeWidth={12}
+                    strokeDasharray="0 1"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M941.316 4094.88C941.316 4019.47 930.038 3910.91 1002.06 3865.86C1013.13 3858.94 1120.05 3801.11 1101.46 3797.32C1069.46 3790.8 929.704 3892.23 965.797 3798.91C975.21 3774.56 1244.21 3701.92 1029.6 3733.52C928.624 3748.39 935.798 3783.72 916.012 3674.86C905.372 3616.27 909.224 3558.52 892.184 3501.83C891.517 3499.59 889.783 3490.55 889.783 3487.99C826.17 3386.19 794.357 3335.31 794.357 3335.31C947.037 3546.51 1023.37 3652.12 1023.37 3652.12C1503.04 3760.26 1742.88 3814.34 1742.88 3814.34C1738.44 3802.56 1736.21 3796.68 1736.21 3796.68C1243.5 3688.22 997.158 3633.98 997.158 3633.98C916.998 3539.19 876.918 3491.8 876.918 3491.8C883.398 3573.91 795.598 3566.23 728.531 3566.23C597.385 3566.23 449.931 3527.94 388.224 3399.59C376.691 3375.62 323.651 3246.56 403.651 3310.99C450.264 3348.52 674.411 3532.91 719.971 3446.16C741.211 3405.72 769.291 3389.88 765.291 3339.12C771.344 3337.36 808.611 3299.78 866.438 3284.43C974.277 3255.8 917.212 3169.06 757.545 3242.23C643.318 3294.58 377.438 3248.7 485.665 3366.44C542.531 3428.31 683.358 3351.46 744.291 3321.46C816.291 3286.02 675.238 3333.24 663.158 3338.03C552.638 3381.8 483.584 3375.54 399.184 3292.67C367.224 3261.28 425.624 3172.98 495.544 3154.32C544.264 3141.34 812.998 3054.86 833.064 3057.92C926.224 3072.16 882.371 3145.96 811.145 3168.78C713.265 3200.14 384.931 3375.92 353.544 3214.31C343.998 3165.14 204.931 3111.86 462.118 2996.74C521.144 2970.32 679.998 2903.7 743.145 2929.72C803.118 2954.44 800.557 2961.5 759.557 3012.44C759.117 3012.99 635.944 3054.68 616.158 3063.16C585.251 3076.4 376.744 3185.7 347.931 3162.56C269.664 3099.74 338.224 3112.79 293.731 3031.36C258.411 2966.74 334.45 2908.15 363.25 2859.76C364.637 2857.46 377.184 2845.51 379.771 2842.92C423.704 2810.55 543.051 2731.56 592.504 2783.5C628.144 2820.94 538.251 2905.19 517.825 2939.04C494.185 2978.2 397.384 3037.48 504.384 2935.16C533.611 2907.22 573.758 2864.19 579.464 2823.31C593.091 2725.63 416.558 2833.32 406.584 2820.96C405.571 2819.7 379.091 2773.94 375.971 2768.47C129.771 2387.42 6.66406 2196.88 6.66406 2196.88C429.077 2242.7 640.292 2265.59 640.292 2265.59C636.865 2110.11 851.957 2083.39 954.264 2148.19C1021.52 2190.79 1089.2 2218.08 1164.2 2195.95C1345.24 2142.56 1209.41 2350.71 1102.14 2214.06C1090.97 2199.82 1130.36 2223.26 1169.54 2337.18C1188.38 2391.94 1290.33 2566.95 1244.68 2607.87C1239.69 2612.34 1070.01 2882.63 1064.3 2836.23C1050.29 2722.3 745.584 2484.08 843.57 2465C925.45 2449.04 812.916 2474 776.396 2424.98C703.556 2327.2 806.917 2388.78 893.197 2333.36C902.917 2327.12 916.184 2370.72 762.438 2351.8C655.371 2338.63 571.798 2111.32 942.158 2241.76C1016.82 2268.06 634.185 2173.43 666.691 2237.62C723.131 2349.08 907.904 2597.04 934.197 2664.46C1445.68 3384.6 1731 3777.12 1731 3777.12C1517.25 3459.67 1410.37 3300.96 1410.37 3300.96C1423.32 3188.58 1655.37 2920.48 1607.26 2852.47C1521.84 2731.7 1453.12 2634.98 1310.53 2584.63C1355.7 2652.44 1499.52 2758.16 1576.4 2792.71C1763.8 2876.9 1705.2 2893.54 1955.26 2964.14C2024.7 2983.75 2657.88 3259.47 2558.68 3176.03C2480.8 3110.52 2304.88 3087.55 2162.36 2982.9C2115.88 2948.76 2389.81 3071.67 2434.57 3080.83C2791.06 3153.82 2345.99 3038.27 2247.21 2949.2C2142.12 2854.43 2194.06 2735.7 2247.86 2611.34C2324.06 2435.2 2416.7 2026.44 2588.88 1986.02C2793.88 1937.88 2830.04 2013 2987.7 2063.66C3079.09 2093.03 3096.37 2145.47 3007.77 1986.99C2951.92 1887.11 2550.79 1620.6 2444.39 1563.31C2327.8 1500.54 2320.64 1470.66 2244.71 1379.12C2241.96 1375.8 1741.42 1702.43 1752.97 1762.12C1763.37 1815.96 1884.17 2059.24 1953.62 1968.9C2018.2 1884.9 2351.58 1516.24 2342.96 1543.91C2323.04 1607.75 1990.08 2026.36 1946.65 1989.5C1793.93 1859.9 1725.58 1624.71 1602.48 1887.1C1497.28 2111.28 1568.88 1873.34 1565.28 1806.95C1562.45 1754.66 1353.18 1673.94 1310.53 1737.91C1300.04 1753.63 1116.6 1799.79 998.744 2069.99C917.637 2255.88 1020.48 1905.27 1129.82 1828.2C1183.4 1790.46 1210.58 1738.75 1290.13 1711.19C1440.44 1659.14 1478.06 1779.03 1443.8 1695.92C1403.97 1593.43 1302.57 1611.26 1265.97 1408.84C1254.14 1343.42 1174.7 1342.68 1199.94 1240.3C1217.16 1170.47 1178.98 1114.4 1127.92 1075.19C1083.7 1041.24 1092.09 990.629 1103.1 947.816C1585.02 817.669 1845.21 724.149 1883.68 667.256C2102.61 597.963 2219.67 596.682 2234.84 663.442C2289.63 626.895 2282.62 593.816 2213.85 564.202C2204.69 500.096 2191.99 463.202 2175.68 453.509C1938.76 462.482 1728.2 527.363 1543.97 648.176C1207.81 763.403 1011.24 820.656 954.25 819.949C971.517 906.523 932.076 972.683 835.93 1018.42C993.69 973.896 1072.58 951.629 1072.58 951.629C1084.64 880.629 1073.82 841.175 1040.13 833.295C1000.69 842.202 980.971 846.656 980.971 846.656C900.691 517.749 1005.65 256.922 1295.86 64.189C1666.41 -69.931 1942.5 31.8554 2124.16 369.535C2162.3 476.829 2182.51 539.335 2184.75 557.055C2212.01 640.348 2173.21 793.056 2165.67 880.856C2159.01 958.189 2133.01 1310.98 1991.34 1148.04C1956.02 1107.42 1970.44 918.443 1933.76 960.416C1899.3 999.83 1833.94 977.496 1800.81 929.002C1753.49 859.762 1758.73 676.309 1782.05 776.323C1793.46 825.203 1821.68 972.283 1896.41 942.256C1926.54 930.136 1927.9 906.016 1942.4 940.416C1908.09 1007.3 2052.38 1296.26 1800.88 1574.19C1715.04 1669.04 1700.48 1736.9 1563.57 1753.75C1560.14 1754.16 1527 1759.54 1525.56 1760.12C1430.69 1753.47 1458.56 1666.47 1363.84 1596.66C1246.85 1510.44 1246.86 1380.55 1442.08 1383.67C1536.7 1385.18 1520.69 1389.67 1604.29 1407.22C1664.65 1419.88 1676.88 1355.9 1707.36 1308.42C1739.08 1258.99 1817.77 1065.55 1815.48 1007.7C1812.18 924.029 1880.14 948.642 1915.21 926.122C1989.38 878.496 1921.16 997.935 1942.53 906.922C1976.84 761.202 2173.78 704.256 2198.76 1011.28C2200.73 1035.54 2210.58 1141.91 2215.28 1155.84C2244.56 1239.46 2163.02 1359.6 2268.73 1463.1C2356.36 1548.91 2390.72 1581.23 2502.81 1641.68C2542.66 1663.18 2737.41 1795.56 2774.32 1828.11C2797.04 1848.16 2818.28 1861.18 2843.18 1877.24C2921.09 1970.88 2929.44 1962.98 3007.67 2037.19C3107.29 2131.71 3107.38 2227.06 3135.48 2364.47C3180.96 2586.92 3113.54 2811.58 3044.53 3023.28C2939.9 3175.36 2982.48 3147.99 2830.45 3313.7C2566.84 3601.06 2619.15 3920.34 2093.79 3766.94C1757.48 3668.74 1444.82 3344.79 1446.53 3347.4C1487.24 3409.71 1440.17 3385.4 1544.46 3485.14C1764.45 3695.48 2172.05 3929.9 2486.6 3829.98C2565.05 3805.04 2757.76 3586.58 2806.24 3496.04C2812.62 3484.12 2945.04 3215.36 2909.41 3338.99C2848.08 3551.87 2960.77 3476.15 2751.5 3697.68C2563.34 3896.87 2801.7 3713.79 2843.54 3654.06C2855.98 3636.3 2883.79 3806.38 2621.83 3919.62C2620.88 3920.03 2395.32 4071.15 2567.75 3984.5C2665.45 3935.4 2775.17 3896.72 2838.41 3802.92C2873.48 3750.92 2855.21 3931.52 2871.79 3973.38C2871.96 3973.8 2884.22 4088.22 2884.22 4088.22C2885.81 4093.5 2885.81 4095.72 2884.22 4094.88C3097.33 4094.88 3335.48 4088.22 3335.48 4088.22" />
+                </motion.svg>
+              </div>
+              <div className="md:px-3 md:py-1 md:border-x-2 border-x-creatBright backdrop-blur w-fit h-fit md:rounded-md bg-creatBright/25 cursor-default">
+                <h1 className="capitalize md:text-lg font-medium text-creatBright">
+                  Trusted Project Partner
+                </h1>
+              </div>
+              <div className="flex flex-col md:gap-y-4">
+                <h1 className="md:text-7xl font-bold md:leading-[1.2] text-nowrap ">
+                  Architectural <br />Services with
+                  {" "}<span className="text-creatBright font-bold md:tracking-wide">
+                    Creat
+                  </span>
+                </h1>
+                <p className="md:text-xl text-neutral-200 md:leading-8 md:ml-1 font-semibold">
+                  Discover top-tier construction services with Creat.<br />From
+                  concept to completion, we turn your vision into reality with <br />
+                  expertise and dedication.
+                </p>
+                <div className="md:mt-4">
+                  <Link href="/services"
+                    className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit bg-creatBright group
           font-medium hover:shadow-drop-shadow-button-creatBright transition-all duration-300 flex md:gap-x-3 items-center">
-                  <h1 className="md:text-lg font-semibold">
-                    Our Services
-                  </h1>
-                  <div className="flex items-center justify-center md:h-6 aspect-square rounded-full bg-white relative overflow-hidden">
-                    <FaArrowRight className="absolute text-base text-creatBright top-1/2 -translate-y-1/2 left-1/2
+                    <h1 className="md:text-lg font-semibold">
+                      Our Services
+                    </h1>
+                    <div className="flex items-center justify-center md:h-6 aspect-square rounded-full bg-white relative overflow-hidden">
+                      <FaArrowRight className="absolute text-base text-creatBright top-1/2 -translate-y-1/2 left-1/2
                 -translate-x-[200%] transition-all duration-300 group-hover:-translate-x-1/2" />
-                    <FaArrowRight className="absolute text-base text-creatBright top-1/2 -translate-y-1/2 left-1/2
+                      <FaArrowRight className="absolute text-base text-creatBright top-1/2 -translate-y-1/2 left-1/2
                 -translate-x-1/2 transition-all duration-300 group-hover:translate-x-[200%]" />
-                  </div>
-                </Link>
+                    </div>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -436,28 +483,74 @@ export default function Home() {
       </section>
       <section
         className="w-full relative">
-        {
-          activePartner > -1 && <div
-            onClick={() => setActivePartner(-1)}
-            className="fixed inset-0 z-50">
-            <div className="relative w-full h-full">
-              <div className="absolute inset-0 backdrop-blur-sm -z-10" />
-              <motion.div
-                initial={{ y: '100%' }}
-                animate={{
-                  y: activePartner > -1 ? 0 : '100%'
-                }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 300,
-                  damping: 30,
-                  mass: 0.8
-                }}
-                className="absolute w-full bg-white h-4/5 bottom-0 left-0">
-              </motion.div>
+        <AnimatePresence>
+          {
+            activePartner > -1 && <div
+              className="fixed inset-0 z-40">
+              <div className="relative w-full h-full">
+                <div className="absolute inset-0 backdrop-blur pointer-events-none" />
+                <div
+                  onClick={() => setActivePartner(-1)}
+                  className="h-1/5 w-full" />
+                <motion.div
+                  initial={{ y: '100%' }}
+                  animate={{
+                    y: activePartner > -1 ? 0 : '100%'
+                  }}
+                  exit={{ y: '100%' }}
+                  transition={{
+                    stiffness: 300,
+                    mass: 0.5
+                  }}
+                  className="absolute w-full h-4/5 bottom-0 left-0">
+                  <div className="relative w-full h-full bg-white text-black flex flex-col">
+                    <span
+                      onClick={() => setActivePartner(-1)}
+                      className="absolute cursor-pointer right-12 top-12 translate-x-full -translate-y-full inline-flex items-center justify-center">
+                      <IoClose className="text-4xl text-black" />
+                    </span>
+                    <div className="w-full h-full flex items-stretch p-12 gap-x-12 overflow-hidden">
+                      <Link href={partners[activePartner].link || ''} target="_blank" className="w-[400px] flex-shrink-0 self-center">
+                        <img src={partners[activePartner].logo} alt="" className="w-full h-auto" />
+                      </Link>
+                      <div className="flex-grow flex flex-col gap-y-8 overflow-hidden">
+                        <h1 className="text-3xl font-bold text-center">{partners[activePartner].name}</h1>
+                        <div className="overflow-hidden rounded-lg">
+                          <div className="w-full h-fit overflow-x-auto">
+                            <div className="flex gap-x-4">
+                              {Array(partners[activePartner].imageCount || 0).fill(null).map((_, i) => (
+                                <div key={i}
+                                  onClick={() => setFullScreenIndex(i)}
+                                  className="h-[400px] w-fit flex-shrink-0 overflow-hidden rounded-lg cursor-pointer select-none">
+                                  <Image
+                                    src={`/partners/${activePartner + 1}/${i + 1}.jpeg`}
+                                    alt={`${partners[activePartner].name} ${i + 1}`}
+                                    width={720}
+                                    height={720}
+                                    quality={50}
+                                    className="w-full h-full object-cover select-none pointer-events-none"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-y-2">
+                          <h1 className="text-2xl font-medium">
+                            {partners[activePartner].heading}
+                          </h1>
+                          <p className="text-xl w-1/2">
+                            {partners[activePartner].desc}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
             </div>
-          </div>
-        }
+          }
+        </AnimatePresence>
         <motion.div
           animate={{
             scale: activePartner > -1 ? 0.9 : 1
@@ -578,7 +671,7 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
                             className="absolute w-full h-full rounded-[13px] bg-creatBright/50 -z-10 shadow-drop-shadow-lg-creatBright backdrop-blur"
                           />
                           <div className="w-[240px] drop-shadow-lg">
-                            <img src={partner.logo} alt="" className="w-full h-full" />
+                            <img src={partner.logo} alt="" className="w-full h-full select-none pointer-events-none" />
                           </div>
                         </div>
                       </motion.div>
@@ -799,13 +892,13 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
               rounded-2xl overflow-hidden bg-black/10 backdrop-blur-2xl flex flex-col drop-shadow">
               <div className="flex flex-nowrap">
                 <div
-                  onMouseDown={() => setActiveTab(0)}
+                  onClick={() => setActiveTab(0)}
                   className={`py-6 ${activeTab ? 'border-transparent text-white/25' : 'border-creatBright'}
 cursor-pointer w-1/2 border-b`}>
                   <h1 className="text-3xl font-bold text-center">Our Mission</h1>
                 </div>
                 <div
-                  onMouseDown={() => setActiveTab(1)}
+                  onClick={() => setActiveTab(1)}
                   className={`py-6 ${activeTab ? 'border-creatBright' : 'border-transparent text-white/25'}
 cursor-pointer w-1/2 border-b`}>
                   <h1 className="text-3xl font-bold text-center">Our Vision</h1>
@@ -1018,7 +1111,7 @@ cursor-pointer w-1/2 border-b`}>
                   whileHover={{
                     rotate: 15,
                   }}
-                  onMouseDown={() => { handleClickLeftTestimonial() }}
+                  onClick={() => { handleClickLeftTestimonial() }}
                   className={`w-10 h-10 bg-creatBright rounded-full flex items-center justify-center
                   outline outline-2 outline-creatBright outline-offset-4 cursor-pointer`}>
                   <motion.span
@@ -1038,7 +1131,7 @@ cursor-pointer w-1/2 border-b`}>
                   whileHover={{
                     rotate: -15,
                   }}
-                  onMouseDown={() => { handleClickRightTestimonial() }}
+                  onClick={() => { handleClickRightTestimonial() }}
                   className={`w-10 h-10 bg-creatBright rounded-full flex items-center justify-center
                   outline outline-2 outline-creatBright outline-offset-4 cursor-pointer`}>
                   <FaArrowRight className="text-xl text-white" />
@@ -1079,61 +1172,7 @@ cursor-pointer w-1/2 border-b`}>
         </div>
       </section>
       <section className="w-full min-h-[600px] py-36 bg-creatBG relative flex items-center justify-center">
-        <motion.div
-          ref={emailRef}
-          initial={{
-            scale: 0.9,
-          }}
-          animate={{
-            scale: emailInView ? 1 : 0.9,
-          }}
-          transition={{
-            mass: 0.5,
-            stiffness: 400,
-            damping: 20,
-          }}
-          className="max-h-[400px] rounded-2xl bg-creatBGLight/10 border-2 backdrop-blur
-          border-creatBGLight/20 flex gap-x-12 justify-between px-[60px] py-[72px] z-10">
-          <div className="flex flex-col gap-y-4">
-            <h1 className="text-4xl font-bold">Contact with us for <br />Further discussion</h1>
-            <p className="text-xl text-neutral-200">Do you have a big project in mind?<br />Let’s turn your vision into reality</p>
-          </div>
-          <div className="my-auto flex items-center justify-center w-fit">
-            <svg viewBox="0 0 24 24" className="w-12 h-12">
-              <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}>
-                <motion.path
-                  strokeDasharray={20}
-                  strokeDashoffset={20}
-                  d="M3 12h17.5"
-                  initial={{ strokeDashoffset: 20 }}
-                  animate={{ strokeDashoffset: emailInView ? 0 : 20 }}
-                  transition={{ duration: 0.2, delay: 0.1 }}
-                />
-                <motion.path
-                  strokeDasharray={12}
-                  strokeDashoffset={12}
-                  d="M21 12l-7 7M21 12l-7 -7"
-                  initial={{ strokeDashoffset: 12 }}
-                  animate={{ strokeDashoffset: emailInView ? 0 : 10 }}
-                  transition={{ duration: 0.2, delay: 0.3 }}
-                />
-              </g>
-            </svg>
-          </div>
-          <div className="flex flex-col gap-y-4">
-            <h1 className="text-2xl font-bold">
-              Submit Your Email
-            </h1>
-            <form className="flex gap-x-4" onSubmit={(e) => e.preventDefault()}>
-              <input type="email" className="min-w-[300px] px-6 py-5 rounded-lg
-                outline-none text-xl border-2 border-transparent focus:border-black text-black" placeholder="Enter your email" />
-              <button className="bg-black px-6 py-5 rounded-lg text-white text-xl font-bold
-                group hover:bg-white hover:text-black transition-colors">
-                Submit
-              </button>
-            </form>
-          </div>
-        </motion.div>
+        <EmailForm />
         <div
           className="absolute w-full h-[300px] top-[-2px] left-0"
         >
@@ -1173,75 +1212,8 @@ cursor-pointer w-1/2 border-b`}>
           </svg>
         </div>
       </section>
-      <footer className="flex flex-col items-center bg-creatBGLight">
-        <div className="flex items-center justify-center max-w-[1200px] mx-auto">
-          <div className="w-full flex gap-x-32 py-12">
-            <div className="flex flex-col">
-              <Link href="/" className="w-48 h-fit">
-                <img src="/logos/horizontal.svg" alt="" className="w-full h-full object-cover" />
-              </Link>
-              <h1 className="text-xl font-medium mt-4"> Comprehensive Solutions <br />
-                Tailored to You by <span className="font-bold mx-1">Creat</span>
-              </h1>
-              <div className="flex gap-x-4 mt-8">
-                <Link href="/" className="group rounded-full border-2 hover:border-creatBright transition-colors">
-                  <FaInstagram className="m-2 text-xl group-hover:text-creatBright transition-colors" />
-                </Link>
-                <Link href="/" className="group rounded-full border-2 hover:border-creatBright transition-colors">
-                  <FaLinkedinIn className="m-2 text-xl group-hover:text-creatBright transition-colors" />
-                </Link>
-                <Link href="/" className="group rounded-full border-2 hover:border-creatBright transition-colors">
-                  <FaFacebookF className="m-2 text-xl group-hover:text-creatBright transition-colors" />
-                </Link>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <h1 className="text-3xl font-bold mb-4">Quick Links</h1>
-              <div className="flex flex-col gap-y-2">
-                {items.map((item, index) => (
-                  <Link key={index} href={item.href}
-                    className="text-lg font-medium hover:text-creatBright transition-colors capitalize">{item.label}</Link>
-                ))}
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <h1 className="text-3xl font-bold mb-4">Services</h1>
-              <div className="flex flex-col gap-y-2">
-                <Link href=""
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize">Renewable Energy</Link>
-                <Link href=""
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize">Construction</Link>
-                <Link href=""
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize">Technical Planning</Link>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <h1 className="text-3xl font-bold mb-4">Contacts</h1>
-              <div className="flex flex-col gap-y-2">
-                <Link href="tel:+1 123 456 7890"
-                  className="text-lg font-medium hover:text-creatBright transition-colors">+1 123 456 7890
-                </Link>
-                <Link href="mailto:contact@creat.az" className="text-lg font-medium hover:text-creatBright transition-colors">
-                  contact@creat.az
-                </Link>
-                <Link href="">
-                  <p className="text-lg font-medium hover:text-creatBright transition-colors">
-                    123 Main Street,<br /> Anywhere, AZ 12345
-                  </p>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="bg-creatBG flex items-center justify-center py-5 w-full gap-x-4 text-lg">
-          <h1 >©<span className="text-creatBright mx-1 font-medium">Creat LLC</span>2024</h1>
-          <div className="h-4 w-px bg-neutral-300" />
-          <span className="text-neutral-300">Built by
-            <Link target="_blank" href="https://github.com/rasulali/" className="mx-2 capitalize font-bold hover:text-white transition-colors">Rasul Ali</Link></span>
-        </div>
-      </footer>
+      <Footer />
     </main>
     // TODO add keep alive to supabase via vercel https://github.com/travisvn/supabase-pause-prevention
-    // TODO finish footer
   );
 }

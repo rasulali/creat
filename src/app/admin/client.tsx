@@ -65,7 +65,7 @@ export const Menu: React.FC<MenuDataType> = (props) => {
       {/* name*/}
       <div
         ref={iconRef}
-        onMouseDown={() => {
+        onClick={() => {
           setMenuState(!menuState);
         }}
         className="cursor-pointer"
@@ -90,7 +90,7 @@ export const Menu: React.FC<MenuDataType> = (props) => {
                 {props.role}
               </h1>
             </div>
-            <button onMouseDown={() => setModalLogOutState(true)}>
+            <button onClick={() => setModalLogOutState(true)}>
               <IoLogOutOutline className="text-2xl lg:text-3xl hover:text-red-500 transition-colors duration-100" />
             </button>
           </div>
@@ -104,13 +104,13 @@ export const Menu: React.FC<MenuDataType> = (props) => {
 
       {/* backdrop of modal */}
       <div
-        onMouseDown={() => setModalLogOutState(false)}
+        onClick={() => setModalLogOutState(false)}
         style={{ display: modalLogOutState ? "flex" : "none" }}
         className="fixed top-0 left-0 w-full h-full z-50 bg-black/50 flex
       items-center justify-center"
       >
         <div
-          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
           className="bg-white rounded-lg flex flex-col gap-y-4 p-4"
         >
           <h1 className="text-lg text-center">
@@ -118,13 +118,13 @@ export const Menu: React.FC<MenuDataType> = (props) => {
           </h1>
           <div className="flex justify-around">
             <button
-              onMouseDown={() => setModalLogOutState(false)}
+              onClick={() => setModalLogOutState(false)}
               className="capitalize px-2 py-1 text-base font-semibold"
             >
               cancel
             </button>
             <button
-              onMouseDown={handleLogOut}
+              onClick={handleLogOut}
               type="button"
               className="capitalize px-2 py-1 text-base bg-red-500
             text-white font-semibold rounded-lg hover:bg-transparent
@@ -540,13 +540,13 @@ export const Form = () => {
 
       {/* delete modal */}
       <div
-        onMouseDown={() => setModalDeleteState(false)}
+        onClick={() => setModalDeleteState(false)}
         style={{ display: modalDeleteState ? "flex" : "none" }}
         className="fixed top-0 left-0 w-full h-full z-50 bg-black/50 flex
       items-center justify-center"
       >
         <div
-          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
           className="bg-white rounded-lg flex flex-col gap-y-4 p-4"
         >
           <h1 className="text-lg text-center">
@@ -554,13 +554,13 @@ export const Form = () => {
           </h1>
           <div className="flex justify-around">
             <button
-              onMouseDown={() => setModalDeleteState(false)}
+              onClick={() => setModalDeleteState(false)}
               className="capitalize px-2 py-1 text-base font-semibold"
             >
               cancel
             </button>
             <button
-              onMouseDown={() => {
+              onClick={() => {
                 if (imageUploadRef.current) {
                   imageUploadRef.current.value = "";
                 }
@@ -582,13 +582,13 @@ export const Form = () => {
       </div>
       {/* rename modal */}
       <div
-        onMouseDown={() => setRenameState(false)}
+        onClick={() => setRenameState(false)}
         style={{ display: renameState ? "flex" : "none" }}
         className="fixed top-0 left-0 w-full h-full z-50 bg-black/50 flex
       items-center justify-center"
       >
         <div
-          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
           className="bg-white rounded-lg flex flex-col gap-y-4 p-4"
         >
           <h1 className="text-lg text-center">
@@ -614,13 +614,13 @@ export const Form = () => {
           />
           <div className="flex justify-around">
             <button
-              onMouseDown={() => setRenameState(false)}
+              onClick={() => setRenameState(false)}
               className="capitalize px-2 py-1 text-base font-semibold"
             >
               cancel
             </button>
             <button
-              onMouseDown={() => {
+              onClick={() => {
                 if (!renameInputChanged) {
                   return;
                 }
@@ -644,7 +644,7 @@ export const Form = () => {
         </div>
       </div>
 
-      <section className="w-full lg:w-[calc(50%-48px)] flex drop-shadow">
+      <section className="w-full drop-shadow col-start-1 row-start-1">
         {/* add new project */}
         <div
           style={{
@@ -664,7 +664,7 @@ export const Form = () => {
               animate={{ rotate: resetForm ? 360 : [0, 360] }}
             >
               <IoRefresh
-                onMouseDown={() => {
+                onClick={() => {
                   setResetForm(true);
                   const form = document.getElementById(
                     "uploadForm",
@@ -783,7 +783,7 @@ export const Form = () => {
                   <button
                     className="appearance-none"
                     type="button"
-                    onMouseDown={() => {
+                    onClick={() => {
                       setModalDeleteState(true);
                     }}
                   >
@@ -976,7 +976,7 @@ export const Preview = () => {
   ];
 
   return (
-    <section className="w-full lg:w-[calc(50%-48px)] drop-shadow">
+    <section className="w-full drop-shadow col-start-2 row-start-1 max-h-screen overflow-y-scroll">
       <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4 min-h-[50vh]">
         {/* heading and desc */}
         <div className="flex flex-col">
@@ -1009,7 +1009,7 @@ export const Preview = () => {
             {tableHeadings.map((element, index) => {
               return (
                 <h1
-                  onMouseDown={() => handleColumnGrow(element)}
+                  onClick={() => handleColumnGrow(element)}
                   key={index}
                   className={`${columnWidth[element] > 1 && "text-blue-500"} cursor-pointer capitalize`}
                 >
@@ -1019,6 +1019,67 @@ export const Preview = () => {
             })}
           </div>
           <div className="w-full flex gap-2"></div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+interface EmailData {
+  email: string;
+  created_at: string;
+}
+
+export const Customers = () => {
+  const [emails, setEmails] = useState<EmailData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEmails = async () => {
+      const { data, error } = await supabase
+        .from('email_submissions')
+        .select('email, created_at')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching emails:', error);
+      } else {
+        setEmails(data || []);
+      }
+      setLoading(false);
+    };
+
+    fetchEmails();
+  }, []);
+
+  return (
+    <section className="w-full drop-shadow col-start-1 row-start-2 max-h-screen overflow-y-scroll">
+      <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4">
+        <div className="flex flex-col">
+          <h1 className="text-2xl font-bold capitalize leading-tight">
+            List of Submitted Emails
+          </h1>
+          <p>View the emails that have been submitted to us</p>
+        </div>
+        <div>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <ul className="list-disc pl-5 space-y-2">
+              {emails.length > 0 ? (
+                emails.map((item, index) => (
+                  <div className="flex items-end gap-x-2">
+                    <li key={index} className="flex justify-between items-center w-full border p-2 rounded-md shadow-md">
+                      <span>{item.email}</span>
+                    </li>
+                    <span className="text-sm text-gray-500">{new Date(item.created_at).toLocaleDateString()}</span>
+                  </div>
+                ))
+              ) : (
+                <p>No emails submitted yet</p>
+              )}
+            </ul>
+          )}
         </div>
       </div>
     </section>

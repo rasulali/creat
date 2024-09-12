@@ -1,7 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import { createClient } from "../../../utils/supabase/server";
-import { Form, Menu, Preview } from "./client";
+import { Customers, Form, Menu, Preview } from "./client";
 import Link from "next/link";
 
 const Dashboard = async () => {
@@ -39,9 +39,10 @@ const Dashboard = async () => {
         </Link>
         <Menu {...userData} />
       </nav>
-      <div className="flex gap-x-8 flex-col lg:flex-row lg:items-start items-center px-4 lg:p-0 gap-y-4">
+      <div className="grid grid-cols-2 grid-rows-2 gap-x-8 px-8 gap-y-4 items-start">
         <Form />
         <Preview />
+        <Customers />
       </div>
     </main>
   );

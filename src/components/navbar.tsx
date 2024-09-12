@@ -172,7 +172,7 @@ const Nav = () => {
                 {Object.entries(actiteLang).map(([key], index) => (
                   <div key={index} className="flex gap-x-2 items-center">
                     <h1
-                      onMouseDown={() => handleLangChange(key as keyof LanguageState)}
+                      onClick={() => handleLangChange(key as keyof LanguageState)}
                       className="text-white text-lg font-medium cursor-pointer
               hover:text-creatBright transition-colors min-w-6">{key}</h1>
                     {actiteLang[key as keyof LanguageState] && <div
@@ -285,7 +285,7 @@ const Nav = () => {
                 {Object.entries(actiteLang).map(([key], index) => (
                   <h1
                     key={index}
-                    onMouseDown={() => handleLangChange(key as keyof LanguageState)}
+                    onClick={() => handleLangChange(key as keyof LanguageState)}
                     className={`uppercase cursor-pointer hover:text-creatBright transition-colors duration-300
               ${actiteLang[key as keyof LanguageState] ? 'text-white' : 'text-white/50'}`}>{key}</h1>
                 ))}
