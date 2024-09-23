@@ -52,14 +52,19 @@ const FullScreenImageViewer: React.FC<FullScreenImageViewerProps> = ({ images, i
       >
         <IoChevronBack />
       </button>
-      <Image
-        src={images[currentIndex]}
-        alt={`Fullscreen image ${currentIndex + 1}`}
-        width={1920}
-        height={1920}
-        quality={100}
-        className="max-h-screen max-w-screen object-contain"
-      />
+      <div className='relative max-h-screen max-w-screen w-full h-full'>
+        <Image
+          src={images[currentIndex]}
+          alt={`Fullscreen image ${currentIndex + 1}`}
+          width={1920}
+          height={1920}
+          quality={100}
+          className="w-full h-full object-contain"
+        />
+      </div>
+      <h1
+        className='absolute bottom-4 left-4 text-white'
+      >{currentIndex + 1} / {images.length}</h1>
       <button
         onClick={handleNext}
         className="absolute right-4 text-white text-4xl"

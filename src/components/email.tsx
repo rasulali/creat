@@ -39,6 +39,7 @@ const EmailForm = () => {
       mass: 0.5,
       stiffness: 400,
       damping: 20,
+      delay: 0.2
     }}
     className="max-h-[400px] rounded-2xl bg-creatBGLight/10 border-2 backdrop-blur
           border-creatBGLight/20 flex gap-x-12 justify-between px-[60px] py-[72px] z-10">
@@ -55,7 +56,7 @@ const EmailForm = () => {
             d="M3 12h17.5"
             initial={{ strokeDashoffset: 20 }}
             animate={{ strokeDashoffset: emailInView ? 0 : 20 }}
-            transition={{ duration: 0.2, delay: 0.1 }}
+            transition={{ duration: 0.2, delay: 0.3 }}
           />
           <motion.path
             strokeDasharray={12}
@@ -63,7 +64,7 @@ const EmailForm = () => {
             d="M21 12l-7 7M21 12l-7 -7"
             initial={{ strokeDashoffset: 12 }}
             animate={{ strokeDashoffset: emailInView ? 0 : 10 }}
-            transition={{ duration: 0.2, delay: 0.3 }}
+            transition={{ duration: 0.2, delay: 0.5 }}
           />
         </g>
       </svg>

@@ -185,7 +185,7 @@ const Nav = () => {
         </AnimatePresence>
       </motion.div>
 
-      <nav ref={navRef} className="w-full flex justify-center border-b drop-shadow-sm border-white/5 bg-creatBG">
+      <nav ref={navRef} className="w-full flex justify-center border-b border-creatBG/10 backdrop-blur bg-creatBG/60 absolute top-0 left-0">
         <div className="flex w-full max-w-[1920px] justify-center items-center md:py-6 relative">
           <div
             className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col">

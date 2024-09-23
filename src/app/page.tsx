@@ -1,18 +1,20 @@
 "use client";
 import Card from "@/components/iconCard";
-import Nav, { items } from "@/components/navbar";
+import Nav from "@/components/navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { FaArrowLeft, FaArrowRight, FaChevronDown, FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
+import { FaArrowLeft, FaArrowRight, FaChevronDown } from "react-icons/fa6";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import ProjectCard from "@/components/projectCard";
 import Comment from "@/components/comment";
 import TextAnim from "@/components/animatedText";
-import { IoClose } from "react-icons/io5";
 import FullScreenImageViewer from "@/components/fullscreenImage";
 import Footer from "@/components/footer";
 import EmailForm from "@/components/email";
+import { IoClose } from 'react-icons/io5';
+import { LuExternalLink } from "react-icons/lu";
+import PartnerProject from "@/components/partnerProject";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState(0);
@@ -167,23 +169,23 @@ export default function Home() {
     };
   }, []);
 
+  type partnerProject = {
+    name: string,
+    heading: string,
+    desc?: string,
+    images: string[],
+  }
 
   type partners = {
+    name?: string,
     logo: string,
-    name: string,
     link?: string,
     animated?: boolean,
     color?: string,
-    heading?: string,
-    desc?: string,
-    imageCount?: number
+    projects?: partnerProject[]
   }
 
   const partners: partners[] = [
-    //1ci yere COP
-    //2-BP
-    //3-ILF
-    //4-SUEZ
     {
       logo: "/partners/1/logo.png",
       name: "The Conference of the Parties 29",
@@ -221,14 +223,31 @@ export default function Home() {
       link: "https://ddf.az",
       color: "#7c5541"
     }, {
+      name: "BALKHOORMA LLC",
       logo: "/partners/7/logo.png",
-      name: "BALKHOORMA LLC Natural Food Collection",
       link: "https://balkhoorma.com/en",
       color: "#558551",
       animated: true,
-      heading: "Cənubi Qafqazda ilk meyvə-qurtma zavodu (Xurma)",
-      desc: "Balakən rayonu, Katex k. ərazisində 2.0 ha ərazidə yerləşən 1 ədəd 2 mərtəbəli ofis binası, 2 ədəd saoyuducu binası, 1 ədəd istehsalat binası, 10 nəfərlik qonaq evi və köməkçi binaları",
-      imageCount: 4
+      projects: [
+        {
+          name: "BALKHOORMA LLC Natural Food Collection",
+          heading: "Cənubi Qafqazda ilk meyvə-qurtma zavodu (Xurma)",
+          desc: "Balakən rayonu, Katex k. ərazisində 2.0 ha ərazidə yerləşən 1 ədəd 2 mərtəbəli ofis binası, 2 ədəd saoyuducu binası, 1 ədəd istehsalat binası, 10 nəfərlik qonaq evi və köməkçi binaları",
+          images: [
+            "/partners/7/1.jpeg",
+            "/partners/7/2.jpeg",
+          ]
+        },
+        {
+          name: "BALKHOORMA-PİRKEKE LLC",
+          heading: "Ağdaş rayonunda 16 000.0 m2 meyve-qurutma zavodu",
+          desc: "Ağdaş rayonu,Pirkəkə k. ərazisində yerləşən 10.0ha ərazidə 5ədəd meyvə-qurutma anbarı,1ədəd ofis binası,2 ədəd məhsul qəbul edici anbar binası və köməkçi binaları",
+          images: [
+            "/partners/7/3.jpeg",
+            "/partners/7/4.jpeg",
+          ]
+        }
+      ]
     },
     {
       logo: "/partners/8/logo.png",
@@ -270,13 +289,24 @@ export default function Home() {
       color: "#000000"
     },
     {
-      logo: "/partners/14/logo.png",
       name: "Technol LLC",
+      logo: "/partners/14/logo.png",
       link: "https://technol.az/en/",
       color: "#c82327",
-      heading: "Cənubi Qafqazda ilk maşın-motor emalı yağları zavodu",
-      desc: "Sumqayıt şəhərində, 1.5 ha ərazidə yerləşən, 1 ədəd 2 mərtəbəli ofis binası, 1 ədəd istehsalat binası və 2 ədəd məhsul saxlama anbarı",
-      imageCount: 5
+      projects: [
+        {
+          name: "Technol LLC",
+          heading: "Cənubi Qafqazda ilk maşın-motor emalı yağları zavodu",
+          desc: "Sumqayıt şəhərində, 1.5 ha ərazidə yerləşən, 1 ədəd 2 mərtəbəli ofis binası, 1 ədəd istehsalat binası və 2 ədəd məhsul saxlama anbarı",
+          images: [
+            "/partners/14/1.jpeg",
+            "/partners/14/2.jpeg",
+            "/partners/14/3.jpeg",
+            "/partners/14/4.jpeg",
+            "/partners/14/5.jpeg",
+          ]
+        }
+      ]
     },
     {
       logo: "/partners/15/logo.png",
@@ -385,20 +415,16 @@ export default function Home() {
     margin: "0px 0px -200px 0px",
   });
 
-  const [activePartner, setActivePartner] = useState(-1)
-
+  const [activePartnerIndex, setActivePartnerIndex] = useState(-1)
 
   const [fullScreenIndex, setFullScreenIndex] = useState<number | null>(null);
-
-  const images = activePartner < 0 ? [] : Array(partners[activePartner].imageCount || 0)
-    .fill(null)
-    .map((_, i) => `/partners/${activePartner + 1}/${i + 1}.jpeg`);
-
+  const [srcSet, setSrcSet] = useState<string[]>([]);
+  const images = activePartnerIndex < 0 ? [] : srcSet;
   useEffect(() => {
-    if (activePartner > -1 && fullScreenIndex === null) {
+    if (activePartnerIndex > -1 && fullScreenIndex === null) {
       const handleEscape = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
-          setActivePartner(-1);
+          setActivePartnerIndex(-1);
         }
       };
       document.addEventListener('keydown', handleEscape);
@@ -406,15 +432,31 @@ export default function Home() {
         document.removeEventListener('keydown', handleEscape);
       };
     }
-  }, [activePartner, fullScreenIndex]);
+  }, [activePartnerIndex, fullScreenIndex]);
 
+  const prettifyUrl = (url: string) => {
+    try {
+      const urlObject = new URL(url);
+      return urlObject.hostname;
+    } catch (error) {
+      return url;
+    }
+  }
 
   return (
     <main className="bg-creatBG text-white">
       <section
         className="flex flex-col min-h-screen relative">
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <video className="w-full h-full object-cover" autoPlay muted playsInline loop>
+            <source src="/bg.mp4" type="video/mp4" />
+            <source src="/bg.webm" type="video/webm" />
+          </video>
+          <div className="absolute inset-0 bg-creatBG/25">
+          </div>
+        </div>
         <Nav />
-        {fullScreenIndex !== null && activePartner >= 0 && (
+        {fullScreenIndex !== null && activePartnerIndex >= 0 && (
           <FullScreenImageViewer
             images={images}
             initialIndex={fullScreenIndex}
@@ -424,8 +466,8 @@ export default function Home() {
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
           <FaChevronDown className="text-white text-3xl animate-bounce" />
         </div>
-        <div className="my-auto py-16">
-          <div className="w-full max-w-[1920px] h-full flex relative items-center">
+        <div className="my-auto py-16 flex justify-center">
+          <div className="w-full max-w-[1920px] h-full py-24 flex relative items-center">
             <div className="md:pl-28 h-fit flex flex-col md:gap-y-4 flex-shrink-0 w-full relative">
               <div className="h-[500px] flex absolute bottom-0 right-0">
                 <motion.svg className="w-full h-full" viewBox="0 0 3343 4102" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -485,17 +527,17 @@ export default function Home() {
         className="w-full relative">
         <AnimatePresence>
           {
-            activePartner > -1 && <div
+            activePartnerIndex > -1 && <div
               className="fixed inset-0 z-40">
               <div className="relative w-full h-full">
                 <div className="absolute inset-0 backdrop-blur pointer-events-none" />
                 <div
-                  onClick={() => setActivePartner(-1)}
+                  onClick={() => setActivePartnerIndex(-1)}
                   className="h-1/5 w-full" />
                 <motion.div
                   initial={{ y: '100%' }}
                   animate={{
-                    y: activePartner > -1 ? 0 : '100%'
+                    y: activePartnerIndex > -1 ? 0 : '100%'
                   }}
                   exit={{ y: '100%' }}
                   transition={{
@@ -505,43 +547,33 @@ export default function Home() {
                   className="absolute w-full h-4/5 bottom-0 left-0">
                   <div className="relative w-full h-full bg-white text-black flex flex-col">
                     <span
-                      onClick={() => setActivePartner(-1)}
+                      onClick={() => setActivePartnerIndex(-1)}
                       className="absolute cursor-pointer right-12 top-12 translate-x-full -translate-y-full inline-flex items-center justify-center">
                       <IoClose className="text-4xl text-black" />
                     </span>
                     <div className="w-full h-full flex items-stretch p-12 gap-x-12 overflow-hidden">
-                      <Link href={partners[activePartner].link || ''} target="_blank" className="w-[400px] flex-shrink-0 self-center">
-                        <img src={partners[activePartner].logo} alt="" className="w-full h-auto" />
-                      </Link>
-                      <div className="flex-grow flex flex-col gap-y-8 overflow-hidden">
-                        <h1 className="text-3xl font-bold text-center">{partners[activePartner].name}</h1>
-                        <div className="overflow-hidden rounded-lg">
-                          <div className="w-full h-fit overflow-x-auto">
-                            <div className="flex gap-x-4">
-                              {Array(partners[activePartner].imageCount || 0).fill(null).map((_, i) => (
-                                <div key={i}
-                                  onClick={() => setFullScreenIndex(i)}
-                                  className="h-[400px] w-fit flex-shrink-0 overflow-hidden rounded-lg cursor-pointer select-none">
-                                  <Image
-                                    src={`/partners/${activePartner + 1}/${i + 1}.jpeg`}
-                                    alt={`${partners[activePartner].name} ${i + 1}`}
-                                    width={720}
-                                    height={720}
-                                    quality={50}
-                                    className="w-full h-full object-cover select-none pointer-events-none"
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex flex-col gap-y-2">
-                          <h1 className="text-2xl font-medium">
-                            {partners[activePartner].heading}
-                          </h1>
-                          <p className="text-xl w-1/2">
-                            {partners[activePartner].desc}
-                          </p>
+                      <div className="flex flex-col w-fit h-fit items-center self-center">
+                        <Link href={partners[activePartnerIndex].link || ''} target="_blank" className="w-[400px] flex-shrink-0">
+                          <img src={partners[activePartnerIndex].logo} alt="" className="w-full h-auto" />
+                        </Link>
+                        <Link href={partners[activePartnerIndex].link || ''} target="_blank"
+                          className="font-medium text-lg flex items-center gap-x-2 hover:text-creatBright transition-colors">
+                          {prettifyUrl(partners[activePartnerIndex].link as string)}
+                          <LuExternalLink className="text-lg" />
+                        </Link>
+                      </div>
+                      <div className="flex flex-col w-full h-full overflow-hidden">
+                        <div className="grid grid-flow-row grid-rows-[minmax(318px,_1fr)] overflow-y-auto gap-y-2 h-full w-full">
+                          {
+                            partners[activePartnerIndex].projects?.map((activePartner, index) => (
+                              <PartnerProject
+                                key={index}
+                                activePartner={activePartner}
+                                setFullScreenIndex={setFullScreenIndex}
+                                setSrcSet={setSrcSet}
+                              />
+                            ))
+                          }
                         </div>
                       </div>
                     </div>
@@ -553,7 +585,7 @@ export default function Home() {
         </AnimatePresence>
         <motion.div
           animate={{
-            scale: activePartner > -1 ? 0.9 : 1
+            scale: activePartnerIndex > -1 ? 0.9 : 1
           }}
           transition={{
             type: 'spring',
@@ -624,7 +656,7 @@ export default function Home() {
                       key={absoluteIndex}
                       className="w-fit h-fit z-10 relative">
                       <motion.div
-                        onClick={() => { setActivePartner(absoluteIndex) }}
+                        onClick={() => { setActivePartnerIndex(absoluteIndex) }}
                         animate={{
                           x: partnerIndex === absoluteIndex ? -4 : 0,
                           y: partnerIndex === absoluteIndex ? -4 : 0
