@@ -12,9 +12,14 @@ import TextAnim from "@/components/animatedText";
 import FullScreenImageViewer from "@/components/fullscreenImage";
 import Footer from "@/components/footer";
 import EmailForm from "@/components/email";
-import { IoClose } from 'react-icons/io5';
-import { LuExternalLink } from "react-icons/lu";
+import { IoCheckmarkDoneOutline, IoClose } from 'react-icons/io5';
+import { LuExternalLink, LuTimer } from "react-icons/lu";
 import PartnerProject from "@/components/partnerProject";
+import TextChip from "@/components/textChip";
+import { RiAlarmWarningLine } from "react-icons/ri";
+import { FaUsers } from "react-icons/fa";
+import { BsCashCoin } from "react-icons/bs";
+import { VscGithubProject } from "react-icons/vsc";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState(0);
@@ -69,13 +74,13 @@ export default function Home() {
   const bannerRef = useRef(null)
   const bannerInView = useInView(bannerRef, {
     once: true,
-    margin: "0px 0px -20% 0px"
+    amount: 0.5
   });
 
   const projectsRef = useRef(null)
   const projectsInView = useInView(projectsRef, {
     once: true,
-    margin: "0px 0px -100px 0px"
+    amount: 0.5
   });
 
   interface Comment {
@@ -412,7 +417,7 @@ export default function Home() {
   const partnersRef = useRef(null);
   const partnersInView = useInView(partnersRef, {
     once: true,
-    margin: "0px 0px -200px 0px",
+    amount: 0.5
   });
 
   const [activePartnerIndex, setActivePartnerIndex] = useState(-1)
@@ -442,6 +447,33 @@ export default function Home() {
       return url;
     }
   }
+
+  const serviceNames = [
+    {
+      icon: VscGithubProject,
+      name: "Project Planning",
+    },
+    {
+      icon: RiAlarmWarningLine,
+      name: "Risk Management",
+    },
+    {
+      icon: FaUsers,
+      name: "Resource Management",
+    },
+    {
+      icon: BsCashCoin,
+      name: "Budget and Time Management",
+    },
+    {
+      icon: IoCheckmarkDoneOutline,
+      name: "Quality Control",
+    },
+    {
+      icon: LuTimer,
+      name: "Project Execution",
+    }
+  ];
 
   return (
     <main className="bg-creatBG text-white">
@@ -779,8 +811,7 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
             <div className="h-px bg-creatBright w-8" />
             <h1 className="text-creatBright font-medium">Our Services</h1>
           </div>
-
-          <div className="flex w-full justify-between items-end ">
+          <div className="flex w-full justify-between items-end">
             <TextAnim>
               <h1 className="text-5xl font-medium leading-tight">
                 Comprehensive Solutions <br /> Tailored to
@@ -792,7 +823,7 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
             </TextAnim>
             <Link href="/services"
               className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit group border-2 border-white/10 font-medium
-              hover:bg-creatBright hover:border-creatBright transition-all duration-300 flex md:gap-x-3 items-center
+              hover:bg-creatBright hover:border-creatBright transition-all duration-300 flex flex-shrink-0 md:gap-x-3 items-center
               hover:shadow-drop-shadow-button-creatBright">
               <h1 className="md:text-lg font-semibold">
                 View All Services
@@ -806,7 +837,27 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
               </div>
             </Link>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 w-full md:mt-16">
+          <div className="w-full mt-16">
+            <TextAnim delay={0.2}>
+              <p className="text-neutral-300 text-2xl">
+                <span
+                  className="text-creatBright font-semibold"
+                >CREAT Company LLC </span>offers a wide range of project management services<br />These services cover all stages from the beginning to the end of the project
+              </p>
+            </TextAnim>
+          </div>
+          <div className="flex mt-8 gap-4 flex-wrap">
+            {
+              serviceNames.map((service, index) => (
+                <TextChip
+                  key={index}
+                  text={service.name}
+                  icon={service.icon}
+                />
+              ))
+            }
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 w-full md:mt-8">
             <Card
               icon={
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-20 h-20">
@@ -866,10 +917,9 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
             </TextAnim>
             <div className="max-w-[50%]">
               <TextAnim dir="<">
-                <p className="text-neutral-200 text-lg">
-                  At Creat, we are more than just a design company.
-                  We are your partners in turning visions into reality,
-                  dedicated to delivering superior quality and exceptional service every step of the way.
+                <p className="text-neutral-200 text-xl">
+                  CREAT Company LLC is a professional company operating in the
+                  field of project management with modern approaches and innovative solutions
                 </p>
               </TextAnim>
             </div>

@@ -6,6 +6,7 @@ const EmailForm = () => {
   const emailRef = useRef(null);
   const emailInView = useInView(emailRef, {
     once: true,
+    amount: 0.5
   });
 
   const supabase = createClient();

@@ -3,7 +3,8 @@ import { useEffect, useRef } from "react"
 const TextAnim = ({ children, delay, dir }: { children: React.ReactNode, delay?: number, dir?: '<' | '>' }) => {
   const ref = useRef(null)
   const isInView = useInView(ref, {
-    once: true
+    once: true,
+    amount: 0.5
   })
   const controls = useAnimation()
   useEffect(() => {
