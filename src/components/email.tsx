@@ -1,6 +1,6 @@
 import { useInView, motion } from "framer-motion";
-import { useRef } from "react";
-import { createClient } from "../../utils/supabase/client";
+import { FormEvent, useRef, useState } from "react";
+import { SubmitEmailResponse } from "@/app/submit-email/types";
 
 const EmailForm = () => {
   const emailRef = useRef(null);
@@ -9,22 +9,39 @@ const EmailForm = () => {
     amount: 0.5
   });
 
-  const supabase = createClient();
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const [email, setEmail] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
 
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setMessage('');
 
-    await supabase
-      .from("email_submissions")
-      .insert({ email });
+    try {
+      const response = await fetch('/api/submit-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
 
-    if (formRef.current) {
-      formRef.current.reset();
+      const result: SubmitEmailResponse = await response.json();
+
+      if (response.ok) {
+        if (result.isSpam) {
+          setMessage('Your submission has been flagged as potential spam. Please try again later.');
+        } else {
+          setMessage('Email submitted successfully!');
+        }
+      } else {
+        setMessage(`Error: ${(result as any).error}`);
+      }
+    } catch (error) {
+      console.error('Error submitting email:', error);
+      setMessage('An error occurred while submitting your email. Please try again.');
     }
   };
 
