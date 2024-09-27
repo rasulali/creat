@@ -40,14 +40,14 @@ const FullScreenImageViewer: React.FC<FullScreenImageViewerProps> = ({ images, i
     <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center">
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 text-white text-4xl"
+        className="absolute top-4 right-4 text-white text-4xl cursor-pointer z-10"
         aria-label="Close fullscreen view"
       >
         <IoClose />
       </button>
       <button
         onClick={handlePrev}
-        className="absolute left-4 text-white text-4xl"
+        className="absolute left-4 text-white text-4xl cursor-pointer"
         aria-label="Previous image"
       >
         <IoChevronBack />
@@ -67,7 +67,7 @@ const FullScreenImageViewer: React.FC<FullScreenImageViewerProps> = ({ images, i
       >{currentIndex + 1} / {images.length}</h1>
       <button
         onClick={handleNext}
-        className="absolute right-4 text-white text-4xl"
+        className="absolute right-4 text-white text-4xl cursor-pointer"
         aria-label="Next image"
       >
         <IoChevronForward />

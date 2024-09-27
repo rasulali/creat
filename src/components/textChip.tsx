@@ -10,9 +10,9 @@ const TextChip: React.FC<TextChipProps> = ({ text, icon: Icon }) => {
     className="inline-flex items-center gap-2 px-3 py-2 flex-shrink-0
 rounded-full border border-white/30 bg-white/10 cursor-default">
     {
-      <Icon className="text-lg" />
+      <Icon className="text-base" />
     }
-    <h1 className="text-nowrap">
+    <h1 className="text-nowrap text-sm">
       {text}
     </h1>
   </div>

@@ -846,18 +846,7 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
               </p>
             </TextAnim>
           </div>
-          <div className="flex mt-8 gap-4 flex-wrap">
-            {
-              serviceNames.map((service, index) => (
-                <TextChip
-                  key={index}
-                  text={service.name}
-                  icon={service.icon}
-                />
-              ))
-            }
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 w-full md:mt-8">
+          <div className="grid md:grid-cols-3 gap-8 w-full mt-16">
             <Card
               icon={
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-20 h-20">
@@ -1092,31 +1081,34 @@ cursor-pointer w-1/2 border-b`}>
 
             <ProjectCard projectsInView={projectsInView}
               id={1}
-              name="Smart Dayanacaq BNA"
+              name="Smart Bus Stop"
               link="#"
               date="June 25, 2022"
-              image="/projects/bna/1.jpg"
+              image="/projects/bna/hero.jpg"
               desc="100 smart bus stops have been designed in Baku. These stops, equipped with modern technology, will make public transport faster, easier, and more efficient. Our engineers have carefully planned every aspect of the project, providing a modern and effective smart bus stop system"
             />
 
             <ProjectCard projectsInView={projectsInView}
               id={2}
               delay={0.1}
-              name="Project Building"
+              name="Wind Turbines"
               link="#"
-              date="September 10, 2019"
-              image="/projects/building.jpg"
-              desc="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi natus accusantium incidunt aspernatur voluptatibus enim blanditiis perferendis! Nam placeat optio, voluptas non, enim consequuntur delectus excepturi itaque fugiat nesciunt nulla. Ullam, veniam, sit molestias alias nesciunt aut est pariatur harum blanditiis, iusto sunt! Consequatur incidunt dolorem consequuntur maxime dolorum blanditiis?"
+              date="December 29, 2020"
+              image="/projects/acwa/hero.jpeg"
+              desc="The 240 MW Wind Farm, developed by ACWA Power and CREAT LLC, will be located in Azerbaijan's Absheron and Khizi districts. Implemented under presidential order, this greenfield Independent Power Project marks a significant step towards sustainable energy in Azerbaijan."
             />
 
             <ProjectCard projectsInView={projectsInView}
               id={3}
               delay={0.2}
-              name="Project Something"
+              name="Residential Buildings"
               link="#"
-              date="January 1, 2000"
-              image="/projects/other.jpg"
-              desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut nisi minima repellat amet laborum. Vitae necessitatibus iste error nobis perferendis, possimus laborum, nulla rerum ex sint sequi eum? Nostrum sequi iste ea magnam, vel explicabo?"
+              date="16 November, 2023"
+              image="/projects/gov/hero.jpeg"
+              desc="A new residential complex is being built in Nakhchivan AR,
+              aimed at improving living conditions and meeting housing demands.
+              The project includes modern multi-story buildings with 240 apartments,
+              designed to enhance urban aesthetics and meet all infrastructure needs"
             />
           </div>
         </div>

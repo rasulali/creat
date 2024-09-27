@@ -1063,7 +1063,11 @@ export const Customers = () => {
         </div>
         <div>
           {loading ? (
-            <p>Loading...</p>
+            <h1
+              className="text-center uppercase"
+            >
+              Loading...
+            </h1>
           ) : (
             <ul className="list-disc pl-5 space-y-2">
               {emails.length > 0 ? (
