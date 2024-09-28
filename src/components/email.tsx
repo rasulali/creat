@@ -16,44 +16,25 @@ const EmailForm = () => {
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
 
-
     if (!isEmail(email)) {
-      console.log("Invalid email format. Please enter a valid email address.");
+      if (formRef.current) {
+        formRef.current.reset();
+      }
       return;
     }
 
+    else {
+      await supabase
+        .from("email_submissions")
+        .insert({ email });
 
-    try {
-      const { data, error } = await supabase.functions.invoke('handle-email-submission', {
-        body: JSON.stringify({ email }),
-      });
-
-      if (error) {
-        console.error('Supabase Function Error:', error);
-        console.error('Error details:', error.message, error.stack);
-        throw error;
+      if (formRef.current) {
+        formRef.current.reset();
       }
-
-      console.log('Function response:', data);
-
-      if (data && data.success) {
-        console.log(data.message || "Email submitted successfully!");
-        if (e.currentTarget) {
-          e.currentTarget.reset();
-        }
-      } else {
-        console.log(data?.message || "Failed to submit email. Please try again later.");
-      }
-    } catch (error) {
-      console.error('Error submitting email:', error);
-      if (error instanceof Error) {
-        console.error('Error details:', error.message, error.stack);
-      }
-      console.log("An error occurred. Please try again later.");
-    } finally {
     }
   };
 
