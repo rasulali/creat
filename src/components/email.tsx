@@ -1,6 +1,7 @@
 import { useInView, motion } from "framer-motion";
-import { FormEvent, useRef, useState } from "react";
-import { SubmitEmailResponse } from "@/app/submit-email/types";
+import { useRef } from "react";
+import { createClient } from "@/../../utils/supabase/client";
+import { isEmail } from 'validator'
 
 const EmailForm = () => {
   const emailRef = useRef(null);
@@ -9,39 +10,50 @@ const EmailForm = () => {
     amount: 0.5
   });
 
+  const supabase = createClient();
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [email, setEmail] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setMessage('');
+
+    if (!isEmail(email)) {
+      console.log("Invalid email format. Please enter a valid email address.");
+      return;
+    }
+
 
     try {
-      const response = await fetch('/api/submit-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const { data, error } = await supabase.functions.invoke('handle-email-submission', {
         body: JSON.stringify({ email }),
       });
 
-      const result: SubmitEmailResponse = await response.json();
+      if (error) {
+        console.error('Supabase Function Error:', error);
+        console.error('Error details:', error.message, error.stack);
+        throw error;
+      }
 
-      if (response.ok) {
-        if (result.isSpam) {
-          setMessage('Your submission has been flagged as potential spam. Please try again later.');
-        } else {
-          setMessage('Email submitted successfully!');
+      console.log('Function response:', data);
+
+      if (data && data.success) {
+        console.log(data.message || "Email submitted successfully!");
+        if (e.currentTarget) {
+          e.currentTarget.reset();
         }
       } else {
-        setMessage(`Error: ${(result as any).error}`);
+        console.log(data?.message || "Failed to submit email. Please try again later.");
       }
     } catch (error) {
       console.error('Error submitting email:', error);
-      setMessage('An error occurred while submitting your email. Please try again.');
+      if (error instanceof Error) {
+        console.error('Error details:', error.message, error.stack);
+      }
+      console.log("An error occurred. Please try again later.");
+    } finally {
     }
   };
 
@@ -92,7 +104,7 @@ const EmailForm = () => {
         Submit Your Email
       </h1>
       <form ref={formRef} className="flex gap-x-4" onSubmit={handleSubmit}>
-        <input name="email" type="email" className="min-w-[300px] px-6 py-5 rounded-lg
+        <input required name="email" type="email" className="min-w-[300px] px-6 py-5 rounded-lg
                 outline-none text-xl border-2 border-transparent focus:border-black text-black" placeholder="Enter your email" />
         <button type="submit" className="bg-black px-6 py-5 rounded-lg text-white text-xl font-bold
                 group hover:bg-white hover:text-black transition-colors">
