@@ -8,7 +8,7 @@ import {
   IoLogOutOutline,
   IoRefresh,
 } from "react-icons/io5";
-import { FaTrash, FaUpload, FaPen, FaMagnifyingGlass } from "react-icons/fa6";
+import { FaTrash, FaUpload, FaPen, FaMagnifyingGlass, FaXmark } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im"
 import { useEffect, useRef, useState } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
@@ -1052,40 +1052,140 @@ export const Customers = () => {
     fetchEmails();
   }, []);
 
+  const deleteEmail = async (email: string) => {
+    try {
+      const { error } = await supabase
+        .from('email_submissions')
+        .delete()
+        .eq('email', email);
+
+      if (error) {
+      } else {
+        setEmails(emails.filter((item) => item.email !== email));
+      }
+    } catch (error) {
+      throw new Error('Error deleting email: ' + error);
+    }
+  };
+
+  const [isDeleteAllModalOpen, setIsDeleteAllModalOpen] = useState(false);
+  const openDeleteAllModal = () => setIsDeleteAllModalOpen(true);
+  const closeDeleteAllModal = () => setIsDeleteAllModalOpen(false);
+
+  const deleteAllEmails = async () => {
+    try {
+      const { error } = await supabase.from('email_submissions').delete().neq('email', 0);
+
+      if (!error) {
+        setEmails([]);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        return
+      }
+    } finally {
+      closeDeleteAllModal();
+    }
+  };
+
+  const exportEmailsToCSV = () => {
+    const data = emails.map((item) => [item.email, new Date(item.created_at).toLocaleDateString()]);
+    const csvContent = data.map((row) => row.join(',')).join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'emails.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
-    <section className="w-full drop-shadow col-start-1 row-start-2 max-h-screen overflow-y-scroll">
-      <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4">
-        <div className="flex flex-col">
-          <h1 className="text-2xl font-bold capitalize leading-tight">
-            List of Submitted Emails
-          </h1>
-          <p>View the emails that have been submitted to us</p>
-        </div>
-        <div>
-          {loading ? (
-            <h1
-              className="text-center uppercase"
-            >
-              Loading...
+    <>
+      {isDeleteAllModalOpen && (
+        <div
+          onClick={() => closeDeleteAllModal()}
+          style={{ display: isDeleteAllModalOpen ? "flex" : "none" }}
+          className="fixed inset-0 z-50 bg-black/50 flex
+      items-center justify-center"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-lg flex flex-col gap-y-4 p-4"
+          >
+            <h1 className="text-lg text-center">
+              Delete all the email history?
             </h1>
-          ) : (
-            <ul className="list-disc pl-5 space-y-2">
-              {emails.length > 0 ? (
-                emails.map((item, index) => (
-                  <div className="flex items-end gap-x-2">
-                    <li key={index} className="flex justify-between items-center w-full border p-2 rounded-md shadow-md">
-                      <span>{item.email}</span>
-                    </li>
-                    <span className="text-sm text-gray-500">{new Date(item.created_at).toLocaleDateString()}</span>
-                  </div>
-                ))
-              ) : (
-                <p>No emails submitted yet</p>
-              )}
-            </ul>
-          )}
+            <div className="flex justify-around">
+              <button
+                onClick={() => closeDeleteAllModal()}
+                className="capitalize px-2 py-1 text-base font-semibold"
+              >
+                cancel
+              </button>
+              <button
+                onClick={() => deleteAllEmails()}
+                className="capitalize px-2 py-1 text-base bg-red-500
+            text-white font-semibold rounded-lg hover:bg-transparent
+            border-2 border-red-500 hover:text-red-500 transition-all duration-100"
+              >
+                Delete all
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      )}
+      <section className="w-full drop-shadow col-start-1 row-start-2 max-h-screen overflow-y-scroll">
+        <Tooltip anchorSelect="#email-delete" place="top" content="Click to Remove" />
+        <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4">
+          <div className="flex justify-between items-end">
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-bold capitalize leading-tight">
+                List of Submitted Emails
+              </h1>
+              <p>View the emails that have been submitted to us</p>
+            </div>
+            <div className="flex gap-x-4">
+              <button
+                onClick={() => openDeleteAllModal()}
+                className="px-4 py-3 rounded-lg border border-red-500 group hover:bg-red-500 transition-colors">
+                <h1 className="text-sm font-bold text-red-500 group-hover:text-white">Delete All</h1>
+              </button>
+              <button
+                onClick={() => exportEmailsToCSV()}
+                className="px-4 py-3 rounded-lg border border-blue-500 group hover:bg-blue-500 transition-colors">
+                <h1 className="text-sm font-bold text-blue-500 group-hover:text-white">Export to CSV file</h1>
+              </button>
+            </div>
+          </div>
+          <div>
+            {loading ? (
+              <h1
+                className="text-center uppercase"
+              >
+                Loading...
+              </h1>
+            ) : (
+              <ul className="list-disc space-y-2">
+                {emails.length > 0 ? (
+                  emails.map((item, index) => (
+                    <div className="flex items-end gap-x-2">
+                      <li key={index} className="flex justify-between items-center w-full border p-2 rounded-md shadow-md">
+                        <span>{item.email}</span>
+                        <FaXmark id="email-delete" onClick={() => deleteEmail(item.email)} className="text-red-500 text-xl cursor-pointer" />
+                      </li>
+                      <span className="text-sm text-gray-500 min-w-20 text-right">{new Date(item.created_at).toLocaleDateString()}</span>
+                    </div>
+                  ))
+                ) : (
+                  <p>No emails submitted yet</p>
+                )}
+              </ul>
+            )}
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
