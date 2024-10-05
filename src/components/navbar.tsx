@@ -22,8 +22,11 @@ export const items: Item[] = [
   { label: "contact", href: "/contact" },
 ];
 
+interface NavProps {
+  isTransparent: boolean;
+}
 
-const Nav = () => {
+const Nav: React.FC<NavProps> = ({ isTransparent }) => {
   const [menuState, setMenuState] = useState(false);
 
   const [windowSize, setWindowSize] = useState({ w: 0, h: 0 });
@@ -185,7 +188,14 @@ const Nav = () => {
         </AnimatePresence>
       </motion.div>
 
-      <nav ref={navRef} className="w-full flex justify-center border-b border-creatBG/10 backdrop-blur bg-creatBG/60 absolute top-0 left-0">
+      <nav ref={navRef}
+        style={{
+          borderColor: isTransparent ? 'rgb(8 23 49 / 0.1)' : 'rgb(8 23 49 / 1)',
+          background: isTransparent ? 'rgb(8 23 49 / 0.6)' : 'rgb(8 23 49 / 1)',
+          position: isTransparent ? 'absolute' : 'relative',
+        }}
+        className="w-full flex justify-center border-b border-creatBG/10 backdrop-blur
+                    bg-creatBG/60 top-0 left-0">
         <div className="flex w-full max-w-[1920px] justify-center items-center md:py-6 relative">
           <div
             className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col">

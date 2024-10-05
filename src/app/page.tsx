@@ -15,7 +15,6 @@ import EmailForm from "@/components/email";
 import { IoCheckmarkDoneOutline, IoClose } from 'react-icons/io5';
 import { LuExternalLink, LuTimer } from "react-icons/lu";
 import PartnerProject from "@/components/partnerProject";
-import TextChip from "@/components/textChip";
 import { RiAlarmWarningLine } from "react-icons/ri";
 import { FaUsers } from "react-icons/fa";
 import { BsCashCoin } from "react-icons/bs";
@@ -487,7 +486,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-creatBG/25">
           </div>
         </div>
-        <Nav />
+        <Nav isTransparent={true} />
         {fullScreenIndex !== null && activePartnerIndex >= 0 && (
           <FullScreenImageViewer
             images={images}

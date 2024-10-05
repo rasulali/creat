@@ -1088,15 +1088,29 @@ export const Customers = () => {
     }
   };
 
-  const exportEmailsToCSV = () => {
-    const data = emails.map((item) => [item.email, new Date(item.created_at).toLocaleDateString()]);
-    const csvContent = data.map((row) => row.join(',')).join('\n');
+  const exportEmailsToXLSX = () => {
+    // Create workbook and worksheet
+    const XLSX = require('xlsx');
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.aoa_to_sheet([
+      ['Email', 'Created At'], // Header row
+      ...emails.map((item) => [item.email, new Date(item.created_at).toLocaleDateString()])
+    ]);
 
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    // Add worksheet to workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Emails");
+
+    // Generate XLSX file
+    const xlsxContent = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
+
+    // Convert array to Blob
+    const blob = new Blob([xlsxContent], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+    // Create download link
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'emails.csv';
+    a.download = 'emails.xlsx';
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -1153,9 +1167,9 @@ export const Customers = () => {
                 <h1 className="text-sm font-bold text-red-500 group-hover:text-white">Delete All</h1>
               </button>
               <button
-                onClick={() => exportEmailsToCSV()}
+                onClick={() => exportEmailsToXLSX()}
                 className="px-4 py-3 rounded-lg border border-blue-500 group hover:bg-blue-500 transition-colors">
-                <h1 className="text-sm font-bold text-blue-500 group-hover:text-white">Export to CSV file</h1>
+                <h1 className="text-sm font-bold text-blue-500 group-hover:text-white">Export to XLSX file</h1>
               </button>
             </div>
           </div>
