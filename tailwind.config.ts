@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        jost: ["var(--jost)"],
+        manrope: ["var(--manrope)"],
+      },
       boxShadow: {
         'drop-shadow-button-creatBright': '0 0px 16px rgba(228, 20, 90, 1)',
         'drop-shadow-sm-creatBright': '0 1px 2px rgba(237, 20, 90, 0.05)',

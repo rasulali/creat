@@ -5,7 +5,6 @@ import { Slant as MenuIcon } from "hamburger-react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { FaSquareFacebook, FaSquareInstagram, FaLinkedin, FaRegUser, FaChevronDown } from "react-icons/fa6";
 import Logo from "./logo";
-import { Tooltip } from 'react-tooltip'
 import { GrLanguage } from "react-icons/gr";
 
 
@@ -153,7 +152,7 @@ const Nav: React.FC<NavProps> = ({ isTransparent }) => {
   };
 
   return (
-    <>
+    <div className="font-manrope">
       <motion.div
         onHoverStart={() => { setLangHover(true) }}
         onHoverEnd={() => { setLangHover(false) }}
@@ -216,7 +215,6 @@ const Nav: React.FC<NavProps> = ({ isTransparent }) => {
             </div>
           </div>
           <div className="flex md:gap-x-16 items-center">
-            <Tooltip anchorSelect="#logo" content="Home" place="top" />
             {
               items.map((item, i) => {
                 if (item.href === '/') return (
@@ -410,7 +408,7 @@ const Nav: React.FC<NavProps> = ({ isTransparent }) => {
           </>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };
 export default Nav;

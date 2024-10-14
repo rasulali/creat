@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 const TextAnim = ({ children, delay, dir }: { children: React.ReactNode, delay?: number, dir?: '<' | '>' | 'v' | '^' }) => {
   const ref = useRef(null)
   const isInView = useInView(ref, {
-    once: false,
+    once: true,
     amount: 0.5
   })
   const controls = useAnimation()
