@@ -11,7 +11,7 @@ const GearAnim = () => {
     animate={{
       opacity: gearInView ? 0.1 : 0
     }}
-    className="w-[500px] absolute top-0 left-0">
+    className="w-[500px] absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2">
     <svg viewBox="0 0 1080 520" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g id="people-gear-svg" clip-path="url(#clip0_224_91)">
         <g id="people">

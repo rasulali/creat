@@ -54,7 +54,7 @@ const TargetAnim = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: targetInView ? 0.3 : 0 }}
       transition={{ duration: 0.5 }}
-      className="w-[500px] absolute right-0 top-0"
+      className="w-[400px] absolute right-0 top-0 translate-x-1/2 -translate-y-1/3"
     >
       <svg
         className="overflow-visible"
