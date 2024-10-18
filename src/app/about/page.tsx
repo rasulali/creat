@@ -4,8 +4,62 @@ import Nav from "@/components/navbar"
 import Image from "next/image"
 import GearAnim from "@/components/gearAnim"
 import TargetAnim from "@/components/targetAnim"
+import { ReactNode } from "react";
+import Service from "@/components/service";
 
 const About = () => {
+
+  interface Service {
+    name: string;
+    description: string;
+    icon: ReactNode;
+    link?: string;
+  }
+
+  const services: Service[] = [
+    {
+      name: 'Project Planning',
+      description: 'Our experienced specialists develop detailed plans, considering all aspects of the project and ensuring adherence to the plan at every stage',
+      icon: <svg width="100%" height="100%" viewBox="0 0 128 145" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M44.9023 139.131L123.692 60.3408V139.131H44.9023Z" stroke-width="4" />
+        <path d="M4.30664 57.9785C4.30664 42.1683 17.1234 29.3516 32.9336 29.3516H105.439V119.056H32.9336C17.1234 119.056 4.30664 106.239 4.30664 90.4293V57.9785Z" stroke-width="4" />
+        <path d="M4.30664 28.9012V93.3882C4.30664 84.242 11.7212 76.8275 20.8675 76.8275H27.6424V5.56543C14.7544 5.56543 4.30664 16.0132 4.30664 28.9012Z" stroke-width="4" />
+      </svg>
+      ,
+      link: '',
+    },
+    {
+      name: 'Risk Management',
+      description: 'We implement advanced strategies to minimize these risks and inform our clients of potential threats.',
+      icon: <div></div>,
+      link: '',
+    },
+    {
+      name: 'Resource Management',
+      description: 'We ensure the optimal utilization of both human and material resources.',
+      icon: <div></div>,
+      link: '',
+    },
+    {
+      name: 'Budget and Time Management',
+      description: 'Ensuring that projects are completed within the budget and timeframe is our priority. We take all necessary measures to ensure timely and budget-compliant project completion.',
+      icon: <div></div>,
+      link: '',
+    },
+    {
+      name: 'Quality Control',
+      description: 'Maintaining quality standards throughout the project execution is one of our main objectives. We ensure that all work is carried out to the highest quality and fully meet our clients\' expectations.',
+      icon: <div></div>,
+      link: '',
+    },
+    {
+      name: 'Project Execution',
+      description: 'During the project execution process, we work closely with our clients, implementing tasks according to their requirements. At this stage, we carefully review every detail of the project and monitor all processes until its successful completion.',
+      icon: <div></div>,
+      link: '',
+    },
+  ];
+
   return <section className="w-full relative font-jost overflow-hidden">
     <div className="relative">
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1]">
@@ -309,6 +363,16 @@ const About = () => {
               </p>
             </TextAnim>
           </div>
+        </div>
+        <div className="grid grid-cols-3 grid-rows-2 gap-8 py-16">
+          {services.map((service, index) => (
+            <Service
+              key={index}
+              name={service.name}
+              description={service.description}
+              icon={service.icon}
+            />
+          ))}
         </div>
       </div>
     </div>
