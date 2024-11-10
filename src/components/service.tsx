@@ -17,7 +17,7 @@ const Service: React.FC<ServiceProps> = ({ name, description, icon, link }) => {
     ref={ref}
     initial={{ opacity: 0, x: 20 }}
     animate={serviceInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-    className="flex flex-col border-t py-6 px-2 border-white/50 relative"
+    className="flex flex-col border-t pt-6 px-2 border-white/50 relative"
     onHoverStart={() => { setServiceHovered(true) }}
     onHoverEnd={() => { setServiceHovered(false) }}
   >
