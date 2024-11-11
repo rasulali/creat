@@ -1,16 +1,16 @@
 import { motion, useAnimation, useInView } from "framer-motion";
-import { useEffect, useRef, ReactNode } from "react";
+import { useEffect, useRef, ReactNode, useMemo, cloneElement } from "react";
 
 type ParagraphAnimationProps = {
   children: ReactNode;
-  delay?: number;
-  className?: string;
+  maxDelay?: number;
+  minDelay?: number;
 };
 
 export const ParagraphAnimation = ({
   children,
-  delay = 0.5,
-  className,
+  maxDelay = 1,
+  minDelay = 0.1,
 }: ParagraphAnimationProps) => {
   const controls = useAnimation();
   const ref = useRef<HTMLDivElement>(null);
@@ -19,90 +19,82 @@ export const ParagraphAnimation = ({
   useEffect(() => {
     if (isInView) {
       controls.start("visible");
-    } else {
-      controls.start("hidden");
     }
   }, [isInView, controls]);
 
-  const createWordSpans = (text: string) => {
+  const createWordSpans = useMemo(() => (text: string) => {
     const words = text.split(/\s+/).filter(Boolean);
-    const totalWords = words.length;
 
     return words.map((word, index) => {
-      // Calculate the delay based on the index and total words
-      const wordDelay = delay * (1 - index / totalWords);
+      const delayIncrement = ((maxDelay - minDelay) / Math.max(words.length - 1, 1));
+      const wordDelay = minDelay + (index * delayIncrement);
 
       return (
         <motion.span
-          key={index}
-          className="inline-block"
+          key={`${word}-${index}`}
+          style={{
+            display: 'inline-block',
+            marginRight: '0.25em',
+          }}
           variants={{
             hidden: {
               opacity: 0.5,
               y: 10,
-              transition: { duration: 0.4 }
+              transition: { duration: 0.3 }
             },
             visible: {
               opacity: 1,
               y: 0,
               transition: {
-                duration: 0.4,
-                delay: wordDelay
+                duration: 0.3,
+                delay: wordDelay,
+                ease: "easeOut"
               }
             }
           }}
         >
-          {word}&nbsp;
+          {word}
         </motion.span>
       );
     });
-  };
+  }, [minDelay, maxDelay]);
 
-  const processChildren = (children: ReactNode): ReactNode => {
+  const processChildren = useMemo(() => (children: ReactNode): ReactNode => {
     if (typeof children === 'string') {
       return createWordSpans(children);
     }
 
-    if (!children || typeof children !== 'object' || !('props' in children)) {
+    const childElement = children as React.ReactElement;
+
+    if (!childElement?.props?.children) {
       return children;
     }
 
-    const childElement = children as any;
-
-    if (childElement.props.children) {
-      const processedChildren = typeof childElement.props.children === 'string'
+    return cloneElement(childElement, {
+      ...childElement.props,
+      children: typeof childElement.props.children === 'string'
         ? createWordSpans(childElement.props.children)
-        : childElement.props.children;
+        : childElement.props.children
+    });
+  }, [createWordSpans]);
 
-      return {
-        ...childElement,
-        props: {
-          ...childElement.props,
-          children: processedChildren,
-        },
-      };
-    }
-
-    return children;
-  };
+  const processedContent = useMemo(() => processChildren(children), [children, processChildren]);
 
   return (
     <motion.div
       ref={ref}
-      className={className}
       initial="hidden"
       animate={controls}
       variants={{
         visible: {
           transition: {
             staggerChildren: 0,
-            delayChildren: 0,
           }
         },
         hidden: {}
       }}
     >
-      {processChildren(children)}
+      {processedContent}
     </motion.div>
   );
 };

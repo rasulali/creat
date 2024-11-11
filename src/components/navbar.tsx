@@ -14,11 +14,11 @@ type Item = {
 };
 
 export const items: Item[] = [
-  { label: "portfolio", href: "/portfolio" },
-  { label: "services", href: "/services" },
+  { label: "portfolio", href: "/wip" },
+  { label: "services", href: "/wip" },
   { label: "home", href: "/" },
   { label: "about", href: "/about" },
-  { label: "contact", href: "/contact" },
+  { label: "contact", href: "/wip" },
 ];
 
 interface NavProps {

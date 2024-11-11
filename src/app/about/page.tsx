@@ -7,6 +7,7 @@ import TargetAnim from "@/components/targetAnim"
 import { ReactNode } from "react";
 import Service from "@/components/service";
 import ParagraphAnimation from "@/components/paragraphAnim";
+import Footer from "@/components/footer";
 
 const About = () => {
 
@@ -503,14 +504,14 @@ const About = () => {
         </div>
       </div>
       <div className="min-h-screen">
-        <div className="flex flex-col md:px-80 h-full w-full max-w-[1920px] mx-auto justify-center relative">
-          <div className="flex flex-col gap-y-12 mt-48">
+        <div className="flex flex-col md:px-80 h-full w-full max-w-[1920px] mx-auto justify-center relative py-24">
+          <div className="flex flex-col gap-y-12 py-24">
             <div className="flex flex-col gap-y-6">
-              <TextAnim>
+              <TextAnim dir="v">
                 <h1 className="text-5xl text-white/90 ">Our Team</h1>
               </TextAnim>
               <ParagraphAnimation>
-                <p className="text-5xl tracking-tighter text-white/70">
+                <p className="text-3xl tracking-tighter text-white/70">
                   The driving force behind CREAT Company LLC's success is our professional and experienced team.
                   Our team consists of experts with in-depth knowledge and extensive experience in project management.
                   They approach each project individually, providing our clients with the best solutions tailored to their specific needs and ensuring the successful implementation of projects. Our team continuously updates their knowledge and skills through ongoing training and development programs and is proficient in working with modern technologies
@@ -518,9 +519,52 @@ const About = () => {
               </ParagraphAnimation>
             </div>
           </div>
+          <div className="flex flex-col gap-y-12 py-24">
+            <div className="flex flex-col gap-y-6">
+              <TextAnim dir="v">
+                <h1 className="text-5xl text-white/90 ">Our Achievements</h1>
+              </TextAnim>
+              <ParagraphAnimation>
+                <p className="text-3xl tracking-tighter text-white/70">
+                  Over the years, our company has successfully completed numerous projects.
+                  Our achievements include large and small-scale projects in various fields.
+                  These projects have been highly appreciated by our clients both locally and internationally, earning their trust. At CREAT Company LLC, we always consider our clients' success as our own and dedicate all our efforts to meeting their needs</p>
+              </ParagraphAnimation>
+            </div>
+          </div>
+          <div className="flex flex-col gap-y-12 py-24">
+            <div className="flex flex-col gap-y-6">
+              <TextAnim dir="v">
+                <h1 className="text-5xl text-white/90 ">Our Future Goals</h1>
+              </TextAnim>
+              <ParagraphAnimation>
+                <p className="text-3xl tracking-tighter text-white/70">
+                  At CREAT Company LLC, we are optimistic about the future and strive for continuous improvement.
+                  One of our primary goals is to offer our clients even higher-quality services by applying modern approaches to project management.
+                  To achieve this, we plan to expand the use of new technologies, enhance our team's knowledge and skills, and broaden our scope of operations.
+                  In the future, we aim to undertake even larger and more complex projects, support our clients' success, and become one of the leading companies in the industry
+                </p>
+              </ParagraphAnimation>
+            </div>
+          </div>
+          <div className="flex flex-col gap-y-12 py-24">
+            <div className="flex flex-col gap-y-6">
+              <TextAnim dir="v">
+                <h1 className="text-5xl text-white/90 ">Conclusion</h1>
+              </TextAnim>
+              <ParagraphAnimation>
+                <p className="text-3xl tracking-tighter text-white/70">
+                  CREAT Company LLC is a reliable firm that operates based on the principles of reliability, quality, and innovation in project management.
+                  Our goal is to ensure our clients' success and support them in achieving their objectives.
+                  Thanks to our team's professionalism and experience, we are ready to successfully complete any project and fully meet our clients' expectations.
+                  In the future, we will continue to collaborate closely with our clients, helping them move forward and becoming one of the leading companies in the industry</p>
+              </ParagraphAnimation>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    <Footer />
   </section>
 }
 export default About

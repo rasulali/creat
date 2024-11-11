@@ -1,6 +1,23 @@
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 
+
+const {
+  default: flattenColorPalette,
+} = require("tailwindcss/lib/util/flattenColorPalette");
+
+// This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
+function addVariablesForColors({ addBase, theme }: any) {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
+
+  addBase({
+    ":root": newVars,
+  });
+}
+
 const config: Config = {
   content: [
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -37,6 +54,17 @@ const config: Config = {
       },
       animation: {
         "spin-fast": "spin 0.5s ease-in-out forwards",
+        aurora: "aurora 60s linear infinite",
+      },
+      keyframes: {
+        aurora: {
+          from: {
+            backgroundPosition: "50% 50%, 50% 50%",
+          },
+          to: {
+            backgroundPosition: "350% 50%, 350% 50%",
+          },
+        },
       },
     },
   },
@@ -44,7 +72,8 @@ const config: Config = {
     plugin(({ addVariant }) => {
       addVariant('parent-group-hover', ':merge(.parent-group):hover &')
       addVariant('child-group-hover', ':merge(.child-group):hover &')
-    })
+    }),
+    addVariablesForColors
   ],
 };
 export default config;

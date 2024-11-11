@@ -3,7 +3,7 @@ import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
 import { items } from "./navbar";
 
 const Footer = () => {
-  return <footer className="flex flex-col items-center bg-creatBGLight">
+  return <footer className="flex flex-col items-center bg-creatBGLight text-white">
     <div className="flex items-center justify-center max-w-[1200px] mx-auto">
       <div className="w-full flex gap-x-32 py-12">
         <div className="flex flex-col">
@@ -14,13 +14,13 @@ const Footer = () => {
             Tailored to You by <span className="font-bold mx-1">Creat</span>
           </h1>
           <div className="flex gap-x-4 mt-8">
-            <Link href="/" className="group rounded-full border-2 hover:border-creatBright transition-colors">
+            <Link href="https://www.instagram.com/" className="group rounded-full border-2 hover:border-creatBright transition-colors">
               <FaInstagram className="m-2 text-xl group-hover:text-creatBright transition-colors" />
             </Link>
-            <Link href="/" className="group rounded-full border-2 hover:border-creatBright transition-colors">
+            <Link href="https://linkedin.com/" className="group rounded-full border-2 hover:border-creatBright transition-colors">
               <FaLinkedinIn className="m-2 text-xl group-hover:text-creatBright transition-colors" />
             </Link>
-            <Link href="/" className="group rounded-full border-2 hover:border-creatBright transition-colors">
+            <Link href="https://www.facebook.com/" className="group rounded-full border-2 hover:border-creatBright transition-colors">
               <FaFacebookF className="m-2 text-xl group-hover:text-creatBright transition-colors" />
             </Link>
           </div>
@@ -37,11 +37,11 @@ const Footer = () => {
         <div className="flex flex-col">
           <h1 className="text-3xl font-bold mb-4">Services</h1>
           <div className="flex flex-col gap-y-2">
-            <Link href=""
+            <Link href="/wip"
               className="text-lg font-medium hover:text-creatBright transition-colors capitalize">Renewable Energy</Link>
-            <Link href=""
+            <Link href="/wip"
               className="text-lg font-medium hover:text-creatBright transition-colors capitalize">Construction</Link>
-            <Link href=""
+            <Link href="wip"
               className="text-lg font-medium hover:text-creatBright transition-colors capitalize">Technical Planning</Link>
           </div>
         </div>
@@ -54,9 +54,10 @@ const Footer = () => {
             <Link href="mailto:contact@creat.az" className="text-lg font-medium hover:text-creatBright transition-colors">
               contact@creat.az
             </Link>
-            <Link href="">
+            <Link href="https://maps.app.goo.gl/CS2koQtTpYHTVvRq7" target="_blank">
               <p className="text-lg font-medium hover:text-creatBright transition-colors">
-                123 Main Street,<br /> Anywhere, AZ 12345
+                Baku, Azerbaijan<br />
+                Samad vurgun 110
               </p>
             </Link>
           </div>
