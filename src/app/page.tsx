@@ -19,6 +19,7 @@ import { FaUsers } from "react-icons/fa";
 import { BsCashCoin } from "react-icons/bs";
 import { VscGithubProject } from "react-icons/vsc";
 import { GlareCard } from "@/components/glareCard";
+import { BASE_URI } from "@/lib/vars";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState(0);
@@ -191,44 +192,44 @@ export default function Home() {
 
   const partners: partners[] = [
     {
-      logo: "/partners/1/logo.png",
+      logo: BASE_URI + "/partners/1/logo.png",
       name: "The Conference of the Parties 29",
       link: "https://cop29.az/en",
       animated: true,
       color: "#006a72"
     },
     {
-      logo: "/partners/2/logo.png",
+      logo: BASE_URI + "/partners/2/logo.png",
       name: "Lightsource BP",
       link: "https://lightsourcebp.com/",
       color: "#009900"
     },
     {
-      logo: "/partners/3/logo.png",
+      logo: BASE_URI + "/partners/3/logo.png",
       name: "ILF Consulting Engineers",
       link: "https://www.ilf.com/",
       color: "#2f5291"
     },
     {
-      logo: "/partners/4/logo.png",
+      logo: BASE_URI + "/partners/4/logo.png",
       name: "Suez SA",
       link: "https://www.suez.com/en",
       color: "#7ecb23"
     },
     {
-      logo: "/partners/5/logo.png",
+      logo: BASE_URI + "/partners/5/logo.png",
       name: "PMD Projects LLC",
       link: "https://pmdprojects.az/",
       color: "#015ba9"
     },
     {
-      logo: "/partners/6/logo.png",
+      logo: BASE_URI + "/partners/6/logo.png",
       name: "Dashkasan Iron Ore LLC",
       link: "https://ddf.az",
       color: "#7c5541"
     }, {
       name: "BALKHOORMA LLC",
-      logo: "/partners/7/logo.png",
+      logo: BASE_URI + "/partners/7/logo.png",
       link: "https://balkhoorma.com/en",
       color: "#558551",
       animated: true,
@@ -238,8 +239,8 @@ export default function Home() {
           heading: "Cənubi Qafqazda ilk meyvə-qurtma zavodu (Xurma)",
           desc: "Balakən rayonu, Katex k. ərazisində 2.0 ha ərazidə yerləşən 1 ədəd 2 mərtəbəli ofis binası, 2 ədəd saoyuducu binası, 1 ədəd istehsalat binası, 10 nəfərlik qonaq evi və köməkçi binaları",
           images: [
-            "/partners/7/1.jpeg",
-            "/partners/7/2.jpeg",
+            BASE_URI + "/partners/7/1.jpeg",
+            BASE_URI + "/partners/7/2.jpeg",
           ]
         },
         {
@@ -247,54 +248,54 @@ export default function Home() {
           heading: "Ağdaş rayonunda 16 000.0 m2 meyve-qurutma zavodu",
           desc: "Ağdaş rayonu,Pirkəkə k. ərazisində yerləşən 10.0ha ərazidə 5ədəd meyvə-qurutma anbarı,1ədəd ofis binası,2 ədəd məhsul qəbul edici anbar binası və köməkçi binaları",
           images: [
-            "/partners/7/3.jpeg",
-            "/partners/7/4.jpeg",
+            BASE_URI + "/partners/7/3.jpeg",
+            BASE_URI + "/partners/7/4.jpeg",
           ]
         }
       ]
     },
     {
-      logo: "/partners/8/logo.png",
+      logo: BASE_URI + "/partners/8/logo.png",
       name: "Encotec Company",
       color: "#01205a",
       link: "https://www.encotec.az/"
     },
     {
-      logo: "/partners/9/logo.png",
+      logo: BASE_URI + "/partners/9/logo.png",
       name: "AzerBlast LLC",
       link: "https://azerblast.az/",
       color: "#e96453"
     },
     {
-      logo: "/partners/10/logo.png",
+      logo: BASE_URI + "/partners/10/logo.png",
       name: "Ministry of Ecology and Natural Resources",
       link: "https://eco.gov.az/",
       animated: true,
       color: "#fef212"
     },
     {
-      logo: "/partners/11/logo.png",
+      logo: BASE_URI + "/partners/11/logo.png",
       name: "Ministry of Economy of Azerbaijan Republic",
       link: "https://www.economy.gov.az/en",
       animated: true,
       color: "#a2925e"
     },
     {
-      logo: "/partners/12/logo.png",
+      logo: BASE_URI + "/partners/12/logo.png",
       name: "Azerbaijan Amelioration and Water Farm OJSC",
       link: "https://mst.gov.az/en",
       animated: true,
       color: "#0191cf"
     },
     {
-      logo: "/partners/13/logo.png",
+      logo: BASE_URI + "/partners/13/logo.png",
       name: "Restoration, Construction, and Management Service in the Karabakh Economic Region",
       animated: true,
       color: "#000000"
     },
     {
       name: "Technol LLC",
-      logo: "/partners/14/logo.png",
+      logo: BASE_URI + "/partners/14/logo.png",
       link: "https://technol.az/en/",
       color: "#c82327",
       projects: [
@@ -303,105 +304,105 @@ export default function Home() {
           heading: "Cənubi Qafqazda ilk maşın-motor emalı yağları zavodu",
           desc: "Sumqayıt şəhərində, 1.5 ha ərazidə yerləşən, 1 ədəd 2 mərtəbəli ofis binası, 1 ədəd istehsalat binası və 2 ədəd məhsul saxlama anbarı",
           images: [
-            "/partners/14/1.jpeg",
-            "/partners/14/2.jpeg",
-            "/partners/14/3.jpeg",
-            "/partners/14/4.jpeg",
-            "/partners/14/5.jpeg",
+            BASE_URI + "/partners/14/1.jpeg",
+            BASE_URI + "/partners/14/2.jpeg",
+            BASE_URI + "/partners/14/3.jpeg",
+            BASE_URI + "/partners/14/4.jpeg",
+            BASE_URI + "/partners/14/5.jpeg",
           ]
         }
       ]
     },
     {
-      logo: "/partners/15/logo.png",
+      logo: BASE_URI + "/partners/15/logo.png",
       name: "Sobsan Paints",
       color: "#e12917",
       link: "https://sobsan.com/",
     },
     {
-      logo: "/partners/16/logo.png",
+      logo: BASE_URI + "/partners/16/logo.png",
       name: "ACWA Power",
       link: "https://www.acwapower.com/en/",
       color: "#bb332f"
     },
     {
-      logo: "/partners/17/logo.png",
+      logo: BASE_URI + "/partners/17/logo.png",
       name: "Tractabel",
       link: "https://tractebel-engie.com/en",
       color: "#09aafe"
     },
     {
-      logo: "/partners/18/logo.png",
+      logo: BASE_URI + "/partners/18/logo.png",
       name: "SOCAR Midstream Operations",
       link: "https://www.socarmidstream.az/",
       color: "#e4002b"
     },
     {
-      logo: "/partners/19/logo.png",
+      logo: BASE_URI + "/partners/19/logo.png",
       name: "Suraxanı Oil",
       link: "https://www.surakhani-oil.com/",
       color: "#f16333"
     },
     {
-      logo: "/partners/20/logo.png",
+      logo: BASE_URI + "/partners/20/logo.png",
       name: "Power Construction Corporation of China",
       color: "#c80b4b",
       link: "https://en.powerchina.cn/",
       animated: true
     },
     {
-      logo: "/partners/21/logo.png",
+      logo: BASE_URI + "/partners/21/logo.png",
       name: "MAQRO Group",
       link: "https://www.maqro.ge/",
       color: "#42a13e"
     },
     {
-      logo: "/partners/22/logo.png",
+      logo: BASE_URI + "/partners/22/logo.png",
       name: "Referans Clinical Laboratory and Polyclinic Center",
       color: "#0aa4c7",
       link: "https://referansclc.com/",
       animated: true
     },
     {
-      logo: "/partners/23/logo.png",
+      logo: BASE_URI + "/partners/23/logo.png",
       name: "Food Safety Agency of the Republic of Azerbaijan",
       link: "https://afsa.gov.az/",
       animated: true,
       color: "#d9a183"
     },
     {
-      logo: "/partners/24/logo.png",
+      logo: BASE_URI + "/partners/24/logo.png",
       name: "Azerbaijan Airlines",
       link: "https://azal.az/en/",
       color: "#56bfe7"
     },
     {
-      logo: "/partners/25/logo.png",
+      logo: BASE_URI + "/partners/25/logo.png",
       name: "YPT Yılmaz Proses Teknolojileri",
       link: "https://www.ypt.com.tr/",
       color: "#fbb900"
     },
     {
-      logo: "/partners/26/logo.png",
+      logo: BASE_URI + "/partners/26/logo.png",
       name: "CQA International LTD",
       color: "#7aa02f",
       link: "https://www.cqainternational.co.uk/",
     },
     {
-      logo: "/partners/27/logo.png",
+      logo: BASE_URI + "/partners/27/logo.png",
       name: "Bravo Supermarket Chain",
       link: "https://www.bravosupermarket.az/",
       color: "#77bc1f"
     },
     {
-      logo: "/partners/28/logo.png",
+      logo: BASE_URI + "/partners/28/logo.png",
       name: "Azerbaijan Company for Poultry Development",
       color: "#00495b",
       link: "https://az.linkedin.com/company/azerbaijan-company-for-poultry-development",
       animated: true
     },
     {
-      logo: "/partners/29/logo.png",
+      logo: BASE_URI + "/partners/29/logo.png",
       name: "AzerGold CJSC",
       link: "https://azergold.az/en/",
       color: "#fcaf17"
@@ -480,8 +481,8 @@ export default function Home() {
         className="flex flex-col min-h-screen relative">
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <video className="w-full h-full object-cover" autoPlay muted playsInline loop>
-            <source src="/bg.mp4" type="video/mp4" />
-            <source src="/bg.webm" type="video/webm" />
+            <source src={`${BASE_URI}/bg.mp4`} type="video/mp4" />
+            <source src={`${BASE_URI}/bg.webm`} type="video/webm" />
           </video>
           <div className="absolute inset-0 bg-creatBG/25">
           </div>
@@ -926,7 +927,7 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
                   mass: 1
                 }}
                 className="w-full h-full relative rounded-2xl overflow-hidden">
-                <Image src="/banner-about.jpg" width={720} height={720} alt="" quality={70} className="w-full h-full object-cover" />
+                <Image src={`${BASE_URI}/banner-about.jpg`} width={720} height={720} alt="" quality={70} className="w-full h-full object-cover" />
                 <motion.div
                   initial={{ x: 0 }}
                   animate={bannerInView ? { x: "-100%" } : { x: 0 }}
@@ -1087,7 +1088,7 @@ cursor-pointer w-1/2 border-b`}>
               name="Smart Bus Stop"
               link="#"
               date="June 25, 2022"
-              image="/projects/bna/hero.jpg"
+              image={`${BASE_URI}/projects/bna/hero.jpg`}
               desc="100 smart bus stops have been designed in Baku. These stops, equipped with modern technology, will make public transport faster, easier, and more efficient. Our engineers have carefully planned every aspect of the project, providing a modern and effective smart bus stop system"
             />
 
@@ -1097,8 +1098,8 @@ cursor-pointer w-1/2 border-b`}>
               name="Wind Turbines"
               link="#"
               date="December 29, 2020"
-              image="/projects/acwa/hero.jpeg"
-              desc="The 240 MW Wind Farm, developed by ACWA Power and CREAT LLC, will be located in Azerbaijan's Absheron and Khizi districts. Implemented under presidential order, this greenfield Independent Power Project marks a significant step towards sustainable energy in Azerbaijan."
+              image={`${BASE_URI}/projects/acwa/hero.jpeg`}
+              desc="The 240 MW Wind Farm, developed by ACWA Power and CREAT LLC, will be located in Absheron and Khizi districts. Implemented under presidential order, this greenfield Independent Power Project marks a significant step towards sustainable energy"
             />
 
             <ProjectCard projectsInView={projectsInView}
@@ -1107,10 +1108,9 @@ cursor-pointer w-1/2 border-b`}>
               name="Residential Buildings"
               link="#"
               date="16 November, 2023"
-              image="/projects/gov/hero.jpeg"
+              image={`${BASE_URI}/projects/gov/hero.jpeg`}
               desc="A new residential complex is being built in Nakhchivan AR,
-              aimed at improving living conditions and meeting housing demands.
-              The project includes modern multi-story buildings with 240 apartments,
+              aimed at improving living conditions and meeting housing demands with 240 apartments,
               designed to enhance urban aesthetics and meet all infrastructure needs"
             />
           </div>
@@ -1218,34 +1218,7 @@ cursor-pointer w-1/2 border-b`}>
               </div>
             </div>
             <div className="w-1/2 min-h-[500px] flex items-center justify-center relative p-4">
-              <div className="relative w-full pt-[63.27%]">
-                <svg
-                  viewBox="0 0 550 348"
-                  className="absolute inset-0 w-full h-full"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <defs>
-                    <mask id="svgMask">
-                      <path
-                        fill="white"
-                        d="M546.893 18.434C566.593 55.134 463.093 156.034 350.193 236.234C237.293 316.334 114.993 375.734 52.3931 334.534C-10.2069 293.434 -13.1069 151.834 28.2931 85.534C69.5931 19.234 155.193 28.234 269.593 18.834C383.893 9.53398 527.093 -18.166 546.893 18.434Z"
-                      />
-                    </mask>
-                  </defs>
-                  <foreignObject width="100%" height="100%" mask="url(#svgMask)">
-                    <div className="w-full h-full relative select-none pointer-events-none">
-                      <Image
-                        src="/default.jpg"
-                        width={1000}
-                        height={1000}
-                        alt="default"
-                        quality={50}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </foreignObject>
-                </svg>
-              </div>
+              {/* space for illustration of review */}
             </div>
           </div>
         </div>

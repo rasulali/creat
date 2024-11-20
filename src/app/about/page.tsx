@@ -8,6 +8,7 @@ import { ReactNode } from "react";
 import Service from "@/components/service";
 import ParagraphAnimation from "@/components/paragraphAnim";
 import Footer from "@/components/footer";
+import { BASE_URI } from "@/lib/vars";
 
 const About = () => {
 
@@ -178,7 +179,7 @@ const About = () => {
     <div className="relative">
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1]">
         <Image
-          src="/about/banner.jpg"
+          src={`${BASE_URI}/about/banner.jpg`}
           alt="Company Overview Background"
           fill
           priority
