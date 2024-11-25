@@ -14,7 +14,7 @@ type Item = {
 };
 
 export const items: Item[] = [
-  { label: "portfolio", href: "/wip" },
+  { label: "projects", href: "/projects" },
   { label: "services", href: "/wip" },
   { label: "home", href: "/" },
   { label: "about", href: "/about" },

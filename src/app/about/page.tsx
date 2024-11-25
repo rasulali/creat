@@ -179,7 +179,7 @@ const About = () => {
     <div className="relative">
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1]">
         <Image
-          src={`${BASE_URI}/about/banner.jpg`}
+          src={`${BASE_URI}/home/about/banner.jpg`}
           alt="Company Overview Background"
           fill
           priority
@@ -512,7 +512,7 @@ const About = () => {
           </svg>
         </div>
       </div>
-      <div className="min-h-screen">
+      <div className="min-h-dvh">
         <div className="flex flex-col md:px-80 h-full w-full max-w-[1920px] mx-auto justify-center relative py-24">
           <div className="flex flex-col gap-y-12 py-24">
             <div className="flex flex-col gap-y-6">

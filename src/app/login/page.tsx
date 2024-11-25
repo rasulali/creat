@@ -73,7 +73,7 @@ export default function Login() {
   };
 
   return (
-    <main className="w-full min-h-screen flex flex-col bg-zinc-100">
+    <main className="w-full min-h-dvh flex flex-col bg-zinc-100">
       <ToastContainer
         position="top-right"
         autoClose={5000}

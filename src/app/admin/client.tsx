@@ -201,7 +201,7 @@ export const Form = () => {
 
     try {
       setLoading(true);
-      const dir = `${uploadData.category}_${uploadData.name}`;
+      const dir = `${uploadData.page}/${uploadData.category}/${uploadData.name}`;
       const r2Response = await handleR2Upload(selectedImages, dir);
 
       const hasR2Errors = r2Response.some(
@@ -388,7 +388,6 @@ export const Form = () => {
       setSelectedImages(Array.from(images));
       const formData = new FormData();
       formData.append("images", images[0]);
-      console.log(formData);
     }
   };
 
@@ -710,8 +709,8 @@ export const Form = () => {
                   Select a page of the project
                 </option>
                 {/*placeholder*/}
-                <option value="home">Home</option>
                 <option value="projects">Projects</option>
+                <option value="home">Services</option>
               </select>
             </span>
             <span className="w-full">
@@ -734,10 +733,11 @@ export const Form = () => {
                   Select a category of the project
                 </option>
                 {/*placeholder*/}
-                <option value="home">Home</option>
-                <option value="interior">Interior</option>
-                <option value="exterior">Exterior</option>
-                <option value="project">Project</option>
+                <option value="green-energy-sustainability">Green Energy & Sustainability</option>
+                <option value="industrial-manufacturing">Industrial & Manufacturing Excellence</option>
+                <option value="agriculture-food">Agriculture & Food Security</option>
+                <option value="commercial-social">Commercial & Social Infrastructure</option>
+                <option value="transportation-logistics">Transportation & Logistics Infrastructure</option>
               </select>
             </span>
             <span className="w-full">
