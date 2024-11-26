@@ -8,7 +8,7 @@ import {
   IoLogOutOutline,
   IoRefresh,
 } from "react-icons/io5";
-import { FaTrash, FaUpload, FaPen, FaMagnifyingGlass, FaXmark } from "react-icons/fa6";
+import { FaTrash, FaPen, FaMagnifyingGlass, FaXmark } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im"
 import { useEffect, useRef, useState } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
@@ -18,6 +18,7 @@ import { Slide, ToastContainer, toast } from "react-toastify";
 import { BsExclamationCircleFill } from "react-icons/bs";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from 'framer-motion'
+import { FileUpload } from "@/components/fileUpload";
 
 interface MenuDataType {
   name: string;
@@ -377,13 +378,9 @@ export const Form = () => {
     return `${endpoint}/${encodeURIComponent(dir + "/" + name)}`;
   };
 
-  const [fileHover, setFileHover] = useState(false);
   const [modalDeleteState, setModalDeleteState] = useState(false);
 
-  const handleImageSelect = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    if ((e.target as HTMLInputElement).files?.length !== 0) {
-    }
-    const images = (e.target as HTMLInputElement).files;
+  const handleImageSelect = (images: File[]) => {
     if (images) {
       setSelectedImages(Array.from(images));
       const formData = new FormData();
@@ -391,36 +388,6 @@ export const Form = () => {
     }
   };
 
-  useEffect(() => {
-    const handleDragOver = (e: DragEvent) => {
-      e.preventDefault();
-      setFileHover(true);
-    };
-    const handleDragLeave = (e: DragEvent) => {
-      e.preventDefault();
-      setFileHover(false);
-    };
-    const handleDrop = (e: DragEvent) => {
-      setFileHover(false);
-
-      const elementUnderMouse = document.elementFromPoint(e.clientX, e.clientY);
-
-      if (elementUnderMouse !== imageUploadRef.current) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-      }
-    };
-    document.body.addEventListener("dragover", handleDragOver);
-    document.body.addEventListener("dragleave", handleDragLeave);
-    document.body.addEventListener("drop", handleDrop);
-
-    return () => {
-      document.body.removeEventListener("dragover", handleDragOver);
-      document.body.removeEventListener("dragleave", handleDragLeave);
-      document.body.removeEventListener("drop", handleDrop);
-    };
-  }, []);
 
   const handleSingleImageDelete = (
     indexToDelete: number,
@@ -802,32 +769,7 @@ export const Form = () => {
                   </div>
                 )}
               </span>
-              <div className="relative">
-                <input
-                  type="file"
-                  name="images"
-                  id="images"
-                  accept=".png, .gif, .jpg, .jpeg, .webp, .svg"
-                  required
-                  multiple
-                  ref={imageUploadRef}
-                  onChange={handleImageSelect}
-                  style={{ color: fileHover ? "transparent" : "" }}
-                  className={`w-full h-[200px] bg-transparent border rounded-lg p-2
-                mt-0.5  text-zinc-500 text-center
-                leading-[200px] file:hidden`}
-                />
-                <div
-                  className={`w-full h-full top-0 left-0 bg-creatBright/50
-            rounded-lg absolute flex ${!fileHover && "hidden"} items-center
-            justify-center gap-x-2 pointer-events-none`}
-                >
-                  <h1 className="text-white text-lg leading-none block font-bold">
-                    Drop the images here
-                  </h1>
-                  <FaUpload className="text-lg text-white" />
-                </div>
-              </div>
+              <FileUpload files={selectedImages} inputRef={imageUploadRef} onChange={(e: File[]) => handleImageSelect(e)} />
               <div
                 className={`w-full h-[200px]
             overflow-hidden rounded-lg border mt-3 ${selectedImages.length === 0 && "hidden"}`}
