@@ -776,7 +776,8 @@ export const Form = () => {
               >
                 <div
                   className="flex overflow-x-scroll p-2 gap-x-2 h-full relative
-            snap-x snap-mandatory lg:snap-none"
+            snap-x snap-mandatory lg:snap-none  scrollbar-thin scrollbar-track-transparent
+  scrollbar-thumb-neutral-200/50 hover:scrollbar-thumb-neutral-300/75 scrollbar-thumb-rounded-full"
                 >
                   {selectedImages.map((image, index) => {
                     const imageUrl = URL.createObjectURL(image);
@@ -918,7 +919,10 @@ export const Preview = () => {
   ];
 
   return (
-    <section className="w-full drop-shadow col-start-2 row-start-1 max-h-screen overflow-y-scroll">
+    <section className="w-full drop-shadow col-start-2 row-start-1 max-h-screen overflow-y-scroll
+  scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-200/50
+  hover:scrollbar-thumb-neutral-300/75 scrollbar-thumb-rounded-full
+      ">
       <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4 min-h-[50vh]">
         {/* heading and desc */}
         <div className="flex flex-col">

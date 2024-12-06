@@ -516,7 +516,7 @@ const About = () => {
         <div className="flex flex-col md:px-80 h-full w-full max-w-[1920px] mx-auto justify-center relative py-24">
           <div className="flex flex-col gap-y-12 py-24">
             <div className="flex flex-col gap-y-6">
-              <TextAnim dir="v">
+              <TextAnim dir=">">
                 <h1 className="text-5xl text-white/90 ">Our Team</h1>
               </TextAnim>
               <ParagraphAnimation>
@@ -530,7 +530,7 @@ const About = () => {
           </div>
           <div className="flex flex-col gap-y-12 py-24">
             <div className="flex flex-col gap-y-6">
-              <TextAnim dir="v">
+              <TextAnim dir=">">
                 <h1 className="text-5xl text-white/90 ">Our Achievements</h1>
               </TextAnim>
               <ParagraphAnimation>
@@ -543,7 +543,7 @@ const About = () => {
           </div>
           <div className="flex flex-col gap-y-12 py-24">
             <div className="flex flex-col gap-y-6">
-              <TextAnim dir="v">
+              <TextAnim dir=">">
                 <h1 className="text-5xl text-white/90 ">Our Future Goals</h1>
               </TextAnim>
               <ParagraphAnimation>
@@ -558,7 +558,7 @@ const About = () => {
           </div>
           <div className="flex flex-col gap-y-12 py-24">
             <div className="flex flex-col gap-y-6">
-              <TextAnim dir="v">
+              <TextAnim dir=">">
                 <h1 className="text-5xl text-white/90 ">Conclusion</h1>
               </TextAnim>
               <ParagraphAnimation>
