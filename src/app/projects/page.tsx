@@ -1,6 +1,7 @@
 'use client'
-import { useState } from 'react'
-import { cn } from "@/lib/utils" // Assuming you have a utility file with cn function
+import { useEffect, useState } from 'react'
+import { createClient } from "../../../utils/supabase/client";
+import { cn } from "@/lib/utils"
 import TextAnim from "@/components/animatedText"
 import Nav from "@/components/navbar"
 import { IconType } from "react-icons"
@@ -12,39 +13,35 @@ import {
   FaTruck,
   FaFilter
 } from "react-icons/fa6"
+import Link from 'next/link';
+import Image from 'next/image';
 
 const Projects = () => {
   type Category = {
     name: string,
     icon: IconType,
-    color: string
   }
 
   const categories: Record<string, Category> = {
     'green-energy-sustainability': {
       name: 'Green Energy',
       icon: FaLeaf,
-      color: 'bg-green-500'
     },
     'industrial-manufacturing': {
       name: 'Industrial',
       icon: FaHelmetSafety,
-      color: 'bg-blue-500'
     },
     'agriculture-food': {
       name: 'Agriculture',
       icon: FaTractor,
-      color: 'bg-yellow-600'
     },
     'commercial-social': {
       name: 'Infrastructure',
       icon: FaBuilding,
-      color: 'bg-emerald-500'
     },
     'transportation-logistics': {
       name: 'Logistics',
       icon: FaTruck,
-      color: 'bg-indigo-500'
     }
   };
 
@@ -59,7 +56,51 @@ const Projects = () => {
   };
 
   const clearFilters = () => setActiveFilters([]);
+  const supabase = createClient()
 
+  type ImageUrls = Record<string, string>
+  type Project = {
+    id: number,
+    created_at: string,
+    category: string,
+    description?: string,
+    page: string
+    name: string
+    images: ImageUrls
+  }
+  const [projects, setProjects] = useState<Project[]>([])
+
+  useEffect(() => {
+    async function fetchData() {
+      let { data, error } = await supabase
+        .from('images')
+        .select('*')
+
+      if (error) {
+        console.error('Error fetching projects:', error)
+        return
+      }
+
+      if (data) {
+        setProjects(data)
+      }
+    }
+    fetchData()
+  }, []);
+
+  const createProjectSlug = (name: string, id: number): string => {
+    const slugifiedName = name
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    return `${slugifiedName}-${id}`;
+  }
+
+  const filteredProjects = activeFilters.length > 0
+    ? projects.filter(project => activeFilters.includes(project.category))
+    : projects;
 
   return (
     <main>
@@ -86,7 +127,7 @@ const Projects = () => {
                   )}
                 >
                   <FaFilter />
-                  <span>
+                  <span className='min-w-16'>
                     {activeFilters.length
                       ? `Clear (${activeFilters.length})`
                       : 'Filters'}
@@ -97,10 +138,10 @@ const Projects = () => {
                     key={key}
                     onClick={() => toggleCategory(key)}
                     className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-lg transition-all",
+                      "flex items-center gap-2 px-4 py-2 rounded-full transition-all min-w-[140px] justify-center border-[1px]",
                       activeFilters.includes(key)
-                        ? `${category.color} text-white`
-                        : 'bg-white/10 text-white/50 hover:bg-white/20'
+                        ? 'bg-white/10 border-white/10 text-white'
+                        : 'border-white/50 text-white/50 hover:bg-white/20'
                     )}
                   >
                     <category.icon />
@@ -109,13 +150,33 @@ const Projects = () => {
                 ))}
               </div>
               <div className="text-white/50 text-lg tracking-wide">
-                {activeFilters.length
-                  ? `Showing projects in ${activeFilters.join(', ')}`
-                  : 'Showing all projects'}
+                {activeFilters.length === 0 || activeFilters.length === Object.keys(categories).length
+                  ? 'Showing all projects'
+                  : `Showing projects in ${activeFilters.join(', ')}`}
               </div>
             </div>
 
-            <div className=''>
+            <div className='mt-24 grid grid-cols-2 gap-4'>
+              {
+                filteredProjects.map((project) => (
+                  <div key={project.id}>
+                    <Image
+                      width={400}
+                      height={400}
+                      src={Object.values(project.images)[0]}
+                      alt={`${project.name} project image`}
+                      className="w-full h-auto object-cover aspect-[4/3]"
+                    />
+                    <Link
+                      href={`/projects/${createProjectSlug(project.name, project.id)}/`}
+                      className='text-white text-2xl block mt-4 hover:text-white/80 transition-colors'
+                    >
+                      {project.name}
+                    </Link>
+                    <p className='text-white/50 mt-2'>{project.description}</p>
+                  </div>
+                ))
+              }
             </div>
           </div>
         </div>
