@@ -4,46 +4,15 @@ import { createClient } from "../../../utils/supabase/client";
 import { cn } from "@/lib/utils"
 import TextAnim from "@/components/animatedText"
 import Nav from "@/components/navbar"
-import { IconType } from "react-icons"
+import { motion } from 'framer-motion'
+import { categories } from '@/lib/helperFunctions'
 import {
-  FaLeaf,
-  FaHelmetSafety,
-  FaTractor,
-  FaBuilding,
-  FaTruck,
   FaFilter
 } from "react-icons/fa6"
 import Link from 'next/link';
 import Image from 'next/image';
 
 const Projects = () => {
-  type Category = {
-    name: string,
-    icon: IconType,
-  }
-
-  const categories: Record<string, Category> = {
-    'green-energy-sustainability': {
-      name: 'Green Energy',
-      icon: FaLeaf,
-    },
-    'industrial-manufacturing': {
-      name: 'Industrial',
-      icon: FaHelmetSafety,
-    },
-    'agriculture-food': {
-      name: 'Agriculture',
-      icon: FaTractor,
-    },
-    'commercial-social': {
-      name: 'Infrastructure',
-      icon: FaBuilding,
-    },
-    'transportation-logistics': {
-      name: 'Logistics',
-      icon: FaTruck,
-    }
-  };
 
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
@@ -58,17 +27,8 @@ const Projects = () => {
   const clearFilters = () => setActiveFilters([]);
   const supabase = createClient()
 
-  type ImageUrls = Record<string, string>
-  type Project = {
-    id: number,
-    created_at: string,
-    category: string,
-    description?: string,
-    page: string
-    name: string
-    images: ImageUrls
-  }
   const [projects, setProjects] = useState<Project[]>([])
+  const [projectsLoading, setProjectsLoading] = useState(true)
 
   useEffect(() => {
     async function fetchData() {
@@ -77,13 +37,14 @@ const Projects = () => {
         .select('*')
 
       if (error) {
-        console.error('Error fetching projects:', error)
+        setProjectsLoading(false)
         return
       }
 
       if (data) {
         setProjects(data)
       }
+      setProjectsLoading(false)
     }
     fetchData()
   }, []);
@@ -102,15 +63,17 @@ const Projects = () => {
     ? projects.filter(project => activeFilters.includes(project.category))
     : projects;
 
+  const [projectHover, setProjectHover] = useState(-1)
+
   return (
     <main>
       <section className="w-full bg-creatBG min-h-screen">
         <Nav isTransparent={false} />
-        <div className="w-full max-w-[1920px] h-full py-24 flex relative items-center">
+        <div className="w-full max-w-[1920px] h-full py-24 flex relative items-center mx-auto">
           <div className="flex flex-col px-80 w-full">
             <TextAnim>
               <span className="inline-flex gap-x-4 items-center">
-                <span className="w-12 h-0.5 bg-white/90 inline-block"></span>
+                <span className="w-12 h-1 bg-white/90 inline-block"></span>
                 <h1 className="text-5xl text-white/90">Projects</h1>
               </span>
             </TextAnim>
@@ -138,7 +101,7 @@ const Projects = () => {
                     key={key}
                     onClick={() => toggleCategory(key)}
                     className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-full transition-all min-w-[140px] justify-center border-[1px]",
+                      "text-nowrap flex items-center gap-2 px-4 py-2 rounded-full transition-all min-w-[140px] justify-center border-[2px]",
                       activeFilters.includes(key)
                         ? 'bg-white/10 border-white/10 text-white'
                         : 'border-white/50 text-white/50 hover:bg-white/20'
@@ -156,26 +119,77 @@ const Projects = () => {
               </div>
             </div>
 
-            <div className='mt-24 grid grid-cols-2 gap-4'>
+            <div className='mt-24 grid grid-cols-2 gap-8'>
               {
-                filteredProjects.map((project) => (
-                  <div key={project.id}>
-                    <Image
-                      width={400}
-                      height={400}
-                      src={Object.values(project.images)[0]}
-                      alt={`${project.name} project image`}
-                      className="w-full h-auto object-cover aspect-[4/3]"
-                    />
-                    <Link
-                      href={`/projects/${createProjectSlug(project.name, project.id)}/`}
-                      className='text-white text-2xl block mt-4 hover:text-white/80 transition-colors'
+                projectsLoading ? <div className='col-span-2'>
+                  <p className='text-white/50 text-center text-lg'>Loading projects...</p>
+                </div> :
+                  filteredProjects.length === 0
+
+                    ?
+                    <div className='col-span-2'>
+                      <p className='text-white/50 text-center text-lg'>No projects found for this category</p>
+                    </div>
+                    :
+                    filteredProjects.map((project) => (<motion.div
+                      onHoverStart={() => setProjectHover(project.id)}
+                      onHoverEnd={() => setProjectHover(-1)}
+                      className="rounded-2xl overflow-hidden"
                     >
-                      {project.name}
-                    </Link>
-                    <p className='text-white/50 mt-2'>{project.description}</p>
-                  </div>
-                ))
+                      <Link
+                        key={project.id}
+                        href={`/projects/${createProjectSlug(project.name, project.id)}/`}
+                        className='block relative'
+                      >
+
+                        <motion.div
+                          animate={{
+                            opacity: projectHover === project.id ? 1 : 0
+                          }}
+                          className='absolute inset-0 backdrop-blur-sm z-10'
+                        />
+
+                        <motion.div
+                          initial={{
+                            x: '-200%',
+                            opacity: 0
+                          }}
+                          animate={{
+                            x: projectHover === project.id ? 0 : '-200%',
+                            opacity: projectHover === project.id ? 1 : 0
+                          }}
+                          transition={{
+                            mass: 5
+                          }}
+                          className='absolute bottom-12 left-12 px-8 py-6 flex
+                          flex-col bg-white rounded-xl z-20 max-w-[calc(100%-96px)]'>
+                          <h1 className='text-xs text-stone-500 font-medium font-jost uppercase'>
+                            {categories[project.category].name}</h1>
+                          <h1
+                            className='text-2xl text-stone-700 font-medium font-jost'
+                          >{project.name}</h1>
+                        </motion.div>
+
+                        <motion.div
+                          animate={{
+                            scale: projectHover === project.id ? 1.1 : 1
+                          }}
+                          transition={{
+                            damping: 30,
+                          }}
+                          className="w-full h-full overflow-hidden"
+                        >
+                          <Image
+                            width={600}
+                            height={450}
+                            src={project?.images ? Object.values(project.images)[0] : ''}
+                            alt={`${project.name} project image`}
+                            className="w-full h-auto object-cover aspect-[4/3]"
+                          />
+                        </motion.div>
+                      </Link>
+                    </motion.div>
+                    ))
               }
             </div>
           </div>

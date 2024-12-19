@@ -104,7 +104,7 @@ export default function Login() {
                 setError(false);
               }}
               required
-              className={`w-full text-lg px-4 py-2 rounded-lg focus:outline-none border-2
+              className={`bg-zinc-100 w-full text-lg px-4 py-2 rounded-lg focus:outline-none border-2
               ${error && "border-red-400"}
                 `}
               placeholder="email"
@@ -117,7 +117,7 @@ export default function Login() {
                 setError(false);
               }}
               required
-              className={`w-full text-lg px-4 py-2 rounded-lg focus:outline-none border-2
+              className={`bg-zinc-100 w-full text-lg px-4 py-2 rounded-lg focus:outline-none border-2
               ${error && "border-red-400"}
                 `}
               placeholder="password"

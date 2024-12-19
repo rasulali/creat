@@ -20,11 +20,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { motion } from 'framer-motion'
 import { FileUpload } from "@/components/fileUpload";
 
-interface MenuDataType {
-  name: string;
-  email: string;
-  role: string;
-}
 const supabase = createClient();
 
 export const Menu: React.FC<MenuDataType> = (props) => {
@@ -323,19 +318,14 @@ export const Form = () => {
     return Promise.all(uploadPromises);
   };
 
-  interface tableTypes {
-    page: string;
-    category: string;
-    name: string;
-    description?: string;
-    images: Record<string, string>;
-  }
   const handleSupabaseUpload = async ({
     page,
     category,
     name,
     description,
     images,
+    location,
+    date,
   }: tableTypes) => {
     const { error: insertErr } = await supabase.from("images").insert([
       {
@@ -344,6 +334,8 @@ export const Form = () => {
         description,
         page,
         images,
+        location,
+        date,
       },
     ]);
     if (insertErr) {
@@ -726,6 +718,32 @@ export const Form = () => {
               />
             </span>
             <span className="w-full">
+              <label htmlFor="location" className="text-lg">
+                Location
+              </label>
+              <input
+                type="text"
+                name="location"
+                id="location"
+                placeholder="Enter project location"
+                className="w-full bg-transparent border rounded-lg p-2 mt-0.5
+    placeholder-zinc-500"
+              />
+            </span>
+
+            <span className="w-full">
+              <label htmlFor="date" className="text-lg">
+                Date
+              </label>
+              <input
+                type="date"
+                name="date"
+                id="date"
+                className="w-full bg-transparent border rounded-lg p-2 mt-0.5
+    placeholder-zinc-500 [color-scheme:light]"
+              />
+            </span>
+            <span className="w-full">
               <label htmlFor="description" className="text-lg">
                 Description
               </label>
@@ -883,14 +901,6 @@ export const Preview = () => {
     });
   };
 
-  interface dataTableTypes {
-    date: string;
-    category: string;
-    page: string;
-    name: string;
-    description?: string;
-    images: Record<string, string>;
-  }
   const [dataTable, setDataTable] = useState<dataTableTypes[]>([]);
   const [dataError, setDataError] = useState<PostgrestError | null>(null);
 

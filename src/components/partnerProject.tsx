@@ -3,19 +3,6 @@ import Image from "next/image";
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
-type partnerProject = {
-  name: string,
-  heading: string,
-  desc?: string,
-  images: string[],
-}
-
-interface PartnerProjectProps {
-  activePartner: partnerProject
-  setSrcSet: (images: string[]) => void;
-  setFullScreenIndex: (index: number) => void;
-}
-
 const PartnerProject: React.FC<PartnerProjectProps> = ({ activePartner, setSrcSet, setFullScreenIndex }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 

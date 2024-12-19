@@ -1,12 +1,6 @@
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef, ReactNode, useMemo, cloneElement } from "react";
 
-type ParagraphAnimationProps = {
-  children: ReactNode;
-  maxDelay?: number;
-  minDelay?: number;
-};
-
 export const ParagraphAnimation = ({
   children,
   maxDelay = 1,

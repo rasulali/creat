@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import Image from "next/image"
 const Partners = () => {
-  type partners = { logo: string, name: string }
 
   const partners: partners[] = [
     {

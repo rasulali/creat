@@ -23,18 +23,12 @@ const Dashboard = async () => {
     .single()
     .then((res) => res as { data: UserDataType; error: any });
 
-  type UserDataType = {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-    created_at: Date;
-  };
-
   return (
     <main className="relative bg-zinc-100 pb-9 min-h-dvh">
       <nav className="flex justify-between items-center w-full p-4 lg:px-8">
-        <Link className="lg:h-12 h-9 flex w-fit" href="/">
+        <Link className="lg:h-12 h-9 flex w-fit tooltip tooltip-right" href="/"
+          data-tip="Home"
+        >
           <img src="/logos/horizontal_black.svg" alt="logo" className="h-full w-full object-cover" />
         </Link>
         <Menu {...userData} />

@@ -6,12 +6,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { FaSquareFacebook, FaSquareInstagram, FaLinkedin, FaRegUser, FaChevronDown } from "react-icons/fa6";
 import Logo from "./logo";
 import { GrLanguage } from "react-icons/gr";
-
-
-type Item = {
-  label: string;
-  href: string;
-};
+import { cn } from "@/lib/utils";
 
 export const items: Item[] = [
   { label: "projects", href: "/projects" },
@@ -126,12 +121,6 @@ const Nav: React.FC<NavProps> = ({ isTransparent }) => {
 
   const [langHover, setLangHover] = useState(false)
 
-  type LanguageState = {
-    en: boolean;
-    az: boolean;
-    ru: boolean;
-  };
-
   const [actiteLang, setActiteLang] = useState<LanguageState>({
     en: true,
     az: false,
@@ -188,13 +177,13 @@ const Nav: React.FC<NavProps> = ({ isTransparent }) => {
       </motion.div>
 
       <nav ref={navRef}
-        style={{
-          borderColor: isTransparent ? 'rgb(8 23 49 / 0.1)' : 'rgb(8 23 49 / 1)',
-          background: isTransparent ? 'rgb(8 23 49 / 0.6)' : 'rgb(8 23 49 / 1)',
-          position: isTransparent ? 'absolute' : 'relative',
-        }}
-        className="w-full flex justify-center border-b border-creatBG/10 backdrop-blur
-                    bg-creatBG/60 top-0 left-0">
+        className={cn(
+          "w-full flex justify-center border-b backdrop-blur top-0 left-0",
+          isTransparent
+            ? "absolute z-50 border-creatBG/10 bg-creatBG/60"
+            : "relative border-creatBG bg-creatBG"
+        )}
+      >
         <div className="flex w-full max-w-[1920px] justify-center items-center md:py-6 relative">
           <div
             className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col">

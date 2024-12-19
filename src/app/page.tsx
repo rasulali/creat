@@ -24,22 +24,6 @@ import { BASE_URI } from "@/lib/vars";
 export default function Home() {
   const [activeTab, setActiveTab] = useState(0);
 
-  type AboutTab = {
-    [key: number]: {
-      main: {
-        name: string;
-        desc: string;
-      };
-      tab_l: {
-        name: string;
-        desc: string;
-      };
-      tab_r: {
-        name: string;
-        desc: string;
-      };
-    };
-  };
   const aboutTabs: AboutTab = {
     0: {
       main: {
@@ -173,22 +157,6 @@ export default function Home() {
       stopAutoCycle();
     };
   }, []);
-
-  type partnerProject = {
-    name: string,
-    heading: string,
-    desc?: string,
-    images: string[],
-  }
-
-  type partners = {
-    name?: string,
-    logo: string,
-    link?: string,
-    animated?: boolean,
-    color?: string,
-    projects?: partnerProject[]
-  }
 
   const partners: partners[] = [
     {
