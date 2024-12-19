@@ -1,5 +1,4 @@
 declare global {
-  type partners = { logo: string, name: string }
 
   type ParagraphAnimationProps = {
     children: ReactNode;

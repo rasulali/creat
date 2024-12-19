@@ -85,8 +85,8 @@ const EmailForm = () => {
         Submit Your Email
       </h1>
       <form ref={formRef} className="flex gap-x-4" onSubmit={handleSubmit}>
-        <input required name="email" type="email" className="min-w-[300px] px-6 py-5 rounded-lg
-                outline-none text-xl border-2 border-transparent focus:border-black text-black" placeholder="Enter your email" />
+        <input required name="email" type="email" className="bg-transparent border-creatBGLight/50 min-w-[300px] px-6 py-5 rounded-lg
+                outline-none text-xl border-2 focus:border-creatBGLight transition-colors text-black" placeholder="Enter your email" />
         <button type="submit" className="bg-black px-6 py-5 rounded-lg text-white text-xl font-bold
                 group hover:bg-white hover:text-black transition-colors">
           Submit
