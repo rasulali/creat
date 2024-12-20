@@ -177,7 +177,7 @@ const About = () => {
 
   return <section className="w-full relative font-jost overflow-hidden">
     <div className="relative">
-      <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-[-1]">
+      <div className="absolute inset-0">
         <Image
           src={`${BASE_URI}/home/about/banner.jpg`}
           alt="Company Overview Background"
@@ -189,7 +189,7 @@ const About = () => {
       </div>
       <div className="flex flex-col">
         <Nav isTransparent={false} />
-        <div className="py-48 flex justify-center  bg-creatBG">
+        <div className="py-48 flex justify-center bg-creatBG z-10">
           <div className="flex w-3/5 justify-center gap-x-24 items-end">
             <TextAnim>
               <h1 className="text-5xl text-white leading-tight uppercase">

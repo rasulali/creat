@@ -8,7 +8,7 @@ import {
   IoLogOutOutline,
   IoRefresh,
 } from "react-icons/io5";
-import { FaTrash, FaPen, FaMagnifyingGlass, FaXmark } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaXmark } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im"
 import { useEffect, useRef, useState } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
@@ -433,24 +433,6 @@ export const Form = () => {
     setRenameInputChanged(false);
   };
 
-  const handleImageName = (name: string) => {
-    let displayName: string = name;
-    let extension = "";
-    if (name.startsWith("$")) {
-      displayName = name.slice(1);
-    }
-    const maxLength = 18;
-    const dotIndex = displayName.lastIndexOf(".");
-    if (dotIndex !== -1) {
-      extension = displayName.slice(dotIndex);
-      displayName = displayName.slice(0, dotIndex);
-    }
-
-    const availableChars = Math.max(0, maxLength - extension.length - 3);
-    if (displayName.length > availableChars) {
-      return displayName.slice(0, availableChars) + "..." + extension;
-    } else return displayName + extension;
-  };
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -787,70 +769,10 @@ export const Form = () => {
                   </div>
                 )}
               </span>
-              <FileUpload files={selectedImages} inputRef={imageUploadRef} onChange={(e: File[]) => handleImageSelect(e)} />
-              <div
-                className={`w-full h-[200px]
-            overflow-hidden rounded-lg border mt-3 ${selectedImages.length === 0 && "hidden"}`}
-              >
-                <div
-                  className="flex overflow-x-scroll p-2 gap-x-2 h-full relative
-            snap-x snap-mandatory lg:snap-none  scrollbar-thin scrollbar-track-transparent
-  scrollbar-thumb-neutral-200/50 hover:scrollbar-thumb-neutral-300/75 scrollbar-thumb-rounded-full"
-                >
-                  {selectedImages.map((image, index) => {
-                    const imageUrl = URL.createObjectURL(image);
-                    return (
-                      <div
-                        key={index}
-                        className="relative shrink-0 inline-block h-full max-w-full
-                  group aspect-[4/3]"
-                      >
-                        <img
-                          src={URL.createObjectURL(image)}
-                          alt={`Image ${index}`}
-                          draggable={false}
-                          className="w-full h-full object-contain snap-center border"
-                        />
-                        <Tooltip id={image.name} className="z-50" />
-                        <div
-                          className="absolute top-full left-1/2 -translate-y-full px-2
-                  -translate-x-1/2 w-full h-8 bg-black/50
-                  flex items-center justify-between"
-                        >
-                          <h1
-                            data-tooltip-id={image.name}
-                            data-tooltip-content={image.name}
-                            data-tooltip-place="top-start"
-                            className="text-white text-lg">
-                            {handleImageName(image.name)}
-                          </h1>
-                          <div className="flex gap-x-2">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setImageIndex(index);
-                                setRenameState(true);
-                              }}
-                              className="appearance-none w-fit h-fit"
-                            >
-                              <FaPen className="text-lg text-white" />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                handleSingleImageDelete(index, imageUrl)
-                              }
-                              className="appearance-none w-fit h-fit"
-                            >
-                              <FaTrash className="text-lg text-red-500" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <FileUpload
+                onDelete={handleSingleImageDelete}
+                setImageIndex={setImageIndex} setRenameState={setRenameState}
+                files={selectedImages} inputRef={imageUploadRef} onChange={(e: File[]) => handleImageSelect(e)} />
             </span>
             <button
               type="submit"
