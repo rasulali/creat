@@ -191,6 +191,9 @@ export const Form = () => {
       category: formData.get("category") as string,
       name: formData.get("name") as string,
       description: formData.get("description") as string,
+      location: formData.get("location") as string,
+      date: formData.get("date") as string
+
     };
 
     const form = e.currentTarget;
@@ -823,7 +826,7 @@ export const Preview = () => {
     });
   };
 
-  const [dataTable, setDataTable] = useState<dataTableTypes[]>([]);
+  const [dataTable, setDataTable] = useState<tableTypes[]>([]);
   const [dataError, setDataError] = useState<PostgrestError | null>(null);
 
   useEffect(() => {

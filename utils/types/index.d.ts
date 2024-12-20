@@ -64,15 +64,6 @@ declare global {
     images: Record<string, string>;
     location?: string;
     date?: string;
-    service?: string;
-  }
-  interface dataTableTypes {
-    date: string;
-    category: string;
-    page: string;
-    name: string;
-    description?: string;
-    images: Record<string, string>;
   }
 
   type UserDataType = {
