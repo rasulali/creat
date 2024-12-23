@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { IconUpload } from "@tabler/icons-react";
 import { useDropzone } from "react-dropzone";
 import { FaPen, FaTrash } from "react-icons/fa6";
+import { handleImageName } from "@/lib/helperFunctions";
 
 const mainVariant = {
   initial: {
@@ -114,24 +115,6 @@ export const FileUpload = ({
     },
   });
 
-  const handleImageName = (name: string) => {
-    let displayName: string = name;
-    let extension = "";
-    if (name.startsWith("$")) {
-      displayName = name.slice(1);
-    }
-    const maxLength = 18;
-    const dotIndex = displayName.lastIndexOf(".");
-    if (dotIndex !== -1) {
-      extension = displayName.slice(dotIndex);
-      displayName = displayName.slice(0, dotIndex);
-    }
-
-    const availableChars = Math.max(0, maxLength - extension.length - 3);
-    if (displayName.length > availableChars) {
-      return displayName.slice(0, availableChars) + "..." + extension;
-    } else return displayName + extension;
-  };
 
   return (
     <div className="w-full" {...getRootProps()}>
