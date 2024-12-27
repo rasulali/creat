@@ -9,6 +9,7 @@ import Service from "@/components/service";
 import ParagraphAnimation from "@/components/paragraphAnim";
 import Footer from "@/components/footer";
 import { BASE_URI } from "@/lib/vars";
+import Link from "next/link";
 
 const About = () => {
 
@@ -176,58 +177,28 @@ const About = () => {
   ];
 
   return <section className="w-full relative font-jost overflow-hidden">
-    <div className="relative">
-      <div className="absolute inset-0">
-        <Image
-          src={`${BASE_URI}/home/about/banner.jpg`}
-          alt="Company Overview Background"
-          fill
-          priority
-          style={{ objectFit: 'cover' }}
-          quality={50}
-        />
-      </div>
-      <div className="flex flex-col">
-        <Nav isTransparent={false} />
-        <div className="py-48 flex justify-center bg-creatBG z-10">
-          <div className="flex w-3/5 justify-center gap-x-24 items-end">
-            <TextAnim>
-              <h1 className="text-5xl text-white leading-tight uppercase">
-                Company <br />Overview
-              </h1>
-            </TextAnim>
-            <div>
-              <TextAnim dir="<">
-                <p className="text-white text-2xl">
-                  We offer customized approaches to project management,<br />
-                  tailoring our solutions to the specific requirements of each project <br />
-                  and ultimately ensure the successful completion of their projects
-                </p>
-              </TextAnim>
-            </div>
-          </div>
+    <div className="flex flex-col">
+      <Nav isTransparent={false} />
+      <div className="pt-48 pb-64 flex justify-center relative">
+        <div className="absolute inset-0">
+          <Image src="/bg.jpg" alt="bg" className="w-full h-full object-cover" fill />
         </div>
-        <div className="h-[500px] w-full relative">
-          {/* This empty space allows scrolling to reveal more of the background */}
-          <div className="absolute top-0 left-0 w-full h-[100px] pointer-events-none">
-            <svg
-              width="100%"
-              height="100%"
-              preserveAspectRatio="none"
-              fill="#081731"
-              viewBox="0 0 1920 100">
-              <path d="M0 43L40 44.3C80 45.7 160 48.3 240 56.5C320 64.7 400 78.3 480 76C560 73.7 640 55.3 720 52.3C800 49.3 880 61.7 960 59.8C1040 58 1120 42 1200 34.8C1280 27.7 1360 29.3 1440 33.3C1520 37.3 1600 43.7 1680 42.5C1760 41.3 1840 32.7 1880 28.3L1920 24L1920 0L1880 0C1840 0 1760 0 1680 0C1600 0 1520 0 1440 0C1360 0 1280 0 1200 0C1120 0 1040 0 960 0C880 0 800 0 720 0C640 0 560 0 480 0C400 0 320 0 240 0C160 0 80 0 40 0L0 0Z" strokeLinecap="round" strokeLinejoin="miter"></path>
-            </svg>
-          </div>
-          <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-1">
-            <svg
-              width="100%"
-              height="100%"
-              preserveAspectRatio="none"
-              fill="#081731"
-              viewBox="0 0 1920 100">
-              <path d="M0 25L17.8 23.8C35.7 22.7 71.3 20.3 106.8 23.7C142.3 27 177.7 36 213.2 37.2C248.7 38.3 284.3 31.7 320 36.3C355.7 41 391.3 57 426.8 61.7C462.3 66.3 497.7 59.7 533.2 51.3C568.7 43 604.3 33 640 36C675.7 39 711.3 55 746.8 62.7C782.3 70.3 817.7 69.7 853.2 67.7C888.7 65.7 924.3 62.3 960 64.5C995.7 66.7 1031.3 74.3 1066.8 67.2C1102.3 60 1137.7 38 1173.2 39C1208.7 40 1244.3 64 1280 67C1315.7 70 1351.3 52 1386.8 43C1422.3 34 1457.7 34 1493.2 38.3C1528.7 42.7 1564.3 51.3 1600 59.3C1635.7 67.3 1671.3 74.7 1706.8 77.5C1742.3 80.3 1777.7 78.7 1813.2 76.8C1848.7 75 1884.3 73 1902.2 72L1920 71L1920 100L1902.2 100C1884.3 100 1848.7 100 1813.2 100C1777.7 100 1742.3 100 1706.8 100C1671.3 100 1635.7 100 1600 100C1564.3 100 1528.7 100 1493.2 100C1457.7 100 1422.3 100 1386.8 100C1351.3 100 1315.7 100 1280 100C1244.3 100 1208.7 100 1173.2 100C1137.7 100 1102.3 100 1066.8 100C1031.3 100 995.7 100 960 100C924.3 100 888.7 100 853.2 100C817.7 100 782.3 100 746.8 100C711.3 100 675.7 100 640 100C604.3 100 568.7 100 533.2 100C497.7 100 462.3 100 426.8 100C391.3 100 355.7 100 320 100C284.3 100 248.7 100 213.2 100C177.7 100 142.3 100 106.8 100C71.3 100 35.7 100 17.8 100L0 100Z" stroke-linecap="round" stroke-linejoin="miter"></path>
-            </svg>
+        <div className="absolute inset-0 bg-[#040b18] bg-opacity-30">
+        </div>
+        <div className="flex w-3/5 justify-center gap-x-24 items-end">
+          <TextAnim>
+            <h1 className="text-5xl text-white leading-tight uppercase">
+              Company <br />Overview
+            </h1>
+          </TextAnim>
+          <div>
+            <TextAnim dir="<">
+              <p className="text-white text-2xl">
+                We offer customized approaches to project management,<br />
+                tailoring our solutions to the specific requirements of each project <br />
+                and ultimately ensure the successful completion of their projects
+              </p>
+            </TextAnim>
           </div>
         </div>
       </div>
@@ -473,9 +444,18 @@ const About = () => {
         <div className="flex flex-col md:px-80 h-full w-full max-w-[1920px] mx-auto justify-center">
           <div className="flex flex-col gap-y-12 mt-48">
             <div className="flex flex-col gap-y-6">
-              <TextAnim>
-                <h1 className="text-5xl text-white/90 ">Our Services</h1>
-              </TextAnim>
+              <div className="flex justify-between items-end">
+                <TextAnim>
+                  <h1 className="text-5xl text-white/90 ">Our Services</h1>
+                </TextAnim>
+                <TextAnim>
+                  <Link
+                    className="text-white uppercase hover:opacity-70 transition-opacity font-medium"
+                    href="/services">
+                    All Services
+                  </Link>
+                </TextAnim>
+              </div>
               <TextAnim delay={0.1}>
                 <p className="text-5xl tracking-tighter text-white/70">
                   <span

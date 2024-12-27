@@ -1,9 +1,13 @@
 import Link from "next/link";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
 import { items } from "./navbar";
+import { cn } from "@/lib/utils";
 
-const Footer = () => {
-  return <footer className="flex flex-col items-center bg-creatBGLight text-white">
+const Footer = ({ className }: { className?: string }) => {
+  return <footer className={cn(
+    "flex flex-col items-center bg-creatBGLight text-white",
+    className
+  )}>
     <div className="flex items-center justify-center max-w-[1200px] mx-auto">
       <div className="w-full flex gap-x-32 py-12">
         <div className="flex flex-col">
@@ -37,11 +41,11 @@ const Footer = () => {
         <div className="flex flex-col">
           <h1 className="text-3xl font-bold mb-4">Services</h1>
           <div className="flex flex-col gap-y-2">
-            <Link href="/wip"
+            <Link href="/services"
               className="text-lg font-medium hover:text-creatBright transition-colors capitalize">Renewable Energy</Link>
-            <Link href="/wip"
+            <Link href="/services"
               className="text-lg font-medium hover:text-creatBright transition-colors capitalize">Construction</Link>
-            <Link href="wip"
+            <Link href="/services"
               className="text-lg font-medium hover:text-creatBright transition-colors capitalize">Technical Planning</Link>
           </div>
         </div>

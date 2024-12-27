@@ -10,10 +10,10 @@ import { cn } from "@/lib/utils";
 
 export const items: Item[] = [
   { label: "projects", href: "/projects" },
-  { label: "services", href: "/wip" },
+  { label: "services", href: "/services" },
   { label: "home", href: "/" },
   { label: "about", href: "/about" },
-  { label: "contact", href: "/wip" },
+  { label: "contact", href: "/contact" },
 ];
 
 interface NavProps {
