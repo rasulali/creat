@@ -120,7 +120,7 @@ const Project = ({ params }: { params: { slug: string } }) => {
             </div>
           </div>
         </div>
-        <div className="absolute inset-0 grid grid-cols-2 z-[1]">
+        <div className="absolute inset-0 grid grid-cols-2 z-[2]">
           <div className="relative col-start-2 h-full">
             <Image
               src={project?.images ? Object.values(project.images)[0] : ''}

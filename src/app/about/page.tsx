@@ -181,7 +181,8 @@ const About = () => {
       <Nav isTransparent={false} />
       <div className="pt-48 pb-64 flex justify-center relative">
         <div className="absolute inset-0">
-          <Image src="/bg.jpg" alt="bg" className="w-full h-full object-cover" fill />
+          <Image src={`${BASE_URI}/home/about/banner.jpg`} alt="Solar Panels across filed as background image of about page" className="w-full h-full object-cover"
+            fill quality={75} />
         </div>
         <div className="absolute inset-0 bg-[#040b18] bg-opacity-30">
         </div>

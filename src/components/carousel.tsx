@@ -96,7 +96,7 @@ export const Carousel = ({ project, initialScroll = 0 }: CarouselProps) => {
           <div className="absolute right-0 z-[1000] h-auto w-[5%] overflow-hidden bg-gradient-to-l"></div>
 
           <div className="flex flex-row justify-start gap-4 pl-4 max-w-[calc(100%-256px)] mx-auto">
-            {cards.map((card, index) => (
+            {cards.reverse().map((card, index) => (
               <motion.div
                 initial={{
                   opacity: 0,

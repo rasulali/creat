@@ -19,6 +19,8 @@ import { BsExclamationCircleFill } from "react-icons/bs";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from 'framer-motion'
 import { FileUpload } from "@/components/fileUpload";
+import { cn } from "@/lib/utils";
+import { handleDisplayName } from "@/lib/helperFunctions";
 
 const supabase = createClient();
 
@@ -193,7 +195,6 @@ export const Form = () => {
       description: formData.get("description") as string,
       location: formData.get("location") as string,
       date: formData.get("date") as string
-
     };
 
     const form = e.currentTarget;
@@ -412,28 +413,47 @@ export const Form = () => {
   const [newName, setNewName] = useState("");
   const [renameInputChanged, setRenameInputChanged] = useState(false);
   const [imageIndex, setImageIndex] = useState(-1);
+
   const handleImageRename = (index: number, newName: string) => {
     const image = selectedImages[index];
-    const lastDotIndex = image.name.lastIndexOf(".");
-    const extension = lastDotIndex !== -1 ? image.name.slice(lastDotIndex) : "";
+    const lastDotIndex = image.name.lastIndexOf('.');
+    const extension = lastDotIndex !== -1 ? image.name.slice(lastDotIndex) : '';
 
-    const sanitizedNewName = newName.trim();
-    if (!sanitizedNewName || sanitizedNewName === "$") {
+    // Remove any existing '$' prefix and extension from the new name
+    let sanitizedNewName = newName.trim();
+    const newNameDotIndex = sanitizedNewName.lastIndexOf('.');
+    if (newNameDotIndex !== -1) {
+      sanitizedNewName = sanitizedNewName.slice(0, newNameDotIndex);
+    }
+    // Remove '$' if it exists at the start
+    if (sanitizedNewName.startsWith('$')) {
+      sanitizedNewName = sanitizedNewName.slice(1);
+    }
+
+    // Check if the name is empty or just '$'
+    if (!sanitizedNewName || sanitizedNewName === '$') {
       return;
     }
 
-    const newFileName = "$" + sanitizedNewName + extension;
+    const newFileName = '$' + sanitizedNewName + extension;
 
     const renamedImage = new File([image], newFileName, { type: image.type });
 
     setSelectedImages((prevImages) =>
-      prevImages.map((img, i) => (i === index ? renamedImage : img)),
+      prevImages.map((img, i) => (i === index ? renamedImage : img))
     );
 
+    // Reset states
     setImageIndex(-1);
     setRenameState(false);
-    setNewName("");
+    setNewName('');
     setRenameInputChanged(false);
+
+    // Reset the input field
+    const renameInput = document.getElementById('renameInput') as HTMLInputElement;
+    if (renameInput) {
+      renameInput.value = '';
+    }
   };
 
 
@@ -796,38 +816,28 @@ export const Form = () => {
   );
 };
 
+const HighlightText = ({ text, searchTerm }: { text: string; searchTerm: string }) => {
+  if (!searchTerm.trim()) return <span>{text}</span>;
+
+  const parts = text.split(new RegExp(`(${searchTerm})`, 'gi'));
+
+  return (
+    <span>
+      {parts.map((part, index) =>
+        part.toLowerCase() === searchTerm.toLowerCase() ?
+          <span key={index} className="font-bold">{part}</span> :
+          part
+      )}
+    </span>
+  );
+};
+
+
 export const Preview = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  interface ColumnWidth {
-    date: number;
-    category: number;
-    page: number;
-    name: number;
-    description: number;
-    images: number;
-  }
-
-  const [columnWidth, setColumnWidth] = useState<ColumnWidth>({
-    date: 1,
-    category: 1,
-    page: 1,
-    name: 1,
-    description: 1,
-    images: 8,
-  });
-
-  const handleColumnGrow = (col: keyof ColumnWidth) => {
-    setColumnWidth((prevWidth) => {
-      const newWidth = { ...prevWidth };
-      for (const key in newWidth) {
-        newWidth[key as keyof ColumnWidth] = key === col ? 8 : 1;
-      }
-      return newWidth;
-    });
-  };
-
-  const [dataTable, setDataTable] = useState<tableTypes[]>([]);
+  const [dataTable, setDataTable] = useState<Project[]>([]);
   const [dataError, setDataError] = useState<PostgrestError | null>(null);
+  const imageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   useEffect(() => {
     const handleTable = async () => {
@@ -844,22 +854,56 @@ export const Preview = () => {
     handleTable();
   }, []);
 
-  const tableHeadings: (keyof ColumnWidth)[] = [
-    "date",
-    "category",
-    "page",
-    "name",
-    "description",
-    "images",
-  ];
+
+  const filteredProjects = dataTable.filter(project => {
+    const searchLower = searchTerm.toLowerCase().trim();
+    if (searchLower === '') return true;
+
+    const searchableFields = [
+      project.name,
+      project.category,
+      project.page,
+      project.location,
+      project.date,
+      project.description,
+      ...Object.keys(project.images || {})
+    ].filter(Boolean) as string[];
+
+    return searchableFields.some(field =>
+      field.toLowerCase().includes(searchLower)
+    );
+  });
+
+  const hasImageNameMatch = (project: Project, searchTerm: string) => {
+    if (!project.images) return false;
+    const searchLower = searchTerm.toLowerCase().trim();
+    return Object.keys(project.images).some(imageName =>
+      imageName.toLowerCase().includes(searchLower)
+    );
+  };
+
+
+  useEffect(() => {
+    // Scroll matching image into view after search
+    filteredProjects.forEach((project) => {
+      if (hasImageNameMatch(project, searchTerm)) {
+        const matchingImageKey = Object.keys(project.images || {}).find(
+          imageName => imageName.toLowerCase().includes(searchTerm.toLowerCase().trim())
+        );
+        if (matchingImageKey) {
+          const elementKey = `${project.name}-${matchingImageKey}`;
+          const element = imageRefs.current[elementKey];
+          element?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    });
+  }, [searchTerm, filteredProjects]);
 
   return (
-    <section className="w-full drop-shadow col-start-2 row-start-1 max-h-screen overflow-y-scroll
-  scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-200/50
-  hover:scrollbar-thumb-neutral-300/75 scrollbar-thumb-rounded-full
-      ">
-      <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4 min-h-[50vh]">
-        {/* heading and desc */}
+    <section className="w-full drop-shadow col-start-2 row-start-1
+      scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-200/50
+      hover:scrollbar-thumb-neutral-300/75 scrollbar-thumb-rounded-full">
+      <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4">
         <div className="flex flex-col">
           <h1 className="text-2xl font-bold capitalize leading-tight">
             content overview
@@ -867,7 +911,6 @@ export const Preview = () => {
           <p>View and manage the contents of website</p>
         </div>
 
-        {/* preview */}
         <div className="flex flex-wrap gap-y-3">
           <span className="w-full relative">
             <input
@@ -880,31 +923,82 @@ export const Preview = () => {
             />
             <FaMagnifyingGlass
               className="absolute top-1/2 -translate-y-1/2
-        text-zinc-500 right-2 text-lg pointer-events-none"
+              text-zinc-500 right-2 text-lg pointer-events-none"
             />
           </span>
-          <div
-            className="w-full h-fit flex justify-between gap-x-2 border-b mt-6 pb-2
-       text-zinc-500 font-medium overflow-x-scroll"
-          >
-            {tableHeadings.map((element, index) => {
-              return (
-                <h1
-                  onClick={() => handleColumnGrow(element)}
-                  key={index}
-                  className={`${columnWidth[element] > 1 && "text-blue-500"} cursor-pointer capitalize`}
-                >
-                  {element}
-                </h1>
-              );
-            })}
+          <div className="space-y-4">
+            {dataError ? (
+              <p className="text-red-500">Error loading projects. Please try again later.</p>
+            ) : filteredProjects.length > 0 ? (
+              filteredProjects.map((project, index) => (
+                <div key={index} className="grid grid-cols-7 gap-x-2 items-center">
+                  <div className="flex gap-x-1 overflow-x-scroll snap-x snap-mandatory">
+                    {
+                      project.images && Object.entries(project.images).map(([imageName, image], index) => (
+                        <div
+                          ref={el => imageRefs.current[`${project.name}-${imageName}`] = el}
+                          key={imageName}
+                          className="w-full aspect-[4/3] flex-shrink-0 snap-center p-1 relative">
+                          <img
+                            src={image}
+                            className={cn(
+                              'w-full h-full object-cover transition-all duration-200 border-2',
+                              searchTerm.length > 0 && imageName.toLowerCase().includes(searchTerm.toLowerCase().trim())
+                                ? 'border-blue-600'
+                                : 'border-white'
+                            )}
+                            alt={project.name}
+                          />
+                          {handleDisplayName(imageName).length > 0 &&
+                            <div className="absolute top-[5px] left-[5px] px-1 py-0.5 bg-white/50">
+                              <h1 className="text-xs text-nowrap">
+                                <HighlightText text={handleDisplayName(imageName)} searchTerm={searchTerm} />
+                              </h1>
+                            </div>
+                          }
+                        </div>
+                      ))
+                    }
+                  </div>
+                  <div className="col-span-6 space-y-2">
+                    <h1 className="text-xl font-semibold">
+                      <HighlightText text={project.name} searchTerm={searchTerm} />
+                    </h1>
+                    {project.category && (
+                      <p className="text-sm text-gray-600">
+                        Category: <HighlightText text={project.category} searchTerm={searchTerm} />
+                      </p>
+                    )}
+                    {project.description && (
+                      <p className="text-sm text-gray-600">
+                        <HighlightText text={project.description} searchTerm={searchTerm} />
+                      </p>
+                    )}
+                    {project.location && (
+                      <p className="text-sm text-gray-600">
+                        Location: <HighlightText text={project.location} searchTerm={searchTerm} />
+                      </p>
+                    )}
+                    {project.date && (
+                      <p className="text-sm text-gray-600">
+                        Date: <HighlightText text={project.date} searchTerm={searchTerm} />
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-500">
+                {dataTable.length === 0 ? "No projects found" : "No matching projects found"}
+              </p>
+            )}
           </div>
-          <div className="w-full flex gap-2"></div>
         </div>
       </div>
     </section>
   );
 };
+
 
 interface EmailData {
   email: string;

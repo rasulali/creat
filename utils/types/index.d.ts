@@ -1,5 +1,16 @@
 declare global {
 
+
+  interface ColumnWidth {
+    date: number;
+    category: number;
+    page: number;
+    name: number;
+    location: number;
+    description: number;
+    images: number;
+  }
+
   type ParagraphAnimationProps = {
     children: ReactNode;
     maxDelay?: number;
