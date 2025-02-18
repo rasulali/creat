@@ -1,6 +1,5 @@
 "use client";
 import Nav from "@/components/navbar";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaChevronDown } from "react-icons/fa6";
@@ -11,55 +10,13 @@ import TextAnim from "@/components/animatedText";
 import FullScreenImageViewer from "@/components/fullscreenImage";
 import Footer from "@/components/footer";
 import EmailForm from "@/components/email";
-import { IoCheckmarkDoneOutline, IoClose } from 'react-icons/io5';
-import { LuExternalLink, LuTimer } from "react-icons/lu";
+import { IoClose } from 'react-icons/io5';
+import { LuExternalLink } from "react-icons/lu";
 import PartnerProject from "@/components/partnerProject";
-import { RiAlarmWarningLine } from "react-icons/ri";
-import { FaUsers } from "react-icons/fa";
-import { BsCashCoin } from "react-icons/bs";
-import { VscGithubProject } from "react-icons/vsc";
 import { GlareCard } from "@/components/glareCard";
 import { BASE_URI } from "@/lib/vars";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const aboutTabs: AboutTab = {
-    0: {
-      main: {
-        name: "Crafting Projects That Inspire",
-        desc: "We are committed to exceeding client expectations by delivering innovative, sustainable, and cost-effective project solutions.",
-      },
-      tab_l: {
-        name: "Best Project Design",
-        desc: "Creat explains how you can enjoy high-end design trends like modern architecture and eco-friendly materials."
-      },
-      tab_r: {
-        name: "Effective Teamwork",
-        desc: "We build trust and integrity with our clients, ensuring seamless collaboration and outstanding results"
-      }
-    },
-    1: {
-      main: {
-        name: "Shaping the Future",
-        desc: "We strive to lead the industry by embracing cutting-edge technologies and sustainable practices for a brighter tomorrow."
-      },
-      tab_l: {
-        name: "Innovative Solutions",
-        desc: "Creat leverages the latest technologies to provide forward-thinking solutions tailored to modern needs."
-      },
-      tab_r: {
-        name: "Sustainable Growth",
-        desc: "Our vision focuses on creating long-term value through environmentally responsible and sustainable practices."
-      }
-    }
-  }
-
-  const bannerRef = useRef(null)
-  const bannerInView = useInView(bannerRef, {
-    once: true,
-    amount: 0.5
-  });
 
   const projectsRef = useRef(null)
   const projectsInView = useInView(projectsRef, {
@@ -416,32 +373,6 @@ export default function Home() {
     }
   }
 
-  const serviceNames = [
-    {
-      icon: VscGithubProject,
-      name: "Project Planning",
-    },
-    {
-      icon: RiAlarmWarningLine,
-      name: "Risk Management",
-    },
-    {
-      icon: FaUsers,
-      name: "Resource Management",
-    },
-    {
-      icon: BsCashCoin,
-      name: "Budget and Time Management",
-    },
-    {
-      icon: IoCheckmarkDoneOutline,
-      name: "Quality Control",
-    },
-    {
-      icon: LuTimer,
-      name: "Project Execution",
-    }
-  ];
 
   return (
     <main className="bg-creatBG text-white">
@@ -859,168 +790,7 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
 
         </div>
       </section>
-      <section className="w-full bg-creatBGLight pt-36 pb-72 relative">
-        <div className="flex flex-col md:px-80 h-full w-full max-w-[1920px] mx-auto">
-          <div className="flex gap-x-2 items-center mb-4">
-            <div className="h-px bg-creatBright w-8" />
-            <h1 className="text-creatBright font-medium">About Us</h1>
-          </div>
-
-          <div className="flex w-full justify-between items-end mb-16">
-            <TextAnim>
-              <h1 className="text-5xl font-medium leading-tight text-nowrap">
-                Discover the Power of<br />Excellence at
-                {" "}<span className="text-creatBright font-bold">Creat
-                </span>
-              </h1>
-            </TextAnim>
-            <div className="max-w-[50%]">
-              <TextAnim dir="<">
-                <p className="text-neutral-200 text-xl">
-                  CREAT Company LLC is a professional company operating in the
-                  field of project management with modern approaches and innovative solutions
-                </p>
-              </TextAnim>
-            </div>
-          </div>
-          <div className="relative w-full flex">
-            <div ref={bannerRef} className="max-w-[60%]">
-              <motion.div
-                initial={{ scale: 0.85 }}
-                animate={bannerInView ? { scale: 1 } : { scale: 0.85 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 30,
-                  mass: 1
-                }}
-                className="w-full h-full relative rounded-2xl overflow-hidden">
-                <Image src={`${BASE_URI}/home/banner-about.jpg`} width={720} height={720} alt="" quality={70} className="w-full h-full object-cover" />
-                <motion.div
-                  initial={{ x: 0 }}
-                  animate={bannerInView ? { x: "-100%" } : { x: 0 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 30,
-                    mass: 1
-                  }}
-                  className="absolute top-0 left-0 w-1/2 h-full bg-creatBG"
-                />
-                <motion.div
-                  initial={{ x: 0 }}
-                  animate={bannerInView ? { x: "100%" } : { x: 0 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 30,
-                    mass: 1
-                  }}
-                  className="absolute top-0 right-0 w-1/2 h-full bg-creatBG"
-                />
-              </motion.div>
-            </div>
-            <motion.div
-              initial={{ x: 100 }}
-              animate={bannerInView ? { x: 0 } : { x: 100 }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 40,
-                mass: 0.5
-              }}
-              className="w-3/5 absolute right-0 top-40 border-2 border-white/5
-              rounded-2xl overflow-hidden bg-black/10 backdrop-blur-2xl flex flex-col drop-shadow">
-              <div className="flex flex-nowrap">
-                <div
-                  onClick={() => setActiveTab(0)}
-                  className={`py-6 ${activeTab ? 'border-transparent text-white/25' : 'border-creatBright'}
-cursor-pointer w-1/2 border-b`}>
-                  <h1 className="text-3xl font-bold text-center">Our Mission</h1>
-                </div>
-                <div
-                  onClick={() => setActiveTab(1)}
-                  className={`py-6 ${activeTab ? 'border-creatBright' : 'border-transparent text-white/25'}
-cursor-pointer w-1/2 border-b`}>
-                  <h1 className="text-3xl font-bold text-center">Our Vision</h1>
-                </div>
-              </div>
-              <div className="px-10 py-8 flex flex-col">
-                <h1 className="text-3xl font-bold mb-4">
-                  {aboutTabs[activeTab].main.name}
-                </h1>
-                <p className="text-xl text-neutral-200 mb-8">
-                  {aboutTabs[activeTab].main.desc}
-                </p>
-                <div className="flex w-full flex-nowrap gap-x-10 mb-12">
-                  <div className="flex w-1/2 gap-x-4">
-                    <div
-                      className="flex flex-shrink-0 p-3 rounded-full w-12 h-12
-                      outline outline-2 outline-white outline-offset-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-full h-full">
-                        <path className="fill-white" d="M27 19.001A4.006 4.006 0 0 0 23 15H9a2.003 2.003 0 0 1-2-2V9.857A4 4 0 0 0 9.858 7h12.284a4 4 0 1 0 0-2H9.858A3.992 3.992 0 1 0 5 9.858v3.141A4.006 4.006 0 0 0 9.001 17H23a2.003 2.003 0 0 1 2 2.001V22h-3v3H9.858a4 4 0 1 0 0 2H22v3h8v-8h-3ZM26 4a2 2 0 1 1-2 2a2 2 0 0 1 2-2M4 6a2 2 0 1 1 2 2a2 2 0 0 1-2-2m2 22a2 2 0 1 1 2-2a2 2 0 0 1-2 2m22-4v4h-4v-4Z" />
-                      </svg>
-                    </div>
-                    <div className="flex flex-col gap-y-4">
-                      <h1
-                        className="text-2xl font-bold"
-                      >
-                        {aboutTabs[activeTab].tab_l.name}
-                      </h1>
-
-                      <p className="text-neutral-200">{aboutTabs[activeTab].tab_l.desc}</p>
-                    </div>
-                  </div>
-                  <div className="flex w-1/2 gap-x-4">
-                    <div
-                      className="flex flex-shrink-0 p-3 rounded-full w-12 h-12
-                      outline outline-2 outline-white outline-offset-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-full h-full" viewBox="0 0 2048 2048">
-                        <path className="fill-white" d="M1664 1088q66 0 124 25t102 68t69 102t25 125q0 52-16 101t-48 91v424l-256-128l-256 128v-424q-31-42-47-91t-17-101q0-66 25-124t68-102t102-69t125-25m0 128q-40 0-75 15t-61 41t-41 61t-15 75t15 75t41 61t61 41t75 15t75-15t61-41t41-61t15-75t-15-75t-41-61t-61-41t-75-15m128 600v-115q-60 27-128 27t-128-27v115l128-64zM1664 512q-53 0-99 20t-82 55t-55 81t-20 100q0 92-41 173t-116 137q19 9 36 20t35 23l-75 104q-49-35-106-54t-117-19q-80 0-149 30t-122 82t-83 123t-30 149H512q0-73 20-141t57-128t89-108t118-82q-74-55-115-136t-41-173q0-53-20-99t-55-82t-81-55t-100-20q-53 0-99 20t-82 55t-55 81t-20 100H0q0-52 14-101t39-93t62-80t83-62q-33-35-51-81t-19-95q0-53 20-99t55-82t81-55T384 0q53 0 99 20t82 55t55 81t20 100q0 49-18 95t-52 81q82 45 134 124q27-40 62-72t76-54t87-34t95-12q48 0 94 12t87 34t77 54t62 72q52-79 134-124q-33-35-51-81t-19-95q0-53 20-99t55-82t81-55t100-20q53 0 99 20t82 55t55 81t20 100q0 49-18 95t-52 81q46 26 82 62t62 79t40 93t14 102h-128q0-53-20-99t-55-82t-81-55t-100-20m-128-256q0 27 10 50t27 40t41 28t50 10q27 0 50-10t40-27t28-41t10-50q0-27-10-50t-27-40t-41-28t-50-10q-27 0-50 10t-40 27t-28 41t-10 50m-1280 0q0 27 10 50t27 40t41 28t50 10q27 0 50-10t40-27t28-41t10-50q0-27-10-50t-27-40t-41-28t-50-10q-27 0-50 10t-40 27t-28 41t-10 50m512 512q0 53 20 99t55 82t81 55t100 20q53 0 99-20t82-55t55-81t20-100q0-53-20-99t-55-82t-81-55t-100-20q-53 0-99 20t-82 55t-55 81t-20 100" />
-                      </svg>
-                    </div>
-                    <div className="flex flex-col gap-y-4">
-                      <h1
-                        className="text-2xl font-bold"
-                      >
-                        {aboutTabs[activeTab].tab_r.name}
-
-                      </h1>
-                      <p className="text-neutral-200">
-                        {aboutTabs[activeTab].tab_r.desc}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <Link href="/about"
-                  className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit group border-2 border-white/10 font-medium
-              hover:bg-creatBright hover:border-creatBright transition-all duration-300 flex md:gap-x-3 items-center
-              hover:shadow-drop-shadow-button-creatBright">
-                  <h1 className="md:text-lg font-semibold">More About Us</h1>
-                  <div className="flex items-center justify-center md:h-6 aspect-square
-                relative overflow-hidden">
-                    <FaArrowRight className="absolute text-base top-1/2 -translate-y-1/2 left-1/2
-                -translate-x-[200%] transition-all duration-300 group-hover:-translate-x-1/2" />
-                    <FaArrowRight className="absolute text-base top-1/2 -translate-y-1/2 left-1/2
-                -translate-x-1/2 transition-all duration-300 group-hover:translate-x-[200%]" />
-                  </div>
-                </Link>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-        <div
-          className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-[calc(100%-1px)]"
-        >
-          <svg
-            preserveAspectRatio="none"
-            viewBox="0 0 1920 100" width="100%"
-            height="100%"
-            fill="#0C3D91">
-            <path d="M0 57L26.7 56.5C53.3 56 106.7 55 160 54.2C213.3 53.3 266.7 52.7 320 50.5C373.3 48.3 426.7 44.7 480 41C533.3 37.3 586.7 33.7 640 40.2C693.3 46.7 746.7 63.3 800 64.5C853.3 65.7 906.7 51.3 960 47.2C1013.3 43 1066.7 49 1120 57.2C1173.3 65.3 1226.7 75.7 1280 74.8C1333.3 74 1386.7 62 1440 59.5C1493.3 57 1546.7 64 1600 68C1653.3 72 1706.7 73 1760 67C1813.3 61 1866.7 48 1893.3 41.5L1920 35L1920 0L1893.3 0C1866.7 0 1813.3 0 1760 0C1706.7 0 1653.3 0 1600 0C1546.7 0 1493.3 0 1440 0C1386.7 0 1333.3 0 1280 0C1226.7 0 1173.3 0 1120 0C1066.7 0 1013.3 0 960 0C906.7 0 853.3 0 800 0C746.7 0 693.3 0 640 0C586.7 0 533.3 0 480 0C426.7 0 373.3 0 320 0C266.7 0 213.3 0 160 0C106.7 0 53.3 0 26.7 0L0 0Z" strokeLinecap="round" strokeLinejoin="miter"></path>
-          </svg>
-        </div>
-      </section>
+      {/* About Part Goes Here  */}
       <section className="w-full pt-36 pb-72 relative">
         <div className="flex flex-col md:px-80 h-full w-full max-w-[1920px] mx-auto">
           <div className="flex gap-x-2 items-center mb-4">

@@ -20,7 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { motion } from 'framer-motion'
 import { FileUpload } from "@/components/fileUpload";
 import { cn } from "@/lib/utils";
-import { handleDisplayName } from "@/lib/helperFunctions";
+import { categories, handleDisplayName } from "@/lib/helperFunctions";
 
 const supabase = createClient();
 
@@ -141,43 +141,9 @@ export const Form = () => {
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
-  useEffect(() => {
-    const pageSelect = document.getElementById("page") as HTMLSelectElement;
-    const categorySelect = document.getElementById(
-      "category",
-    ) as HTMLSelectElement;
-
-    const handleSelectChange = (event: Event) => {
-      const target = event.target as HTMLSelectElement;
-
-      if (target.value === "placeholder") {
-        target.style.color = "#71717a";
-      } else {
-        target.style.color = "black";
-      }
-    };
-
-    pageSelect.addEventListener("change", handleSelectChange);
-    categorySelect.addEventListener("change", handleSelectChange);
-
-    return () => {
-      pageSelect.removeEventListener("change", handleSelectChange);
-      categorySelect.removeEventListener("change", handleSelectChange);
-    };
-  }, []);
-
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    // custom error if non selected page
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    if (!formData.has("page")) {
-      const page = document.getElementById("page") as HTMLSelectElement;
-      page?.focus();
-      page?.setCustomValidity("Please select a page");
-      page?.reportValidity();
-      page.setCustomValidity("");
-      return;
-    }
     // custom error if non selected category
     if (!formData.has("category")) {
       const category = document.getElementById("category") as HTMLSelectElement;
@@ -189,19 +155,18 @@ export const Form = () => {
     }
 
     const uploadData = {
-      page: formData.get("page") as string,
       category: formData.get("category") as string,
       name: formData.get("name") as string,
       description: formData.get("description") as string,
       location: formData.get("location") as string,
-      date: formData.get("date") as string
+      service: formData.get("service") as string
     };
 
     const form = e.currentTarget;
 
     try {
       setLoading(true);
-      const dir = `${uploadData.page}/${uploadData.category}/${uploadData.name}`;
+      const dir = `projects/${uploadData.category}/${uploadData.name}`;
       const r2Response = await handleR2Upload(selectedImages, dir);
 
       const hasR2Errors = r2Response.some(
@@ -228,9 +193,6 @@ export const Form = () => {
 
         await handleSupabaseUpload({ ...uploadData, images });
         form.reset();
-        document
-          .getElementById("page")
-          ?.dispatchEvent(new Event("change", { bubbles: true }));
         document
           .getElementById("category")
           ?.dispatchEvent(new Event("change", { bubbles: true }));
@@ -323,23 +285,21 @@ export const Form = () => {
   };
 
   const handleSupabaseUpload = async ({
-    page,
     category,
     name,
     description,
     images,
     location,
-    date,
+    service,
   }: tableTypes) => {
     const { error: insertErr } = await supabase.from("images").insert([
       {
         category,
         name,
         description,
-        page,
         images,
         location,
-        date,
+        service,
       },
     ]);
     if (insertErr) {
@@ -621,7 +581,7 @@ export const Form = () => {
               <h1 className="text-2xl font-bold capitalize leading-tight">
                 Add new project
               </h1>
-              <p>Please review changes before publishing!</p>
+              <p className="text-orange-500 font-bold">Please review changes before publishing!</p>
             </div>
             <motion.div
               animate={{ rotate: resetForm ? 360 : [0, 360] }}
@@ -633,9 +593,6 @@ export const Form = () => {
                     "uploadForm",
                   ) as HTMLFormElement;
                   form.reset();
-                  document
-                    .getElementById("page")
-                    ?.dispatchEvent(new Event("change", { bubbles: true }));
                   document
                     .getElementById("category")
                     ?.dispatchEvent(new Event("change", { bubbles: true }));
@@ -652,31 +609,6 @@ export const Form = () => {
             onSubmit={handleSubmit}
             className="flex flex-wrap gap-y-3"
           >
-            <span className="w-full">
-              <label
-                htmlFor="page"
-                className="text-lg
-              relative after:content-['*'] after:text-red-500 after:absolute after:-top-1 after:-right-2"
-              >
-                Page
-              </label>
-              <select
-                name="page"
-                id="page"
-                required
-                defaultValue="placeholder"
-                className="w-full bg-transparent border rounded-lg p-2
-                mt-0.5 text-zinc-500"
-              >
-                {/*placeholder*/}
-                <option value="placeholder" disabled hidden>
-                  Select a page of the project
-                </option>
-                {/*placeholder*/}
-                <option value="projects">Projects</option>
-                <option value="home">Services</option>
-              </select>
-            </span>
             <span className="w-full">
               <label
                 htmlFor="category"
@@ -697,11 +629,9 @@ export const Form = () => {
                   Select a category of the project
                 </option>
                 {/*placeholder*/}
-                <option value="green-energy-sustainability">Green Energy & Sustainability</option>
-                <option value="industrial-manufacturing">Industrial & Manufacturing Excellence</option>
-                <option value="agriculture-food">Agriculture & Food Security</option>
-                <option value="commercial-social">Commercial & Social Infrastructure</option>
-                <option value="transportation-logistics">Transportation & Logistics Infrastructure</option>
+                {Object.entries(categories).map(([key, category]) => (
+                  <option key={key} value={key}>{category.name}</option>
+                ))}
               </select>
             </span>
             <span className="w-full">
@@ -737,13 +667,14 @@ export const Form = () => {
             </span>
 
             <span className="w-full">
-              <label htmlFor="date" className="text-lg">
-                Date
+              <label htmlFor="text" className="text-lg">
+                Service
               </label>
               <input
-                type="date"
-                name="date"
-                id="date"
+                type="text"
+                name="service"
+                id="service"
+                placeholder="Enter service provided"
                 className="w-full bg-transparent border rounded-lg p-2 mt-0.5
     placeholder-zinc-500 [color-scheme:light]"
               />
@@ -862,9 +793,8 @@ export const Preview = () => {
     const searchableFields = [
       project.name,
       project.category,
-      project.page,
       project.location,
-      project.date,
+      project.service,
       project.description,
       ...Object.keys(project.images || {})
     ].filter(Boolean) as string[];
@@ -934,30 +864,8 @@ export const Preview = () => {
                 <div key={index} className="grid grid-cols-7 gap-x-2 items-center">
                   <div className="flex gap-x-1 overflow-x-scroll snap-x snap-mandatory">
                     {
-                      project.images && Object.entries(project.images).map(([imageName, image], index) => (
-                        <div
-                          ref={el => imageRefs.current[`${project.name}-${imageName}`] = el}
-                          key={imageName}
-                          className="w-full aspect-[4/3] flex-shrink-0 snap-center p-1 relative">
-                          <img
-                            src={image}
-                            className={cn(
-                              'w-full h-full object-cover transition-all duration-200 border-2',
-                              searchTerm.length > 0 && imageName.toLowerCase().includes(searchTerm.toLowerCase().trim())
-                                ? 'border-blue-600'
-                                : 'border-white'
-                            )}
-                            alt={project.name}
-                          />
-                          {handleDisplayName(imageName).length > 0 &&
-                            <div className="absolute top-[5px] left-[5px] px-1 py-0.5 bg-white/50">
-                              <h1 className="text-xs text-nowrap">
-                                <HighlightText text={handleDisplayName(imageName)} searchTerm={searchTerm} />
-                              </h1>
-                            </div>
-                          }
-                        </div>
-                      ))
+                      project.images &&
+                      <img src={Object.values(project.images)[0]} alt="" />
                     }
                   </div>
                   <div className="col-span-6 space-y-2">
@@ -979,9 +887,9 @@ export const Preview = () => {
                         Location: <HighlightText text={project.location} searchTerm={searchTerm} />
                       </p>
                     )}
-                    {project.date && (
+                    {project.service && (
                       <p className="text-sm text-gray-600">
-                        Date: <HighlightText text={project.date} searchTerm={searchTerm} />
+                        Date: <HighlightText text={project.service} searchTerm={searchTerm} />
                       </p>
                     )}
                   </div>

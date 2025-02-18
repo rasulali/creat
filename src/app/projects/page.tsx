@@ -5,12 +5,13 @@ import { cn } from "@/lib/utils"
 import TextAnim from "@/components/animatedText"
 import Nav from "@/components/navbar"
 import { motion } from 'framer-motion'
-import { categories } from '@/lib/helperFunctions'
+import { categories, createProjectSlug } from '@/lib/helperFunctions'
 import {
   FaFilter
 } from "react-icons/fa6"
 import Link from 'next/link';
 import Image from 'next/image';
+import Footer from '@/components/footer';
 
 const Projects = () => {
 
@@ -49,15 +50,6 @@ const Projects = () => {
     fetchData()
   }, []);
 
-  const createProjectSlug = (name: string, id: number): string => {
-    const slugifiedName = name
-      .toLowerCase()
-      .replace(/[^a-z0-9]/g, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-+|-+$/g, '');
-
-    return `${slugifiedName}-${id}`;
-  }
 
   const filteredProjects = activeFilters.length > 0
     ? projects.filter(project => activeFilters.includes(project.category))
@@ -67,7 +59,7 @@ const Projects = () => {
 
   return (
     <main>
-      <section className="w-full bg-creatBG min-h-screen">
+      <section className="w-full bg-creatBG min-h-screen pb-36">
         <Nav isTransparent={false} />
         <div className="w-full max-w-[1920px] h-full py-24 flex relative items-center mx-auto">
           <div className="flex flex-col px-80 w-full">
@@ -78,8 +70,8 @@ const Projects = () => {
               </span>
             </TextAnim>
 
-            <div className='flex flex-col mt-12 gap-y-2'>
-              <div className="flex items-center gap-4">
+            <div className='flex flex-col mt-12 gap-y-4'>
+              <div className="flex items-center gap-4 flex-wrap">
                 <button
                   onClick={clearFilters}
                   className={cn(
@@ -195,6 +187,7 @@ const Projects = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </main>
   )
 }

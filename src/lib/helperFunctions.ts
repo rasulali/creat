@@ -4,47 +4,72 @@ import {
   FaHelmetSafety,
   FaTractor,
   FaBuilding,
-  FaTruck,
+  FaRoad,
+  FaCity,
+  FaHillRockslide,
+  FaIndustry,
+  FaDumpster,
+  FaGripLines,
+  FaSchool,
 } from "react-icons/fa6"
 
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+export const createProjectSlug = (name: string, id: number): string => {
+  const slugifiedName = name
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '');
 
-export const formatDate = (dateString?: string): string => {
-  const date = dateString ? new Date(dateString) : null;
-
-  if (!date || isNaN(date.getTime())) {
-    return '';
-  }
-
-  const day = date.getDate();
-  const month = months[date.getMonth()];
-  const year = date.getFullYear();
-
-  return `${day} ${month} ${year}`;
-};
-
+  return `${slugifiedName}-${id}`;
+}
 
 export const categories: Record<string, Category> = {
-  'green-energy-sustainability': {
-    name: 'Green Energy',
-    icon: FaLeaf,
+  'road': {
+    name: 'Road Projects',
+    icon: FaRoad,
   },
-  'industrial-manufacturing': {
-    name: 'Industrial',
+  'mining': {
+    name: 'Mining Projects',
     icon: FaHelmetSafety,
   },
-  'agriculture-food': {
-    name: 'Agriculture',
-    icon: FaTractor,
+  'urban': {
+    name: 'Urban Planning',
+    icon: FaCity,
   },
-  'commercial-social': {
-    name: 'Infrastructure',
+  'landscape': {
+    name: 'Landscaping Works',
+    icon: FaHillRockslide,
+  },
+
+  'industrial': {
+    name: 'Industrial Buildings',
+    icon: FaIndustry,
+  },
+  'residential': {
+    name: 'Residential Buildings',
     icon: FaBuilding,
   },
-  'transportation-logistics': {
-    name: 'Logistics',
-    icon: FaTruck,
-  }
+  'waste-management': {
+    name: 'Waste Management',
+    icon: FaDumpster,
+  },
+
+  'alternative-energy': {
+    name: 'Alternative Energy Systems',
+    icon: FaLeaf,
+  },
+  'water-power': {
+    name: 'Water & Power Lines',
+    icon: FaGripLines,
+  },
+  'industrial-facility': {
+    name: 'Industrial Facility Projects',
+    icon: FaTractor,
+  },
+  'education-development': {
+    name: 'Educational Spaces',
+    icon: FaSchool,
+  },
 };
 
 export const handleImageName = (name: string) => {
@@ -68,10 +93,18 @@ export const handleImageName = (name: string) => {
 
 export const handleDisplayName = (name: string) => {
   let displayName: string = name;
-  if (name.startsWith("$")) {
-    displayName = name.slice(1);
-  } else {
-    displayName = ''
+  const dotIndex = name.lastIndexOf(".");
+
+  if (dotIndex !== -1) {
+    displayName = name.slice(0, dotIndex);
   }
+
+  if (displayName.startsWith("$")) {
+    displayName = displayName.slice(1);
+  } else {
+    displayName = "";
+  }
+
   return displayName;
 };
+

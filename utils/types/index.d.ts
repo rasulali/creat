@@ -4,7 +4,6 @@ declare global {
   interface ColumnWidth {
     date: number;
     category: number;
-    page: number;
     name: number;
     location: number;
     description: number;
@@ -68,13 +67,12 @@ declare global {
     role: string;
   }
   interface tableTypes {
-    page: string;
     category: string;
     name: string;
     description?: string;
     images: Record<string, string>;
     location?: string;
-    date?: string;
+    service?: string;
   }
 
   type UserDataType = {
@@ -93,11 +91,10 @@ declare global {
     created_at: string;
     category: string;
     description?: string;
-    page: string;
     name: string;
     images: ImageUrls | null;
     location?: string;
-    date?: string;
+    service?: string;
   };
 
   type AboutTab = {

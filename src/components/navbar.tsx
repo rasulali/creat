@@ -366,20 +366,25 @@ const Nav: React.FC<NavProps> = ({ isTransparent }) => {
                     </div>
 
                     {/*numbers*/}
-                    <div className="flex gap-x-4 text-base md:text-2xl">
+                    <div className="flex gap-x-4 text-base md:text-xl">
                       <Link
-                        href=""
-                        onClick={(e) => e.preventDefault()}
+                        href="tel:+994554158215"
                         className="text-white/50 hover:text-white transition-colors duration-300"
                       >
-                        010 311 26 12
+                        +994 55 415 82 15
                       </Link>
                       <Link
-                        href=""
-                        onClick={(e) => e.preventDefault()}
+                        href="tel:+994502242944"
                         className="text-white/50 hover:text-white transition-colors duration-300"
                       >
-                        012 200 20 20
+                        +994 50 224 29 44
+                      </Link>
+                      <span className="h-full bg-white/50 w-[1px]" />
+                      <Link
+                        href="mailto:info@creat.az"
+                        className="text-white/50 hover:text-white transition-colors duration-300"
+                      >
+                        info@creat.az
                       </Link>
                     </div>
                   </div>

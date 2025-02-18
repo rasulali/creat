@@ -5,7 +5,6 @@ import { createClient } from "../../../../utils/supabase/client";
 import Nav from "@/components/navbar";
 import TextAnim from "@/components/animatedText";
 import ParagraphAnimation from "@/components/paragraphAnim";
-import { categories, formatDate } from "@/lib/helperFunctions";
 import { Carousel } from "@/components/carousel";
 import { motion } from 'framer-motion'
 import Footer from "@/components/footer";
@@ -68,15 +67,15 @@ const Project = ({ params }: { params: { slug: string } }) => {
       <section className="flex flex-col relative">
         <div className="relative z-10 w-full h-full grid [grid-template-rows:1fr_4fr_1fr]">
           <div className="row-span-1 row-start-2 flex flex-col justify-center
-            gap-y-8 max-w-[1328px] mx-auto px-6">
+            gap-y-8 px-6">
             <TextAnim dir=">">
-              <div className="">
+              <div className="flex flex-col gap-y-2">
                 <h1
                   className="text-7xl text-white/90"
                 >{project?.name || ''}</h1>
                 <h1
-                  className="text-7xl text-white/90"
-                >design in {project?.location || ''}</h1>
+                  className="text-5xl text-white/70"
+                >{project?.location || ''}</h1>
               </div>
             </TextAnim>
             <ParagraphAnimation>
@@ -92,16 +91,12 @@ const Project = ({ params }: { params: { slug: string } }) => {
               initial={{ width: 0, opacity: 0 }}
               whileInView={{ width: "calc(100% - 64px)", opacity: 1 }}
               transition={{
-                duration: 0.2,
+                duration: 0.3,
+                delay: 0.2,
               }}
+              viewport={{ once: true }}
               className="h-px bg-white/50 w-0" />
-            <div className="flex w-full h-full px-4 pt-16 pb-4 justify-between max-w-[664px] ml-auto">
-              <div className="flex flex-col">
-                <h1 className="text-white/50 uppercase">Date</h1>
-                <h1
-                  className="text-xl font-medium text-white/90"
-                >{formatDate(project?.date || '')}</h1>
-              </div>
+            <div className="flex w-full h-full px-4 pt-16 pb-4 gap-x-16 max-w-[664px] ml-auto">
               <div className="flex flex-col">
                 <h1 className="text-white/50 uppercase">Location</h1>
                 <h1
@@ -111,8 +106,8 @@ const Project = ({ params }: { params: { slug: string } }) => {
               <div className="flex flex-col">
                 <h1 className="text-white/50 uppercase">Service</h1>
                 <h1 className="text-xl font-medium text-white/90">
-                  {project?.category && project.category in categories
-                    ? categories[project.category].name
+                  {project?.service
+                    ? project.service
                     : ''}
                 </h1>
 
@@ -143,11 +138,13 @@ const Project = ({ params }: { params: { slug: string } }) => {
             initial={{ scale: 0, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.2 }}
+            viewport={{ once: true }}
           >
             02
           </motion.span>
           <div className="flex flex-col w-full h-28">
             <motion.span
+              viewport={{ once: true }}
               className="w-0 h-px bg-white/50 mt-7"
               initial={{ width: 0, opacity: 0 }}
               whileInView={{ width: "100%", opacity: 1 }}

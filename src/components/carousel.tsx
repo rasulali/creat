@@ -46,7 +46,7 @@ export const Carousel = ({ project, initialScroll = 0 }: CarouselProps) => {
   const [canScrollRight, setCanScrollRight] = React.useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const cards = Object.entries(project?.images || {}).map(([filename, imageUrl]) => ({
+  const cards = Object.entries(project?.images || {}).reverse().map(([filename, imageUrl]) => ({
     category: project?.name || "",
     title: filename || "",
     src: imageUrl || "",
@@ -244,7 +244,8 @@ export const Card = ({
                 <FaArrowRight className="h-6 w-6 text-white" />
               </button>
 
-              <div className="absolute top-6 left-6 z-50">
+              <div className="absolute top-0 left-0 z-50 p-6 bg-gradient-to-r
+                via-creatBG from-creatBG to-transparent">
                 <motion.p
                   className="text-base font-medium text-white"
                 >
