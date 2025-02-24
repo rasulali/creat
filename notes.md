@@ -6,10 +6,10 @@
 [+] footers color is darker
 [+] project filters based on services from cdr file
 [+] our services on about page is static does not lead to anywhere
-[?] right nav color violet translucent blurred
-[~] about part of the home page from new about info
-[ ] partners open to projects page
+[+] right nav color violet translucent blurred
+[+] about part of the home page from new about info
+[+] new slogans, about info etc from new creat.pdf file
+[~] finish contact page
+[~] partners open to projects page
 [ ] services page build from cdr file
-[ ] new slogans, about info etc from new creat.pdf file
-[ ] finish contact page
 [ ] responsive design

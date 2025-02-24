@@ -179,27 +179,29 @@ const About = () => {
   return <section className="w-full relative font-jost overflow-hidden">
     <div className="flex flex-col">
       <Nav isTransparent={false} />
-      <div className="pt-48 pb-64 flex justify-center relative">
+      <div className="pt-48 pb-64 flex flex-col items-center relative gap-y-12">
         <div className="absolute inset-0">
           <Image src={`${BASE_URI}/home/about/banner.jpg`} alt="Solar Panels across filed as background image of about page" className="w-full h-full object-cover"
             fill quality={75} />
         </div>
-        <div className="absolute inset-0 bg-[#040b18] bg-opacity-30">
+        <div className="absolute inset-0 bg-[#040b18] bg-opacity-20">
+        </div>
+        <div className="z-50 w-full pl-[20%]">
+          <ParagraphAnimation>
+            <h1 className="text-4xl font-bold text-white font-manrope">
+              Achieve Project Success with Alternative Energy and Innovative Approaches
+            </h1>
+          </ParagraphAnimation>
         </div>
         <div className="flex w-3/5 justify-center gap-x-24 items-end">
-          <TextAnim>
-            <h1 className="text-5xl text-white leading-tight uppercase">
-              Company <br />Overview
-            </h1>
-          </TextAnim>
-          <div>
-            <TextAnim dir="<">
-              <p className="text-white text-2xl">
-                We offer customized approaches to project management,<br />
-                tailoring our solutions to the specific requirements of each project <br />
-                and ultimately ensure the successful completion of their projects
-              </p>
-            </TextAnim>
+          <div className="z-50">
+            <ParagraphAnimation>
+              <p className="text-white text-3xl font-medium">CREAT Company LLC has been recognized for delivering high-quality and innovative projects across
+                several key sectors since its establishment in 2019. Our company has extensive experience in modern
+                construction and design fields, implementing each project according to the specific needs of our clients,
+                driven by innovation and technological advancements. Our goal is to meet our clients' needs at the
+                highest level in every project, ensuring their long-term success</p>
+            </ParagraphAnimation>
           </div>
         </div>
       </div>

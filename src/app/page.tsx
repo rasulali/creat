@@ -7,14 +7,14 @@ import { AnimatePresence, motion, useInView } from "framer-motion";
 import ProjectCard from "@/components/projectCard";
 import Comment from "@/components/comment";
 import TextAnim from "@/components/animatedText";
-import FullScreenImageViewer from "@/components/fullscreenImage";
 import Footer from "@/components/footer";
 import EmailForm from "@/components/email";
 import { IoClose } from 'react-icons/io5';
 import { LuExternalLink } from "react-icons/lu";
-import PartnerProject from "@/components/partnerProject";
 import { GlareCard } from "@/components/glareCard";
 import { BASE_URI } from "@/lib/vars";
+import ParagraphAnimation from "@/components/paragraphAnim";
+import Image from "next/image";
 
 export default function Home() {
 
@@ -346,12 +346,8 @@ export default function Home() {
   });
 
   const [activePartnerIndex, setActivePartnerIndex] = useState(-1)
-
-  const [fullScreenIndex, setFullScreenIndex] = useState<number | null>(null);
-  const [srcSet, setSrcSet] = useState<string[]>([]);
-  const images = activePartnerIndex < 0 ? [] : srcSet;
   useEffect(() => {
-    if (activePartnerIndex > -1 && fullScreenIndex === null) {
+    if (activePartnerIndex > -1) {
       const handleEscape = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
           setActivePartnerIndex(-1);
@@ -362,7 +358,7 @@ export default function Home() {
         document.removeEventListener('keydown', handleEscape);
       };
     }
-  }, [activePartnerIndex, fullScreenIndex]);
+  }, [activePartnerIndex]);
 
   const prettifyUrl = (url: string) => {
     try {
@@ -387,13 +383,6 @@ export default function Home() {
           </div>
         </div>
         <Nav isTransparent={true} />
-        {fullScreenIndex !== null && activePartnerIndex >= 0 && (
-          <FullScreenImageViewer
-            images={images}
-            initialIndex={fullScreenIndex}
-            onClose={() => setFullScreenIndex(null)}
-          />
-        )}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
           <FaChevronDown className="text-white text-3xl animate-bounce" />
         </div>
@@ -493,18 +482,37 @@ export default function Home() {
                           <LuExternalLink className="text-lg" />
                         </Link>
                       </div>
-                      <div className="flex flex-col w-full h-full overflow-hidden">
-                        <div className="grid grid-flow-row grid-rows-[minmax(318px,_1fr)] overflow-y-auto gap-y-2 h-full w-full">
-                          {
-                            partners[activePartnerIndex].projects?.map((activePartner, index) => (
-                              <PartnerProject
-                                key={index}
-                                activePartner={activePartner}
-                                setFullScreenIndex={setFullScreenIndex}
-                                setSrcSet={setSrcSet}
-                              />
-                            ))
-                          }
+                      <div className="flex flex-col w-full h-full relative justify-end">
+                        <div className="absolute inset-0">
+                          <Image
+                            className=""
+                            src="" layout="" alt="" sizes="50vw" quality={70} />
+
+                          <div className="absolute inset-[48px] overflow-hidden">
+                            <div
+                              className="w-full h-full"
+                              style={{
+                                backgroundImage: `repeating-linear-gradient(
+                                                  -45deg,
+                                                  transparent,
+                                                  transparent 60px,
+                                                  rgb(244 244 245) 60px,
+                                                  rgb(244 244 245) 120px
+                                                )`
+                              }}
+                            />
+                          </div>
+                          <div className="absolute inset-0 flex items-center justify-center border-[24px] border-dashed border-zinc-300">
+                            <h1 className="text-zinc-300 text-[7vw] font-black">IMAGE GOES HERE</h1>
+                          </div>
+                        </div>
+
+                        <div className="w-full bg-black/10 z-10 flex gap-x-2 px-12 py-6">
+                          <Link
+                            href=""
+                            className="text-3xl font-medium relative"
+                          >Info About Special Project For {partners[activePartnerIndex].name}
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -791,6 +799,56 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
         </div>
       </section>
       {/* About Part Goes Here  */}
+      <section className="w-full py-36 relative bg-creatBGLight">
+        <div className="flex flex-col md:px-80 h-full w-full max-w-[1920px] mx-auto">
+          <div className="flex justify-between items-center">
+            <div className="flex gap-x-2 items-center mb-4">
+              <div className="h-px bg-creatBright w-8" />
+              <h1 className="text-creatBright font-medium">About Us</h1>
+            </div>
+            <Link href="/about" className="uppercase font-bold text-white
+              hover:text-white/50 transition-colors duration-300">
+              More About Us
+            </Link>
+          </div>
+          <div className="w-full flex flex-col gap-y-2">
+            <TextAnim>
+              <h1 className="font-bold text-4xl text-creatBright">
+                CREAT Company LLC
+              </h1>
+            </TextAnim>
+            <ParagraphAnimation>
+              <p className="text-white text-2xl">
+                Achieve Project Success with Alternative Energy and Innovative Approaches
+              </p>
+            </ParagraphAnimation>
+          </div>
+          <div className="w-full mt-12 flex flex-col gap-y-4">
+            <ParagraphAnimation>
+              <p className="text-white text-2xl">
+                CREAT Company LLC has been recognized for delivering high-quality and innovative projects across
+                several key sectors since its establishment in 2019. Our company has extensive experience in modern
+                construction and design fields, implementing each project according to the specific needs of our clients,
+                driven by innovation and technological advancements. Our goal is to meet our clients' needs at the
+                highest level in every project, ensuring their long-term success
+              </p>
+            </ParagraphAnimation>
+            <ParagraphAnimation>
+              <p className="text-white text-2xl">At CREAT Company LLC, we prioritize quality, sustainability, and customer satisfaction in every project.
+                We are committed to delivering more successful projects in the future</p>
+            </ParagraphAnimation>
+          </div>
+        </div>
+        <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-[calc(100%-1px)] z-10">
+          <svg
+            width="100%"
+            height="100%"
+            preserveAspectRatio="none"
+            fill="#0c3d91"
+            viewBox="0 0 1920 100"><path d="M0 43L40 44.3C80 45.7 160 48.3 240 56.5C320 64.7 400 78.3 480 76C560 73.7 640 55.3 720 52.3C800 49.3 880 61.7 960 59.8C1040 58 1120 42 1200 34.8C1280 27.7 1360 29.3 1440 33.3C1520 37.3 1600 43.7 1680 42.5C1760 41.3 1840 32.7 1880 28.3L1920 24L1920 0L1880 0C1840 0 1760 0 1680 0C1600 0 1520 0 1440 0C1360 0 1280 0 1200 0C1120 0 1040 0 960 0C880 0 800 0 720 0C640 0 560 0 480 0C400 0 320 0 240 0C160 0 80 0 40 0L0 0Z" strokeLinecap="round" strokeLinejoin="miter"></path></svg>
+
+        </div>
+      </section>
       <section className="w-full pt-36 pb-72 relative">
         <div className="flex flex-col md:px-80 h-full w-full max-w-[1920px] mx-auto">
           <div className="flex gap-x-2 items-center mb-4">

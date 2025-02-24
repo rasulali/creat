@@ -17,10 +17,10 @@ export const items: Item[] = [
 ];
 
 interface NavProps {
-  isTransparent: boolean;
+  isTransparent?: boolean;
 }
 
-const Nav: React.FC<NavProps> = ({ isTransparent }) => {
+const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
   const [menuState, setMenuState] = useState(false);
 
   const [windowSize, setWindowSize] = useState({ w: 0, h: 0 });
@@ -272,7 +272,7 @@ const Nav: React.FC<NavProps> = ({ isTransparent }) => {
               initial="initial"
               animate="enter"
               exit="exit"
-              className="fixed right-0 top-0 h-full w-full max-w-[769px] bg-[#053478] z-40"
+              className="fixed right-0 top-0 h-full w-full max-w-[769px] bg-creatBG z-40"
               ref={menuRef}
             >
               <a href="/admin"
@@ -390,7 +390,7 @@ const Nav: React.FC<NavProps> = ({ isTransparent }) => {
                   </div>
                 </div>
               </div>
-              <svg className="absolute top-0 left-[-99px] w-[100px] h-full fill-[#053478] stroke-none">
+              <svg className="absolute top-0 left-[-99px] w-[100px] h-full fill-creatBG stroke-none">
                 <motion.path
                   variants={curve}
                   initial="initial"
