@@ -34,6 +34,16 @@ const uploadIconVariant = {
   }
 };
 
+// Define accepted file types
+const ACCEPTED_FILE_TYPES = {
+  'image/jpeg': ['.jpg', '.jpeg'],
+  'image/png': ['.png'],
+  'image/webp': ['.webp'],
+  'image/avif': ['.avif'],
+  'image/gif': ['.gif'],
+  'image/svg+xml': ['.svg']
+};
+
 export const FileUpload = ({
   onChange,
   inputRef: externalInputRef,
@@ -47,10 +57,11 @@ export const FileUpload = ({
   files?: File[];
   setImageIndex: (index: number) => void;
   setRenameState: (state: boolean) => void;
-  onDelete?: (indexToDelete: number, imageUrlToDelete: string) => void;  // Updated type definition
+  onDelete?: (indexToDelete: number, imageUrlToDelete: string) => void;
 }) => {
   const [files, setFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (externalFiles) {
@@ -65,8 +76,22 @@ export const FileUpload = ({
     }
   }, [externalFiles, externalInputRef]);
 
+  const validateFileType = (file: File): boolean => {
+    return Object.keys(ACCEPTED_FILE_TYPES).includes(file.type);
+  };
+
   const handleFileChange = (newFiles: File[]) => {
-    const updatedFiles = [...files, ...newFiles];
+    // Filter out invalid file types
+    const validFiles = newFiles.filter(file => validateFileType(file));
+
+    if (validFiles.length !== newFiles.length) {
+      setErrorMessage("Some files were rejected. Only JPG, PNG, WebP, AVIF, GIF, and SVG files are accepted.");
+      setTimeout(() => setErrorMessage(null), 5000); // Clear error after 5 seconds
+    }
+
+    if (validFiles.length === 0) return;
+
+    const updatedFiles = [...files, ...validFiles];
     setFiles(updatedFiles);
 
     const dataTransfer = new DataTransfer();
@@ -94,6 +119,7 @@ export const FileUpload = ({
     }
 
     onDelete?.(index, URL.createObjectURL(files[index]));
+    setFiles(updatedFiles);
   };
 
   const handleRename = (index: number, e: React.MouseEvent) => {
@@ -105,16 +131,18 @@ export const FileUpload = ({
   const { getRootProps } = useDropzone({
     multiple: true,
     noClick: true,
+    accept: ACCEPTED_FILE_TYPES,
     onDrop: handleFileChange,
     onDragEnter: () => setIsDragging(true),
     onDragLeave: () => setIsDragging(false),
     onDropAccepted: () => setIsDragging(false),
-    onDropRejected: (error) => {
+    onDropRejected: (fileRejections) => {
       setIsDragging(false);
-      return error;
+      setErrorMessage("Some files were rejected. Only JPG, PNG, WebP, AVIF, GIF, and SVG files are accepted.");
+      setTimeout(() => setErrorMessage(null), 5000); // Clear error after 5 seconds
+      return fileRejections;
     },
   });
-
 
   return (
     <div className="w-full" {...getRootProps()}>
@@ -135,6 +163,7 @@ export const FileUpload = ({
           required
           id="file-upload-handle"
           type="file"
+          accept=".jpg,.jpeg,.png,.webp,.avif,.gif,.svg,image/jpeg,image/png,image/webp,image/avif,image/gif,image/svg+xml"
           onChange={(e) => {
             const newFiles = Array.from(e.target.files || []);
             handleFileChange(newFiles);
@@ -148,6 +177,11 @@ export const FileUpload = ({
           <p className="relative z-20 font-sans font-normal text-neutral-400 text-base mt-2">
             Drag or drop your files here or click to upload
           </p>
+          {errorMessage && (
+            <div className="mt-2 px-4 py-2 bg-red-50 text-red-600 rounded-md text-sm">
+              {errorMessage}
+            </div>
+          )}
           <div className="relative w-full mt-10 max-w-xl mx-auto">
             {files.length > 0 && (
               <div className="max-h-64 overflow-y-auto pr-2 space-y-4

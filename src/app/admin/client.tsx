@@ -19,8 +19,7 @@ import { BsExclamationCircleFill } from "react-icons/bs";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from 'framer-motion'
 import { FileUpload } from "@/components/fileUpload";
-import { cn } from "@/lib/utils";
-import { categories, handleDisplayName } from "@/lib/helperFunctions";
+import { categories } from "@/lib/helperFunctions";
 
 const supabase = createClient();
 
@@ -714,11 +713,12 @@ export const Form = () => {
                   </button>
                 ) : (
                   <div className="text-zinc-500 flex gap-x-2 text-sm">
-                    <span>.png</span>
-                    <span>.gif</span>
                     <span>.jpg</span>
                     <span>.jpeg</span>
+                    <span>.png</span>
                     <span>.webp</span>
+                    <span>.avif</span>
+                    <span>.gif</span>
                     <span>.svg</span>
                   </div>
                 )}
