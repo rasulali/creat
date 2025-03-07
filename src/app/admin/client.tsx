@@ -8,18 +8,19 @@ import {
   IoLogOutOutline,
   IoRefresh,
 } from "react-icons/io5";
-import { FaMagnifyingGlass, FaXmark, FaPen } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaXmark, FaPen, FaTrash } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im"
 import { useEffect, useRef, useState } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
 import r2 from "../../../utils/cloudflare/upload";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import { BsExclamationCircleFill } from "react-icons/bs";
 import "react-toastify/dist/ReactToastify.css";
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { FileUpload } from "@/components/fileUpload";
 import { categories, formatDate } from "@/lib/helperFunctions";
+import { useAdmin } from "./admin-context";
 
 const supabase = createClient();
 
@@ -140,6 +141,84 @@ export const Form = () => {
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
+  const { editingProject, setEditingProject, deleteProject, setDeleteProject } = useAdmin();
+  const [existingProject, setExistingProject] = useState<Project | null>(null);
+  const [existingImages, setExistingImages] = useState<Record<string, string>>({});
+  const [deleteProjectModal, setDeleteProjectModal] = useState(false);
+
+  useEffect(() => {
+    if (deleteProject) {
+      setDeleteProjectModal(true);
+    }
+  }, [deleteProject]);
+
+  const handleDeleteProject = async () => {
+    if (!editingProject) return;
+
+    try {
+      // Delete images from R2
+      const { category, name, images } = editingProject;
+      const dir = `projects/${category}/${name}`;
+
+      // Delete all project images from Cloudflare R2
+      const deletePromises = Object.keys(images || {}).map(async (imageName) => {
+        const key = `${dir}/${imageName}`;
+        const command = new DeleteObjectCommand({
+          Bucket: "creat",
+          Key: key,
+        });
+        await r2.send(command);
+      });
+
+      await Promise.all(deletePromises);
+
+      // Delete project from Supabase
+      const { error } = await supabase
+        .from('images')
+        .delete()
+        .eq('id', editingProject.id);
+
+      if (error) throw error;
+
+
+      toast.success('Project deleted successfully');
+    } catch (error) {
+      toast.error('Error deleting project. Please try again.');
+    } finally {
+      setDeleteProject(false);
+      setEditingProject(null);
+      setDeleteProjectModal(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      if (editingProject && !deleteProject) {
+        const { data, error } = await supabase
+          .from('images')
+          .select('*')
+          .eq('id', editingProject.id)
+          .single();
+
+        if (data) {
+          setExistingProject(data);
+          setExistingImages(data.images || {});
+          // Populate form fields
+          const form = document.getElementById("uploadForm") as HTMLFormElement;
+          if (form) {
+            (form.elements.namedItem('category') as HTMLInputElement).value = data.category;
+            (form.elements.namedItem('name') as HTMLInputElement).value = data.name;
+            (form.elements.namedItem('location') as HTMLInputElement).value = data.location || '';
+            (form.elements.namedItem('service') as HTMLInputElement).value = data.service || '';
+            (form.elements.namedItem('description') as HTMLInputElement).value = data.description || '';
+          }
+        }
+      }
+    };
+
+    fetchProject();
+  }, [editingProject]);
+
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -165,58 +244,75 @@ export const Form = () => {
 
     try {
       setLoading(true);
-      const dir = `projects/${uploadData.category}/${uploadData.name}`;
-      const r2Response = await handleR2Upload(selectedImages, dir);
 
-      const hasR2Errors = r2Response.some(
-        (result) => result instanceof Error
-      );
+      if (editingProject && !deleteProject) {
+        // Update existing project
+        const { error } = await supabase
+          .from('images')
+          .update({
+            ...uploadData,
+            images: existingImages
+          })
+          .eq('id', editingProject.id);
 
-      if (hasR2Errors) {
-        throw new Error
-      }
-      else {
-
-        interface ImageUrlMap {
-          [imageName: string]: string;
+        if (!error) {
+          toast.success('Project updated successfully');
+          setEditingProject(null);
         }
-        const images = selectedImages.reduce((prev: ImageUrlMap, image) => {
-          const url = handleImageUrl({
-            endpoint: "https://pub-5c15a84b97fc4cc889a06969fb95be5f.r2.dev",
-            dir,
-            name: image.name,
-          });
-          prev[image.name] = url;
-          return prev;
-        }, {});
+      } else {
+        const dir = `projects/${uploadData.category}/${uploadData.name}`;
+        const r2Response = await handleR2Upload(selectedImages, dir);
 
-        await handleSupabaseUpload({ ...uploadData, images });
-        form.reset();
-        document
-          .getElementById("category")
-          ?.dispatchEvent(new Event("change", { bubbles: true }));
-        setSelectedImages([]);
-        if (!toast.isActive("sb")) {
-          toast.success(
-            <>
-              Project uploaded successfully
-              <br />
-              <span className="opacity-80">
-                Changes may take a few minutes to apply
-              </span>
-            </>,
-            {
-              toastId: "sb",
-              position: "top-left",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              theme: "light",
-              transition: Slide,
-            },
-          );
+        const hasR2Errors = r2Response.some(
+          (result) => result instanceof Error
+        );
+
+        if (hasR2Errors) {
+          throw new Error
+        }
+        else {
+
+          interface ImageUrlMap {
+            [imageName: string]: string;
+          }
+          const images = selectedImages.reduce((prev: ImageUrlMap, image) => {
+            const url = handleImageUrl({
+              endpoint: "https://pub-5c15a84b97fc4cc889a06969fb95be5f.r2.dev",
+              dir,
+              name: image.name,
+            });
+            prev[image.name] = url;
+            return prev;
+          }, {});
+
+          await handleSupabaseUpload({ ...uploadData, images });
+          form.reset();
+          document
+            .getElementById("category")
+            ?.dispatchEvent(new Event("change", { bubbles: true }));
+          setSelectedImages([]);
+          if (!toast.isActive("sb")) {
+            toast.success(
+              <>
+                Project uploaded successfully
+                <br />
+                <span className="opacity-80">
+                  Changes may take a few minutes to apply
+                </span>
+              </>,
+              {
+                toastId: "sb",
+                position: "top-left",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                theme: "light",
+                transition: Slide,
+              },
+            );
+          }
         }
       }
     } catch (error) {
@@ -460,6 +556,45 @@ export const Form = () => {
         transition={Slide}
       />
 
+      {/* Delete Project Confirmation Modal */}
+      <div
+        onClick={() => setDeleteProjectModal(false)}
+        style={{ display: deleteProjectModal ? "flex" : "none" }}
+        className="fixed top-0 left-0 w-full h-full z-50 bg-black/50 flex items-center justify-center"
+      >
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="bg-white rounded-lg flex flex-col gap-y-4 p-4"
+        >
+          <h1 className="text-lg text-center">
+            Are you sure you want to delete this entire project?
+          </h1>
+          <span className="text-red-500 text-lg font-semibold text-center">
+            This action cannot be undone!
+          </span>
+          <div className="flex justify-around">
+            <button
+              onClick={() => {
+                setDeleteProjectModal(false);
+                setDeleteProject(false);
+                setEditingProject(null);
+              }}
+              className="capitalize px-2 py-1 text-base font-semibold"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleDeleteProject}
+              className="capitalize px-2 py-1 text-base bg-red-500
+            text-white font-semibold rounded-lg hover:bg-transparent
+            border-2 border-red-500 hover:text-red-500 transition-all duration-100"
+            >
+              Delete Project
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* delete modal */}
       <div
         onClick={() => setModalDeleteState(false)}
@@ -582,11 +717,10 @@ export const Form = () => {
               </h1>
               <p className="text-orange-500 font-bold">Please review changes before publishing!</p>
             </div>
-            <motion.div
-              animate={{ rotate: resetForm ? 360 : [0, 360] }}
-            >
-              <IoRefresh
+            {editingProject && !deleteProject ?
+              <button
                 onClick={() => {
+                  setEditingProject(null)
                   setResetForm(true);
                   const form = document.getElementById(
                     "uploadForm",
@@ -599,8 +733,31 @@ export const Form = () => {
                     setResetForm(false);
                   }, 500);
                 }}
-                className="lg:text-3xl origin-center" />
-            </motion.div>
+                className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full z-10"
+              >
+                <FaXmark className="text-xl" />
+              </button>
+              :
+              <motion.div
+                animate={{ rotate: resetForm ? 360 : [0, 360] }}
+              >
+                <IoRefresh
+                  onClick={() => {
+                    setResetForm(true);
+                    const form = document.getElementById(
+                      "uploadForm",
+                    ) as HTMLFormElement;
+                    form.reset();
+                    document
+                      .getElementById("category")
+                      ?.dispatchEvent(new Event("change", { bubbles: true }));
+                    setTimeout(() => {
+                      setResetForm(false);
+                    }, 500);
+                  }}
+                  className="lg:text-3xl origin-center" />
+              </motion.div>
+            }
           </div>
           {/* upload form */}
           <form
@@ -620,14 +777,8 @@ export const Form = () => {
                 name="category"
                 id="category"
                 required
-                defaultValue="placeholder"
-                className="w-full bg-transparent border rounded-lg p-2 mt-0.5 text-zinc-500"
+                className="w-full bg-transparent border rounded-lg p-2 mt-0.5"
               >
-                {/*placeholder*/}
-                <option value="placeholder" disabled hidden>
-                  Select a category of the project
-                </option>
-                {/*placeholder*/}
                 {Object.entries(categories).map(([key, category]) => (
                   <option key={key} value={key}>{category.name}</option>
                 ))}
@@ -769,6 +920,7 @@ export const Preview = () => {
   const [dataTable, setDataTable] = useState<Project[]>([]);
   const [dataError, setDataError] = useState<PostgrestError | null>(null);
   const imageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const { setEditingProject, setDeleteProject } = useAdmin();
 
   useEffect(() => {
     const handleTable = async () => {
@@ -830,98 +982,114 @@ export const Preview = () => {
   }, [searchTerm, filteredProjects]);
 
   return (
-    <section className="w-full drop-shadow col-start-2 row-start-1
+    <AnimatePresence>
+      {
+        <section className="w-full drop-shadow col-start-2 row-start-1
       scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-200/50
       hover:scrollbar-thumb-neutral-300/75 scrollbar-thumb-rounded-full">
-      <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4">
-        <div className="flex flex-col">
-          <h1 className="text-2xl font-bold capitalize leading-tight">
-            content overview
-          </h1>
-          <p>View and manage the contents of website</p>
-        </div>
+          <div className="w-full flex flex-col bg-white gap-y-6 rounded-lg p-4">
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-bold capitalize leading-tight">
+                content overview
+              </h1>
+              <p>View and manage the contents of website</p>
+            </div>
 
-        <div className="flex flex-wrap gap-y-3">
-          <span className="w-full relative">
-            <input
-              type="text"
-              placeholder="Search Content from Database..."
-              className="w-full bg-transparent border rounded-lg p-2
+            <div className="flex flex-wrap gap-y-3">
+              <span className="w-full relative">
+                <input
+                  type="text"
+                  placeholder="Search Content from Database..."
+                  className="w-full bg-transparent border rounded-lg p-2
               placeholder-zinc-500"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <FaMagnifyingGlass
-              className="absolute top-1/2 -translate-y-1/2
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <FaMagnifyingGlass
+                  className="absolute top-1/2 -translate-y-1/2
               text-zinc-500 right-2 text-lg pointer-events-none"
-            />
-          </span>
-          <div className="space-y-4">
-            {dataError ? (
-              <p className="text-red-500">Error loading projects. Please try again later.</p>
-            ) : filteredProjects.length > 0 ? (
-              filteredProjects.map((project, index) => (
-                <div key={index} className="grid gap-4 grid-cols-3 bg-white drop-shadow p-2 rounded-lg">
-                  <div className="col-span-1">
-                    <div className="aspect-video w-full">
-                      {project.images && (
-                        <img
-                          className="w-full h-full object-cover rounded-lg"
-                          src={Object.values(project.images)[0]}
-                          alt={project.name || "Project Image"}
-                        />
-                      )}
-                    </div>
-                  </div>
+                />
+              </span>
+              <div className="space-y-4">
+                {dataError ? (
+                  <p className="text-red-500">Error loading projects. Please try again later.</p>
+                ) : filteredProjects.length > 0 ? (
+                  filteredProjects.map((project, index) => (
+                    <div key={index} className="grid gap-4 grid-cols-3 bg-white drop-shadow p-2 rounded-lg">
+                      <div className="col-span-1">
+                        <div className="aspect-video w-full">
+                          {project.images && (
+                            <img
+                              className="w-full h-full object-cover rounded-lg"
+                              src={Object.values(project.images)[0]}
+                              alt={project.name || "Project Image"}
+                            />
+                          )}
+                        </div>
+                      </div>
 
-                  <div className="col-span-2 flex justify-between items-start">
-                    <h1 className="text-xl font-medium">
-                      <HighlightText text={project.name} searchTerm={searchTerm} />
-                    </h1>
-                    <button className="p-2 text-blue-500 rounded-full hover:bg-blue-600
+                      <div className="col-span-2 flex justify-between items-start">
+                        <h1 className="text-xl font-medium">
+                          <HighlightText text={project.name} searchTerm={searchTerm} />
+                        </h1>
+                        <div className="flex gap-x-2">
+                          <button
+                            onClick={() => setEditingProject(project)}
+                            data-tip="Edit" className="lg:tooltip p-2 text-blue-500 rounded-full hover:bg-blue-500
                         hover:text-white transition border border-blue-500">
-                      <FaPen className="w-4 h-4" />
-                    </button>
+                            <FaPen className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              setDeleteProject(true);
+                              setEditingProject(project);
+                            }}
+                            data-tip="Delete" className="lg:tooltip p-2 text-red-500 rounded-full hover:bg-red-500
+                        hover:text-white transition border border-red-500">
+                            <FaTrash className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
 
-                  </div>
+                      <div className="col-span-2 grid grid-cols-2 gap-y-4 gap-x-2">
+                        <h2 className="font-medium">
+                          <span className="font-semibold">Service: </span>
+                          <span className="line-clamp-2">
+                            <HighlightText text={project.service || ''} searchTerm={searchTerm} />
+                          </span>
+                        </h2>
+                        <h2 className="font-medium justify-self-end">
+                          <span className="font-semibold">Category: </span>
+                          <HighlightText text={project.category || ''} searchTerm={searchTerm} />
+                        </h2>
+                        <h2 className="font-medium">
+                          <span className="font-semibold">Location: </span>
+                          <HighlightText text={project.location || ''} searchTerm={searchTerm} />
+                        </h2>
+                        <h2 className="font-medium justify-self-end">
+                          <span className="font-semibold">Date: </span>
+                          <HighlightText text={formatDate(project.created_at) || ''} searchTerm={searchTerm} />
+                        </h2>
+                      </div>
 
-                  <div className="col-span-2 grid grid-cols-2 gap-y-4 gap-x-2">
-                    <h2 className="font-medium">
-                      <span className="font-semibold">Service: </span>
-                      <span className="line-clamp-2">
-                        <HighlightText text={project.service || ''} searchTerm={searchTerm} />
-                      </span>
-                    </h2>
-                    <h2 className="font-medium justify-self-end">
-                      <span className="font-semibold">Category: </span>
-                      <HighlightText text={project.category || ''} searchTerm={searchTerm} />
-                    </h2>
-                    <h2 className="font-medium">
-                      <span className="font-semibold">Location: </span>
-                      <HighlightText text={project.location || ''} searchTerm={searchTerm} />
-                    </h2>
-                    <h2 className="font-medium justify-self-end">
-                      <span className="font-semibold">Date: </span>
-                      <HighlightText text={formatDate(project.created_at) || ''} searchTerm={searchTerm} />
-                    </h2>
-                  </div>
-
-                  <div className="col-span-3">
-                    <p className="">
-                      <HighlightText text={project.description || ''} searchTerm={searchTerm} />
-                    </p>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-center text-gray-500">
-                {dataTable.length === 0 ? "No projects found" : "No matching projects found"}
-              </p>
-            )}
+                      <div className="col-span-3">
+                        <p className="">
+                          <HighlightText text={project.description || ''} searchTerm={searchTerm} />
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-center text-gray-500">
+                    {dataTable.length === 0 ? "No projects found" : "No matching projects found"}
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </section>
+        </section>
+      }
+    </AnimatePresence>
   );
 };
 

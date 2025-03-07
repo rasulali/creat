@@ -145,8 +145,3 @@ export const formatDate = (
     return '';
   }
 };
-
-// Usage examples:
-// formatDate('2024-11-24 19:27:32.65693+00').then(result => console.log(result)); // "24 nov, 2024"
-// formatDate(null).then(result => console.log(result)); // ""
-// formatDate(Promise.resolve('2024-11-24')).then(result => console.log(result)); // "24 nov, 2024"

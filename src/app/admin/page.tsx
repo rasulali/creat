@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "../../../utils/supabase/server";
 import { Customers, Form, Menu, Preview } from "./client";
 import Link from "next/link";
+import { AdminProvider } from "./admin-context";
 
 const Dashboard = async () => {
   const supabase = createClient();
@@ -33,11 +34,18 @@ const Dashboard = async () => {
         </Link>
         <Menu {...userData} />
       </nav>
-      <div className="grid grid-cols-2 grid-rows-2 gap-x-8 px-8 gap-y-4 items-start">
-        <Form />
-        <Preview />
-        <Customers />
-      </div>
+      <AdminProvider>
+        <div className="flex px-8 gap-x-8 items-start">
+          <div className="flex flex-col w-1/2">
+            <Form />
+            <div className="w-full h-8 pointer-events-none" />
+            <Customers />
+          </div>
+          <div className="w-1/2">
+            <Preview />
+          </div>
+        </div>
+      </AdminProvider>
     </main>
   );
 };
