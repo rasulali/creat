@@ -8,7 +8,7 @@ import {
   IoLogOutOutline,
   IoRefresh,
 } from "react-icons/io5";
-import { FaMagnifyingGlass, FaXmark } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaXmark, FaPen } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im"
 import { useEffect, useRef, useState } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
@@ -19,7 +19,7 @@ import { BsExclamationCircleFill } from "react-icons/bs";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from 'framer-motion'
 import { FileUpload } from "@/components/fileUpload";
-import { categories } from "@/lib/helperFunctions";
+import { categories, formatDate } from "@/lib/helperFunctions";
 
 const supabase = createClient();
 
@@ -756,7 +756,7 @@ const HighlightText = ({ text, searchTerm }: { text: string; searchTerm: string 
     <span>
       {parts.map((part, index) =>
         part.toLowerCase() === searchTerm.toLowerCase() ?
-          <span key={index} className="font-bold">{part}</span> :
+          <span key={index} className="font-black">{part}</span> :
           part
       )}
     </span>
@@ -861,37 +861,55 @@ export const Preview = () => {
               <p className="text-red-500">Error loading projects. Please try again later.</p>
             ) : filteredProjects.length > 0 ? (
               filteredProjects.map((project, index) => (
-                <div key={index} className="grid grid-cols-7 gap-x-2 items-center">
-                  <div className="flex gap-x-1 overflow-x-scroll snap-x snap-mandatory">
-                    {
-                      project.images &&
-                      <img src={Object.values(project.images)[0]} alt="" />
-                    }
+                <div key={index} className="grid gap-4 grid-cols-3 bg-white drop-shadow p-2 rounded-lg">
+                  <div className="col-span-1">
+                    <div className="aspect-video w-full">
+                      {project.images && (
+                        <img
+                          className="w-full h-full object-cover rounded-lg"
+                          src={Object.values(project.images)[0]}
+                          alt={project.name || "Project Image"}
+                        />
+                      )}
+                    </div>
                   </div>
-                  <div className="col-span-6 space-y-2">
-                    <h1 className="text-xl font-semibold">
+
+                  <div className="col-span-2 flex justify-between items-start">
+                    <h1 className="text-xl font-medium">
                       <HighlightText text={project.name} searchTerm={searchTerm} />
                     </h1>
-                    {project.category && (
-                      <p className="text-sm text-gray-600">
-                        Category: <HighlightText text={project.category} searchTerm={searchTerm} />
-                      </p>
-                    )}
-                    {project.description && (
-                      <p className="text-sm text-gray-600">
-                        <HighlightText text={project.description} searchTerm={searchTerm} />
-                      </p>
-                    )}
-                    {project.location && (
-                      <p className="text-sm text-gray-600">
-                        Location: <HighlightText text={project.location} searchTerm={searchTerm} />
-                      </p>
-                    )}
-                    {project.service && (
-                      <p className="text-sm text-gray-600">
-                        Date: <HighlightText text={project.service} searchTerm={searchTerm} />
-                      </p>
-                    )}
+                    <button className="p-2 text-blue-500 rounded-full hover:bg-blue-600
+                        hover:text-white transition border border-blue-500">
+                      <FaPen className="w-4 h-4" />
+                    </button>
+
+                  </div>
+
+                  <div className="col-span-2 grid grid-cols-2 gap-y-4 gap-x-2">
+                    <h2 className="font-medium">
+                      <span className="font-semibold">Service: </span>
+                      <span className="line-clamp-2">
+                        <HighlightText text={project.service || ''} searchTerm={searchTerm} />
+                      </span>
+                    </h2>
+                    <h2 className="font-medium justify-self-end">
+                      <span className="font-semibold">Category: </span>
+                      <HighlightText text={project.category || ''} searchTerm={searchTerm} />
+                    </h2>
+                    <h2 className="font-medium">
+                      <span className="font-semibold">Location: </span>
+                      <HighlightText text={project.location || ''} searchTerm={searchTerm} />
+                    </h2>
+                    <h2 className="font-medium justify-self-end">
+                      <span className="font-semibold">Date: </span>
+                      <HighlightText text={formatDate(project.created_at) || ''} searchTerm={searchTerm} />
+                    </h2>
+                  </div>
+
+                  <div className="col-span-3">
+                    <p className="">
+                      <HighlightText text={project.description || ''} searchTerm={searchTerm} />
+                    </p>
                   </div>
                 </div>
               ))

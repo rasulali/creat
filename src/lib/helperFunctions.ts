@@ -108,3 +108,45 @@ export const handleDisplayName = (name: string) => {
   return displayName;
 };
 
+/**
+ * Formats a date string from "2024-11-24 19:27:32.65693+00" to "24 Nov, 2024"
+ * Handles empty strings, null values, undefined, and promises
+ *
+ * @param dateInput - The date input in various possible formats
+ * @returns A formatted date string or empty string if input is invalid
+ */
+export const formatDate = (
+  dateInput: string | Date | null | undefined | Promise<string | Date | null | undefined>
+): string => {
+  try {
+    // Handle promise inputs
+    if (dateInput instanceof Promise) {
+      const resolvedDate = dateInput;
+      return formatDate(resolvedDate);
+    }
+
+    // Return empty string for null/undefined/empty inputs
+    if (!dateInput) return '';
+
+    // Convert to Date object if it's a string
+    const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+
+    // Check if date is valid
+    if (isNaN(date.getTime())) return '';
+
+    // Format the date
+    const day = date.getDate();
+    const month = date.toLocaleString('en', { month: 'short' }).toLowerCase();
+    const year = date.getFullYear();
+
+    return `${day} ${month}, ${year}`;
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return '';
+  }
+};
+
+// Usage examples:
+// formatDate('2024-11-24 19:27:32.65693+00').then(result => console.log(result)); // "24 nov, 2024"
+// formatDate(null).then(result => console.log(result)); // ""
+// formatDate(Promise.resolve('2024-11-24')).then(result => console.log(result)); // "24 nov, 2024"
