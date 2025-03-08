@@ -18,7 +18,7 @@ import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AnimatePresence, motion } from 'framer-motion'
 import { FileUpload } from "@/components/fileUpload";
-import { categories, formatDate } from "@/lib/helperFunctions";
+import { categories, formatDate, handleImageName } from "@/lib/helperFunctions";
 import { useAdmin } from "./admin-context";
 
 const supabase = createClient();
@@ -151,9 +151,6 @@ export const Form = () => {
   }, [deleteProject]);
 
   const handleExistingImageRename = (imageName: string) => {
-    // Get the current URL
-    const currentUrl = existingImages[imageName];
-
     // Set up for rename modal
     setNewName(imageName.startsWith('$') ? imageName.slice(1) : imageName);
     setRenameState(true);
@@ -182,6 +179,7 @@ export const Form = () => {
 
   // Display existing images when editing
   const renderExistingImages = () => {
+    console.log(existingImages);
     if (!editingProject || !existingImages || Object.keys(existingImages).length === 0) {
       return null;
     }
@@ -213,7 +211,7 @@ export const Form = () => {
                   <FaTrash className="w-4 h-4" />
                 </button>
               </div>
-              <span className="text-sm mt-1 block truncate">{imageName}</span>
+              <span className="text-sm mt-1 block truncate">{handleImageName(imageName)}</span>
             </div>
           ))}
         </div>
@@ -1075,14 +1073,14 @@ export const Preview = () => {
                         </div>
                       </div>
 
-                      <div className="col-span-2 grid grid-cols-2 gap-y-4 gap-x-2">
+                      <div className="col-span-3 grid grid-cols-2 gap-y-4 gap-x-2">
                         <h2 className="font-medium">
                           <span className="font-semibold">Service: </span>
                           <span className="line-clamp-2">
                             <HighlightText text={project.service || ''} searchTerm={searchTerm} />
                           </span>
                         </h2>
-                        <h2 className="font-medium justify-self-end">
+                        <h2 className="font-medium">
                           <span className="font-semibold">Category: </span>
                           <HighlightText text={project.category || ''} searchTerm={searchTerm} />
                         </h2>
@@ -1090,7 +1088,7 @@ export const Preview = () => {
                           <span className="font-semibold">Location: </span>
                           <HighlightText text={project.location || ''} searchTerm={searchTerm} />
                         </h2>
-                        <h2 className="font-medium justify-self-end">
+                        <h2 className="font-medium">
                           <span className="font-semibold">Date: </span>
                           <HighlightText text={formatDate(project.created_at) || ''} searchTerm={searchTerm} />
                         </h2>
