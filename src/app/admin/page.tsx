@@ -35,14 +35,22 @@ const Dashboard = async () => {
         <Menu {...userData} />
       </nav>
       <AdminProvider>
-        <div className="flex px-8 gap-x-8 items-start">
-          <div className="flex flex-col w-1/2">
-            <Form />
-            <div className="w-full h-8 pointer-events-none" />
-            <Customers />
+        <div className="flex flex-col lg:flex-row gap-8 px-4 lg:px-8 items-start">
+          {/* Left Column - Form + Customers (sticky to form bottom) */}
+          <div className="w-full lg:w-1/2 flex flex-col">
+            <div className="flex flex-col h-auto min-h-[50vh]"> {/* Form container */}
+              <Form />
+              <div className="mt-8"> {/* Customers container */}
+                <Customers />
+              </div>
+            </div>
           </div>
-          <div className="w-1/2">
-            <Preview />
+
+          {/* Right Column - Preview */}
+          <div className="w-full lg:w-1/2 lg:sticky lg:top-8">
+            <div className="min-h-[50vh] lg:h-[calc(100vh-6rem)] lg:overflow-y-auto">
+              <Preview />
+            </div>
           </div>
         </div>
       </AdminProvider>

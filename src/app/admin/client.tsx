@@ -15,7 +15,6 @@ import { PostgrestError } from "@supabase/supabase-js";
 import r2 from "../../../utils/cloudflare/upload";
 import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { Slide, ToastContainer, toast } from "react-toastify";
-import { BsExclamationCircleFill } from "react-icons/bs";
 import "react-toastify/dist/ReactToastify.css";
 import { AnimatePresence, motion } from 'framer-motion'
 import { FileUpload } from "@/components/fileUpload";
@@ -141,8 +140,7 @@ export const Form = () => {
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
-  const { editingProject, setEditingProject, deleteProject, setDeleteProject } = useAdmin();
-  const [existingProject, setExistingProject] = useState<Project | null>(null);
+  const { editingProject, setEditingProject, deleteProject, setDeleteProject, triggerRefresh } = useAdmin();
   const [existingImages, setExistingImages] = useState<Record<string, string>>({});
   const [deleteProjectModal, setDeleteProjectModal] = useState(false);
 
@@ -151,6 +149,77 @@ export const Form = () => {
       setDeleteProjectModal(true);
     }
   }, [deleteProject]);
+
+  const handleExistingImageRename = (imageName: string) => {
+    // Get the current URL
+    const currentUrl = existingImages[imageName];
+
+    // Set up for rename modal
+    setNewName(imageName.startsWith('$') ? imageName.slice(1) : imageName);
+    setRenameState(true);
+
+    // Set a flag to indicate we're renaming an existing image
+    setIsRenamingExisting(true);
+    setImageToRename(imageName);
+  };
+
+  // Handle existing image delete
+  const handleExistingImageDelete = (imageName: string) => {
+    // Add to list of images to delete from R2
+    setImagesToDelete(prev => [...prev, imageName]);
+
+    // Remove from existingImages
+    const updatedImages = { ...existingImages };
+    delete updatedImages[imageName];
+    setExistingImages(updatedImages);
+  };
+
+  // Additional state for renaming existing images
+  const [isRenamingExisting, setIsRenamingExisting] = useState(false);
+  const [imageToRename, setImageToRename] = useState('');
+
+  const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
+
+  // Display existing images when editing
+  const renderExistingImages = () => {
+    if (!editingProject || !existingImages || Object.keys(existingImages).length === 0) {
+      return null;
+    }
+
+    return (
+      <div className="mt-4">
+        <h3 className="text-lg font-medium mb-2">Current Images</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Object.entries(existingImages).map(([imageName, imageUrl]) => (
+            <div key={imageName} className="relative group">
+              <img
+                src={imageUrl as string}
+                alt={imageName}
+                className="w-full h-32 object-cover rounded-lg"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 rounded-lg">
+                <button
+                  type="button"
+                  onClick={() => handleExistingImageRename(imageName)}
+                  className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+                >
+                  <FaPen className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleExistingImageDelete(imageName)}
+                  className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600"
+                >
+                  <FaTrash className="w-4 h-4" />
+                </button>
+              </div>
+              <span className="text-sm mt-1 block truncate">{imageName}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   const handleDeleteProject = async () => {
     if (!editingProject) return;
@@ -182,6 +251,7 @@ export const Form = () => {
 
 
       toast.success('Project deleted successfully');
+      triggerRefresh();
     } catch (error) {
       toast.error('Error deleting project. Please try again.');
     } finally {
@@ -201,7 +271,6 @@ export const Form = () => {
           .single();
 
         if (data) {
-          setExistingProject(data);
           setExistingImages(data.images || {});
           // Populate form fields
           const form = document.getElementById("uploadForm") as HTMLFormElement;
@@ -221,17 +290,17 @@ export const Form = () => {
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    // custom error if non selected category
+    const form = e.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+
+    // Validate category selection
     if (!formData.has("category")) {
       const category = document.getElementById("category") as HTMLSelectElement;
-      category?.focus();
-      category?.setCustomValidity("Please select a category");
       category?.reportValidity();
-      category.setCustomValidity("");
       return;
     }
 
+    // Base upload data
     const uploadData = {
       category: formData.get("category") as string,
       name: formData.get("name") as string,
@@ -240,104 +309,94 @@ export const Form = () => {
       service: formData.get("service") as string
     };
 
-    const form = e.currentTarget;
-
     try {
       setLoading(true);
 
       if (editingProject && !deleteProject) {
-        // Update existing project
-        const { error } = await supabase
-          .from('images')
-          .update({
-            ...uploadData,
-            images: existingImages
-          })
-          .eq('id', editingProject.id);
+        // Edit existing project
+        const { category: editCategory, name: editName } = editingProject;
+        const dir = `projects/${editCategory}/${editName}`;
 
-        if (!error) {
-          toast.success('Project updated successfully');
-          setEditingProject(null);
+        // Handle image deletions
+        if (imagesToDelete.length > 0) {
+          await Promise.all(imagesToDelete.map(async (imageName) => {
+            const command = new DeleteObjectCommand({
+              Bucket: "creat",
+              Key: `${dir}/${imageName}`,
+            });
+            await r2.send(command);
+          }));
         }
-      } else {
-        const dir = `projects/${uploadData.category}/${uploadData.name}`;
-        const r2Response = await handleR2Upload(selectedImages, dir);
 
-        const hasR2Errors = r2Response.some(
-          (result) => result instanceof Error
-        );
-
-        if (hasR2Errors) {
-          throw new Error
-        }
-        else {
-
-          interface ImageUrlMap {
-            [imageName: string]: string;
+        // Handle new image uploads
+        let updatedImages = { ...existingImages };
+        if (selectedImages.length > 0) {
+          const r2Response = await handleR2Upload(selectedImages, dir);
+          if (r2Response.some(result => result instanceof Error)) {
+            throw new Error("Image upload failed");
           }
-          const images = selectedImages.reduce((prev: ImageUrlMap, image) => {
-            const url = handleImageUrl({
+
+          // Add new images to existing ones
+          selectedImages.forEach((image) => {
+            updatedImages[image.name] = handleImageUrl({
               endpoint: "https://pub-5c15a84b97fc4cc889a06969fb95be5f.r2.dev",
               dir,
               name: image.name,
             });
-            prev[image.name] = url;
-            return prev;
-          }, {});
-
-          await handleSupabaseUpload({ ...uploadData, images });
-          form.reset();
-          document
-            .getElementById("category")
-            ?.dispatchEvent(new Event("change", { bubbles: true }));
-          setSelectedImages([]);
-          if (!toast.isActive("sb")) {
-            toast.success(
-              <>
-                Project uploaded successfully
-                <br />
-                <span className="opacity-80">
-                  Changes may take a few minutes to apply
-                </span>
-              </>,
-              {
-                toastId: "sb",
-                position: "top-left",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                theme: "light",
-                transition: Slide,
-              },
-            );
-          }
+          });
         }
+
+        // Update database record
+        const { error } = await supabase
+          .from('images')
+          .update({ ...uploadData, images: updatedImages })
+          .eq('id', editingProject.id);
+
+        if (error) throw error;
+        toast.success('Project updated successfully');
+      } else {
+        // Create new project
+        const dir = `projects/${uploadData.category}/${uploadData.name}`;
+        const r2Response = await handleR2Upload(selectedImages, dir);
+
+        if (r2Response.some(result => result instanceof Error)) {
+          throw new Error("Image upload failed");
+        }
+
+        // Create images mapping
+        const images = selectedImages.reduce((acc: Record<string, string>, image) => {
+          acc[image.name] = handleImageUrl({
+            endpoint: "https://pub-5c15a84b97fc4cc889a06969fb95be5f.r2.dev",
+            dir,
+            name: image.name,
+          });
+          return acc;
+        }, {});
+
+        // Insert new database record
+        const { error } = await supabase.from("images").insert([{ ...uploadData, images }]);
+        if (error) throw error;
+        toast.success("Project created successfully");
       }
-    } catch (error) {
-      if (!toast.isActive("r2") && !toast.isActive(2) && !toast.isActive("sb")) {
-        toast.error(
-          "Something went wrong, please refresh the page and try again",
-          {
-            toastId: 2,
-            position: "top-left",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "light",
-            transition: Slide,
-            icon: () => (
-              <BsExclamationCircleFill className="text-lg text-red-500" />
-            ),
-          },
-        );
-      }
+
+      // Common success operations
+      triggerRefresh();
+      resetFormState(form);
+    } catch (error: any) {
+      toast.error(error.message || "An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
+  };
+
+  // Helper function to reset form state
+  const resetFormState = (form: HTMLFormElement) => {
+    form.reset();
+    setSelectedImages([]);
+    setExistingImages({});
+    setImagesToDelete([]);
+    setEditingProject(null);
+    document.getElementById("category")?.dispatchEvent(new Event("change", { bubbles: true }));
   };
 
   const handleR2Upload = async (images: File[], dir: string) => {
@@ -355,69 +414,13 @@ export const Form = () => {
         .then(() => key)
         .catch((error) => {
           if (error) {
-            if (!toast.isActive("r2")) {
-              toast.error(`Error uploading image ${key}, plese try again`, {
-                toastId: "r2",
-                position: "top-left",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "light",
-                transition: Slide,
-                icon: () => (
-                  <BsExclamationCircleFill className="text-lg text-red-500" />
-                ),
-              });
-            }
+            toast.error(`Error uploading image ${key}, please try again`);
             return error;
           }
         });
     });
 
     return Promise.all(uploadPromises);
-  };
-
-  const handleSupabaseUpload = async ({
-    category,
-    name,
-    description,
-    images,
-    location,
-    service,
-  }: tableTypes) => {
-    const { error: insertErr } = await supabase.from("images").insert([
-      {
-        category,
-        name,
-        description,
-        images,
-        location,
-        service,
-      },
-    ]);
-    if (insertErr) {
-      if (!toast.isActive(0)) {
-        toast.error(
-          `Error uploading data to Database, please try again. Error code: ${insertErr.code}`,
-          {
-            toastId: 0,
-            position: "top-left",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "light",
-            transition: Slide,
-            icon: () => (
-              <BsExclamationCircleFill className="text-lg text-red-500" />
-            ),
-          },
-        );
-      }
-    }
   };
 
   interface imageUrl {
@@ -470,33 +473,51 @@ export const Form = () => {
   const [imageIndex, setImageIndex] = useState(-1);
 
   const handleImageRename = (index: number, newName: string) => {
-    const image = selectedImages[index];
-    const lastDotIndex = image.name.lastIndexOf('.');
-    const extension = lastDotIndex !== -1 ? image.name.slice(lastDotIndex) : '';
+    if (isRenamingExisting) {
+      // Handle renaming existing image
+      const currentUrl = existingImages[imageToRename];
 
-    // Remove any existing '$' prefix and extension from the new name
-    let sanitizedNewName = newName.trim();
-    const newNameDotIndex = sanitizedNewName.lastIndexOf('.');
-    if (newNameDotIndex !== -1) {
-      sanitizedNewName = sanitizedNewName.slice(0, newNameDotIndex);
+      // Remove the old key
+      const updatedImages = { ...existingImages };
+      delete updatedImages[imageToRename];
+
+      // Add with new key
+      const sanitizedNewName = newName.trim();
+      const newFileName = '$' + sanitizedNewName;
+      updatedImages[newFileName] = currentUrl;
+
+      setExistingImages(updatedImages);
+      setIsRenamingExisting(false);
+      setImageToRename('');
+    } else {
+      const image = selectedImages[index];
+      const lastDotIndex = image.name.lastIndexOf('.');
+      const extension = lastDotIndex !== -1 ? image.name.slice(lastDotIndex) : '';
+
+      // Remove any existing '$' prefix and extension from the new name
+      let sanitizedNewName = newName.trim();
+      const newNameDotIndex = sanitizedNewName.lastIndexOf('.');
+      if (newNameDotIndex !== -1) {
+        sanitizedNewName = sanitizedNewName.slice(0, newNameDotIndex);
+      }
+      // Remove '$' if it exists at the start
+      if (sanitizedNewName.startsWith('$')) {
+        sanitizedNewName = sanitizedNewName.slice(1);
+      }
+
+      // Check if the name is empty or just '$'
+      if (!sanitizedNewName || sanitizedNewName === '$') {
+        return;
+      }
+
+      const newFileName = '$' + sanitizedNewName + extension;
+
+      const renamedImage = new File([image], newFileName, { type: image.type });
+
+      setSelectedImages((prevImages) =>
+        prevImages.map((img, i) => (i === index ? renamedImage : img))
+      );
     }
-    // Remove '$' if it exists at the start
-    if (sanitizedNewName.startsWith('$')) {
-      sanitizedNewName = sanitizedNewName.slice(1);
-    }
-
-    // Check if the name is empty or just '$'
-    if (!sanitizedNewName || sanitizedNewName === '$') {
-      return;
-    }
-
-    const newFileName = '$' + sanitizedNewName + extension;
-
-    const renamedImage = new File([image], newFileName, { type: image.type });
-
-    setSelectedImages((prevImages) =>
-      prevImages.map((img, i) => (i === index ? renamedImage : img))
-    );
 
     // Reset states
     setImageIndex(-1);
@@ -537,6 +558,7 @@ export const Form = () => {
 
   const [resetForm, setResetForm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>('placeholder');
 
   return (
     <>
@@ -638,11 +660,14 @@ export const Form = () => {
         </div>
       </div>
       {/* rename modal */}
+
       <div
-        onClick={() => setRenameState(false)}
+        onClick={() => {
+          setRenameState(false);
+          setIsRenamingExisting(false);
+        }}
         style={{ display: renameState ? "flex" : "none" }}
-        className="fixed top-0 left-0 w-full h-full z-50 bg-black/50 flex
-      items-center justify-center"
+        className="fixed top-0 left-0 w-full h-full z-50 bg-black/50 flex items-center justify-center"
       >
         <div
           onClick={(e) => e.stopPropagation()}
@@ -657,21 +682,28 @@ export const Form = () => {
             className="text-lg p-2 border rounded-lg placeholder:text-zinc-500"
             required
             maxLength={32}
+            defaultValue={isRenamingExisting ? newName : ""}
             onChange={(e) => {
               setRenameInputChanged(true);
               setNewName(e.target.value);
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                handleImageRename(imageIndex, newName);
-                setRenameState(false);
+                if (isRenamingExisting) {
+                  handleImageRename(-1, newName);
+                } else {
+                  handleImageRename(imageIndex, newName);
+                }
               }
             }}
             placeholder="display name"
           />
           <div className="flex justify-around">
             <button
-              onClick={() => setRenameState(false)}
+              onClick={() => {
+                setRenameState(false);
+                setIsRenamingExisting(false);
+              }}
               className="capitalize px-2 py-1 text-base font-semibold"
             >
               cancel
@@ -681,7 +713,11 @@ export const Form = () => {
                 if (!renameInputChanged) {
                   return;
                 }
-                handleImageRename(imageIndex, newName);
+                if (isRenamingExisting) {
+                  handleImageRename(-1, newName);
+                } else {
+                  handleImageRename(imageIndex, newName);
+                }
               }}
               style={
                 !renameInputChanged
@@ -692,8 +728,8 @@ export const Form = () => {
                   : {}
               }
               className="capitalize px-2 py-1 text-base bg-blue-500
-            text-white font-semibold rounded-lg hover:bg-transparent
-            border-2 border-blue-500 hover:text-blue-500 transition-all duration-100"
+      text-white font-semibold rounded-lg hover:bg-transparent
+      border-2 border-blue-500 hover:text-blue-500 transition-all duration-100"
             >
               Rename
             </button>
@@ -717,10 +753,13 @@ export const Form = () => {
               </h1>
               <p className="text-orange-500 font-bold">Please review changes before publishing!</p>
             </div>
-            {editingProject && !deleteProject ?
-              <button
+            <motion.div
+              className="cursor-pointer"
+              animate={{ rotate: resetForm ? 360 : [0, 360] }}
+            >
+              <IoRefresh
                 onClick={() => {
-                  setEditingProject(null)
+                  setEditingProject(null);
                   setResetForm(true);
                   const form = document.getElementById(
                     "uploadForm",
@@ -733,31 +772,8 @@ export const Form = () => {
                     setResetForm(false);
                   }, 500);
                 }}
-                className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full z-10"
-              >
-                <FaXmark className="text-xl" />
-              </button>
-              :
-              <motion.div
-                animate={{ rotate: resetForm ? 360 : [0, 360] }}
-              >
-                <IoRefresh
-                  onClick={() => {
-                    setResetForm(true);
-                    const form = document.getElementById(
-                      "uploadForm",
-                    ) as HTMLFormElement;
-                    form.reset();
-                    document
-                      .getElementById("category")
-                      ?.dispatchEvent(new Event("change", { bubbles: true }));
-                    setTimeout(() => {
-                      setResetForm(false);
-                    }, 500);
-                  }}
-                  className="lg:text-3xl origin-center" />
-              </motion.div>
-            }
+                className="lg:text-3xl origin-center" />
+            </motion.div>
           </div>
           {/* upload form */}
           <form
@@ -777,8 +793,14 @@ export const Form = () => {
                 name="category"
                 id="category"
                 required
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                style={{ color: selectedCategory === 'placeholder' ? "oklch(0.552 0.016 285.938)" : "black" }}
                 className="w-full bg-transparent border rounded-lg p-2 mt-0.5"
+                defaultValue="placeholder"
               >
+                <option value="placeholder" disabled hidden>
+                  Select a category
+                </option>
                 {Object.entries(categories).map(([key, category]) => (
                   <option key={key} value={key}>{category.name}</option>
                 ))}
@@ -874,7 +896,9 @@ export const Form = () => {
                   </div>
                 )}
               </span>
+              {renderExistingImages()}
               <FileUpload
+                required={editingProject ? false : true}
                 onDelete={handleSingleImageDelete}
                 setImageIndex={setImageIndex} setRenameState={setRenameState}
                 files={selectedImages} inputRef={imageUploadRef} onChange={(e: File[]) => handleImageSelect(e)} />
@@ -920,7 +944,7 @@ export const Preview = () => {
   const [dataTable, setDataTable] = useState<Project[]>([]);
   const [dataError, setDataError] = useState<PostgrestError | null>(null);
   const imageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const { setEditingProject, setDeleteProject } = useAdmin();
+  const { setEditingProject, setDeleteProject, refreshTrigger } = useAdmin();
 
   useEffect(() => {
     const handleTable = async () => {
@@ -935,7 +959,7 @@ export const Preview = () => {
       }
     };
     handleTable();
-  }, []);
+  }, [refreshTrigger]);
 
 
   const filteredProjects = dataTable.filter(project => {

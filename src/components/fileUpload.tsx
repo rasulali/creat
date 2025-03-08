@@ -50,9 +50,11 @@ export const FileUpload = ({
   files: externalFiles,
   setImageIndex: externalSetImageIndex,
   setRenameState: externalSetRenameState,
-  onDelete
+  onDelete,
+  required = true
 }: {
   onChange?: (files: File[]) => void;
+  required?: boolean
   inputRef: React.RefObject<HTMLInputElement>;
   files?: File[];
   setImageIndex: (index: number) => void;
@@ -160,7 +162,7 @@ export const FileUpload = ({
         <input
           ref={externalInputRef}
           multiple
-          required
+          required={required}
           id="file-upload-handle"
           type="file"
           accept=".jpg,.jpeg,.png,.webp,.avif,.gif,.svg,image/jpeg,image/png,image/webp,image/avif,image/gif,image/svg+xml"
