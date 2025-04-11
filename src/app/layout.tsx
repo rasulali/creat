@@ -25,7 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${jost.variable} ${manrope.className} ${manrope.variable}`}>{children}</body>
+      <body className={`${jost.variable} ${manrope.className} ${manrope.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }
