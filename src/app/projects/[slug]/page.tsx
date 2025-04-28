@@ -122,9 +122,9 @@ const Project = ({ params }: { params: { slug: string } }) => {
               alt={project?.name || ''}
               fill
               priority
-              sizes="50vw"
+              sizes="(max-width: 1024px) 100vw, (min-width: 1280px) 720px, 50vw"
               className="object-cover"
-              quality={90}
+              quality={70}
             />
             <div className="absolute inset-0 bg-black/60">
             </div>
