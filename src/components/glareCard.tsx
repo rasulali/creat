@@ -8,13 +8,13 @@ export const GlareCard = ({
   icon,
   link,
   name,
-  text
+  text,
 }: {
   className?: string;
   icon: ReactNode;
   link: string;
   name: string;
-  text: string
+  text: string;
 }) => {
   const isPointerInside = useRef(false);
   const refElement = useRef<HTMLDivElement>(null);
@@ -62,7 +62,6 @@ export const GlareCard = ({
 
   const updateStyles = () => {
     if (refElement.current) {
-      console.log(state.current);
       const { background, rotate, glare } = state.current;
       refElement.current?.style.setProperty("--m-x", `${glare.x}%`);
       refElement.current?.style.setProperty("--m-y", `${glare.y}%`);
@@ -126,26 +125,31 @@ export const GlareCard = ({
     >
       <div className="h-full grid will-change-transform origin-center transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] [transform:rotateY(var(--r-x))_rotateX(var(--r-y))] rounded-[var(--radius)] border border-creatBGLight/50 hover:[--opacity:0.6] hover:[--duration:200ms] hover:[--easing:linear] hover:filter-none overflow-hidden">
         <div className="w-full h-full grid [grid-area:1/1] mix-blend-soft-light [clip-path:inset(0_0_0_0_round_var(--radius))]">
-          <div className={cn("h-full w-full flex flex-col bg-creatBG p-6", className)}>
-            <div className="mb-4">
-              {icon}
-            </div>
+          <div
+            className={cn(
+              "h-full w-full flex flex-col bg-creatBG p-6",
+              className,
+            )}
+          >
+            <div className="mb-4">{icon}</div>
             <div className="flex flex-col h-full justify-between pointer-events-auto">
               <div className="flex flex-col gap-y-3">
-                <Link href={link} className="md:text-2xl font-semibold text-neutral-100 hover:text-creatBright transition-colors">
+                <Link
+                  href={link}
+                  className="md:text-2xl font-semibold text-neutral-100 hover:text-creatBright transition-colors"
+                >
                   {name}
                 </Link>
                 <p className="text-neutral-300 text-lg">{text}</p>
               </div>
 
-              <Link href={link}
-                className="w-fit transition-all duration-300 flex md:gap-x-3 items-center group mb-3 text-neutral-100 hover:text-creatBright ">
-                <h1 className="md:text-2xl font-semibold">
-                  Learn More
-                </h1>
+              <Link
+                href={link}
+                className="w-fit transition-all duration-300 flex md:gap-x-3 items-center group mb-3 text-neutral-100 hover:text-creatBright "
+              >
+                <h1 className="md:text-2xl font-semibold">Learn More</h1>
                 <FaArrowRight className="text-lg duration-300 group-hover:translate-x-1/2 mt-1 transition-transform" />
               </Link>
-
             </div>
           </div>
         </div>

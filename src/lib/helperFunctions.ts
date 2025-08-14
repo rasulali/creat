@@ -1,4 +1,3 @@
-
 import {
   FaLeaf,
   FaHelmetSafety,
@@ -11,63 +10,63 @@ import {
   FaDumpster,
   FaGripLines,
   FaSchool,
-} from "react-icons/fa6"
+} from "react-icons/fa6";
 
 export const createProjectSlug = (name: string, id: number): string => {
   const slugifiedName = name
     .toLowerCase()
-    .replace(/[^a-z0-9]/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/[^a-z0-9]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
   return `${slugifiedName}-${id}`;
-}
+};
 
 export const categories: Record<string, Category> = {
-  'road': {
-    name: 'Road Projects',
+  road: {
+    name: "Road Projects",
     icon: FaRoad,
   },
-  'mining': {
-    name: 'Mining Projects',
+  mining: {
+    name: "Mining Projects",
     icon: FaHelmetSafety,
   },
-  'urban': {
-    name: 'Urban Planning',
+  urban: {
+    name: "Urban Planning",
     icon: FaCity,
   },
-  'landscape': {
-    name: 'Landscaping Works',
+  landscape: {
+    name: "Landscaping Works",
     icon: FaHillRockslide,
   },
 
-  'industrial': {
-    name: 'Industrial Buildings',
+  industrial: {
+    name: "Industrial Buildings",
     icon: FaIndustry,
   },
-  'residential': {
-    name: 'Residential Buildings',
+  residential: {
+    name: "Residential Buildings",
     icon: FaBuilding,
   },
-  'waste-management': {
-    name: 'Waste Management',
+  "waste-management": {
+    name: "Waste Management",
     icon: FaDumpster,
   },
 
-  'alternative-energy': {
-    name: 'Alternative Energy Systems',
+  "alternative-energy": {
+    name: "Alternative Energy Systems",
     icon: FaLeaf,
   },
-  'water-power': {
-    name: 'Water & Power Lines',
+  "water-power": {
+    name: "Water & Power Lines",
     icon: FaGripLines,
   },
-  'industrial-facility': {
-    name: 'Industrial Facility Projects',
+  "industrial-facility": {
+    name: "Industrial Facility Projects",
     icon: FaTractor,
   },
-  'education-development': {
-    name: 'Educational Spaces',
+  "education-development": {
+    name: "Educational Spaces",
     icon: FaSchool,
   },
 };
@@ -116,7 +115,12 @@ export const handleDisplayName = (name: string) => {
  * @returns A formatted date string or empty string if input is invalid
  */
 export const formatDate = (
-  dateInput: string | Date | null | undefined | Promise<string | Date | null | undefined>
+  dateInput:
+    | string
+    | Date
+    | null
+    | undefined
+    | Promise<string | Date | null | undefined>,
 ): string => {
   try {
     // Handle promise inputs
@@ -126,22 +130,22 @@ export const formatDate = (
     }
 
     // Return empty string for null/undefined/empty inputs
-    if (!dateInput) return '';
+    if (!dateInput) return "";
 
     // Convert to Date object if it's a string
-    const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+    const date =
+      typeof dateInput === "string" ? new Date(dateInput) : dateInput;
 
     // Check if date is valid
-    if (isNaN(date.getTime())) return '';
+    if (isNaN(date.getTime())) return "";
 
     // Format the date
     const day = date.getDate();
-    const month = date.toLocaleString('en', { month: 'short' }).toLowerCase();
+    const month = date.toLocaleString("en", { month: "short" }).toLowerCase();
     const year = date.getFullYear();
 
     return `${day} ${month}, ${year}`;
   } catch (error) {
-    console.error('Error formatting date:', error);
-    return '';
+    return "";
   }
 };
