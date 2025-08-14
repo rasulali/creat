@@ -14,6 +14,7 @@ import {
   FaPen,
   FaTrash,
   FaArrowUpRightFromSquare,
+  FaEnvelopeOpen,
 } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im";
 import { useEffect, useRef, useState } from "react";
@@ -958,10 +959,10 @@ export const Form = () => {
               <textarea
                 name="description"
                 id="description"
-                className="resize-y overflow-hidden w-full bg-white/80 backdrop-blur-sm border-2 border-slate-200
+                className="resize-y overflow-y-scroll w-full bg-white/80 backdrop-blur-sm border-2 border-slate-200
                   rounded-xl p-4 text-slate-700 placeholder-slate-400 focus:border-blue-400 focus:ring-4
                   focus:ring-blue-100 focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md
-                  hover:border-slate-300 min-h-[8rem]"
+                  hover:border-slate-300 min-h-[8rem] max-h-[16rem]"
                 placeholder="Provide a description for the project"
               />
             </span>
@@ -1230,14 +1231,14 @@ export const Preview = () => {
                               href={`/projects/${createProjectSlug(project.name, project.id)}/`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-2 text-2xl font-bold text-slate-800 group-hover:text-blue-600
+                              className="text-2xl font-bold text-slate-800 group-hover:text-blue-600
                               transition-colors duration-200 hover:underline"
                             >
                               <HighlightText
                                 text={project.name}
                                 searchTerm={searchTerm}
                               />
-                              <FaArrowUpRightFromSquare className="w-4 h-4 text-slate-600 group-hover:text-blue-600 transition-colors duration-200" />
+                              <FaArrowUpRightFromSquare className="ml-2 w-4 h-4 text-slate-600 group-hover:text-blue-600 transition-colors duration-200 inline" />
                             </Link>
                             <div className="flex gap-2 opacity-70 group-hover:opacity-100 transition-opacity duration-200">
                               <button
@@ -1357,7 +1358,9 @@ export const Preview = () => {
                   ))
                 ) : (
                   <div className="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl p-12 text-center">
-                    <div className="text-6xl mb-4">🔍</div>
+                    <div className="flex w-full items-center justify-center">
+                      <FaMagnifyingGlass className="text-6xl mb-4 text-center" />
+                    </div>
                     <h3 className="text-xl font-semibold text-slate-600 mb-2">
                       {dataTable.length === 0
                         ? "No Projects Yet"
@@ -1612,7 +1615,9 @@ export const Customers = () => {
                   ))
                 ) : (
                   <div className="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl p-12 text-center">
-                    <div className="text-6xl mb-4">📭</div>
+                    <div className="w-full flex justify-center items-center">
+                      <FaEnvelopeOpen className="text-6xl mb-4" />
+                    </div>
                     <h3 className="text-xl font-semibold text-slate-600 mb-2">
                       No Emails Submitted Yet
                     </h3>
