@@ -8,7 +8,6 @@ import ParagraphAnimation from "@/components/paragraphAnim";
 import { Carousel } from "@/components/carousel";
 import { motion } from "framer-motion";
 import Footer from "@/components/footer";
-import { BackgroundBeams } from "@/components/bgBeams";
 
 const Project = ({ params }: { params: { slug: string } }) => {
   const [project, setProject] = useState<Project | null>(null);
@@ -70,19 +69,16 @@ const Project = ({ params }: { params: { slug: string } }) => {
             className="row-span-1 row-start-2 flex flex-col justify-center
             gap-y-8 px-6"
           >
-            <TextAnim dir=">">
-              <div className="flex flex-col gap-y-2">
-                <h1 className="text-7xl text-white/90">
+            <div className="w-[calc(50%-24px)]">
+              <TextAnim dir=">">
+                <h1 className="text-4xl text-white/90">
                   {project?.name || ""}
                 </h1>
-                <h1 className="text-5xl text-white/70">
-                  {project?.location || ""}
-                </h1>
-              </div>
-            </TextAnim>
+              </TextAnim>
+            </div>
             <ParagraphAnimation>
-              <div className="w-1/2 px-4">
-                <p className="text-white/80 text-xl">
+              <div className="w-1/2">
+                <p className="text-white/70 text-xl">
                   {project?.description || ""}
                 </p>
               </div>
@@ -92,10 +88,7 @@ const Project = ({ params }: { params: { slug: string } }) => {
             <motion.span
               initial={{ width: 0, opacity: 0 }}
               whileInView={{ width: "calc(100% - 64px)", opacity: 1 }}
-              transition={{
-                duration: 0.3,
-                delay: 0.2,
-              }}
+              transition={{ duration: 0.3, delay: 0.2 }}
               viewport={{ once: true }}
               className="h-px bg-white/50 w-0"
             />
@@ -126,7 +119,20 @@ const Project = ({ params }: { params: { slug: string } }) => {
               className="object-cover"
               quality={70}
             />
-            <div className="absolute inset-0 bg-black/60"></div>
+            <div className="absolute inset-0 pointer-events-none">
+              <svg
+                viewBox="0 0 900 600"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="absolute inset-0 z-10 w-full h-full"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M450 600C151.712 476.733 60.6224 338.616 0 0V600H450Z"
+                  fill="#081731"
+                />
+              </svg>
+            </div>
           </div>
         </div>
       </section>
@@ -145,12 +151,12 @@ const Project = ({ params }: { params: { slug: string } }) => {
             <motion.span
               viewport={{ once: true }}
               className="w-0 h-px bg-white/50 mt-7"
-              initial={{ width: 0, opacity: 0 }}
-              whileInView={{ width: "100%", opacity: 1 }}
-              transition={{
-                duration: 0.2,
-                delay: 0.2,
+              initial={{
+                width: 0,
+                opacity: 0,
               }}
+              whileInView={{ width: "100%", opacity: 1 }}
+              transition={{ duration: 0.2, delay: 0.2 }}
             />
             <motion.h1
               className="text-white/90 mt-7 font-jost text-xl tracking-wide"
@@ -166,7 +172,6 @@ const Project = ({ params }: { params: { slug: string } }) => {
           <Carousel project={project} />
         </div>
       </section>
-      <BackgroundBeams className="z-[1]" />
       <Footer className="relative z-[2]" />
     </main>
   );
