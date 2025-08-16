@@ -1,14 +1,15 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+"use client";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 import React, { useEffect } from "react";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export const useOutsideClick = (
   ref: React.RefObject<HTMLDivElement>,
-  callback: Function
+  callback: Function,
 ) => {
   useEffect(() => {
     const listener = (event: any) => {

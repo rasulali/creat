@@ -172,7 +172,7 @@ const Project = ({ params }: { params: { slug: string } }) => {
           <Carousel project={project} />
         </div>
       </section>
-      <Footer className="relative z-[2]" />
+      <Footer />
     </main>
   );
 };

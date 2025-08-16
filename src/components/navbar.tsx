@@ -1,4 +1,4 @@
-"use state";
+"use client";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Slant as MenuIcon } from "hamburger-react";

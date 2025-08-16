@@ -1151,7 +1151,7 @@ export const Preview = () => {
             </div>
 
             <div className="flex flex-wrap gap-y-4">
-              {/* Enhanced Search Bar */}
+              {/* Search Bar */}
               <span className="w-full relative group">
                 <input
                   type="text"
@@ -1176,6 +1176,30 @@ export const Preview = () => {
                     : "Type to search..."}
                 </div>
               </span>
+
+              {/* Project Count Display with Chip */}
+              <div className="w-full">
+                <div className="flex justify-between items-center bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-slate-200 shadow-sm">
+                  <div>
+                    <p className="text-slate-600 text-lg font-medium">
+                      Currently showing{" "}
+                      <span className="text-blue-600 font-semibold">
+                        {filteredProjects.length}
+                      </span>{" "}
+                      projects
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-100 border border-slate-200 rounded-full px-3 py-1 flex items-center gap-2">
+                    <span className="text-slate-500 text-sm font-medium">
+                      Total:
+                    </span>
+                    <span className="text-slate-800 font-bold text-lg">
+                      {dataTable.length}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
               {/* Projects Grid */}
               <div className="w-full space-y-6">

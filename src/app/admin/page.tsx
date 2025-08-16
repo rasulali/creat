@@ -14,7 +14,7 @@ const Dashboard = async () => {
   } = await supabase.auth.getUser();
 
   if (authError || !user) {
-    redirect('/login');
+    redirect("/login");
   }
 
   const { data: userData } = await supabase
@@ -27,10 +27,16 @@ const Dashboard = async () => {
   return (
     <main className="relative bg-zinc-100 pb-9 min-h-dvh">
       <nav className="flex justify-between items-center w-full p-4 lg:px-8">
-        <Link className="lg:h-12 h-9 flex w-fit tooltip tooltip-right" href="/"
+        <Link
+          className="lg:h-12 h-9 flex w-fit tooltip tooltip-right"
+          href="/"
           data-tip="Home"
         >
-          <img src="/logos/horizontal_black.svg" alt="logo" className="h-full w-full object-cover" />
+          <img
+            src="/logos/horizontal_black.svg"
+            alt="logo"
+            className="h-full w-full object-cover"
+          />
         </Link>
         <Menu {...userData} />
       </nav>
@@ -38,9 +44,13 @@ const Dashboard = async () => {
         <div className="flex flex-col lg:flex-row gap-8 px-4 lg:px-8 items-start">
           {/* Left Column - Form + Customers (sticky to form bottom) */}
           <div className="w-full lg:w-1/2 flex flex-col">
-            <div className="flex flex-col h-auto min-h-[50vh]"> {/* Form container */}
+            <div className="flex flex-col h-auto min-h-[50vh]">
+              {" "}
+              {/* Form container */}
               <Form />
-              <div className="mt-8"> {/* Customers container */}
+              <div className="mt-8">
+                {" "}
+                {/* Customers container */}
                 <Customers />
               </div>
             </div>
