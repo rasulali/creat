@@ -9,7 +9,7 @@ const WorkInProgress = () => {
       <section className="flex flex-col min-h-dvh w-full">
         <div className="flex items-center justify-center h-full w-full relative overflow-hidden">
           <FlipWords
-            className="text-5xl font-jost font-[500]"
+            className="text-5xl font-comfortaa font-[500]"
             delay={5000}
             duration={2000}
             words={[

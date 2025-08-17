@@ -4,12 +4,10 @@ import { createClient } from "../../../utils/supabase/client";
 import { cn } from "@/lib/utils";
 import TextAnim from "@/components/animatedText";
 import Nav from "@/components/navbar";
-import { motion } from "framer-motion";
-import { categories, createProjectSlug } from "@/lib/helperFunctions";
+import { categories } from "@/lib/helperFunctions";
 import { FaFilter } from "react-icons/fa6";
-import Link from "next/link";
-import Image from "next/image";
 import Footer from "@/components/footer";
+import ProjectAnimatedWawes from "@/components/projectAnimatedWawes";
 
 const Projects = () => {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
@@ -56,8 +54,8 @@ const Projects = () => {
     <main>
       <section className="w-full bg-creatBG min-h-screen pb-36">
         <Nav isTransparent={false} />
-        <div className="w-full max-w-[1920px] h-full py-24 flex relative items-center mx-auto">
-          <div className="flex flex-col px-80 w-full">
+        <div className="w-full h-full py-24 flex relative items-center mx-auto">
+          <div className="flex flex-col px-12 w-full">
             <TextAnim>
               <span className="inline-flex gap-x-4 items-center">
                 <span className="w-12 h-1 bg-white/90 inline-block"></span>
@@ -110,9 +108,9 @@ const Projects = () => {
               </div>
             </div>
 
-            <div className="mt-24 grid grid-cols-2 gap-8">
+            <div className="mt-24 grid grid-cols-3 w-fit mx-auto gap-8 place-items-center">
               {projectsLoading ? (
-                <div className="col-span-2">
+                <div className="col-span-3">
                   <p className="text-white/50 text-center text-lg">
                     Loading projects...
                   </p>
@@ -125,69 +123,16 @@ const Projects = () => {
                 </div>
               ) : (
                 filteredProjects.map((project) => (
-                  <motion.div
-                    onHoverStart={() => setProjectHover(project.id)}
-                    onHoverEnd={() => setProjectHover(-1)}
-                    className="rounded-2xl overflow-hidden"
-                  >
-                    <Link
-                      key={project.id}
-                      href={`/projects/${createProjectSlug(project.name, project.id)}/`}
-                      className="block relative"
-                    >
-                      <motion.div
-                        animate={{
-                          opacity: projectHover === project.id ? 1 : 0,
-                        }}
-                        className="absolute inset-0 backdrop-blur-sm z-10"
-                      />
-
-                      <motion.div
-                        initial={{
-                          x: "-200%",
-                          opacity: 0,
-                        }}
-                        animate={{
-                          x: projectHover === project.id ? 0 : "-200%",
-                          opacity: projectHover === project.id ? 1 : 0,
-                        }}
-                        transition={{
-                          mass: 5,
-                        }}
-                        className="absolute bottom-12 left-12 px-8 py-6 flex
-                          flex-col bg-white rounded-xl z-20 max-w-[calc(100%-96px)]"
-                      >
-                        <h1 className="text-xs text-stone-500 font-medium font-jost uppercase">
-                          {categories[project.category].name}
-                        </h1>
-                        <h1 className="text-2xl text-stone-700 font-medium font-jost">
-                          {project.name}
-                        </h1>
-                      </motion.div>
-
-                      <motion.div
-                        animate={{
-                          scale: projectHover === project.id ? 1.1 : 1,
-                        }}
-                        transition={{
-                          damping: 30,
-                        }}
-                        className="w-full h-full overflow-hidden"
-                      >
-                        <Image
-                          width={600}
-                          height={450}
-                          src={
-                            project?.images
-                              ? Object.values(project.images)[0]
-                              : ""
-                          }
-                          alt={`${project.name} project image`}
-                          className="w-full h-auto object-cover aspect-[4/3]"
-                        />
-                      </motion.div>
-                    </Link>
-                  </motion.div>
+                  <ProjectAnimatedWawes
+                    project={project}
+                    key={project.id}
+                    categories={categories}
+                    projectHover={projectHover}
+                    setProjectHover={setProjectHover}
+                    imageurl={
+                      project?.images ? Object.values(project.images)[0] : ""
+                    }
+                  />
                 ))
               )}
             </div>

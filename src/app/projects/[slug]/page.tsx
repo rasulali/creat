@@ -139,7 +139,7 @@ const Project = ({ params }: { params: { slug: string } }) => {
       <section className="py-32">
         <div className="ml-32 flex w-[calc(100%-128px)] gap-x-4">
           <motion.span
-            className="text-white/90 text-xl font-medium font-jost border border-white/50 w-14 h-14 flex justify-center items-center rounded-full"
+            className="text-white/90 text-xl font-medium font-comfortaa border border-white/50 w-14 h-14 flex justify-center items-center rounded-full"
             initial={{ scale: 0, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.2 }}
@@ -159,7 +159,7 @@ const Project = ({ params }: { params: { slug: string } }) => {
               transition={{ duration: 0.2, delay: 0.2 }}
             />
             <motion.h1
-              className="text-white/90 mt-7 font-jost text-xl tracking-wide"
+              className="text-white/90 mt-7 font-comfortaa text-xl tracking-wide"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
