@@ -35,9 +35,9 @@ export const CarouselContext = createContext<{
   currentIndex: number;
   cards: Card[];
 }>({
-  onCardClose: () => { },
+  onCardClose: () => {},
   currentIndex: 0,
-  cards: []
+  cards: [],
 });
 
 export const Carousel = ({ project, initialScroll = 0 }: CarouselProps) => {
@@ -46,11 +46,13 @@ export const Carousel = ({ project, initialScroll = 0 }: CarouselProps) => {
   const [canScrollRight, setCanScrollRight] = React.useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const cards = Object.entries(project?.images || {}).reverse().map(([filename, imageUrl]) => ({
-    category: project?.name || "",
-    title: filename || "",
-    src: imageUrl || "",
-  }));
+  const cards = Object.entries(project?.images || {})
+    .reverse()
+    .map(([filename, imageUrl]) => ({
+      category: project?.name || "",
+      title: filename || "",
+      src: imageUrl || "",
+    }));
 
   useEffect(() => {
     if (carouselRef.current) {
@@ -205,7 +207,6 @@ export const Card = ({
     setCurrentIndex(index);
   };
 
-
   return (
     <>
       <AnimatePresence>
@@ -232,28 +233,28 @@ export const Card = ({
                 <FaX className="h-6 w-6 text-white" />
               </button>
               <button
-                className="absolute bottom-6 right-6 translate-x-[calc(-100%-8px)] h-8 w-8 bg-black/50 hover:bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center z-50"
+                className="absolute top-1/2 left-6 -translate-y-1/2 /
+                h-12 w-12 bg-black border-2 border-white rounded-full flex items-center justify-center z-50"
                 onClick={handlePrev}
               >
                 <FaArrowLeft className="h-6 w-6 text-white" />
               </button>
               <button
-                className="absolute bottom-6 right-6 h-8 w-8 bg-black/50 hover:bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center z-50"
+                className="absolute top-1/2 -translate-y-1/2 right-6 h-12 w-12 \
+                bg-black border-2 border-white rounded-full flex items-center justify-center z-50"
                 onClick={handleNext}
               >
                 <FaArrowRight className="h-6 w-6 text-white" />
               </button>
 
-              <div className="absolute top-0 left-0 z-50 p-6 bg-gradient-to-r
-                via-creatBG from-creatBG to-transparent">
-                <motion.p
-                  className="text-base font-medium text-white"
-                >
+              <div
+                className="absolute top-0 left-0 z-50 p-6 bg-gradient-to-r
+                via-creatBG from-creatBG to-transparent"
+              >
+                <motion.p className="text-base font-medium text-white">
                   {currentCard.category}
                 </motion.p>
-                <motion.p
-                  className="text-2xl md:text-4xl font-semibold text-white mt-1"
-                >
+                <motion.p className="text-2xl md:text-4xl font-semibold text-white mt-1">
                   {handleDisplayName(currentCard.title)}
                 </motion.p>
               </div>
@@ -297,7 +298,6 @@ export const Card = ({
   );
 };
 
-
 export const BlurImage = ({
   height,
   width,
@@ -312,7 +312,7 @@ export const BlurImage = ({
       className={cn(
         "transition duration-300",
         isLoading ? "blur-sm" : "blur-0",
-        className
+        className,
       )}
       onLoad={() => setLoading(false)}
       src={src}

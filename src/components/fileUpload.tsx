@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { IconUpload } from "@tabler/icons-react";
 import { useDropzone } from "react-dropzone";
-import { FaPen, FaTrash } from "react-icons/fa6";
+import { FaPen, FaTrash, FaStar, FaRegStar } from "react-icons/fa6";
 import { handleImageName } from "@/lib/helperFunctions";
 
 const mainVariant = {
@@ -51,6 +51,8 @@ export const FileUpload = ({
   setImageIndex: externalSetImageIndex,
   setRenameState: externalSetRenameState,
   onDelete,
+  bannerImage,
+  onSetBanner,
   required = true,
 }: {
   onChange?: (files: File[]) => void;
@@ -60,6 +62,8 @@ export const FileUpload = ({
   setImageIndex: (index: number) => void;
   setRenameState: (state: boolean) => void;
   onDelete?: (indexToDelete: number, imageUrlToDelete: string) => void;
+  bannerImage: string | null;
+  onSetBanner: (imageName: string) => void;
 }) => {
   const [files, setFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -75,8 +79,13 @@ export const FileUpload = ({
       if (externalInputRef.current) {
         externalInputRef.current.files = dataTransfer.files;
       }
+
+      // Set first image as banner if none is set
+      if (!bannerImage && externalFiles.length > 0) {
+        onSetBanner(externalFiles[0].name);
+      }
     }
-  }, [externalFiles, externalInputRef]);
+  }, [externalFiles, externalInputRef, bannerImage, onSetBanner]);
 
   const validateFileType = (file: File): boolean => {
     return Object.keys(ACCEPTED_FILE_TYPES).includes(file.type);
@@ -104,6 +113,11 @@ export const FileUpload = ({
       externalInputRef.current.files = dataTransfer.files;
     }
 
+    // Set first image as banner if none is set
+    if (!bannerImage && updatedFiles.length > 0) {
+      onSetBanner(updatedFiles[0].name);
+    }
+
     onChange && onChange(updatedFiles);
   };
 
@@ -114,6 +128,7 @@ export const FileUpload = ({
 
   const handleDelete = (index: number, e: React.MouseEvent) => {
     e.stopPropagation();
+    const fileToDelete = files[index];
     const updatedFiles = files.filter((_, idx) => idx !== index);
 
     const dataTransfer = new DataTransfer();
@@ -122,7 +137,12 @@ export const FileUpload = ({
       externalInputRef.current.files = dataTransfer.files;
     }
 
-    onDelete?.(index, URL.createObjectURL(files[index]));
+    // If deleting the banner image, set a new banner (first image)
+    if (bannerImage === fileToDelete.name) {
+      onSetBanner(updatedFiles.length > 0 ? updatedFiles[0].name : "");
+    }
+
+    onDelete?.(index, URL.createObjectURL(fileToDelete));
     setFiles(updatedFiles);
   };
 
@@ -130,6 +150,11 @@ export const FileUpload = ({
     e.stopPropagation();
     externalSetImageIndex(index);
     externalSetRenameState(true);
+  };
+
+  const handleSetBanner = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    onSetBanner(files[index].name);
   };
 
   const { getRootProps } = useDropzone({
@@ -215,14 +240,20 @@ export const FileUpload = ({
                       className={cn(
                         "relative overflow-hidden z-40 bg-white flex gap-x-4 md:h-24 p-4 mt-4 w-full mx-auto rounded-md",
                         "shadow-sm hover:shadow-md transition-shadow duration-300",
+                        bannerImage === file.name && "ring-2 ring-blue-500",
                       )}
                     >
-                      <div className="h-full aspect-[4/3]">
+                      <div className="h-full aspect-[4/3] relative">
                         <img
                           className="object-cover w-full h-full"
                           src={URL.createObjectURL(file)}
                           alt={file.name}
                         />
+                        {bannerImage === file.name && (
+                          <div className="absolute top-1 left-1 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded">
+                            Banner
+                          </div>
+                        )}
                       </div>
                       <div className="flex flex-col items-start justify-start w-full">
                         <div className="flex justify-between w-full items-center gap-4">
@@ -248,6 +279,22 @@ export const FileUpload = ({
                               className="appearance-none w-fit h-fit z-50 p-2 hover:bg-red-50 rounded-full transition-colors"
                             >
                               <FaTrash className="text-sm text-red-500/50" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => handleSetBanner(idx, e)}
+                              className="appearance-none w-fit h-fit z-50 p-2 hover:bg-blue-50 rounded-full transition-colors"
+                              title={
+                                bannerImage === file.name
+                                  ? "Current banner"
+                                  : "Set as banner"
+                              }
+                            >
+                              {bannerImage === file.name ? (
+                                <FaStar className="text-sm text-blue-500" />
+                              ) : (
+                                <FaRegStar className="text-sm text-blue-500/50" />
+                              )}
                             </button>
                           </div>
                           <motion.p

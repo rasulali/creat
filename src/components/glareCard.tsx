@@ -1,18 +1,14 @@
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { ReactNode, useRef } from "react";
-import { FaArrowRight } from "react-icons/fa6";
 
 export const GlareCard = ({
   className,
   icon,
-  link,
   name,
   text,
 }: {
   className?: string;
   icon: ReactNode;
-  link: string;
   name: string;
   text: string;
 }) => {
@@ -74,7 +70,7 @@ export const GlareCard = ({
   return (
     <div
       style={containerStyle}
-      className="relative isolate pointer-events-none [contain:layout_style] [perspective:600px] transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] will-change-transform w-[320px] [aspect-ratio:17/21]"
+      className="relative isolate pointer-events-none [contain:layout_style] [perspective:600px] transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] will-change-transform w-[320px] [aspect-ratio:10/12]"
       ref={refElement}
       onPointerMove={(event) => {
         const rotateFactor = 0.4;
@@ -123,7 +119,7 @@ export const GlareCard = ({
         }
       }}
     >
-      <div className="h-full grid will-change-transform origin-center transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] [transform:rotateY(var(--r-x))_rotateX(var(--r-y))] rounded-[var(--radius)] border border-creatBGLight/50 hover:[--opacity:0.6] hover:[--duration:200ms] hover:[--easing:linear] hover:filter-none overflow-hidden">
+      <div className="h-full grid will-change-transform origin-center transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] [transform:rotateY(var(--r-x))_rotateX(var(--r-y))] rounded-[var(--radius)] border border-creatBGLight/50 hover:[--opacity:0.6] hover:[--duration:200ms] hover:[--easing:linear] hover:filter-none overflow-hidden cursor-default">
         <div className="w-full h-full grid [grid-area:1/1] mix-blend-soft-light [clip-path:inset(0_0_0_0_round_var(--radius))]">
           <div
             className={cn(
@@ -134,22 +130,11 @@ export const GlareCard = ({
             <div className="mb-4">{icon}</div>
             <div className="flex flex-col h-full justify-between pointer-events-auto">
               <div className="flex flex-col gap-y-3">
-                <Link
-                  href={link}
-                  className="md:text-2xl font-semibold text-neutral-100 hover:text-creatBright transition-colors"
-                >
+                <h1 className="md:text-2xl font-semibold text-neutral-100">
                   {name}
-                </Link>
+                </h1>
                 <p className="text-neutral-300 text-lg">{text}</p>
               </div>
-
-              <Link
-                href={link}
-                className="w-fit transition-all duration-300 flex md:gap-x-3 items-center group mb-3 text-neutral-100 hover:text-creatBright "
-              >
-                <h1 className="md:text-2xl font-semibold">Learn More</h1>
-                <FaArrowRight className="text-lg duration-300 group-hover:translate-x-1/2 mt-1 transition-transform" />
-              </Link>
             </div>
           </div>
         </div>

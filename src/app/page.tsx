@@ -13,8 +13,8 @@ import { IoClose } from "react-icons/io5";
 import { LuExternalLink } from "react-icons/lu";
 import { GlareCard } from "@/components/glareCard";
 import { BASE_URI } from "@/lib/vars";
-import ParagraphAnimation from "@/components/paragraphAnim";
 import Image from "next/image";
+import { ParagraphAnimation } from "@/components/paragraphAnim";
 
 export default function Home() {
   const projectsRef = useRef(null);
@@ -879,6 +879,7 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
           </div>
           <div className="grid md:grid-cols-3 gap-8 w-full mt-16">
             <GlareCard
+              className="group"
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -886,17 +887,17 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
                   className="w-20 h-20"
                 >
                   <path
-                    className="fill-white/30 parent-group-hover:fill-white/70 transition-colors duration-300"
+                    className="transition-colors duration-1000 fill-white/50 group-hover:fill-green-800/50"
                     d="M29 14h-1v-4h-2v4h-2v-4h-2v4h-1a1 1 0 0 0-1 1v4a5.01 5.01 0 0 0 4 4.899V27a1 1 0 0 1-1 1H5a1 1 0 0 1 0-2h5a3 3 0 0 0 0-6H5a1 1 0 0 1 0-2h5a3.003 3.003 0 0 0 3-3v-4h1a4.005 4.005 0 0 0 4-4V4h-3a3.98 3.98 0 0 0-2.747 1.106A6 6 0 0 0 7 2H4v3a6.007 6.007 0 0 0 6 6h1v4a1 1 0 0 1-1 1H5a3 3 0 0 0 0 6h5a1 1 0 0 1 0 2H5a3 3 0 0 0 0 6h18a3.003 3.003 0 0 0 3-3v-3.101A5.01 5.01 0 0 0 30 19v-4a1 1 0 0 0-1-1M13 8a2 2 0 0 1 2-2h1v1a2 2 0 0 1-2 2h-1Zm-3 1a4.005 4.005 0 0 1-4-4V4h1a4.005 4.005 0 0 1 4 4v1Zm18 10a3 3 0 0 1-6 0v-3h6Z"
                   ></path>
                 </svg>
               }
-              link="/services/#"
               name="Green Energy"
               text="We are committed to sustainability and environmental stewardship.That's why we offer renewable energy solutions"
             />
 
             <GlareCard
+              className="group"
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -904,17 +905,17 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
                   viewBox="0 0 512 512"
                 >
                   <path
-                    className="fill-white/30 parent-group-hover:fill-white/70 transition-colors duration-300"
+                    className="transition-colors duration-1000 fill-white/50 group-hover:fill-cyan-800/50"
                     d="M360.848 22.51L0 113.456L85.163 489.49L512 357.774zm104.72 313.314l-57.37 17.351l-15.834-86.248l-12.89 3.273l-63.58-158.109l47.772-12.67zM360.325 91.671l-47.631 12.46l-15.951-39.667L343.44 52.5zm-72.551-24.909l15.725 39.774l-174.233 45.575l-3.378-10.977l-77.612 36.79l-11.47-46.854zM112.81 442.594l-39.315-160.69l160.393-44.408l51.417 152.683zm161.436-272.773L60.488 227.809L48.43 178.555l86.453-7.41l-3.295-10.167l175.075-46.438l62.841 158.948l-13.363 4.236l50.876 75.809l-59.063 17.863zM148.565 378.208c-33.107-19.087-31.347-66.645 3.161-85.084c33.704-18.01 74.81-1.317 76.918 40.83c1.974 39.47-46.972 63.34-80.08 44.254m72.522-45.626c-3.004-35.527-36.778-49.694-66.138-34.006c-30.06 16.063-29.866 58.072-.753 74.214c27.301 15.137 69.957-3.951 66.891-40.208m-59.82 28.56l4.79-46.585l9.839-3.134l27.95 36.049l-7.579 4.212l-8.036-10.171l-17.476 5.113l-.78 11.991zm9.84-21.681l13.178-3.943l-11.696-15.71z"
                   />
                 </svg>
               }
-              link="/services/#"
               name="Tecnical Planning"
               text="We are focused on precision and innovation. Therefore we offer expert technical design services for everyone"
             />
 
             <GlareCard
+              className="group"
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -922,15 +923,14 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
                   viewBox="0 0 64 64"
                 >
                   <path
-                    className="fill-white/30 parent-group-hover:fill-white/70 transition-colors duration-300"
+                    className="transition-colors duration-1000 fill-white/50 group-hover:fill-amber-600/50"
                     d="M58 8h-4V4.801C54 3.26 52.842 2 51.43 2H38.566C37.158 2 36 3.26 36 4.801V8H11.941L6 20h4.125v8h-.668l-3.332 4l3.332 4h.73v2.148c0 .543.419.982.938.982c1.551 0 2.813 1.324 2.813 2.951s-1.262 2.951-2.813 2.951s-2.813-1.324-2.813-2.951c0-.543-.42-.982-.938-.982c-.519 0-.938.439-.938.982C6.438 44.795 8.54 47 11.125 47s4.688-2.205 4.688-4.918c0-2.375-1.613-4.363-3.75-4.818V36h.729l3.333-4l-3.333-4h-.667v-8H36v7.199c0 1.328.861 2.441 2 2.727V62h2.625v-6l8.75 3l-8.75 3H52V29.925c1.14-.285 2-1.398 2-2.726V20h4v-3h-2.078L58 13.055zm-47.357 9l2.336-4.799L15.505 17zm4.422-6h4.153l-2.076 3.945zm3.714 6l2.077-3.945L22.934 17zm3.715-6h4.153l-2.077 3.945zm3.715 6l2.076-3.945L30.361 17zm3.714-6h4.153L32 14.945zM36 17h-2.363l2.076-3.945l.287.545zm13.375 39l-8.75-3l8.75-3zm-8.75-6v-6l8.75 3.002zm8.75-6l-8.75-3l8.75-3zm-8.75-6v-5.998L49.375 35zm8.75-5.998L43.54 30h5.835zm1.5-16.754c0 .963-.676 1.752-1.5 1.752h-9.002c-.824 0-1.498-.789-1.498-1.752v-8.49c0-.969.674-1.758 1.498-1.758h9.002c.824 0 1.5.789 1.5 1.758zm3.41-.303L54 14.403V11h2.361z"
                   />
                 </svg>
               }
-              link="/services/#"
               name="Construction & Management"
               text="We ensure seamless execution and timely completion, while providing comprehensive project management"
-            ></GlareCard>
+            />
           </div>
         </div>
         <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-[calc(100%-1px)] z-10">

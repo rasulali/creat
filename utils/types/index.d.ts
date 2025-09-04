@@ -1,6 +1,4 @@
 declare global {
-
-
   interface ColumnWidth {
     date: number;
     category: number;
@@ -28,35 +26,35 @@ declare global {
   };
 
   type Category = {
-    name: string,
-    icon: IconType,
-  }
+    name: string;
+    icon: IconType;
+  };
 
   type partnerProject = {
-    name: string,
-    heading: string,
-    desc?: string,
-    images: string[],
-  }
+    name: string;
+    heading: string;
+    desc?: string;
+    images: string[];
+  };
 
   type partners = {
-    name?: string,
-    logo: string,
-    link?: string,
-    animated?: boolean,
-    color?: string,
-    projects?: partnerProject[]
-  }
+    name?: string;
+    logo: string;
+    link?: string;
+    animated?: boolean;
+    color?: string;
+    projects?: partnerProject[];
+  };
 
   type partnerProject = {
-    name: string,
-    heading: string,
-    desc?: string,
-    images: string[],
-  }
+    name: string;
+    heading: string;
+    desc?: string;
+    images: string[];
+  };
 
   interface PartnerProjectProps {
-    activePartner: partnerProject
+    activePartner: partnerProject;
     setSrcSet: (images: string[]) => void;
     setFullScreenIndex: (index: number) => void;
   }
@@ -83,7 +81,6 @@ declare global {
     created_at: Date;
   };
 
-
   type ImageUrls = Record<string, string>;
 
   type Project = {
@@ -92,9 +89,11 @@ declare global {
     category: string;
     description?: string;
     name: string;
-    images: ImageUrls | null;
+    images: ImageUrls;
     location?: string;
     service?: string;
+    rank: number;
+    bannerImage: string;
   };
 
   type AboutTab = {
@@ -115,5 +114,4 @@ declare global {
   };
 }
 
-export { };
-
+export {};

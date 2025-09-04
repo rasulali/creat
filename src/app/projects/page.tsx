@@ -28,8 +28,10 @@ const Projects = () => {
 
   useEffect(() => {
     async function fetchData() {
-      let { data, error } = await supabase.from("images").select("*");
-
+      let { data, error } = await supabase
+        .from("images")
+        .select("*")
+        .order("rank", { ascending: true });
       if (error) {
         setProjectsLoading(false);
         return;

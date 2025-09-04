@@ -4,10 +4,10 @@ import Image from "next/image";
 import { createClient } from "../../../../utils/supabase/client";
 import Nav from "@/components/navbar";
 import TextAnim from "@/components/animatedText";
-import ParagraphAnimation from "@/components/paragraphAnim";
 import { Carousel } from "@/components/carousel";
 import { motion } from "framer-motion";
 import Footer from "@/components/footer";
+import { ParagraphAnimation } from "@/components/paragraphAnim";
 
 const Project = ({ params }: { params: { slug: string } }) => {
   const [project, setProject] = useState<Project | null>(null);

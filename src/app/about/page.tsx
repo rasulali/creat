@@ -6,10 +6,10 @@ import GearAnim from "@/components/gearAnim";
 import TargetAnim from "@/components/targetAnim";
 import { ReactNode } from "react";
 import Service from "@/components/service";
-import ParagraphAnimation from "@/components/paragraphAnim";
 import Footer from "@/components/footer";
 import { BASE_URI } from "@/lib/vars";
 import Link from "next/link";
+import { ParagraphAnimation } from "@/components/paragraphAnim";
 
 const About = () => {
   interface Service {

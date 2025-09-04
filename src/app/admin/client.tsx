@@ -15,6 +15,10 @@ import {
   FaTrash,
   FaArrowUpRightFromSquare,
   FaEnvelopeOpen,
+  FaArrowDown,
+  FaArrowUp,
+  FaStar,
+  FaRegStar,
 } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im";
 import { useEffect, useRef, useState } from "react";
@@ -33,13 +37,14 @@ import {
 } from "@/lib/helperFunctions";
 import { useAdmin } from "./admin-context";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const supabase = createClient();
-
 export const Menu: React.FC<MenuDataType> = (props) => {
   const [menuState, setMenuState] = useState(false);
   const [modalLogOutState, setModalLogOutState] = useState(false);
   const router = useRouter();
+
   const handleLogOut = async () => {
     const { error } = await supabase.auth.signOut({ scope: "local" });
 
@@ -52,6 +57,7 @@ export const Menu: React.FC<MenuDataType> = (props) => {
 
   const menuRef = useRef<HTMLDivElement | null>(null);
   const iconRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -70,6 +76,7 @@ export const Menu: React.FC<MenuDataType> = (props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   return (
     <>
       {/* name*/}
@@ -148,10 +155,26 @@ export const Menu: React.FC<MenuDataType> = (props) => {
     </>
   );
 };
-
 export const Form = () => {
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [existingImages, setExistingImages] = useState<Record<string, string>>(
+    {},
+  );
+  const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
+  const [modalDeleteState, setModalDeleteState] = useState(false);
+  const [renameState, setRenameState] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [renameInputChanged, setRenameInputChanged] = useState(false);
+  const [imageIndex, setImageIndex] = useState(-1);
+  const [isRenamingExisting, setIsRenamingExisting] = useState(false);
+  const [imageToRename, setImageToRename] = useState("");
+  const [resetForm, setResetForm] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [selectedCategory, setSelectedCategory] =
+    useState<string>("placeholder");
+  const [deleteProjectModal, setDeleteProjectModal] = useState(false);
+  const [bannerImage, setBannerImage] = useState<string>("");
 
   const {
     editingProject,
@@ -160,10 +183,6 @@ export const Form = () => {
     setDeleteProject,
     triggerRefresh,
   } = useAdmin();
-  const [existingImages, setExistingImages] = useState<Record<string, string>>(
-    {},
-  );
-  const [deleteProjectModal, setDeleteProjectModal] = useState(false);
 
   useEffect(() => {
     if (deleteProject) {
@@ -171,78 +190,52 @@ export const Form = () => {
     }
   }, [deleteProject]);
 
+  useEffect(() => {
+    const fetchProject = async () => {
+      if (editingProject && !deleteProject) {
+        const { data } = await supabase
+          .from("images")
+          .select("*")
+          .eq("id", editingProject.id)
+          .single();
+
+        if (data) {
+          setExistingImages(data.images || {});
+          // Populate form fields
+          const form = document.getElementById("uploadForm") as HTMLFormElement;
+          if (form) {
+            (form.elements.namedItem("category") as HTMLInputElement).value =
+              data.category;
+            (form.elements.namedItem("name") as HTMLInputElement).value =
+              data.name;
+            (form.elements.namedItem("location") as HTMLInputElement).value =
+              data.location || "";
+            (form.elements.namedItem("service") as HTMLInputElement).value =
+              data.service || "";
+            (form.elements.namedItem("description") as HTMLInputElement).value =
+              data.description || "";
+          }
+        }
+      }
+    };
+
+    fetchProject();
+  }, [editingProject]);
+
+  // Handle existing image rename
   const handleExistingImageRename = (imageName: string) => {
-    // Set up for rename modal
     setNewName(imageName.startsWith("$") ? imageName.slice(1) : imageName);
     setRenameState(true);
-
-    // Set a flag to indicate we're renaming an existing image
     setIsRenamingExisting(true);
     setImageToRename(imageName);
   };
 
   // Handle existing image delete
   const handleExistingImageDelete = (imageName: string) => {
-    // Add to list of images to delete from R2
     setImagesToDelete((prev) => [...prev, imageName]);
-
-    // Remove from existingImages
     const updatedImages = { ...existingImages };
     delete updatedImages[imageName];
     setExistingImages(updatedImages);
-  };
-
-  // Additional state for renaming existing images
-  const [isRenamingExisting, setIsRenamingExisting] = useState(false);
-  const [imageToRename, setImageToRename] = useState("");
-
-  const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
-
-  // Display existing images when editing
-  const renderExistingImages = () => {
-    if (
-      !editingProject ||
-      !existingImages ||
-      Object.keys(existingImages).length === 0
-    ) {
-      return null;
-    }
-
-    return (
-      <div className="mt-4">
-        <h3 className="text-lg font-medium mb-2">Current Images</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {Object.entries(existingImages).map(([imageName, imageUrl]) => (
-            <div key={imageName} className="relative group">
-              <img
-                src={imageUrl as string}
-                alt={imageName}
-                className="w-full h-32 object-cover rounded-lg"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 rounded-lg">
-                <button
-                  type="button"
-                  onClick={() => handleExistingImageRename(imageName)}
-                  className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
-                >
-                  <FaPen className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleExistingImageDelete(imageName)}
-                  className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600"
-                >
-                  <FaTrash className="w-4 h-4" />
-                </button>
-              </div>
-              <span className="text-sm mt-1 block truncate">
-                {handleImageName(imageName)}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
   };
 
   const handleDeleteProject = async () => {
@@ -286,158 +279,6 @@ export const Form = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchProject = async () => {
-      if (editingProject && !deleteProject) {
-        const { data } = await supabase
-          .from("images")
-          .select("*")
-          .eq("id", editingProject.id)
-          .single();
-
-        if (data) {
-          setExistingImages(data.images || {});
-          // Populate form fields
-          const form = document.getElementById("uploadForm") as HTMLFormElement;
-          if (form) {
-            (form.elements.namedItem("category") as HTMLInputElement).value =
-              data.category;
-            (form.elements.namedItem("name") as HTMLInputElement).value =
-              data.name;
-            (form.elements.namedItem("location") as HTMLInputElement).value =
-              data.location || "";
-            (form.elements.namedItem("service") as HTMLInputElement).value =
-              data.service || "";
-            (form.elements.namedItem("description") as HTMLInputElement).value =
-              data.description || "";
-          }
-        }
-      }
-    };
-
-    fetchProject();
-  }, [editingProject]);
-
-  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget as HTMLFormElement;
-    const formData = new FormData(form);
-
-    // Validate category selection
-    if (!formData.has("category")) {
-      const category = document.getElementById("category") as HTMLSelectElement;
-      category?.reportValidity();
-      return;
-    }
-
-    // Base upload data
-    const uploadData = {
-      category: formData.get("category") as string,
-      name: formData.get("name") as string,
-      description: formData.get("description") as string,
-      location: formData.get("location") as string,
-      service: formData.get("service") as string,
-    };
-
-    try {
-      setLoading(true);
-
-      if (editingProject && !deleteProject) {
-        // Edit existing project
-        const { category: editCategory, name: editName } = editingProject;
-        const dir = `projects/${editCategory}/${editName}`;
-
-        // Handle image deletions
-        if (imagesToDelete.length > 0) {
-          await Promise.all(
-            imagesToDelete.map(async (imageName) => {
-              const command = new DeleteObjectCommand({
-                Bucket: "creat",
-                Key: `${dir}/${imageName}`,
-              });
-              await r2.send(command);
-            }),
-          );
-        }
-
-        // Handle new image uploads
-        let updatedImages = { ...existingImages };
-        if (selectedImages.length > 0) {
-          const r2Response = await handleR2Upload(selectedImages, dir);
-          if (r2Response.some((result) => result instanceof Error)) {
-            throw new Error("Image upload failed");
-          }
-
-          // Add new images to existing ones
-          selectedImages.forEach((image) => {
-            updatedImages[image.name] = handleImageUrl({
-              endpoint: "https://pub-5c15a84b97fc4cc889a06969fb95be5f.r2.dev",
-              dir,
-              name: image.name,
-            });
-          });
-        }
-
-        // Update database record
-        const { error } = await supabase
-          .from("images")
-          .update({ ...uploadData, images: updatedImages })
-          .eq("id", editingProject.id);
-
-        if (error) throw error;
-        toast.success("Project updated successfully");
-      } else {
-        // Create new project
-        const dir = `projects/${uploadData.category}/${uploadData.name}`;
-        const r2Response = await handleR2Upload(selectedImages, dir);
-
-        if (r2Response.some((result) => result instanceof Error)) {
-          throw new Error("Image upload failed");
-        }
-
-        // Create images mapping
-        const images = selectedImages.reduce(
-          (acc: Record<string, string>, image) => {
-            acc[image.name] = handleImageUrl({
-              endpoint: "https://pub-5c15a84b97fc4cc889a06969fb95be5f.r2.dev",
-              dir,
-              name: image.name,
-            });
-            return acc;
-          },
-          {},
-        );
-
-        // Insert new database record
-        const { error } = await supabase
-          .from("images")
-          .insert([{ ...uploadData, images }]);
-        if (error) throw error;
-        toast.success("Project created successfully");
-      }
-
-      // Common success operations
-      triggerRefresh();
-      resetFormState(form);
-    } catch (error: any) {
-      toast.error(error.message || "An error occurred. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Helper function to reset form state
-  const resetFormState = (form: HTMLFormElement) => {
-    form.reset();
-    setSelectedImages([]);
-    setExistingImages({});
-    setImagesToDelete([]);
-    setEditingProject(null);
-    document
-      .getElementById("category")
-      ?.dispatchEvent(new Event("change", { bubbles: true }));
-  };
-
   const handleR2Upload = async (images: File[], dir: string) => {
     const uploadPromises = images.map(async (image) => {
       const key = `${dir}/${image.name}`;
@@ -465,23 +306,29 @@ export const Form = () => {
     return Promise.all(uploadPromises);
   };
 
-  interface imageUrl {
+  const handleImageUrl = ({
+    endpoint,
+    dir,
+    name,
+    isBanner = false,
+  }: {
     endpoint: string;
     dir: string;
     name: string;
-  }
-  const handleImageUrl = ({ endpoint, dir, name }: imageUrl) => {
-    return `${endpoint}/${encodeURIComponent(dir + "/" + name)}`;
+    isBanner?: boolean;
+  }) => {
+    return `${endpoint}/${encodeURIComponent(dir + "/" + name)}${isBanner ? "?banner=true" : ""}`;
   };
 
-  const [modalDeleteState, setModalDeleteState] = useState(false);
-
   const handleImageSelect = (images: File[]) => {
-    if (images) {
+    if (images && images.length > 0) {
       setSelectedImages(Array.from(images));
-      const formData = new FormData();
-      formData.append("images", images[0]);
+      setBannerImage(images[0].name);
     }
+  };
+
+  const handleSetBanner = (imageName: string) => {
+    setBannerImage(imageName);
   };
 
   const handleSingleImageDelete = (
@@ -507,10 +354,7 @@ export const Form = () => {
       }
     }
   };
-  const [renameState, setRenameState] = useState(false);
-  const [newName, setNewName] = useState("");
-  const [renameInputChanged, setRenameInputChanged] = useState(false);
-  const [imageIndex, setImageIndex] = useState(-1);
+
   const handleImageRename = (index: number, newName: string) => {
     if (isRenamingExisting) {
       // Handle renaming existing image
@@ -596,11 +440,213 @@ export const Form = () => {
       document.body.style.overflow = "auto";
     }
   }, [modalDeleteState, renameState]);
+  // Helper function to reset form state
+  const resetFormState = (form: HTMLFormElement) => {
+    form.reset();
+    setSelectedImages([]);
+    setExistingImages({});
+    setImagesToDelete([]);
+    setEditingProject(null);
+    document
+      .getElementById("category")
+      ?.dispatchEvent(new Event("change", { bubbles: true }));
+  };
 
-  const [resetForm, setResetForm] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [selectedCategory, setSelectedCategory] =
-    useState<string>("placeholder");
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+
+    // Validate category selection
+    if (!formData.has("category")) {
+      const category = document.getElementById("category") as HTMLSelectElement;
+      category?.reportValidity();
+      return;
+    }
+
+    // Base upload data
+    const uploadData = {
+      category: formData.get("category") as string,
+      name: formData.get("name") as string,
+      description: formData.get("description") as string,
+      location: formData.get("location") as string,
+      service: formData.get("service") as string,
+      bannerImage: bannerImage || selectedImages[0]?.name,
+    };
+
+    try {
+      setLoading(true);
+
+      if (editingProject && !deleteProject) {
+        // Edit existing project
+        const { category: editCategory, name: editName } = editingProject;
+        const dir = `projects/${editCategory}/${editName}`;
+
+        // Handle image deletions
+        if (imagesToDelete.length > 0) {
+          await Promise.all(
+            imagesToDelete.map(async (imageName) => {
+              const command = new DeleteObjectCommand({
+                Bucket: "creat",
+                Key: `${dir}/${imageName}`,
+              });
+              await r2.send(command);
+            }),
+          );
+        }
+
+        // Handle new image uploads
+        let updatedImages = { ...existingImages };
+        if (selectedImages.length > 0) {
+          const r2Response = await handleR2Upload(selectedImages, dir);
+          if (r2Response.some((result) => result instanceof Error)) {
+            throw new Error("Image upload failed");
+          }
+
+          // Add new images to existing ones
+          selectedImages.forEach((image) => {
+            updatedImages[image.name] = handleImageUrl({
+              endpoint: "https://pub-5c15a84b97fc4cc889a06969fb95be5f.r2.dev",
+              dir,
+              name: image.name,
+            });
+          });
+        }
+
+        // Update database record
+        const { error } = await supabase
+          .from("images")
+          .update({ ...uploadData, images: updatedImages })
+          .eq("id", editingProject.id);
+
+        if (error) throw error;
+        toast.success("Project updated successfully");
+      } else {
+        // Create new project
+        const dir = `projects/${uploadData.category}/${uploadData.name}`;
+        const r2Response = await handleR2Upload(selectedImages, dir);
+
+        if (r2Response.some((result) => result instanceof Error)) {
+          throw new Error("Image upload failed");
+        }
+
+        // Create images mapping
+        const images = selectedImages.reduce(
+          (acc: Record<string, string>, image) => {
+            const isBanner = bannerImage === image.name;
+            acc[image.name] = handleImageUrl({
+              endpoint: "https://pub-5c15a84b97fc4cc889a06969fb95be5f.r2.dev",
+              dir,
+              name: image.name,
+              isBanner,
+            });
+            return acc;
+          },
+          {},
+        );
+
+        // Insert new database record
+        const { error } = await supabase
+          .from("images")
+          .insert([{ ...uploadData, images }]);
+        if (error) throw error;
+        toast.success("Project created successfully");
+      }
+
+      // Common success operations
+      triggerRefresh();
+      resetFormState(form);
+    } catch (error: any) {
+      toast.error(error.message || "An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Display existing images when editing
+  const renderExistingImages = () => {
+    if (
+      !editingProject ||
+      !existingImages ||
+      Object.keys(existingImages).length === 0
+    ) {
+      return null;
+    }
+
+    return (
+      <div className="mt-4">
+        <h3 className="text-lg font-medium mb-2">Current Images</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Object.entries(existingImages).map(([imageName, imageUrl]) => {
+            const isBanner = bannerImage === imageName;
+            return (
+              <div
+                key={imageName}
+                className={cn(
+                  "relative overflow-hidden bg-white flex flex-col rounded-md p-2",
+                  "shadow-sm hover:shadow-md transition-shadow duration-300",
+                  isBanner && "ring-2 ring-blue-500",
+                )}
+              >
+                <div className="h-32 relative mb-2 group">
+                  <img
+                    src={imageUrl as string}
+                    alt={imageName}
+                    className="w-full h-full object-cover rounded-md"
+                  />
+                  {isBanner && (
+                    <div className="absolute top-1 left-1 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded">
+                      Banner
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity flex items-center justify-center gap-2 rounded-md">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleExistingImageRename(imageName);
+                      }}
+                      className="p-2 bg-white text-blue-500 rounded-full hover:bg-blue-100 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <FaPen className="w-3 h-3" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleExistingImageDelete(imageName);
+                      }}
+                      className="p-2 bg-white text-red-500 rounded-full hover:bg-red-100 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <FaTrash className="w-3 h-3" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSetBanner(imageName);
+                      }}
+                      className="p-2 bg-white text-blue-500 rounded-full hover:bg-blue-100 opacity-0 group-hover:opacity-100 transition-opacity"
+                      title={isBanner ? "Current banner" : "Set as banner"}
+                    >
+                      {isBanner ? (
+                        <FaStar className="w-3 h-3 text-blue-500" />
+                      ) : (
+                        <FaRegStar className="w-3 h-3 text-blue-500/50" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+                <span className="text-xs text-center text-neutral-600 truncate px-1">
+                  {handleImageName(imageName)}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -778,7 +824,6 @@ export const Form = () => {
           </div>
         </div>
       </div>
-
       <section className="w-full col-start-1 row-start-1">
         {/* Add New Project */}
         <div className="w-full flex flex-col gap-y-8 bg-gradient-to-br from-slate-50 to-white rounded-2xl p-6 shadow-xl border border-slate-100 relative">
@@ -808,6 +853,10 @@ export const Form = () => {
               >
                 <IoRefresh
                   onClick={() => {
+                    if (imageUploadRef.current) {
+                      imageUploadRef.current.value = "";
+                    }
+                    setSelectedImages([]);
                     setEditingProject(null);
                     setResetForm(true);
                     const form = document.getElementById(
@@ -1010,6 +1059,8 @@ export const Form = () => {
                 files={selectedImages}
                 inputRef={imageUploadRef}
                 onChange={(e: File[]) => handleImageSelect(e)}
+                bannerImage={bannerImage}
+                onSetBanner={setBannerImage}
               />
             </span>
 
@@ -1039,7 +1090,6 @@ export const Form = () => {
     </>
   );
 };
-
 const HighlightText = ({
   text,
   searchTerm,
@@ -1071,13 +1121,68 @@ export const Preview = () => {
   const [dataTable, setDataTable] = useState<Project[]>([]);
   const [dataError, setDataError] = useState<PostgrestError | null>(null);
   const imageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const { setEditingProject, setDeleteProject, refreshTrigger } = useAdmin();
+  const {
+    setEditingProject,
+    setDeleteProject,
+    refreshTrigger,
+    triggerRefresh,
+  } = useAdmin();
+
+  const updateProjectRank = async (projectId: number, newRank: number) => {
+    try {
+      const { error } = await supabase
+        .from("images")
+        .update({ rank: newRank })
+        .eq("id", projectId);
+
+      if (error) throw error;
+
+      // Refresh the data after updating
+      triggerRefresh();
+      toast.success("Project ranking updated successfully");
+    } catch (error: any) {
+      toast.error("Failed to update ranking: " + error.message);
+    }
+  };
+
+  const moveProjectUp = async (project: Project) => {
+    const currentIndex = dataTable.findIndex((p) => p.id === project.id);
+    if (currentIndex > 0) {
+      const targetProject = dataTable[currentIndex - 1];
+
+      // Swap rankings
+      await Promise.all([
+        updateProjectRank(project.id, targetProject.rank),
+        updateProjectRank(targetProject.id, project.rank),
+      ]);
+    }
+  };
+
+  // Function to move project down in ranking (increase rank number)
+  const moveProjectDown = async (project: Project) => {
+    const currentIndex = dataTable.findIndex((p) => p.id === project.id);
+    if (currentIndex < dataTable.length - 1) {
+      const targetProject = dataTable[currentIndex + 1];
+
+      // Swap rankings
+      await Promise.all([
+        updateProjectRank(project.id, targetProject.rank),
+        updateProjectRank(targetProject.id, project.rank),
+      ]);
+    }
+  };
+
+  // Function to set specific rank
+  const setProjectRank = async (projectId: number, rank: number) => {
+    await updateProjectRank(projectId, rank);
+  };
 
   useEffect(() => {
     const handleTable = async () => {
       const { data, error } = await supabase
         .from("images")
         .select("*")
+        .order("rank", { ascending: true })
         .order("created_at", { ascending: false });
       if (data) {
         setDataTable(data);
@@ -1130,7 +1235,6 @@ export const Preview = () => {
       }
     });
   }, [searchTerm, filteredProjects]);
-
   return (
     <AnimatePresence>
       {
@@ -1181,13 +1285,20 @@ export const Preview = () => {
               <div className="w-full">
                 <div className="flex justify-between items-center bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-slate-200 shadow-sm">
                   <div>
-                    <p className="text-slate-600 text-lg font-medium">
+                    <Link
+                      href="/projects"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="View all projects"
+                      className="text-slate-600 hover:underline hover:text-blue-600 text-lg font-medium"
+                    >
                       Currently showing{" "}
-                      <span className="text-blue-600 font-semibold">
+                      <span className="font-bold text-xl">
                         {filteredProjects.length}
                       </span>{" "}
                       projects
-                    </p>
+                      <FaArrowUpRightFromSquare className="ml-2 w-4 h-4 inline" />
+                    </Link>
                   </div>
 
                   <div className="bg-slate-100 border border-slate-200 rounded-full px-3 py-1 flex items-center gap-2">
@@ -1235,10 +1346,19 @@ export const Preview = () => {
                               <img
                                 className="w-full h-full object-cover group-hover:scale-105
                               transition-transform duration-500"
-                                src={Object.values(project.images)[0]}
+                                src={
+                                  project.bannerImage &&
+                                  project.images[project.bannerImage]
+                                    ? project.images[project.bannerImage]
+                                    : Object.values(project.images)[0]
+                                }
                                 alt={project.name || "Project Image"}
                               />
                             )}
+                            {project.bannerImage &&
+                              project.images[project.bannerImage] && (
+                                <div className="absolute top-2 left-2 bg-blue-500 w-4 h-4 rounded-full" />
+                              )}
                             {/* Overlay gradient */}
                             <div
                               className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0
@@ -1264,12 +1384,67 @@ export const Preview = () => {
                               />
                               <FaArrowUpRightFromSquare className="ml-2 w-4 h-4 text-slate-600 group-hover:text-blue-600 transition-colors duration-200 inline" />
                             </Link>
-                            <div className="flex gap-2 opacity-70 group-hover:opacity-100 transition-opacity duration-200">
+                          </div>
+                          <div className="flex w-full justify-between items-center gap-x-2 opacity-70 group-hover:opacity-100 transition-opacity duration-200">
+                            {/* Ranking Controls */}
+                            <div className="flex gap-x-2">
+                              {/* Priority Badge */}
+                              <div className="flex items-center">
+                                <div className="bg-slate-100 border border-slate-200 rounded-lg px-2 py-1 text-xs font-medium text-slate-600">
+                                  Rank: {project.rank}
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => moveProjectUp(project)}
+                                disabled={index === 0}
+                                className={`p-2 rounded-lg transition-all duration-200 border shadow-sm hover:shadow-md
+ flex items-center justify-center aspect-square ${
+   index === 0
+     ? "text-gray-300 border-gray-200 cursor-not-allowed"
+     : "text-green-500 border-green-200 hover:bg-green-50 hover:border-green-300 hover:scale-105"
+ }`}
+                                title="Move Up"
+                              >
+                                <FaArrowUp className="w-3 h-3" />
+                              </button>
+                              <button
+                                onClick={() => moveProjectDown(project)}
+                                disabled={index === filteredProjects.length - 1}
+                                className={`p-2 rounded-lg transition-all duration-200 border shadow-sm hover:shadow-md
+              flex items-center justify-center aspect-square ${
+                index === filteredProjects.length - 1
+                  ? "text-gray-300 border-gray-200 cursor-not-allowed"
+                  : "text-orange-500 border-orange-200 hover:bg-orange-50 hover:border-orange-300 hover:scale-105"
+              }`}
+                                title="Move Down"
+                              >
+                                <FaArrowDown className="w-3 h-3" />
+                              </button>
+                              <button
+                                onClick={() => setProjectRank(project.id, 0)}
+                                className={`p-2 rounded-lg transition-all duration-200 border shadow-sm hover:shadow-md
+              flex items-center justify-center aspect-square ${
+                project.rank === 0
+                  ? "text-yellow-500 border-yellow-200 hover:bg-yellow-50 hover:border-yellow-300 hover:scale-105"
+                  : "text-gray-300 border-gray-200"
+              }`}
+                                title="Reset Rank"
+                              >
+                                {project.rank === 0 ? (
+                                  <FaStar className="w-3 h-3" />
+                                ) : (
+                                  <FaRegStar className="w-3 h-3" />
+                                )}
+                              </button>
+                            </div>
+
+                            {/* Edit/Delete buttons */}
+                            <div className="flex gap-x-2">
                               <button
                                 onClick={() => setEditingProject(project)}
                                 className="p-3 text-blue-500 rounded-xl hover:bg-blue-50
-                                                  hover:scale-105 transition-all duration-200 border border-blue-200
-                                                  hover:border-blue-300 shadow-sm hover:shadow-md"
+              hover:scale-105 transition-all duration-200 border border-blue-200
+              hover:border-blue-300 shadow-sm hover:shadow-md aspect-square flex items-center justify-center"
                                 title="Edit Project"
                               >
                                 <FaPen className="w-4 h-4" />
@@ -1280,15 +1455,14 @@ export const Preview = () => {
                                   setEditingProject(project);
                                 }}
                                 className="p-3 text-red-500 rounded-xl hover:bg-red-50
-                                                  hover:scale-105 transition-all duration-200 border border-red-200
-                                                  hover:border-red-300 shadow-sm hover:shadow-md"
+              hover:scale-105 transition-all duration-200 border border-red-200
+              hover:border-red-300 shadow-sm hover:shadow-md aspect-square flex items-center justify-center"
                                 title="Delete Project"
                               >
                                 <FaTrash className="w-4 h-4" />
                               </button>
                             </div>
                           </div>
-
                           {/* Project Details Grid */}
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
@@ -1414,7 +1588,6 @@ export const Preview = () => {
     </AnimatePresence>
   );
 };
-
 interface EmailData {
   email: string;
   created_at: string;
@@ -1423,6 +1596,7 @@ interface EmailData {
 export const Customers = () => {
   const [emails, setEmails] = useState<EmailData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isDeleteAllModalOpen, setIsDeleteAllModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchEmails = async () => {
@@ -1457,7 +1631,6 @@ export const Customers = () => {
     }
   };
 
-  const [isDeleteAllModalOpen, setIsDeleteAllModalOpen] = useState(false);
   const openDeleteAllModal = () => setIsDeleteAllModalOpen(true);
   const closeDeleteAllModal = () => setIsDeleteAllModalOpen(false);
 
