@@ -233,11 +233,11 @@ const About = () => {
             <div className="flex flex-col">
               <TextAnim dir=">">
                 <h1 className="text-5xl text-white/90">
-                  <span className="font-bold">Baku - </span>Heart of Engineering
+                  Baku -Heart of Engineering
                 </h1>
               </TextAnim>
               <TextAnim dir=">" delay={0.1}>
-                <p className="mt-4 text-lg text-white/70 max-w-2xl font-semibold">
+                <p className="mt-4 text-xl text-white/70 max-w-2xl font-semibold">
                   Based in Azerbaijan, Baku — working with 29+ partners across
                   8+ countries. We deliver renewable energy, mining, transport
                   and industrial projects from feasibility to handover.
@@ -330,7 +330,7 @@ const About = () => {
                   <h1 className="text-5xl text-white/90">Who We Are?</h1>
                 </TextAnim>
                 <TextAnim delay={0.1}>
-                  <p className="text-5xl tracking-tighter text-white/70">
+                  <p className="text-3xl w-2/3 tracking-tighter text-white/70">
                     <span className="text-creatBright">CREAT Company LLC</span>{" "}
                     is a professional firm specializing in project management,
                     offering modern approaches and innovative solutions
@@ -339,11 +339,11 @@ const About = () => {
               </div>
               <div>
                 <TextAnim delay={0.2}>
-                  <h1 className="text-5xl text-white/70">
+                  <h1 className="text-3xl text-white/70 w-2/3">
                     Established in{" "}
                     <span className="relative">
                       2019
-                      <div className="absolute h-px w-full bottom-0 left-0 bg-creatBright -translate-y-2"></div>
+                      <div className="absolute h-px w-full bottom-0 left-0 bg-creatBright"></div>
                     </span>
                     , our company has quickly gained recognition in the industry
                     by successfully completing numerous projects both locally
@@ -354,14 +354,14 @@ const About = () => {
             </div>
           </div>
           <div className="flex flex-col md:px-80 h-full w-full max-w-[1920px] mx-auto justify-center">
-            <div className="flex flex-col gap-y-12 relative">
+            <div className="flex flex-col gap-y-12 relative text-right">
               <TargetAnim />
               <div className="flex flex-col gap-y-6">
-                <TextAnim>
-                  <h1 className="text-5xl text-white/90 ">Our Misson</h1>
+                <TextAnim dir="<">
+                  <h1 className="text-5xl text-white/90">Our Misson</h1>
                 </TextAnim>
-                <TextAnim delay={0.1}>
-                  <p className="text-5xl tracking-tighter text-white/70">
+                <TextAnim delay={0.1} dir="<">
+                  <p className="text-3xl ml-auto w-2/3 tracking-tighter text-white/70">
                     Our mission is to fully meet our clients' needs, support
                     their goals, and ultimately ensure the successful completion
                     of their projects.
@@ -369,15 +369,15 @@ const About = () => {
                 </TextAnim>
               </div>
               <div>
-                <TextAnim delay={0.2}>
-                  <h1 className="text-5xl text-white/70">
+                <TextAnim delay={0.2} dir="<">
+                  <h1 className="text-3xl ml-auto w-2/3 text-white/70">
                     At{" "}
                     <span className="text-creatBright">CREAT Company LLC</span>,
                     we offer customized approaches to project management,
                     tailoring our solutions to the specific requirements of each
                     project. Our primary focus is to earn our clients' trust and
                     provide them with top-quality services that meet their exact
-                    demands.
+                    demands
                   </h1>
                 </TextAnim>
               </div>
@@ -488,7 +488,7 @@ const About = () => {
                     </div>
                   </TextAnim>
                   <TextAnim delay={0.1}>
-                    <p className="text-4xl font-medium text-white/80 max-w-[70%]">
+                    <p className="text-3xl font-medium text-white/80 max-w-[70%]">
                       Honesty and reliability towards our clients and partners
                       are our most important principles. We consistently fulfill
                       our commitments to clients and strive to provide them with
@@ -509,7 +509,7 @@ const About = () => {
                         Innovation
                       </h1>
                       <svg
-                        className="w-fit h-[160px]"
+                        className="h-[160px]"
                         viewBox="0 0 160 160"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -530,7 +530,7 @@ const About = () => {
                   </TextAnim>
                   <div className="max-w-[70%]">
                     <TextAnim dir="<" delay={0.1}>
-                      <p className="text-4xl font-medium text-white/80 w-fit text-right">
+                      <p className="text-3xl font-medium text-white/80 w-fit text-right">
                         In line with modern trends, we employ innovative
                         technologies and advanced methods in our projects. This
                         enables us to enhance our clients' competitiveness and
@@ -568,7 +568,7 @@ const About = () => {
                     </div>
                   </TextAnim>
                   <TextAnim delay={0.1}>
-                    <p className="text-4xl font-medium text-white/80 max-w-[70%]">
+                    <p className="text-3xl font-medium text-white/80 max-w-[70%]">
                       We understand the value of collective success, not just
                       individual achievements. When executing our projects, we
                       collaborate closely with every member of our team and
@@ -624,7 +624,7 @@ const About = () => {
                   </TextAnim>
                   <div className="max-w-[70%]">
                     <TextAnim dir="<" delay={0.1}>
-                      <p className="text-4xl font-medium text-white/80 w-fit text-right">
+                      <p className="text-3xl font-medium text-white/80 w-fit text-right">
                         Quality is at the heart of our work. We adhere to the
                         highest standards in every project and pay particular
                         attention to the quality of the solutions we deliver to
@@ -684,7 +684,7 @@ const About = () => {
                   </TextAnim>
                 </div>
                 <TextAnim delay={0.1}>
-                  <p className="text-5xl tracking-tighter text-white/70">
+                  <p className="text-3xl w-2/3 tracking-tighter text-white/70">
                     <span className="text-creatBright">CREAT Company LLC</span>{" "}
                     offers a wide range of project management services. These
                     services encompass all stages of a project, from inception
