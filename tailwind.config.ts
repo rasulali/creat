@@ -114,7 +114,6 @@ const config: Config = {
     },
   },
   plugins: [
-    require("daisyui"),
     require("tailwind-scrollbar")({ nocompatible: true }),
     plugin(({ addVariant }) => {
       addVariant("parent-group-hover", ":merge(.parent-group):hover &");

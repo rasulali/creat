@@ -1,4 +1,11 @@
 declare global {
+  interface Testimonial {
+    stars: 1 | 2 | 3 | 4 | 5;
+    comment: string;
+    name: string;
+    role: string;
+    image: string;
+  }
   interface ColumnWidth {
     date: number;
     category: number;
@@ -38,9 +45,10 @@ declare global {
   };
 
   type partners = {
+    id: number;
     name?: string;
     logo: string;
-    link?: string;
+    link: string;
     animated?: boolean;
     color?: string;
     projects?: partnerProject[];

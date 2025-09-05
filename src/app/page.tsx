@@ -12,7 +12,7 @@ import EmailForm from "@/components/email";
 import { IoClose } from "react-icons/io5";
 import { LuExternalLink } from "react-icons/lu";
 import { GlareCard } from "@/components/glareCard";
-import { BASE_URI } from "@/lib/vars";
+import { BASE_URI, partners, testimonials } from "@/lib/vars";
 import Image from "next/image";
 import { ParagraphAnimation } from "@/components/paragraphAnim";
 
@@ -23,51 +23,6 @@ export default function Home() {
     amount: 0.5,
   });
 
-  interface Comment {
-    stars: 1 | 2 | 3 | 4 | 5;
-    comment: string;
-    name: string;
-    role: string;
-  }
-
-  const comments: Comment[] = [
-    {
-      stars: 4,
-      comment:
-        "Working with Creat was an absolute pleasure. From start to finish, they were attentive to our needs, transparent about the process. We couldn't be happier with our new project!",
-      name: "Flankəs Bəsmənov",
-      role: "Sifarişçi",
-    },
-    {
-      stars: 5,
-      comment:
-        "Creat exceeded our expectations! The team's professionalism and creativity resulted in a project that perfectly aligns with our vision.",
-      name: "Aynur Məmmədov",
-      role: "Project Manager",
-    },
-    {
-      stars: 4,
-      comment:
-        "The project was delivered on time, but there were a few communication hiccups along the way. Overall, we're satisfied with the outcome.",
-      name: "Leyla Hüseynova",
-      role: "Client",
-    },
-    {
-      stars: 5,
-      comment:
-        "I was impressed with Creat's attention to detail and commitment to quality. They truly went above and beyond to ensure our satisfaction.",
-      name: "Rəsul Əliyev",
-      role: "Architect",
-    },
-    {
-      stars: 4,
-      comment:
-        "Creat was fantastic to work with. They understood our needs and delivered a project that not only meets but exceeds our expectations.",
-      name: "Nigar Əliyeva",
-      role: "Design Lead",
-    },
-  ];
-
   const [activeIndexTestimonial, setActiveIndexTestimonial] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -75,7 +30,7 @@ export default function Home() {
 
   const nextTestimonial = () => {
     setActiveIndexTestimonial((prevIndex) =>
-      prevIndex === comments.length - 1 ? 0 : prevIndex + 1,
+      prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1,
     );
   };
 
@@ -95,7 +50,7 @@ export default function Home() {
   const handleClickLeftTestimonial = () => {
     stopAutoCycle();
     if (activeIndexTestimonial === 0) {
-      setActiveIndexTestimonial(comments.length - 1);
+      setActiveIndexTestimonial(testimonials.length - 1);
     } else {
       setActiveIndexTestimonial((prevIndex) => prevIndex - 1);
     }
@@ -104,7 +59,7 @@ export default function Home() {
 
   const handleClickRightTestimonial = () => {
     stopAutoCycle();
-    if (activeIndexTestimonial === comments.length - 1) {
+    if (activeIndexTestimonial === testimonials.length - 1) {
       setActiveIndexTestimonial(0);
     } else {
       setActiveIndexTestimonial((prevIndex) => prevIndex + 1);
@@ -118,226 +73,6 @@ export default function Home() {
       stopAutoCycle();
     };
   }, []);
-
-  const partners: partners[] = [
-    {
-      logo: BASE_URI + "/home/partners/1/logo.png",
-      name: "The Conference of the Parties 29",
-      link: "https://cop29.az/en",
-      animated: true,
-      color: "#006a72",
-    },
-    {
-      logo: BASE_URI + "/home/partners/2/logo.png",
-      name: "Lightsource BP",
-      link: "https://lightsourcebp.com/",
-      color: "#009900",
-    },
-    {
-      logo: BASE_URI + "/home/partners/3/logo.png",
-      name: "ILF Consulting Engineers",
-      link: "https://www.ilf.com/",
-      color: "#2f5291",
-    },
-    {
-      logo: BASE_URI + "/home/partners/4/logo.png",
-      name: "Suez SA",
-      link: "https://www.suez.com/en",
-      color: "#7ecb23",
-    },
-    {
-      logo: BASE_URI + "/home/partners/5/logo.png",
-      name: "PMD Projects LLC",
-      link: "https://pmdprojects.az/",
-      color: "#015ba9",
-    },
-    {
-      logo: BASE_URI + "/home/partners/6/logo.png",
-      name: "Dashkasan Iron Ore LLC",
-      link: "https://ddf.az",
-      color: "#7c5541",
-    },
-    {
-      name: "BALKHOORMA LLC",
-      logo: BASE_URI + "/home/partners/7/logo.png",
-      link: "https://balkhoorma.com/en",
-      color: "#558551",
-      animated: true,
-      projects: [
-        {
-          name: "BALKHOORMA LLC Natural Food Collection",
-          heading: "Cənubi Qafqazda ilk meyvə-qurtma zavodu (Xurma)",
-          desc: "Balakən rayonu, Katex k. ərazisində 2.0 ha ərazidə yerləşən 1 ədəd 2 mərtəbəli ofis binası, 2 ədəd saoyuducu binası, 1 ədəd istehsalat binası, 10 nəfərlik qonaq evi və köməkçi binaları",
-          images: [
-            BASE_URI + "/home/partners/7/1.jpeg",
-            BASE_URI + "/home/partners/7/2.jpeg",
-          ],
-        },
-        {
-          name: "BALKHOORMA-PİRKEKE LLC",
-          heading: "Ağdaş rayonunda 16 000.0 m2 meyve-qurutma zavodu",
-          desc: "Ağdaş rayonu,Pirkəkə k. ərazisində yerləşən 10.0ha ərazidə 5ədəd meyvə-qurutma anbarı,1ədəd ofis binası,2 ədəd məhsul qəbul edici anbar binası və köməkçi binaları",
-          images: [
-            BASE_URI + "/home/partners/7/3.jpeg",
-            BASE_URI + "/home/partners/7/4.jpeg",
-          ],
-        },
-      ],
-    },
-    {
-      logo: BASE_URI + "/home/partners/8/logo.png",
-      name: "Encotec Company",
-      color: "#01205a",
-      link: "https://www.encotec.az/",
-    },
-    {
-      logo: BASE_URI + "/home/partners/9/logo.png",
-      name: "AzerBlast LLC",
-      link: "https://azerblast.az/",
-      color: "#e96453",
-    },
-    {
-      logo: BASE_URI + "/home/partners/10/logo.png",
-      name: "Ministry of Ecology and Natural Resources",
-      link: "https://eco.gov.az/",
-      animated: true,
-      color: "#fef212",
-    },
-    {
-      logo: BASE_URI + "/home/partners/11/logo.png",
-      name: "Ministry of Economy of Azerbaijan Republic",
-      link: "https://www.economy.gov.az/en",
-      animated: true,
-      color: "#a2925e",
-    },
-    {
-      logo: BASE_URI + "/home/partners/12/logo.png",
-      name: "Azerbaijan Amelioration and Water Farm OJSC",
-      link: "https://mst.gov.az/en",
-      animated: true,
-      color: "#0191cf",
-    },
-    {
-      logo: BASE_URI + "/home/partners/13/logo.png",
-      name: "Restoration, Construction, and Management Service in the Karabakh Economic Region",
-      animated: true,
-      color: "#000000",
-    },
-    {
-      name: "Technol LLC",
-      logo: BASE_URI + "/home/partners/14/logo.png",
-      link: "https://technol.az/en/",
-      color: "#c82327",
-      projects: [
-        {
-          name: "Technol LLC",
-          heading: "Cənubi Qafqazda ilk maşın-motor emalı yağları zavodu",
-          desc: "Sumqayıt şəhərində, 1.5 ha ərazidə yerləşən, 1 ədəd 2 mərtəbəli ofis binası, 1 ədəd istehsalat binası və 2 ədəd məhsul saxlama anbarı",
-          images: [
-            BASE_URI + "/home/partners/14/1.jpeg",
-            BASE_URI + "/home/partners/14/2.jpeg",
-            BASE_URI + "/home/partners/14/3.jpeg",
-            BASE_URI + "/home/partners/14/4.jpeg",
-            BASE_URI + "/home/partners/14/5.jpeg",
-          ],
-        },
-      ],
-    },
-    {
-      logo: BASE_URI + "/home/partners/15/logo.png",
-      name: "Sobsan Paints",
-      color: "#e12917",
-      link: "https://sobsan.com/",
-    },
-    {
-      logo: BASE_URI + "/home/partners/16/logo.png",
-      name: "ACWA Power",
-      link: "https://www.acwapower.com/en/",
-      color: "#bb332f",
-    },
-    {
-      logo: BASE_URI + "/home/partners/17/logo.png",
-      name: "Tractabel",
-      link: "https://tractebel-engie.com/en",
-      color: "#09aafe",
-    },
-    {
-      logo: BASE_URI + "/home/partners/18/logo.png",
-      name: "SOCAR Midstream Operations",
-      link: "https://www.socarmidstream.az/",
-      color: "#e4002b",
-    },
-    {
-      logo: BASE_URI + "/home/partners/19/logo.png",
-      name: "Suraxanı Oil",
-      link: "https://www.surakhani-oil.com/",
-      color: "#f16333",
-    },
-    {
-      logo: BASE_URI + "/home/partners/20/logo.png",
-      name: "Power Construction Corporation of China",
-      color: "#c80b4b",
-      link: "https://en.powerchina.cn/",
-      animated: true,
-    },
-    {
-      logo: BASE_URI + "/home/partners/21/logo.png",
-      name: "MAQRO Group",
-      link: "https://www.maqro.ge/",
-      color: "#42a13e",
-    },
-    {
-      logo: BASE_URI + "/home/partners/22/logo.png",
-      name: "Referans Clinical Laboratory and Polyclinic Center",
-      color: "#0aa4c7",
-      link: "https://referansclc.com/",
-      animated: true,
-    },
-    {
-      logo: BASE_URI + "/home/partners/23/logo.png",
-      name: "Food Safety Agency of the Republic of Azerbaijan",
-      link: "https://afsa.gov.az/",
-      animated: true,
-      color: "#d9a183",
-    },
-    {
-      logo: BASE_URI + "/home/partners/24/logo.png",
-      name: "Azerbaijan Airlines",
-      link: "https://azal.az/en/",
-      color: "#56bfe7",
-    },
-    {
-      logo: BASE_URI + "/home/partners/25/logo.png",
-      name: "YPT Yılmaz Proses Teknolojileri",
-      link: "https://www.ypt.com.tr/",
-      color: "#fbb900",
-    },
-    {
-      logo: BASE_URI + "/home/partners/26/logo.png",
-      name: "CQA International LTD",
-      color: "#7aa02f",
-      link: "https://www.cqainternational.co.uk/",
-    },
-    {
-      logo: BASE_URI + "/home/partners/27/logo.png",
-      name: "Bravo Supermarket Chain",
-      link: "https://www.bravosupermarket.az/",
-      color: "#77bc1f",
-    },
-    {
-      logo: BASE_URI + "/home/partners/28/logo.png",
-      name: "Azerbaijan Company for Poultry Development",
-      color: "#00495b",
-      link: "https://az.linkedin.com/company/azerbaijan-company-for-poultry-development",
-      animated: true,
-    },
-    {
-      logo: BASE_URI + "/home/partners/29/logo.png",
-      name: "AzerGold CJSC",
-      link: "https://azergold.az/en/",
-      color: "#fcaf17",
-    },
-  ];
 
   const handlePartnerHover = (index: number) => {
     setPartnerIndex(index);
@@ -1060,21 +795,22 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
             <ProjectCard
               projectsInView={projectsInView}
               id={1}
-              name="Smart Bus Stop"
-              link="#"
-              date="June 25, 2022"
-              image={`${BASE_URI}/home/projects/bna/hero.jpg`}
-              desc="100 smart bus stops have been designed in Baku. These stops, equipped with modern technology, will make public transport faster, easier, and more efficient. Our engineers have carefully planned every aspect of the project, providing a modern and effective smart bus stop system"
+              name="HDEC (PowerChina)"
+              link="https://creat.az/projects/hdec-powerchina-x-z-rayonunda-avtomobil-k-rp-s-v-k-l-k-turbinl-ri-layih-l-ri-85"
+              image={`${BASE_URI}/home/projects/hdec.png`}
+              desc="HDEC (PowerChina), Xızı rayonu ərazisində inşa etdiyi avtomobil körpüsü
+və külək turbinləri layihəsi ilə əlaqədar müasir infrastruktur və bərpa
+olunan enerji sahəsində mühüm addımlar atır. Bu layihələr ətraf mühitin
+qorunması və enerji səmərəliliyini artırmaq məqsədini daşıyır."
             />
 
             <ProjectCard
               projectsInView={projectsInView}
               id={2}
               delay={0.1}
-              name="Wind Turbines"
-              link="#"
-              date="December 29, 2020"
-              image={`${BASE_URI}/home/projects/acwa/hero.jpeg`}
+              name="ACWA Power külək turbinləri"
+              link="http://creat.az/projects/acwa-power-t-r-find-n-qobustan-rayonunda-in-a-edil-n-k-l-k-turbinl-ri-layih-si-86"
+              image={`${BASE_URI}/home/projects/acwa.jpg`}
               desc="The 240 MW Wind Farm, developed by ACWA Power and CREAT LLC, will be located in Absheron and Khizi districts. Implemented under presidential order, this greenfield Independent Power Project marks a significant step towards sustainable energy"
             />
 
@@ -1082,13 +818,15 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
               projectsInView={projectsInView}
               id={3}
               delay={0.2}
-              name="Residential Buildings"
-              link="#"
-              date="16 November, 2023"
-              image={`${BASE_URI}/home/projects/gov/hero.jpeg`}
-              desc="A new residential complex is being built in Nakhchivan AR,
-              aimed at improving living conditions and meeting housing demands with 240 apartments,
-              designed to enhance urban aesthetics and meet all infrastructure needs"
+              name="AzerGold QSC Çovdar"
+              link="http://creat.az/projects/azergold-qsc-ovdar-filiz-emal-sah-sind-m-d-n-i-l-rinin-layih-l-ndirilm-si-111"
+              image={`${BASE_URI}/home/projects/azergold.png`}
+              desc="AzerGold QSC Çovdar Filiz Emalı Sahəsində Mədən
+İşlərinin Layihələndirilməsi və 1 Ədəd 5.8 mln. Kubluq
+Topaşındırmanın Layihələndirilməsi. Layihə çərçivəsində,
+məhsuldarlığın artırılması və təhlükəsizlik tədbirlərinin
+təmin edilməsi məqsədilə müasir texnologiyaların tətbiqi
+nəzərdə tutulub."
             />
           </div>
         </div>
@@ -1133,7 +871,7 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
                 onHoverEnd={() => startAutoCycle()}
                 className="w-full overflow-hidden h-[280px] relative"
               >
-                {comments.map((comment, index) => (
+                {testimonials.map((t, index) => (
                   <motion.div
                     animate={{
                       scale: index === activeIndexTestimonial ? 1 : 0.8,
@@ -1149,10 +887,10 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
                     key={index}
                   >
                     <Comment
-                      stars={comment.stars}
-                      comment={comment.comment}
-                      name={comment.name}
-                      role={comment.role}
+                      stars={t.stars}
+                      comment={t.comment}
+                      name={t.name}
+                      role={t.role}
                     />
                   </motion.div>
                 ))}
@@ -1177,7 +915,7 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
                   outline outline-2 outline-creatBright outline-offset-4 cursor-pointer`}
                 >
                   <motion.span>
-                    <FaArrowLeft className="text-xl text-white" />
+                    <FaArrowLeft className="text-xl text-creatBGLight" />
                   </motion.span>
                 </motion.div>
                 <motion.div
@@ -1198,12 +936,83 @@ ${partnerIndex === absoluteIndex ? "bg-[#E6D2D8]" : "bg-neutral-200"} -z-20 -rig
                   className={`w-10 h-10 bg-creatBright rounded-full flex items-center justify-center
                   outline outline-2 outline-creatBright outline-offset-4 cursor-pointer`}
                 >
-                  <FaArrowRight className="text-xl text-white" />
+                  <FaArrowRight className="text-xl text-creatBGLight" />
                 </motion.div>
               </div>
             </div>
             <div className="w-1/2 min-h-[500px] flex items-center justify-center relative p-4">
-              {/* space for illustration of review */}
+              <motion.div
+                className="relative w-[420px] h-[580px]"
+                onHoverStart={() => stopAutoCycle()}
+                onHoverEnd={() => startAutoCycle()}
+              >
+                {testimonials.map((t, index) => {
+                  const position = index - activeIndexTestimonial;
+                  const isActive = position === 0;
+                  const isPrevious = position === -1;
+                  const isNext = position === 1;
+                  const isFarLeft = position < -1;
+                  const isFarRight = position > 1;
+
+                  return (
+                    <motion.div
+                      key={index}
+                      className="absolute top-0 left-0 w-full h-full bg-white rounded-lg shadow-lg overflow-hidden"
+                      style={{
+                        originX: 0.5,
+                        originY: 0.5,
+                        zIndex: testimonials.length - Math.abs(position),
+                      }}
+                      animate={{
+                        scale: isActive ? 1 : isPrevious || isNext ? 0.9 : 0.8,
+                        rotate: isActive
+                          ? 0
+                          : isPrevious
+                            ? -5
+                            : isNext
+                              ? 5
+                              : isFarLeft
+                                ? -15
+                                : isFarRight
+                                  ? 15
+                                  : 0,
+                        x: isActive
+                          ? 0
+                          : isPrevious
+                            ? -20
+                            : isNext
+                              ? 20
+                              : isFarLeft
+                                ? -100
+                                : isFarRight
+                                  ? 100
+                                  : 0,
+                        y: isActive ? 0 : 20,
+                        opacity: isActive ? 1 : isPrevious || isNext ? 0.7 : 0,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 100,
+                        damping: 15,
+                        mass: 0.5,
+                      }}
+                    >
+                      <div className="w-full h-full relative">
+                        {/* Client image */}
+                        <div className="relative w-full h-full overflow-hidden rounded-md drop-shadow-md">
+                          <Image
+                            src={`${BASE_URI}/home/letters/${t.image}`}
+                            alt={t.name}
+                            fill
+                            quality={70}
+                            className="object-cover"
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
             </div>
           </div>
         </div>

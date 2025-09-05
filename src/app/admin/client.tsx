@@ -19,6 +19,7 @@ import {
   FaArrowUp,
   FaStar,
   FaRegStar,
+  FaDownload,
 } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im";
 import { useEffect, useRef, useState } from "react";
@@ -306,6 +307,30 @@ export const Form = () => {
     return Promise.all(uploadPromises);
   };
 
+  const handleDownloadImage = async (imageUrl: string, imageName: string) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+
+      const displayName = imageName.startsWith("$")
+        ? imageName.slice(1)
+        : imageName;
+      a.download = displayName;
+
+      document.body.appendChild(a);
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      toast.error("Failed to download image: " + error);
+    }
+  };
+
   const handleImageUrl = ({
     endpoint,
     dir,
@@ -575,6 +600,11 @@ export const Form = () => {
 
     return (
       <div className="mt-4">
+        <Tooltip
+          anchorSelect="#email-delete"
+          place="top"
+          content="Click to Remove"
+        />
         <h3 className="text-lg font-medium mb-2">Current Images</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {Object.entries(existingImages).map(([imageName, imageUrl]) => {
@@ -606,19 +636,37 @@ export const Form = () => {
                         e.stopPropagation();
                         handleExistingImageRename(imageName);
                       }}
+                      title="Rename the image"
                       className="p-2 bg-white text-blue-500 rounded-full hover:bg-blue-100 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <FaPen className="w-3 h-3" />
                     </button>
                     <button
+                      id="delete-image-button"
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleExistingImageDelete(imageName);
                       }}
+                      title="Delete the image"
                       className="p-2 bg-white text-red-500 rounded-full hover:bg-red-100 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <FaTrash className="w-3 h-3" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={async (e) => {
+                        e.stopPropagation();
+                        await handleDownloadImage(
+                          imageUrl as string,
+                          imageName,
+                        );
+                      }}
+                      title="Download the original image"
+                      className="p-2 bg-white text-green-500 rounded-full hover:bg-green-100 opacity-0 \
+                      group-hover:opacity-100 transition-opacity"
+                    >
+                      <FaDownload className="w-3 h-3" />
                     </button>
                     <button
                       type="button"
@@ -836,7 +884,7 @@ export const Form = () => {
           <div className="flex justify-between items-center">
             <div className="flex flex-col space-y-2">
               <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent leading-tight">
-                Add New Project
+                {editingProject ? "Edit Project" : " Add New Project"}
               </h1>
               <p className="text-orange-500 font-bold text-lg">
                 Please review changes before publishing!
@@ -1355,15 +1403,6 @@ export const Preview = () => {
                                 alt={project.name || "Project Image"}
                               />
                             )}
-                            {project.bannerImage &&
-                              project.images[project.bannerImage] && (
-                                <div className="absolute top-2 left-2 bg-blue-500 w-4 h-4 rounded-full" />
-                              )}
-                            {/* Overlay gradient */}
-                            <div
-                              className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0
-                          group-hover:opacity-100 transition-opacity duration-300"
-                            />
                           </div>
                         </div>
 
