@@ -14,7 +14,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ className }) => {
     <div className={className}>
       <Map
         mapId={process.env.NEXT_PUBLIC_GOOGLE_MAP_ID}
-        defaultZoom={15}
+        defaultZoom={16}
         defaultCenter={position}
       >
         <AdvancedMarker
@@ -23,10 +23,13 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ className }) => {
             window.open("https://maps.app.goo.gl/eRN5D4TGCibRiumn6", "_blank");
           }}
         >
-          <img src="/logos/flower.svg" alt="Location marker" className="w-10 cursor-pointer" />
+          <img
+            src="/logos/flower.svg"
+            alt="Location marker"
+            className="w-6 cursor-pointer"
+          />
         </AdvancedMarker>
       </Map>
-
     </div>
   );
 };
