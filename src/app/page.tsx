@@ -3,7 +3,7 @@ import Nav from "@/components/navbar";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaChevronDown } from "react-icons/fa6";
-import { AnimatePresence, motion, useInView } from "framer-motion";
+import { AnimatePresence, motion, useInView } from "motion/react";
 import ProjectCard from "@/components/projectCard";
 import Comment from "@/components/comment";
 import TextAnim from "@/components/animatedText";
@@ -17,6 +17,36 @@ import Image from "next/image";
 import { ParagraphAnimation } from "@/components/paragraphAnim";
 
 export default function Home() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "CREAT Company LLC",
+    url: "https://creat.az",
+    logo: "https://creat.az/logo.png",
+    description:
+      "Professional engineering firm specializing in project management and innovative solutions",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Samad Vurgun st. 110, Vurgun Residence Building",
+      addressLocality: "Baku",
+      addressCountry: "AZ",
+    },
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: "+994-55-415-82-15",
+        email: "info@creat.az",
+        contactType: "customer service",
+      },
+      {
+        "@type": "ContactPoint",
+        telephone: "+994-50-224-29-44",
+        email: "contact@creat.az",
+        contactType: "technical support",
+      },
+    ],
+  };
+
   const projectsRef = useRef(null);
   const projectsInView = useInView(projectsRef, {
     once: true,
@@ -252,47 +282,14 @@ export default function Home() {
                           <LuExternalLink className="text-lg" />
                         </Link>
                       </div>
-                      <div className="flex flex-col w-full h-full relative justify-end">
-                        <div className="absolute inset-0">
-                          <Image
-                            className=""
-                            src=""
-                            layout=""
-                            alt=""
-                            sizes="50vw"
-                            quality={70}
-                          />
-
-                          <div className="absolute inset-[48px] overflow-hidden">
-                            <div
-                              className="w-full h-full"
-                              style={{
-                                backgroundImage: `repeating-linear-gradient(
-                                                  -45deg,
-                                                  transparent,
-                                                  transparent 60px,
-                                                  rgb(244 244 245) 60px,
-                                                  rgb(244 244 245) 120px
-                                                )`,
-                              }}
-                            />
-                          </div>
-                          <div className="absolute inset-0 flex items-center justify-center border-[24px] border-dashed border-zinc-300">
-                            <h1 className="text-zinc-300 text-[7vw] font-black">
-                              IMAGE GOES HERE
-                            </h1>
-                          </div>
-                        </div>
-
-                        <div className="w-full bg-black/10 z-10 flex gap-x-2 px-12 py-6">
-                          <Link
-                            href=""
-                            className="text-3xl font-medium relative"
-                          >
-                            Info About Special Project For{" "}
-                            {partners[activePartnerIndex].name}
-                          </Link>
-                        </div>
+                      <div className="w-full h-full">
+                        <Link
+                          href={`projects?search=${
+                            partners[activePartnerIndex].searchTerm
+                          }`}
+                        >
+                          More projects from {partners[activePartnerIndex].name}
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -912,7 +909,7 @@ nəzərdə tutulub."
                     handleClickLeftTestimonial();
                   }}
                   className={`w-10 h-10 bg-creatBright rounded-full flex items-center justify-center
-                  outline outline-2 outline-creatBright outline-offset-4 cursor-pointer`}
+                  outline-2 outline-creatBright outline-offset-4 cursor-pointer`}
                 >
                   <motion.span>
                     <FaArrowLeft className="text-xl text-creatBGLight" />
@@ -934,7 +931,7 @@ nəzərdə tutulub."
                     handleClickRightTestimonial();
                   }}
                   className={`w-10 h-10 bg-creatBright rounded-full flex items-center justify-center
-                  outline outline-2 outline-creatBright outline-offset-4 cursor-pointer`}
+                  outline-2 outline-creatBright outline-offset-4 cursor-pointer`}
                 >
                   <FaArrowRight className="text-xl text-creatBGLight" />
                 </motion.div>
@@ -1004,7 +1001,7 @@ nəzərdə tutulub."
                             src={`${BASE_URI}/home/letters/${t.image}`}
                             alt={t.name}
                             fill
-                            quality={70}
+                            quality={75}
                             className="object-cover"
                           />
                         </div>

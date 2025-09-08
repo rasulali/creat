@@ -46,12 +46,12 @@ declare global {
 
   type partners = {
     id: number;
-    name?: string;
+    name: string;
     logo: string;
     link: string;
     animated?: boolean;
-    color?: string;
-    projects?: partnerProject[];
+    color: string;
+    searchTerm?: string;
   };
 
   type partnerProject = {

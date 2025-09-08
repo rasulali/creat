@@ -2,6 +2,7 @@
 
 import { AdvancedMarker, Map } from "@vis.gl/react-google-maps";
 import React from "react";
+import { GoogleMapProvider } from "./googleMapProvider";
 
 interface GoogleMapProps {
   className?: string;
@@ -12,24 +13,36 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ className }) => {
 
   return (
     <div className={className}>
-      <Map
-        mapId={process.env.NEXT_PUBLIC_GOOGLE_MAP_ID}
-        defaultZoom={16}
-        defaultCenter={position}
-      >
-        <AdvancedMarker
-          position={position}
-          onClick={() => {
-            window.open("https://maps.app.goo.gl/eRN5D4TGCibRiumn6", "_blank");
-          }}
+      <GoogleMapProvider>
+        <Map
+          mapId={process.env.NEXT_PUBLIC_GOOGLE_MAP_ID}
+          defaultZoom={16}
+          defaultCenter={position}
+          fullscreenControl={false}
+          streetViewControl={false}
+          cameraControl={false}
+          keyboardShortcuts={false}
+          zoomControl={false}
+          clickableIcons={false}
+          mapTypeControl={false}
         >
-          <img
-            src="/logos/flower.svg"
-            alt="Location marker"
-            className="w-6 cursor-pointer"
-          />
-        </AdvancedMarker>
-      </Map>
+          <AdvancedMarker
+            position={position}
+            onClick={() => {
+              window.open(
+                "https://maps.app.goo.gl/eRN5D4TGCibRiumn6",
+                "_blank",
+              );
+            }}
+          >
+            <img
+              src="/logos/flower.svg"
+              alt="Location marker"
+              className="w-6 cursor-pointer"
+            />
+          </AdvancedMarker>
+        </Map>
+      </GoogleMapProvider>
     </div>
   );
 };

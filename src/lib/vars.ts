@@ -8,6 +8,7 @@ export const partners: partners[] = [
     link: "https://cop29.az/en",
     animated: true,
     color: "#006a72",
+    searchTerm: "cop29",
   },
   {
     id: 2,
@@ -15,6 +16,7 @@ export const partners: partners[] = [
     name: "Lightsource BP",
     link: "https://lightsourcebp.com/",
     color: "#009900",
+    searchTerm: "bp",
   },
   {
     id: 3,
@@ -22,6 +24,7 @@ export const partners: partners[] = [
     name: "ILF Consulting Engineers",
     link: "https://www.ilf.com/",
     color: "#2f5291",
+    searchTerm: "ilf",
   },
   {
     id: 4,
@@ -29,6 +32,7 @@ export const partners: partners[] = [
     name: "Suez SA",
     link: "https://www.suez.com/en",
     color: "#7ecb23",
+    searchTerm: "suez",
   },
   {
     id: 5,
@@ -36,6 +40,7 @@ export const partners: partners[] = [
     name: "PMD Projects LLC",
     link: "https://pmdprojects.az/",
     color: "#015ba9",
+    searchTerm: "pmd",
   },
   {
     id: 6,
@@ -43,6 +48,7 @@ export const partners: partners[] = [
     name: "Dashkasan Iron Ore LLC",
     link: "https://ddf.az",
     color: "#7c5541",
+    searchTerm: "dashkasan",
   },
   {
     id: 7,
@@ -51,26 +57,7 @@ export const partners: partners[] = [
     link: "https://balkhoorma.com/en",
     color: "#558551",
     animated: true,
-    projects: [
-      {
-        name: "BALKHOORMA LLC Natural Food Collection",
-        heading: "Cənubi Qafqazda ilk meyvə-qurtma zavodu (Xurma)",
-        desc: "Balakən rayonu, Katex k. ərazisində 2.0 ha ərazidə yerləşən 1 ədəd 2 mərtəbəli ofis binası, 2 ədəd saoyuducu binası, 1 ədəd istehsalat binası, 10 nəfərlik qonaq evi və köməkçi binaları",
-        images: [
-          BASE_URI + "/home/partners/7/1.jpeg",
-          BASE_URI + "/home/partners/7/2.jpeg",
-        ],
-      },
-      {
-        name: "BALKHOORMA-PİRKEKE LLC",
-        heading: "Ağdaş rayonunda 16 000.0 m2 meyve-qurutma zavodu",
-        desc: "Ağdaş rayonu,Pirkəkə k. ərazisində yerləşən 10.0ha ərazidə 5ədəd meyvə-qurutma anbarı,1ədəd ofis binası,2 ədəd məhsul qəbul edici anbar binası və köməkçi binaları",
-        images: [
-          BASE_URI + "/home/partners/7/3.jpeg",
-          BASE_URI + "/home/partners/7/4.jpeg",
-        ],
-      },
-    ],
+    searchTerm: "balkhoorma",
   },
   {
     id: 8,
@@ -78,6 +65,7 @@ export const partners: partners[] = [
     name: "Encotec Company",
     color: "#01205a",
     link: "https://www.encotec.az/",
+    searchTerm: "encotec",
   },
   {
     id: 9,
@@ -85,6 +73,7 @@ export const partners: partners[] = [
     name: "AzerBlast LLC",
     link: "https://azerblast.az/",
     color: "#e96453",
+    searchTerm: "azerblast",
   },
   {
     id: 10,
@@ -93,6 +82,7 @@ export const partners: partners[] = [
     link: "https://eco.gov.az/",
     animated: true,
     color: "#fef212",
+    searchTerm: "eco",
   },
   {
     id: 11,
@@ -101,6 +91,7 @@ export const partners: partners[] = [
     link: "https://www.economy.gov.az/en",
     animated: true,
     color: "#a2925e",
+    searchTerm: "economy",
   },
   {
     id: 12,
@@ -109,6 +100,7 @@ export const partners: partners[] = [
     link: "https://mst.gov.az/en",
     animated: true,
     color: "#0191cf",
+    searchTerm: "mst",
   },
   {
     id: 13,
@@ -117,6 +109,7 @@ export const partners: partners[] = [
     animated: true,
     link: "https://rebuildkarabakh.az",
     color: "#000000",
+    searchTerm: "karabakh",
   },
   {
     id: 14,
@@ -124,20 +117,7 @@ export const partners: partners[] = [
     logo: BASE_URI + "/home/partners/14/logo.png",
     link: "https://technol.az/en/",
     color: "#c82327",
-    projects: [
-      {
-        name: "Technol LLC",
-        heading: "Cənubi Qafqazda ilk maşın-motor emalı yağları zavodu",
-        desc: "Sumqayıt şəhərində, 1.5 ha ərazidə yerləşən, 1 ədəd 2 mərtəbəli ofis binası, 1 ədəd istehsalat binası və 2 ədəd məhsul saxlama anbarı",
-        images: [
-          BASE_URI + "/home/partners/14/1.jpeg",
-          BASE_URI + "/home/partners/14/2.jpeg",
-          BASE_URI + "/home/partners/14/3.jpeg",
-          BASE_URI + "/home/partners/14/4.jpeg",
-          BASE_URI + "/home/partners/14/5.jpeg",
-        ],
-      },
-    ],
+    searchTerm: "technol",
   },
   {
     id: 15,
@@ -145,6 +125,7 @@ export const partners: partners[] = [
     name: "Sobsan Paints",
     color: "#e12917",
     link: "https://sobsan.com/",
+    searchTerm: "sobsan",
   },
   {
     id: 16,
@@ -152,6 +133,7 @@ export const partners: partners[] = [
     name: "ACWA Power",
     link: "https://www.acwapower.com/en/",
     color: "#bb332f",
+    searchTerm: "acwa",
   },
   {
     id: 17,
@@ -159,6 +141,7 @@ export const partners: partners[] = [
     name: "Tractabel",
     link: "https://tractebel-engie.com/en",
     color: "#09aafe",
+    searchTerm: "tractabel",
   },
   {
     id: 18,
@@ -166,6 +149,7 @@ export const partners: partners[] = [
     name: "SOCAR Midstream Operations",
     link: "https://www.socarmidstream.az/",
     color: "#e4002b",
+    searchTerm: "socar",
   },
   {
     id: 19,
@@ -173,6 +157,7 @@ export const partners: partners[] = [
     name: "Suraxanı Oil",
     link: "https://www.surakhani-oil.com/",
     color: "#f16333",
+    searchTerm: "suraxani",
   },
   {
     id: 20,
@@ -181,6 +166,7 @@ export const partners: partners[] = [
     color: "#c80b4b",
     link: "https://en.powerchina.cn/",
     animated: true,
+    searchTerm: "power china",
   },
   {
     id: 21,
@@ -188,6 +174,7 @@ export const partners: partners[] = [
     name: "MAQRO Group",
     link: "https://www.maqro.ge/",
     color: "#42a13e",
+    searchTerm: "maqro",
   },
   {
     id: 22,
@@ -196,6 +183,7 @@ export const partners: partners[] = [
     color: "#0aa4c7",
     link: "https://referansclc.com/",
     animated: true,
+    searchTerm: "referans",
   },
   {
     id: 23,
@@ -204,6 +192,7 @@ export const partners: partners[] = [
     link: "https://afsa.gov.az/",
     animated: true,
     color: "#d9a183",
+    searchTerm: "aqta",
   },
   {
     id: 24,
@@ -211,6 +200,7 @@ export const partners: partners[] = [
     name: "Azerbaijan Airlines",
     link: "https://azal.az/en/",
     color: "#56bfe7",
+    searchTerm: "azal",
   },
   {
     id: 25,
@@ -218,6 +208,7 @@ export const partners: partners[] = [
     name: "YPT Yılmaz Proses Teknolojileri",
     link: "https://www.ypt.com.tr/",
     color: "#fbb900",
+    searchTerm: "ypt",
   },
   {
     id: 26,
@@ -225,6 +216,7 @@ export const partners: partners[] = [
     name: "CQA International LTD",
     color: "#7aa02f",
     link: "https://www.cqainternational.co.uk/",
+    searchTerm: "cqa",
   },
   {
     id: 27,
@@ -232,6 +224,7 @@ export const partners: partners[] = [
     name: "Bravo Supermarket Chain",
     link: "https://www.bravosupermarket.az/",
     color: "#77bc1f",
+    searchTerm: "bravo",
   },
   {
     id: 28,
@@ -240,6 +233,7 @@ export const partners: partners[] = [
     color: "#00495b",
     link: "https://az.linkedin.com/company/azerbaijan-company-for-poultry-development",
     animated: true,
+    searchTerm: "acpd",
   },
   {
     id: 29,
@@ -247,6 +241,7 @@ export const partners: partners[] = [
     name: "AzerGold CJSC",
     link: "https://azergold.az/en/",
     color: "#fcaf17",
+    searchTerm: "azergold",
   },
 ];
 

@@ -1,5 +1,5 @@
 import { ReactNode, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView } from "motion/react";
 
 interface ServiceProps {
   name: string;

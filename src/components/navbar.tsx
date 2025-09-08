@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Slant as MenuIcon } from "hamburger-react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView, Variants } from "motion/react";
 import {
   FaSquareFacebook,
   FaSquareInstagram,
@@ -55,7 +55,7 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
   const initialPath = `M100 0 L200 0 L200 ${windowSize.h} L100 ${windowSize.h} Q-100 ${windowSize.h / 2} 100 0`;
   const targetPath = `M100 0 L200 0 L200 ${windowSize.h} L100 ${windowSize.h} Q100 ${windowSize.h / 2} 100 0`;
 
-  const curve = {
+  const curveVariants: Variants = {
     initial: {
       d: initialPath,
     },
@@ -69,7 +69,7 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
     },
   };
 
-  const menuVariants = {
+  const menuVariants: Variants = {
     initial: { x: "calc(100% + 100px)" },
     enter: { x: "0", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } },
     exit: {
@@ -78,7 +78,7 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     initial: { x: 80 },
     enter: (i: number) => ({
       x: 0,
@@ -89,7 +89,7 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
       transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.05 * i },
     }),
   };
-  const itemHoverVariants = {
+  const itemHoverVariants: Variants = {
     initial: {
       x: 0,
     },
@@ -429,7 +429,7 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
               </div>
               <svg className="absolute top-0 left-[-99px] w-[100px] h-full fill-creatBG stroke-none">
                 <motion.path
-                  variants={curve}
+                  variants={curveVariants}
                   initial="initial"
                   animate="enter"
                   exit="exit"

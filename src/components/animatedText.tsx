@@ -1,4 +1,4 @@
-import { motion, useAnimation, useInView, Variants } from "framer-motion";
+import { motion, useAnimation, useInView, Variants } from "motion/react";
 import { useEffect, useRef } from "react";
 
 const TextAnim = ({

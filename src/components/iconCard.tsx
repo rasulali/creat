@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 import { FaArrowRight } from "react-icons/fa6";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 interface CardProps {
   icon: ReactNode

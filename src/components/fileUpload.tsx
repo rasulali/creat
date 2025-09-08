@@ -1,10 +1,11 @@
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { IconUpload } from "@tabler/icons-react";
 import { useDropzone } from "react-dropzone";
 import { FaPen, FaTrash, FaStar, FaRegStar } from "react-icons/fa6";
 import { handleImageName } from "@/lib/helperFunctions";
+import Image from "next/image";
 
 const mainVariant = {
   initial: {
@@ -57,7 +58,7 @@ export const FileUpload = ({
 }: {
   onChange?: (files: File[]) => void;
   required?: boolean;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
   files?: File[];
   setImageIndex: (index: number) => void;
   setRenameState: (state: boolean) => void;
@@ -244,7 +245,10 @@ export const FileUpload = ({
                       )}
                     >
                       <div className="h-full aspect-[4/3] relative">
-                        <img
+                        <Image
+                          quality={50}
+                          width={200}
+                          height={100}
                           className="object-cover w-full h-full"
                           src={URL.createObjectURL(file)}
                           alt={file.name}

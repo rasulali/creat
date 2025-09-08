@@ -6,7 +6,8 @@ import Link from "next/link";
 import { AdminProvider } from "./admin-context";
 
 const Dashboard = async () => {
-  const supabase = createClient();
+  // Await the createClient function to get the Supabase client instance
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -17,12 +18,16 @@ const Dashboard = async () => {
     redirect("/login");
   }
 
-  const { data: userData } = await supabase
+  const { data: userData, error: userError } = await supabase
     .from("roles")
     .select("*")
     .eq("id", user.id)
-    .single()
-    .then((res) => res as { data: UserDataType; error: any });
+    .single();
+
+  if (userError) {
+    console.error("Error fetching user data:", userError);
+    redirect("/login");
+  }
 
   return (
     <main className="relative bg-zinc-100 pb-9 min-h-dvh">

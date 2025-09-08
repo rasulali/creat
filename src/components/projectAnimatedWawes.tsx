@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Link from "next/link";
 import Image from "next/image";
 import { createProjectSlug } from "@/lib/helperFunctions";
@@ -79,15 +79,7 @@ const GRADIENT_STOPS = [
 ];
 
 const WaveLayer = React.memo(
-  ({
-    layer,
-    projectId,
-    index,
-  }: {
-    layer: any;
-    projectId: string;
-    index: number;
-  }) => (
+  ({ layer, projectId }: { layer: any; projectId: string; index: number }) => (
     <motion.path
       d={layer.paths[0]}
       fill={
@@ -152,7 +144,7 @@ const ProjectAnimatedWawes = ({
     <motion.div
       onHoverStart={() => setProjectHover(project.id)}
       onHoverEnd={() => setProjectHover(-1)}
-      className="rounded-2xl overflow-hidden max-w-[600px]"
+      className="rounded-2xl overflow-hidden  w-full h-full"
     >
       <Link
         href={`/projects/${createProjectSlug(project.name, project.id)}/`}
@@ -225,9 +217,11 @@ const ProjectAnimatedWawes = ({
           className="w-full h-full overflow-hidden"
         >
           <Image
-            width={600}
-            height={450}
+            width={640}
+            height={480}
+            quality={75}
             src={imageurl}
+            loading="lazy"
             alt={`${project.name} project image`}
             className="w-full h-auto object-cover aspect-[4/3]"
           />

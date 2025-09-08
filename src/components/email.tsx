@@ -1,7 +1,8 @@
-import { useInView, motion } from "framer-motion";
+"use client";
+import { useInView, motion } from "motion/react";
 import { useRef } from "react";
-import { createClient } from "@/../../utils/supabase/client";
 import { isEmail } from "validator";
+import { createClient } from "../../utils/supabase/client";
 
 const EmailForm = () => {
   const emailRef = useRef(null);

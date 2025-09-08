@@ -28,17 +28,19 @@ import r2 from "../../../utils/cloudflare/upload";
 import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { FileUpload } from "@/components/fileUpload";
 import {
   categories,
   createProjectSlug,
   formatDate,
   handleImageName,
+  handleImageUrl,
 } from "@/lib/helperFunctions";
 import { useAdmin } from "./admin-context";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const supabase = createClient();
 export const Menu: React.FC<MenuDataType> = (props) => {
@@ -202,6 +204,7 @@ export const Form = () => {
 
         if (data) {
           setExistingImages(data.images || {});
+          setBannerImage(data.bannerImage);
           // Populate form fields
           const form = document.getElementById("uploadForm") as HTMLFormElement;
           if (form) {
@@ -329,20 +332,6 @@ export const Form = () => {
     } catch (error) {
       toast.error("Failed to download image: " + error);
     }
-  };
-
-  const handleImageUrl = ({
-    endpoint,
-    dir,
-    name,
-    isBanner = false,
-  }: {
-    endpoint: string;
-    dir: string;
-    name: string;
-    isBanner?: boolean;
-  }) => {
-    return `${endpoint}/${encodeURIComponent(dir + "/" + name)}${isBanner ? "?banner=true" : ""}`;
   };
 
   const handleImageSelect = (images: File[]) => {
@@ -558,12 +547,10 @@ export const Form = () => {
         // Create images mapping
         const images = selectedImages.reduce(
           (acc: Record<string, string>, image) => {
-            const isBanner = bannerImage === image.name;
             acc[image.name] = handleImageUrl({
               endpoint: "https://pub-5c15a84b97fc4cc889a06969fb95be5f.r2.dev",
               dir,
               name: image.name,
-              isBanner,
             });
             return acc;
           },
@@ -581,11 +568,29 @@ export const Form = () => {
       // Common success operations
       triggerRefresh();
       resetFormState(form);
+      setBannerImage("");
     } catch (error: any) {
       toast.error(error.message || "An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleFormReset = () => {
+    if (imageUploadRef.current) {
+      imageUploadRef.current.value = "";
+    }
+    setSelectedImages([]);
+    setEditingProject(null);
+    setResetForm(true);
+    const form = document.getElementById("uploadForm") as HTMLFormElement;
+    form.reset();
+    document
+      .getElementById("category")
+      ?.dispatchEvent(new Event("change", { bubbles: true }));
+    setTimeout(() => {
+      setResetForm(false);
+    }, 500);
   };
 
   // Display existing images when editing
@@ -600,11 +605,6 @@ export const Form = () => {
 
     return (
       <div className="mt-4">
-        <Tooltip
-          anchorSelect="#email-delete"
-          place="top"
-          content="Click to Remove"
-        />
         <h3 className="text-lg font-medium mb-2">Current Images</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {Object.entries(existingImages).map(([imageName, imageUrl]) => {
@@ -619,7 +619,10 @@ export const Form = () => {
                 )}
               >
                 <div className="h-32 relative mb-2 group">
-                  <img
+                  <Image
+                    quality={50}
+                    width={200}
+                    height={128}
                     src={imageUrl as string}
                     alt={imageName}
                     className="w-full h-full object-cover rounded-md"
@@ -629,7 +632,7 @@ export const Form = () => {
                       Banner
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity flex items-center justify-center gap-2 rounded-md">
+                  <div className="absolute inset-0  bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center gap-2 rounded-md">
                     <button
                       type="button"
                       onClick={(e) => {
@@ -672,6 +675,7 @@ export const Form = () => {
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
+                        // When setting a new banner, it will automatically deselect the previous one
                         handleSetBanner(imageName);
                       }}
                       className="p-2 bg-white text-blue-500 rounded-full hover:bg-blue-100 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -692,6 +696,18 @@ export const Form = () => {
             );
           })}
         </div>
+
+        {/* Banner status indicator */}
+        {bannerImage && (
+          <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+            <div className="flex items-center">
+              <FaStar className="text-blue-500 mr-2" />
+              <span className="text-blue-700 font-medium">
+                Banner Image: {handleImageName(bannerImage)}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -900,24 +916,7 @@ export const Form = () => {
                 className="flex items-center justify-center"
               >
                 <IoRefresh
-                  onClick={() => {
-                    if (imageUploadRef.current) {
-                      imageUploadRef.current.value = "";
-                    }
-                    setSelectedImages([]);
-                    setEditingProject(null);
-                    setResetForm(true);
-                    const form = document.getElementById(
-                      "uploadForm",
-                    ) as HTMLFormElement;
-                    form.reset();
-                    document
-                      .getElementById("category")
-                      ?.dispatchEvent(new Event("change", { bubbles: true }));
-                    setTimeout(() => {
-                      setResetForm(false);
-                    }, 500);
-                  }}
+                  onClick={handleFormReset}
                   className="text-3xl text-slate-600 hover:text-blue-500 transition-colors duration-200"
                 />
               </motion.div>
@@ -1390,17 +1389,15 @@ export const Preview = () => {
                             className="aspect-video w-full relative overflow-hidden rounded-xl
                         shadow-md group-hover:shadow-lg transition-shadow duration-300"
                           >
-                            {project.images && (
-                              <img
+                            {project.bannerImage && (
+                              <Image
+                                quality={50}
+                                width={200}
+                                height={100}
                                 className="w-full h-full object-cover group-hover:scale-105
                               transition-transform duration-500"
-                                src={
-                                  project.bannerImage &&
-                                  project.images[project.bannerImage]
-                                    ? project.images[project.bannerImage]
-                                    : Object.values(project.images)[0]
-                                }
-                                alt={project.name || "Project Image"}
+                                src={project.images[project.bannerImage]}
+                                alt={project.name}
                               />
                             )}
                           </div>

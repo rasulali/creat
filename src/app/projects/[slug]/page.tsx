@@ -1,23 +1,26 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import { createClient } from "../../../../utils/supabase/client";
 import Nav from "@/components/navbar";
 import TextAnim from "@/components/animatedText";
 import { Carousel } from "@/components/carousel";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Footer from "@/components/footer";
 import { ParagraphAnimation } from "@/components/paragraphAnim";
+import StructuredData from "./structured-data";
+import { useParams } from "next/navigation";
 
-const Project = ({ params }: { params: { slug: string } }) => {
+const Content = () => {
   const [project, setProject] = useState<Project | null>(null);
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const params = useParams();
+  const slug = params.slug as string;
 
   useEffect(() => {
     const fetchProject = async () => {
-      const id = parseInt(params.slug.split("-").pop() || "", 10);
-      console.log(id);
+      const id = parseInt(slug.split("-").pop() || "", 10);
       const supabase = createClient();
 
       try {
@@ -40,7 +43,7 @@ const Project = ({ params }: { params: { slug: string } }) => {
     };
 
     fetchProject();
-  }, [params.slug]);
+  }, [slug]);
 
   if (loading) {
     return (
@@ -62,6 +65,7 @@ const Project = ({ params }: { params: { slug: string } }) => {
 
   return (
     <main className="bg-creatBG relative">
+      <StructuredData project={project} />
       <Nav isTransparent={true} />
       <section className="flex flex-col relative">
         <div className="relative z-10 w-full h-full grid [grid-template-rows:1fr_4fr_1fr]">
@@ -108,31 +112,20 @@ const Project = ({ params }: { params: { slug: string } }) => {
             </div>
           </div>
         </div>
-        <div className="absolute inset-0 grid grid-cols-2 z-[2]">
-          <div className="relative col-start-2 h-full">
+        <div className="absolute inset-0">
+          <div className="relative w-full h-full">
             <Image
-              src={project?.images ? Object.values(project.images)[0] : ""}
+              src={project?.images[project.bannerImage] || ""}
               alt={project?.name || ""}
               fill
               priority
-              sizes="(max-width: 1024px) 100vw, (min-width: 1280px) 720px, 50vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
               className="object-cover"
-              quality={70}
+              quality={50}
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaUMk9kfa&s" // Simple blur placeholder
             />
-            <div className="absolute inset-0 pointer-events-none">
-              <svg
-                viewBox="0 0 900 600"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute inset-0 z-10 w-full h-full"
-                preserveAspectRatio="none"
-              >
-                <path
-                  d="M450 600C151.712 476.733 60.6224 338.616 0 0V600H450Z"
-                  fill="#081731"
-                />
-              </svg>
-            </div>
+            <div className="bg-creatBG/20 absolute inset-0 backdrop-blur-sm" />
           </div>
         </div>
       </section>
@@ -174,6 +167,20 @@ const Project = ({ params }: { params: { slug: string } }) => {
       </section>
       <Footer />
     </main>
+  );
+};
+
+const Project = () => {
+  return (
+    <Suspense
+      fallback={
+        <main className="bg-creatBG flex items-center justify-center h-screen">
+          <div className="text-white text-xl">Loading...</div>
+        </main>
+      }
+    >
+      <Content />
+    </Suspense>
   );
 };
 

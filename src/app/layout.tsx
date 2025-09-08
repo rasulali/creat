@@ -15,12 +15,23 @@ const comfortaa = Comfortaa({
   subsets: ["latin", "cyrillic", "latin-ext", "cyrillic-ext"],
   variable: "--font-work-comfortaa",
   preload: true,
-  adjustFontFallback: true,
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
-  title: "Creat",
-  description: "",
+  title: {
+    default: "CREAT Company LLC | Engineering Excellence in Azerbaijan",
+    template: "%s | CREAT Company LLC",
+  },
+  description:
+    "Azerbaijan's leading engineering firm specializing in renewable energy, mining, and infrastructure projects. 70+ major projects delivered with 29+ international partners.",
+  keywords: [
+    "engineering Azerbaijan",
+    "renewable energy Baku",
+    "mining projects",
+    "infrastructure development",
+    "project management Azerbaijan",
+  ],
 };
 
 export default function RootLayout({
@@ -31,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${comfortaa.variable} ${manrope.className} ${manrope.variable}`}
+        className={`${comfortaa.variable} ${manrope.className} ${manrope.variable} bg-creatBG`}
       >
         {children}
       </body>

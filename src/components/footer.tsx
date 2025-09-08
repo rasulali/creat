@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
 import { items } from "./navbar";
+import { categories } from "@/lib/helperFunctions";
 
 const Footer = () => {
   return (
@@ -63,44 +64,55 @@ const Footer = () => {
           ></path>
         </svg>
       </div>
-      <div className="flex items-center justify-center max-w-[1600px] mx-auto z-10">
-        <div className="w-full flex py-12 gap-x-12">
-          <div className="flex flex-col">
-            <Link href="/" className="w-48 h-fit group">
+      <div className="flex flex-col justify-center max-w-[1600px] w-full mx-auto z-10">
+        <div className="flex w-full items-center justify-between py-20">
+          <div className="h-full flex">
+            <Link href="/" className="w-64 h-fit">
               <img
                 src="/logos/horizontal.svg"
                 alt=""
                 className="w-full h-full object-cover"
               />
             </Link>
-            <h1 className="text-xl font-medium mt-4">
-              {" "}
-              Comprehensive Solutions <br />
-              Tailored to You by <span className="font-bold mx-1">Creat</span>
-            </h1>
-            <div className="flex gap-x-4 mt-8">
-              <Link
-                href="https://www.instagram.com/"
-                className="group rounded-full border-2 hover:border-creatBright transition-colors"
-              >
-                <FaInstagram className="m-2 text-xl group-hover:text-creatBright transition-colors" />
-              </Link>
-              <Link
-                href="https://linkedin.com/"
-                className="group rounded-full border-2 hover:border-creatBright transition-colors"
-              >
-                <FaLinkedinIn className="m-2 text-xl group-hover:text-creatBright transition-colors" />
-              </Link>
-              <Link
-                href="https://www.facebook.com/"
-                className="group rounded-full border-2 hover:border-creatBright transition-colors"
-              >
-                <FaFacebookF className="m-2 text-xl group-hover:text-creatBright transition-colors" />
-              </Link>
-            </div>
           </div>
-          <div className="flex flex-col">
-            <h1 className="text-3xl font-bold mb-4">Quick Links</h1>
+          <div className="flex gap-x-4">
+            <Link
+              href="https://www.instagram.com/"
+              className="group rounded-full border-2 hover:border-creatBright transition-colors p-4"
+            >
+              <FaInstagram className="text-2xl group-hover:text-creatBright transition-colors" />
+            </Link>
+            <Link
+              href="https://linkedin.com/"
+              className="group rounded-full border-2 hover:border-creatBright transition-colors p-4"
+            >
+              <FaLinkedinIn className="text-2xl group-hover:text-creatBright transition-colors" />
+            </Link>
+            <Link
+              href="https://www.facebook.com/"
+              className="group rounded-full border-2 hover:border-creatBright transition-colors p-4"
+            >
+              <FaFacebookF className="text-2xl group-hover:text-creatBright transition-colors" />
+            </Link>
+          </div>
+        </div>
+        <div className="w-full flex items-top justify-between py-10 border-y border-white/10">
+          <div className="flex flex-col gap-y-8 p-8">
+            <h1 className="text-3xl font-bold">Address</h1>
+            <Link
+              href="https://maps.app.goo.gl/CS2koQtTpYHTVvRq7"
+              target="_blank"
+            >
+              <p className="text-lg font-medium hover:text-creatBright transition-colors">
+                Baku, Azerbaijan <br />
+                Samad Vurgun st. 110 <br />
+                Vurgun Residence Building <br />
+                2nd Floor, Creat Office
+              </p>
+            </Link>
+          </div>
+          <div className="flex flex-col gap-y-8 p-8">
+            <h1 className="text-3xl font-bold">Quick Links</h1>
             <div className="flex flex-col gap-y-2">
               {items.map((item, index) => (
                 <Link
@@ -113,134 +125,72 @@ const Footer = () => {
               ))}
             </div>
           </div>
-          <div className="flex flex-col relative">
-            <div className="absolute -top-4 -left-4 w-[calc(100%+32px)] h-[calc(100%+32px)] bg-white/10 z-[-1] rounded-xl" />
-            <h1 className="text-3xl font-bold mb-4">Services</h1>
-            <div className="flex gap-x-4">
-              <div className="flex flex-col gap-y-2">
+          <div className="flex flex-col relative gap-y-8 p-8 bg-white/5 rounded-2xl backdrop-blur-sm border border-white/10">
+            <h1 className="text-3xl font-bold">Services</h1>
+            <div className="grid grid-cols-2 gap-y-2 gap-x-4">
+              {Object.entries(categories).map(([key, category]) => (
                 <Link
+                  key={key}
                   href="/services"
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
+                  className="text-lg font-medium hover:text-creatBright transition-colors"
                 >
-                  Alternative Energy Systems
+                  {category.name}
                 </Link>
-                <Link
-                  href="/services"
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
-                >
-                  Mining Projects
-                </Link>
-                <Link
-                  href="/services"
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
-                >
-                  Road Projects
-                </Link>
-                <Link
-                  href="/services"
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
-                >
-                  Landscaping Works
-                </Link>
-                <Link
-                  href="/services"
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
-                >
-                  Main Water and Power Lines
-                </Link>
-                <Link
-                  href="/services"
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
-                >
-                  Industrial Buildings
-                </Link>
-              </div>
-              <div className="flex flex-col gap-y-2">
-                <Link
-                  href="/services"
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
-                >
-                  Educational and Child Development Spaces
-                </Link>
-                <Link
-                  href="/services"
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
-                >
-                  Residential and Non-Residential Buildings
-                </Link>
-                <Link
-                  href="/services"
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
-                >
-                  Urban Planning
-                </Link>
-                <Link
-                  href="/services"
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
-                >
-                  Industrial Facility Projects
-                </Link>
-                <Link
-                  href="/services"
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
-                >
-                  Waste Management Projects
-                </Link>
-              </div>
+              ))}
             </div>
           </div>
-          <div className="flex flex-col">
-            <h1 className="text-3xl font-bold mb-4">Contacts</h1>
-            <div className="flex flex-col gap-y-2">
-              <div className="flex flex-col gap-x-2">
+          <div className="flex flex-col gap-y-8 p-8">
+            <h1 className="text-3xl font-bold">Contacts</h1>
+            <div className="flex flex-col gap-y-4">
+              <div className="flex flex-col">
                 <Link
                   href="tel:+994554158215"
                   className="text-lg font-medium hover:text-creatBright transition-colors"
                 >
-                  +994 55 415 82 15
+                  (994) 55 415 82 15
                 </Link>
                 <Link
                   href="tel:+994502242944"
                   className="text-lg font-medium hover:text-creatBright transition-colors"
                 >
-                  +994 50 224 29 44
+                  (994) 50 224 29 44
                 </Link>
               </div>
-              <Link
-                href="mailto:info@creat.az"
-                className="text-lg font-medium hover:text-creatBright transition-colors"
-              >
-                info@creat.az
-              </Link>
-              <Link
-                href="https://maps.app.goo.gl/CS2koQtTpYHTVvRq7"
-                target="_blank"
-              >
-                <p className="text-lg font-medium hover:text-creatBright transition-colors">
-                  Baku, Azerbaijan <br />
-                  Samad Vurgun 110
-                </p>
-              </Link>
+              <div className="flex flex-col">
+                <Link
+                  href="mailto:info@creat.az"
+                  className="text-lg font-medium hover:text-creatBright transition-colors"
+                >
+                  info@creat.az
+                </Link>
+                <Link
+                  href="mailto:contact@creat.az"
+                  className="text-lg font-medium hover:text-creatBright transition-colors"
+                >
+                  contact@creat.az
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="bg-creatBG flex items-center justify-center py-5 w-full gap-x-4 text-lg z-10">
-        <h1>
-          ©<span className="text-creatBright mx-1 font-medium">Creat LLC</span>
-          2024
-        </h1>
-        <div className="h-4 w-px bg-neutral-300" />
-        <span className="text-neutral-300">
-          Built by
-          <Link
-            target="_blank"
-            href="https://github.com/rasulali/"
-            className="mx-2 capitalize font-bold hover:text-white transition-colors"
-          >
-            Rasul Ali
-          </Link>
-        </span>
+        <div className="flex items-center justify-center h-20 w-full gap-x-4 text-lg">
+          <div className="flex gap-x-2 items-end leading-none">
+            <span>©</span>
+            <span className="text-creatBright mx-1 font-medium">Creat LLC</span>
+            <span>2025</span>
+          </div>
+          <div className="h-4 w-px bg-neutral-300" />
+          <span className="text-neutral-300">
+            Built by
+            <Link
+              target="_blank"
+              href="https://alee.az"
+              className="mx-2 capitalize font-bold hover:text-white transition-colors"
+            >
+              Rasul Aliyev
+            </Link>
+          </span>
+        </div>
       </div>
     </footer>
   );

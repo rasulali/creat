@@ -1,24 +1,29 @@
-import React, { useRef } from "react"
-import { motion, useInView, useAnimationControls, Variants } from "framer-motion"
+import React, { useRef } from "react";
+import {
+  motion,
+  useInView,
+  useAnimationControls,
+  Variants,
+} from "motion/react";
 
 const TargetAnim = () => {
-  const ref = useRef(null)
+  const ref = useRef(null);
   const targetInView = useInView(ref, {
     once: true,
-    margin: "-50% 0px"
-  })
-  const arrowControls = useAnimationControls()
-  const ringControls = useAnimationControls()
+    margin: "-10% 0px",
+  });
+  const arrowControls = useAnimationControls();
+  const ringControls = useAnimationControls();
 
   React.useEffect(() => {
     if (targetInView) {
       const animateSequence = async () => {
-        await arrowControls.start("visible")
-        ringControls.start("animate")
-      }
-      animateSequence()
+        await arrowControls.start("visible");
+        ringControls.start("animate");
+      };
+      animateSequence();
     }
-  }, [targetInView, arrowControls, ringControls])
+  }, [targetInView, arrowControls, ringControls]);
 
   const circleVariants: Variants = {
     initial: { scale: 1, opacity: 1 },
@@ -31,7 +36,7 @@ const TargetAnim = () => {
         delay: i * 0.1,
       },
     }),
-  }
+  };
 
   const arrowVariants: Variants = {
     hidden: { x: -1000, y: -500, opacity: 0 },
@@ -43,10 +48,9 @@ const TargetAnim = () => {
         type: "tween",
         ease: "easeIn",
         duration: 0.3,
-      }
-    }
-  }
-
+      },
+    },
+  };
 
   return (
     <motion.div
@@ -58,7 +62,10 @@ const TargetAnim = () => {
     >
       <svg
         className="overflow-visible"
-        viewBox="0 0 1206 1033" fill="none" xmlns="http://www.w3.org/2000/svg">
+        viewBox="0 0 1206 1033"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <g id="target">
           <g id="target_2">
             {[88, 188, 288, 388, 488].map((radius, index) => (
@@ -90,7 +97,7 @@ const TargetAnim = () => {
         </g>
       </svg>
     </motion.div>
-  )
-}
+  );
+};
 
-export default TargetAnim
+export default TargetAnim;

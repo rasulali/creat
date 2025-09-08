@@ -11,6 +11,18 @@ import {
   FaGripLines,
   FaSchool,
 } from "react-icons/fa6";
+export const handleImageUrl = ({
+  endpoint,
+  dir,
+  name,
+}: {
+  endpoint: string;
+  dir: string;
+  name: string;
+  isBanner?: boolean;
+}) => {
+  return `${endpoint}/${encodeURIComponent(dir + "/" + name)}`;
+};
 
 export const createProjectSlug = (name: string, id: number): string => {
   const slugifiedName = name

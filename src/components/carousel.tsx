@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { FaArrowLeft, FaArrowRight, FaX } from "react-icons/fa6";
 import { cn, useOutsideClick } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import Image, { ImageProps } from "next/image";
 import { handleDisplayName } from "@/lib/helperFunctions";
 
@@ -111,7 +111,6 @@ export const Carousel = ({ project, initialScroll = 0 }: CarouselProps) => {
                     duration: 0.5,
                     delay: 0.2 * index,
                     ease: "easeOut",
-                    once: true,
                   },
                 }}
                 key={"card" + index}
@@ -155,7 +154,7 @@ export const Card = ({
   const [open, setOpen] = useState(false);
   const [currentCard, setCurrentCard] = useState(card);
   const [currentIndex, setCurrentIndex] = useState(index);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const { onCardClose, cards } = useContext(CarouselContext);
 
   const handleNext = useCallback(() => {
@@ -276,7 +275,7 @@ export const Card = ({
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}
-        className="rounded-3xl bg-gray-100 w-96 md:w-[512px] aspect-[3/4] overflow-hidden flex flex-col items-start justify-start relative z-10"
+        className="rounded-3xl bg-gray-100 w-96 md:w-[512px] aspect-[3/4] overflow-hidden flex flex-col items-start justify-start relative z-10 cursor-pointer"
       >
         <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
         <div className="relative z-40 px-4 py-2 border-red-500">
@@ -320,7 +319,7 @@ export const BlurImage = ({
       sizes="50vw"
       loading="lazy"
       decoding="async"
-      quality={70}
+      quality={75}
       blurDataURL={typeof src === "string" ? src : undefined}
       alt={alt ? alt : "Background of a beautiful view"}
       {...rest}
