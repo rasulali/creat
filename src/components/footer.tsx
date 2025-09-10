@@ -67,7 +67,12 @@ const Footer = () => {
       <div className="flex flex-col justify-center max-w-[1600px] w-full mx-auto z-10">
         <div className="flex w-full items-center justify-between py-20">
           <div className="h-full flex">
-            <Link href="/" className="w-64 h-fit">
+            <Link
+              aria-label="Visit Home Page"
+              rel="noopener noreferrer"
+              href="/"
+              className="w-64 h-fit"
+            >
               <img
                 src="/logos/horizontal.svg"
                 alt=""
@@ -77,18 +82,24 @@ const Footer = () => {
           </div>
           <div className="flex gap-x-4">
             <Link
+              aria-label="Visit Our Instagram Page"
+              rel="noopener noreferrer"
               href="https://www.instagram.com/"
               className="group rounded-full border-2 hover:border-creatBright transition-colors p-4"
             >
               <FaInstagram className="text-2xl group-hover:text-creatBright transition-colors" />
             </Link>
             <Link
+              aria-label="Visit Our Linkedin Page"
+              rel="noopener noreferrer"
               href="https://linkedin.com/"
               className="group rounded-full border-2 hover:border-creatBright transition-colors p-4"
             >
               <FaLinkedinIn className="text-2xl group-hover:text-creatBright transition-colors" />
             </Link>
             <Link
+              aria-label="Visit Our Facebook Page"
+              rel="noopener noreferrer"
               href="https://www.facebook.com/"
               className="group rounded-full border-2 hover:border-creatBright transition-colors p-4"
             >
@@ -100,6 +111,8 @@ const Footer = () => {
           <div className="flex flex-col gap-y-8 p-8">
             <h1 className="text-3xl font-bold">Address</h1>
             <Link
+              aria-label="View on Google Maps"
+              rel="noopener noreferrer"
               href="https://maps.app.goo.gl/CS2koQtTpYHTVvRq7"
               target="_blank"
             >
@@ -116,6 +129,8 @@ const Footer = () => {
             <div className="flex flex-col gap-y-2">
               {items.map((item, index) => (
                 <Link
+                  aria-label={`Visit ${item.label} Page`}
+                  rel="noopener noreferrer"
                   key={index}
                   href={item.href}
                   className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
@@ -130,6 +145,8 @@ const Footer = () => {
             <div className="grid grid-cols-2 gap-y-2 gap-x-4">
               {Object.entries(categories).map(([key, category]) => (
                 <Link
+                  aria-label={`Visit ${category.name} Page`}
+                  rel="noopener noreferrer"
                   key={key}
                   href="/services"
                   className="text-lg font-medium hover:text-creatBright transition-colors"
@@ -143,32 +160,36 @@ const Footer = () => {
             <h1 className="text-3xl font-bold">Contacts</h1>
             <div className="flex flex-col gap-y-4">
               <div className="flex flex-col">
-                <Link
+                <a
+                  aria-label="Call +994554158215"
                   href="tel:+994554158215"
                   className="text-lg font-medium hover:text-creatBright transition-colors"
                 >
                   (994) 55 415 82 15
-                </Link>
-                <Link
+                </a>
+                <a
+                  aria-label="Call +994502242944"
                   href="tel:+994502242944"
                   className="text-lg font-medium hover:text-creatBright transition-colors"
                 >
                   (994) 50 224 29 44
-                </Link>
+                </a>
               </div>
               <div className="flex flex-col">
-                <Link
+                <a
+                  aria-label="Email info@creat.az"
                   href="mailto:info@creat.az"
                   className="text-lg font-medium hover:text-creatBright transition-colors"
                 >
                   info@creat.az
-                </Link>
-                <Link
+                </a>
+                <a
+                  aria-label="Email contact@creat.az"
                   href="mailto:contact@creat.az"
                   className="text-lg font-medium hover:text-creatBright transition-colors"
                 >
                   contact@creat.az
-                </Link>
+                </a>
               </div>
             </div>
           </div>

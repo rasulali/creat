@@ -27,7 +27,7 @@ export const partners: partners[] = [
     searchTerm: "",
   },
   {
-    id: 22,
+    id: 121,
     logo: BASE_URI + "/home/partners/4/logo.png",
     name: "Suez SA",
     link: "https://www.suez.com/en",
@@ -45,14 +45,14 @@ export const partners: partners[] = [
   {
     id: 0,
     logo: BASE_URI + "/home/partners/6/logo.png",
-    name: "Dashkasan Iron Ore LLC",
+    name: "Daşkəsən Dəmir Filiz MMC",
     link: "https://ddf.az",
     color: "#7c5541",
     searchTerm: "",
   },
   {
     id: 133,
-    name: "BALKHOORMA LLC",
+    name: "BALXURMA MMC",
     logo: BASE_URI + "/home/partners/7/logo.png",
     link: "https://balkhoorma.com/en",
     color: "#558551",
@@ -70,7 +70,7 @@ export const partners: partners[] = [
   {
     id: 131,
     logo: BASE_URI + "/home/partners/9/logo.png",
-    name: "AzerBlast LLC",
+    name: "AzerBlast MMC",
     link: "https://azerblast.az/",
     color: "#e96453",
     searchTerm: "AzerBlast",
@@ -78,7 +78,7 @@ export const partners: partners[] = [
   {
     id: 152,
     logo: BASE_URI + "/home/partners/10/logo.png",
-    name: "Ministry of Ecology and Natural Resources",
+    name: "Ekologiya və Təbii Sərvətlər Nazirliyi",
     link: "https://eco.gov.az/",
     animated: true,
     color: "#fef212",
@@ -87,8 +87,8 @@ export const partners: partners[] = [
   {
     id: 0,
     logo: BASE_URI + "/home/partners/11/logo.png",
-    name: "Ministry of Economy of Azerbaijan Republic",
-    link: "https://www.economy.gov.az/en",
+    name: "İqtisadiyyat Nazirliyi",
+    link: "https://www.economy.gov.az/",
     animated: true,
     color: "#a2925e",
     searchTerm: "economy",
@@ -96,8 +96,8 @@ export const partners: partners[] = [
   {
     id: 0,
     logo: BASE_URI + "/home/partners/12/logo.png",
-    name: "Azerbaijan Amelioration and Water Farm OJSC",
-    link: "https://mst.gov.az/en",
+    name: "Meliorasiya və Su Təsərrüfatı ASC",
+    link: "https://mst.gov.az/",
     animated: true,
     color: "#0191cf",
     searchTerm: "mst",
@@ -105,7 +105,7 @@ export const partners: partners[] = [
   {
     id: 154,
     logo: BASE_URI + "/home/partners/13/logo.png",
-    name: "Restoration, Construction, and Management Service in the Karabakh Economic Region",
+    name: "Qarabağ – Tarixi və Mədəniyyət Abidələrinin Təmiri və Bərpası",
     animated: true,
     link: "https://rebuildkarabakh.az",
     color: "#000000",
@@ -113,8 +113,8 @@ export const partners: partners[] = [
   },
   {
     id: 134,
-    name: "Technol LLC",
     logo: BASE_URI + "/home/partners/14/logo.png",
+    name: "Technol MMC",
     link: "https://technol.az/en/",
     color: "#c82327",
     searchTerm: "Technol",
@@ -122,7 +122,7 @@ export const partners: partners[] = [
   {
     id: 128,
     logo: BASE_URI + "/home/partners/15/logo.png",
-    name: "Sobsan Paints",
+    name: "Sobsan",
     color: "#e12917",
     link: "https://sobsan.com/",
     searchTerm: "Sobsan",
@@ -179,7 +179,7 @@ export const partners: partners[] = [
   {
     id: 0,
     logo: BASE_URI + "/home/partners/22/logo.png",
-    name: "Referans Clinical Laboratory and Polyclinic Center",
+    name: "Referans Klinik Laboratoriya Mərkəzi",
     color: "#0aa4c7",
     link: "https://referansclc.com/",
     animated: true,
@@ -188,7 +188,7 @@ export const partners: partners[] = [
   {
     id: 148,
     logo: BASE_URI + "/home/partners/23/logo.png",
-    name: "Food Safety Agency of the Republic of Azerbaijan",
+    name: "Qida Təhlıkəsizlik Agentliyi",
     link: "https://afsa.gov.az/",
     animated: true,
     color: "#d9a183",
@@ -197,7 +197,7 @@ export const partners: partners[] = [
   {
     id: 138,
     logo: BASE_URI + "/home/partners/24/logo.png",
-    name: "Azerbaijan Airlines",
+    name: "Azərbaycan Hava Yolları",
     link: "https://azal.az/en/",
     color: "#56bfe7",
     searchTerm: "Azərbaycan Hava Yolları",
@@ -221,7 +221,7 @@ export const partners: partners[] = [
   {
     id: 0,
     logo: BASE_URI + "/home/partners/27/logo.png",
-    name: "Bravo Supermarket Chain",
+    name: "Bravo Supermarket",
     link: "https://www.bravosupermarket.az/",
     color: "#77bc1f",
     searchTerm: "bravo",
@@ -238,7 +238,7 @@ export const partners: partners[] = [
   {
     id: 111,
     logo: BASE_URI + "/home/partners/29/logo.png",
-    name: "AzerGold CJSC",
+    name: "AzerGold QSC",
     link: "https://azergold.az/en/",
     color: "#fcaf17",
     searchTerm: "Azergold",

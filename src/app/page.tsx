@@ -156,9 +156,20 @@ export default function Home() {
               muted
               playsInline
               loop
+              onError={(e) => {
+                e.preventDefault();
+              }}
             >
-              <source src={`${BASE_URI}/home/bg.mp4`} type="video/mp4" />
-              <source src={`${BASE_URI}/home/bg.webm`} type="video/webm" />
+              <source
+                src={`${BASE_URI}/home/bg.mp4`}
+                type="video/mp4"
+                aria-errormessage="Video not supported"
+              />
+              <source
+                src={`${BASE_URI}/home/bg.webm`}
+                type="video/webm"
+                aria-errormessage="Video not supported"
+              />
             </video>
             <div className="absolute inset-0 bg-creatBG/25"></div>
           </div>
@@ -212,25 +223,6 @@ export default function Home() {
                     with <br />
                     expertise and dedication.
                   </p>
-                  <div className="md:mt-4">
-                    <Link
-                      href="/services"
-                      className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit bg-creatBright group
-          font-medium hover:shadow-drop-shadow-button-creatBright transition-all duration-300 flex md:gap-x-3 items-center"
-                    >
-                      <h1 className="md:text-lg font-semibold">Our Services</h1>
-                      <div className="flex items-center justify-center md:h-6 aspect-square rounded-full bg-white relative overflow-hidden">
-                        <FaArrowRight
-                          className="absolute text-base text-creatBright top-1/2 -translate-y-1/2 left-1/2
-                -translate-x-[200%] transition-all duration-300 group-hover:-translate-x-1/2"
-                        />
-                        <FaArrowRight
-                          className="absolute text-base text-creatBright top-1/2 -translate-y-1/2 left-1/2
-                -translate-x-1/2 transition-all duration-300 group-hover:translate-x-[200%]"
-                        />
-                      </div>
-                    </Link>
-                  </div>
                 </div>
               </div>
             </div>
@@ -269,6 +261,8 @@ export default function Home() {
                   <div className="flex flex-col lg:flex-row h-full">
                     <div className="lg:w-1/3 p-8 flex flex-col items-center justify-center border-r border-gray-200">
                       <Link
+                        aria-label={`Visit ${partners[activePartnerIndex].name} website`}
+                        rel="noopener noreferrer"
                         href={partners[activePartnerIndex].link}
                         target="_blank"
                         className="mb-6 max-w-[280px]"
@@ -281,6 +275,8 @@ export default function Home() {
                       </Link>
 
                       <Link
+                        aria-label={`Visit ${partners[activePartnerIndex].name} website`}
+                        rel="noopener noreferrer"
                         href={partners[activePartnerIndex].link}
                         target="_blank"
                         className="font-medium text-lg flex items-center gap-x-2 text-gray-600 hover:text-creatBright transition-colors mb-8"
@@ -291,6 +287,8 @@ export default function Home() {
 
                       <div className="w-fit max-w-xs">
                         <Link
+                          aria-label={`View all project for ${partners[activePartnerIndex].name}`}
+                          rel="noopener noreferrer"
                           href={`/projects?search=${partners[activePartnerIndex].searchTerm}`}
                           className="w-full py-3 px-6 bg-creatBright text-white rounded-lg font-semibold hover:bg-creatBright/90 transition-colors flex items-center justify-center gap-2"
                         >
@@ -340,8 +338,8 @@ export default function Home() {
           >
             <div className="px-28">
               <div className="flex gap-x-2 items-center mb-4">
-                <div className="h-px bg-creatBright w-8" />
-                <h1 className="text-creatBright font-medium">Our Clients</h1>
+                <div className="h-px bg-white w-8" />
+                <h1 className="font-medium">Our Clients</h1>
               </div>
               <div className="flex flex-col gap-y-16">
                 <div className="flex flex-col gap-y-4">
@@ -587,8 +585,8 @@ export default function Home() {
         <section className="w-full relative">
           <div className="flex flex-col px-28 h-full w-full max-w-[1920px] mx-auto justify-center pt-24 pb-36">
             <div className="flex gap-x-2 items-center mb-4">
-              <div className="h-px bg-creatBright w-8" />
-              <h1 className="text-creatBright font-medium">Our Services</h1>
+              <div className="h-px bg-white w-8" />
+              <h1 className="font-medium">Our Services</h1>
             </div>
             <div className="flex w-full justify-between items-start">
               <TextAnim>
@@ -607,6 +605,8 @@ export default function Home() {
                 </h1>
               </TextAnim>
               <Link
+                aria-label="View all services"
+                rel="noopener noreferrer"
                 href="/services"
                 className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit group border-2 border-white/10 font-medium
               hover:bg-creatBright hover:border-creatBright transition-all duration-300 flex flex-shrink-0 md:gap-x-3 items-center
@@ -713,12 +713,11 @@ export default function Home() {
             </svg>
           </div>
         </section>
-        {/* About Part Goes Here  */}
         <section className="w-full py-36 relative bg-creatBGLight">
           <div className="flex flex-col px-28 h-full w-full max-w-[1920px] mx-auto">
             <div className="flex gap-x-2 items-center mb-4">
-              <div className="h-px bg-creatBright w-8" />
-              <h1 className="text-creatBright font-medium">About Us</h1>
+              <div className="h-px bg-white w-8" />
+              <h1 className="font-medium">About Us</h1>
             </div>
 
             <div className="w-full flex flex-col gap-y-2">
@@ -729,6 +728,8 @@ export default function Home() {
                   </h1>
                 </TextAnim>
                 <Link
+                  aria-label="More About Us"
+                  rel="noopener noreferrer"
                   href="/about"
                   className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit group border-2 border-white/10 font-medium
               hover:bg-creatBright hover:border-creatBright transition-all duration-300 flex flex-shrink-0 md:gap-x-3 items-center
@@ -800,8 +801,8 @@ export default function Home() {
         <section className="w-full pt-36 pb-72 relative">
           <div className="flex flex-col px-28 h-full w-full max-w-[1920px] mx-auto">
             <div className="flex gap-x-2 items-center mb-4">
-              <div className="h-px bg-creatBright w-8" />
-              <h1 className="text-creatBright font-medium">Our Projects</h1>
+              <div className="h-px bg-white w-8" />
+              <h1 className="font-medium">Our Projects</h1>
             </div>
             <div
               ref={projectsRef}
@@ -816,6 +817,8 @@ export default function Home() {
                 </h1>
               </TextAnim>
               <Link
+                aria-label="View All Projects"
+                rel="noopener noreferrer"
                 href="/projects"
                 className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit group border-2 border-white/10 font-medium
               hover:bg-creatBright hover:border-creatBright transition-all duration-300 flex md:gap-x-3 items-center
@@ -896,8 +899,8 @@ nəzərdə tutulub."
           <div className="flex flex-col h-full w-full">
             <div className="flex flex-col h-full w-full max-w-[1920px] mx-auto px-28">
               <div className="flex gap-x-2 items-center mb-4">
-                <div className="h-px bg-creatBright w-8" />
-                <h1 className="text-creatBright font-medium">Testimonial</h1>
+                <div className="h-px bg-white w-8" />
+                <h1 className="font-medium">Testimonial</h1>
               </div>
               <div className="w-full flex justify-between items-center mb-16">
                 <TextAnim>

@@ -86,6 +86,8 @@ const Contact = () => {
               <h1 className="text-3xl font-bold">Where we are</h1>
               <address className="not-italic">
                 <Link
+                  aria-label="View on Google Maps"
+                  rel="noopener noreferrer"
                   href="https://maps.app.goo.gl/CS2koQtTpYHTVvRq7"
                   target="_blank"
                 >
@@ -102,32 +104,36 @@ const Contact = () => {
               <h1 className="text-3xl font-bold">Contact us</h1>
               <div className="flex flex-col gap-y-2">
                 <div className="flex flex-col">
-                  <Link
+                  <a
+                    aria-label="Call +994554158215"
                     href="tel:+994554158215"
                     className="text-lg font-medium hover:text-creatBright transition-colors"
                   >
                     (994) 55 415 82 15
-                  </Link>
-                  <Link
+                  </a>
+                  <a
+                    aria-label="Call +994502242944"
                     href="tel:+994502242944"
                     className="text-lg font-medium hover:text-creatBright transition-colors"
                   >
                     (994) 50 224 29 44
-                  </Link>
+                  </a>
                 </div>
                 <div className="flex flex-col">
-                  <Link
+                  <a
+                    aria-label="Email info@creat.az"
                     href="mailto:info@creat.az"
                     className="text-lg font-medium hover:text-creatBright transition-colors"
                   >
                     info@creat.az
-                  </Link>
-                  <Link
+                  </a>
+                  <a
+                    aria-label="Email contact@creat.az"
                     href="mailto:contact@creat.az"
                     className="text-lg font-medium hover:text-creatBright transition-colors"
                   >
                     contact@creat.az
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

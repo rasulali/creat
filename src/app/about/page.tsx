@@ -858,6 +858,8 @@ const About = () => {
                     </TextAnim>
                     <TextAnim>
                       <Link
+                        aria-label="View All Services"
+                        rel="noopener noreferrer"
                         className="text-white uppercase hover:opacity-70 transition-opacity font-medium"
                         href="/services"
                       >
@@ -988,8 +990,8 @@ const About = () => {
               </div>
               <div className="flex flex-col gap-y-12 py-24">
                 <div className="flex flex-col gap-y-6 w-fit ml-auto text-right">
-                  <TextAnim dir=">">
-                    <h1 className="text-5xl text-white/90 ">Conclusion</h1>
+                  <TextAnim dir="<">
+                    <h1 className="text-5xl text-white/90">Conclusion</h1>
                   </TextAnim>
                   <ParagraphAnimation>
                     <p className="text-3xl tracking-tighter text-white/70 max-w-[800px]">

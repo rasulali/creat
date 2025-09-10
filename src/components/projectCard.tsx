@@ -48,6 +48,8 @@ const ProjectCard: React.FC<CardProps> = ({
       </div>
       <div className="flex flex-col mt-auto h-fit w-full gap-y-2">
         <Link
+          aria-label={`Visit ${name}'s page`}
+          rel="noopener noreferrer"
           href={link}
           className="text-2xl font-bold text-white hover:text-zinc-900 transition-colors duration-300"
         >
@@ -72,6 +74,8 @@ const ProjectCard: React.FC<CardProps> = ({
       </AnimatePresence>
 
       <Link
+        aria-label={`Visit ${name}'s page`}
+        rel="noopener noreferrer"
         href={link}
         className="uppercase w-fit
           font-medium flex items-center mt-8 group"

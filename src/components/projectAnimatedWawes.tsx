@@ -147,6 +147,8 @@ const ProjectAnimatedWawes = ({
       className="rounded-2xl overflow-hidden  w-full h-full"
     >
       <Link
+        aria-label={`View featured project ${project.name}`}
+        rel="noopener noreferrer"
         href={`/projects/${createProjectSlug(project.name, project.id)}/`}
         className="block relative"
       >

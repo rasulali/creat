@@ -25,7 +25,6 @@ const Dashboard = async () => {
     .single();
 
   if (userError) {
-    console.error("Error fetching user data:", userError);
     redirect("/login");
   }
 

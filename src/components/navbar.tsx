@@ -240,6 +240,8 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
               else
                 return (
                   <Link
+                    aria-label={`Visit ${item.label} page`}
+                    rel="noopener noreferrer"
                     href={item.href}
                     key={i}
                     className="hover:text-creatBright transition-colors duration-300
@@ -342,7 +344,13 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
                         variants={itemHoverVariants}
                         whileHover="animate"
                       >
-                        <Link href={item.href}>{item.label}</Link>
+                        <Link
+                          aria-label={`Visit ${item.label} page`}
+                          rel="noopener noreferrer"
+                          href={item.href}
+                        >
+                          {item.label}
+                        </Link>
                       </motion.div>
                     </motion.div>
                   ))}
@@ -365,7 +373,9 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
                         }}
                       >
                         <Link
-                          href=""
+                          href="https://www.linkedin.com/"
+                          rel="noopener noreferrer"
+                          aria-label="Visit Our Linkedin Page"
                           target="_blank"
                           onClick={(e) => e.preventDefault()}
                         >
@@ -379,7 +389,9 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
                         }}
                       >
                         <Link
-                          href=""
+                          href="https://www.facebook.com/"
+                          aria-label="Visit Our Facebook Page"
+                          rel="noopener noreferrer"
                           target="_blank"
                           onClick={(e) => e.preventDefault()}
                         >
@@ -393,7 +405,9 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
                         }}
                       >
                         <Link
-                          href=""
+                          href="https://www.instagram.com/"
+                          aria-label="Visit Our Instagram Page"
+                          rel="noopener noreferrer"
                           target="_blank"
                           onClick={(e) => e.preventDefault()}
                         >
@@ -404,25 +418,28 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
 
                     {/*numbers*/}
                     <div className="flex gap-x-4 text-base md:text-xl">
-                      <Link
+                      <a
+                        aria-label="Call +994554158215"
                         href="tel:+994554158215"
                         className="text-white/50 hover:text-white transition-colors duration-300"
                       >
                         +994 55 415 82 15
-                      </Link>
-                      <Link
+                      </a>
+                      <a
+                        aria-label="Call +994502242944"
                         href="tel:+994502242944"
                         className="text-white/50 hover:text-white transition-colors duration-300"
                       >
                         +994 50 224 29 44
-                      </Link>
+                      </a>
                       <span className="h-full bg-white/50 w-[1px]" />
-                      <Link
+                      <a
+                        aria-label="Email info@creat.az"
                         href="mailto:info@creat.az"
                         className="text-white/50 hover:text-white transition-colors duration-300"
                       >
                         info@creat.az
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 </div>
