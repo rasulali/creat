@@ -8,15 +8,16 @@ import React, {
   useCallback,
 } from "react";
 import { FaArrowLeft, FaArrowRight, FaX } from "react-icons/fa6";
-import { cn, useOutsideClick } from "@/lib/utils";
+import { useOutsideClick } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
-import Image, { ImageProps } from "next/image";
 import { handleDisplayName } from "@/lib/helperFunctions";
+import Image from "next/image";
 
 type ImageUrls = Record<string, string>;
 type Project = {
   name: string;
-  images: ImageUrls | null;
+  images: ImageUrls;
+  category: string;
 };
 
 interface CarouselProps {
@@ -28,6 +29,7 @@ type Card = {
   src: string;
   title: string;
   category: string;
+  alt: string;
 };
 
 export const CarouselContext = createContext<{
@@ -50,8 +52,9 @@ export const Carousel = ({ project, initialScroll = 0 }: CarouselProps) => {
     .reverse()
     .map(([filename, imageUrl]) => ({
       category: project?.name || "",
-      title: filename || "",
-      src: imageUrl || "",
+      title: filename,
+      src: imageUrl,
+      alt: project?.images[filename] || "",
     }));
 
   useEffect(() => {
@@ -260,7 +263,7 @@ export const Card = ({
 
               <div className="w-full h-full p-4 md:p-10">
                 <div className="relative w-full h-full">
-                  <BlurImage
+                  <Image
                     src={currentCard.src}
                     alt={currentCard.title}
                     fill
@@ -286,43 +289,17 @@ export const Card = ({
             {handleDisplayName(card.title)}
           </motion.p>
         </div>
-        <BlurImage
+        <Image
           src={card.src}
-          alt={card.title}
           fill
+          sizes="50vw"
+          loading="lazy"
+          decoding="async"
+          quality={75}
+          alt={card.alt}
           className="object-cover absolute z-10 inset-0"
         />
       </motion.button>
     </>
-  );
-};
-
-export const BlurImage = ({
-  height,
-  width,
-  src,
-  className,
-  alt,
-  ...rest
-}: ImageProps) => {
-  const [isLoading, setLoading] = useState(true);
-  return (
-    <Image
-      className={cn(
-        "transition duration-300",
-        isLoading ? "blur-sm" : "blur-0",
-        className,
-      )}
-      onLoad={() => setLoading(false)}
-      src={src}
-      fill
-      sizes="50vw"
-      loading="lazy"
-      decoding="async"
-      quality={75}
-      blurDataURL={typeof src === "string" ? src : undefined}
-      alt={alt ? alt : "Background of a beautiful view"}
-      {...rest}
-    />
   );
 };

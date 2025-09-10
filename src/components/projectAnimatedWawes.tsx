@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { motion } from "motion/react";
 import Link from "next/link";
-import Image from "next/image";
 import { createProjectSlug } from "@/lib/helperFunctions";
+import Image from "next/image";
 
 interface ProjectAnimatedWawesProps {
   project: any;

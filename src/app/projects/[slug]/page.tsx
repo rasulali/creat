@@ -1,6 +1,5 @@
 "use client";
 import { Suspense, useEffect, useState } from "react";
-import Image from "next/image";
 import { createClient } from "../../../../utils/supabase/client";
 import Nav from "@/components/navbar";
 import TextAnim from "@/components/animatedText";
@@ -10,6 +9,7 @@ import Footer from "@/components/footer";
 import { ParagraphAnimation } from "@/components/paragraphAnim";
 import StructuredData from "./structured-data";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 
 const Content = () => {
   const [project, setProject] = useState<Project | null>(null);
@@ -75,16 +75,12 @@ const Content = () => {
           >
             <div className="w-[calc(50%-24px)]">
               <TextAnim dir=">">
-                <h1 className="text-4xl text-white/90">
-                  {project?.name || ""}
-                </h1>
+                <h1 className="text-4xl text-white/90">{project?.name}</h1>
               </TextAnim>
             </div>
             <ParagraphAnimation>
               <div className="w-1/2">
-                <p className="text-white/70 text-xl">
-                  {project?.description || ""}
-                </p>
+                <p className="text-white/70 text-xl">{project?.description}</p>
               </div>
             </ParagraphAnimation>
           </div>
@@ -96,17 +92,17 @@ const Content = () => {
               viewport={{ once: true }}
               className="h-px bg-white/50 w-0"
             />
-            <div className="flex w-full h-full px-4 pt-16 pb-4 gap-x-16 max-w-[664px] ml-auto">
+            <div className="flex w-full h-full px-4 py-16 gap-x-16 max-w-[664px] ml-auto">
               <div className="flex flex-col">
                 <h1 className="text-white/50 uppercase">Location</h1>
                 <h1 className="text-xl font-medium text-white/90">
-                  {project?.location || ""}
+                  {project?.location}
                 </h1>
               </div>
               <div className="flex flex-col">
                 <h1 className="text-white/50 uppercase">Service</h1>
                 <h1 className="text-xl font-medium text-white/90">
-                  {project?.service ? project.service : ""}
+                  {project?.service}
                 </h1>
               </div>
             </div>
@@ -114,17 +110,17 @@ const Content = () => {
         </div>
         <div className="absolute inset-0">
           <div className="relative w-full h-full">
-            <Image
-              src={project?.images[project.bannerImage] || ""}
-              alt={project?.name || ""}
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
-              className="object-cover"
-              quality={50}
-              placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaUMk9kfa&s" // Simple blur placeholder
-            />
+            {project && (
+              <Image
+                src={project.images[project.bannerImage]}
+                alt={project.name}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+                className="object-cover"
+                quality={50}
+              />
+            )}
             <div className="bg-creatBG/20 absolute inset-0 backdrop-blur-sm" />
           </div>
         </div>

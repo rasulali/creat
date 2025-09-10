@@ -213,11 +213,11 @@ export const Form = () => {
             (form.elements.namedItem("name") as HTMLInputElement).value =
               data.name;
             (form.elements.namedItem("location") as HTMLInputElement).value =
-              data.location || "";
+              data.location;
             (form.elements.namedItem("service") as HTMLInputElement).value =
-              data.service || "";
+              data.service;
             (form.elements.namedItem("description") as HTMLInputElement).value =
-              data.description || "";
+              data.description;
           }
         }
       }
@@ -623,7 +623,7 @@ export const Form = () => {
                     quality={50}
                     width={200}
                     height={128}
-                    src={imageUrl as string}
+                    src={imageUrl}
                     alt={imageName}
                     className="w-full h-full object-cover rounded-md"
                   />
@@ -1250,6 +1250,9 @@ export const Preview = () => {
       project.location,
       project.service,
       project.description,
+      `${project.rank}`,
+      `${formatDate(project.created_at)}`,
+      `${project.id}`,
       ...Object.keys(project.images || {}),
     ].filter(Boolean) as string[];
 
@@ -1425,9 +1428,20 @@ export const Preview = () => {
                             {/* Ranking Controls */}
                             <div className="flex gap-x-2">
                               {/* Priority Badge */}
-                              <div className="flex items-center">
+                              <div className="flex items-center gap-x-2">
                                 <div className="bg-slate-100 border border-slate-200 rounded-lg px-2 py-1 text-xs font-medium text-slate-600">
-                                  Rank: {project.rank}
+                                  Rank:
+                                  <HighlightText
+                                    text={JSON.stringify(project.rank)}
+                                    searchTerm={searchTerm}
+                                  />
+                                </div>
+                                <div className="text-xs font-medium">
+                                  ID:
+                                  <HighlightText
+                                    text={JSON.stringify(project.id)}
+                                    searchTerm={searchTerm}
+                                  />
                                 </div>
                               </div>
                               <button
@@ -1519,7 +1533,7 @@ export const Preview = () => {
                               </span>
                               <p className="text-slate-800 font-medium mt-1">
                                 <HighlightText
-                                  text={project.category || "Uncategorized"}
+                                  text={`${categories[project.category].name}`}
                                   searchTerm={searchTerm}
                                 />
                               </p>
@@ -1543,9 +1557,7 @@ export const Preview = () => {
                               </span>
                               <p className="text-slate-800 font-medium mt-1">
                                 <HighlightText
-                                  text={
-                                    formatDate(project.created_at) || "Unknown"
-                                  }
+                                  text={formatDate(project.created_at)}
                                   searchTerm={searchTerm}
                                 />
                               </p>

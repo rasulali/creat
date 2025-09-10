@@ -1,6 +1,7 @@
+import { cn } from "@/lib/utils";
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
-const GearAnim = () => {
+const GearAnim = ({ className }: { className?: string }) => {
   const ref = useRef(null);
   const gearInView = useInView(ref, { amount: 0.5, once: false });
   return (
@@ -12,7 +13,7 @@ const GearAnim = () => {
       animate={{
         opacity: gearInView ? 0.1 : 0,
       }}
-      className="w-[500px] absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2"
+      className={cn(className, "w-[500px] absolute top-0 left-0")}
     >
       <motion.svg
         viewBox="0 0 1080 520"

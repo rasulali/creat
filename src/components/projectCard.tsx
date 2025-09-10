@@ -3,13 +3,12 @@ import { motion, AnimatePresence } from "motion/react";
 import { FaArrowRight } from "react-icons/fa6";
 import Link from "next/link";
 import Image from "next/image";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 interface CardProps {
   projectsInView: boolean;
   delay?: number;
   id: number;
-  image: string | StaticImport;
+  image: string;
   name: string;
   link: string;
   desc: string;
@@ -35,7 +34,8 @@ const ProjectCard: React.FC<CardProps> = ({
         setProjectHover(false);
       }}
       transition={{ duration: 0.5, delay: delay }}
-      className="p-9 rounded-2xl overflow-hidden w-[410px] h-[500px] flex flex-col items-start relative z-10 border-2 border-white/10"
+      className="p-9 rounded-2xl overflow-hidden w-[410px] h-[500px] flex flex-col \
+      items-start relative z-10 border-2 border-creatBG hover:border-creatBright/80 transition-colors duration-500"
     >
       <div className="w-full h-full absolute top-0 left-0 -z-50 pointer-events-none">
         <Image

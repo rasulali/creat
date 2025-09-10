@@ -220,7 +220,7 @@ function ProjectsContent() {
               </div>
             </div>
 
-            <div className="mt-12 grid grid-cols-3 w-fit mx-auto gap-8 place-items-center">
+            <div className="mt-12 grid grid-cols-3 w-fit mx-auto gap-12 place-items-center">
               {projectsLoading ? (
                 <div className="col-span-3">
                   <p className="text-white/50 text-center text-lg">

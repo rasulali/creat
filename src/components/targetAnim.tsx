@@ -5,8 +5,9 @@ import {
   useAnimationControls,
   Variants,
 } from "motion/react";
+import { cn } from "@/lib/utils";
 
-const TargetAnim = () => {
+const TargetAnim = ({ className }: { className?: string }) => {
   const ref = useRef(null);
   const targetInView = useInView(ref, {
     once: true,
@@ -58,7 +59,7 @@ const TargetAnim = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: targetInView ? 0.3 : 0 }}
       transition={{ duration: 0.5 }}
-      className="w-[400px] absolute right-0 top-0 translate-x-1/2 -translate-y-1/3"
+      className={cn(className, "w-[400px] absolute top-0 right-0")}
     >
       <svg
         className="overflow-visible"

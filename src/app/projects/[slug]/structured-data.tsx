@@ -1,4 +1,5 @@
 "use client";
+import { projectSchema } from "@/lib/schemas";
 import { useEffect } from "react";
 
 interface StructuredDataProps {
@@ -8,25 +9,6 @@ interface StructuredDataProps {
 export default function StructuredData({ project }: StructuredDataProps) {
   useEffect(() => {
     if (!project) return;
-
-    const jsonLd = {
-      "@context": "https://schema.org",
-      "@type": "CreativeWork",
-      name: project?.name || "",
-      description: project?.description || "",
-      datePublished: project?.created_at || new Date().toISOString(),
-      creator: {
-        "@type": "Organization",
-        name: "CREAT Company LLC",
-        url: "https://creat.az",
-      },
-      location: project?.location
-        ? {
-            "@type": "Place",
-            name: project?.location,
-          }
-        : undefined,
-    };
 
     const existingScript = document.querySelector(
       'script[data-structured-data="project"]',
@@ -38,7 +20,10 @@ export default function StructuredData({ project }: StructuredDataProps) {
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.setAttribute("data-structured-data", "project");
-    script.textContent = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
+    script.textContent = JSON.stringify(projectSchema(project)).replace(
+      /</g,
+      "\\u003c",
+    );
     document.head.appendChild(script);
 
     return () => {

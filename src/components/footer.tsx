@@ -5,7 +5,7 @@ import { categories } from "@/lib/helperFunctions";
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col items-center bg-creatBGLight text-white relative">
+    <footer className="flex flex-col items-center bg-creatBGLight text-white relative w-full px-28">
       <div className="absolute inset-0">
         <svg
           width="100%"
@@ -96,7 +96,7 @@ const Footer = () => {
             </Link>
           </div>
         </div>
-        <div className="w-full flex items-top justify-between py-10 border-y border-white/10">
+        <div className="w-full flex items-top justify-around py-10 border-y border-white/10">
           <div className="flex flex-col gap-y-8 p-8">
             <h1 className="text-3xl font-bold">Address</h1>
             <Link
