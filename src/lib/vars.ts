@@ -267,7 +267,7 @@ export const testimonials: Testimonial[] = [
     comment:
       "Tender prosedurlarında Dövlət Satınalmaları qanununa uyğun fəal iştirak etdi; fəaliyyətini məqbul hesab edir və əməkdaşlığı tövsiyə edirik.",
     name: "Kamran Əliyev",
-    role: "Baş prokuror (FHN Tikintidə Təhlükəsizliyə Nəzarət Dövlət Agentliyi)",
+    role: "FHN Tikintidə Təhlükəsizliyə Nəzarət Dövlət Agentliyi Rəisi",
     image: "06.webp",
   },
   {
