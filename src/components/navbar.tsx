@@ -130,20 +130,23 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
 
   return (
     <div className="font-manrope">
+      <nav className="w-full md:hidden flex bg-creatBG p-6">
+        <Logo href="/" className="h-6 w-32" />
+      </nav>
       <nav
         ref={navRef}
         className={cn(
-          "w-full flex justify-center border-b backdrop-blur top-0 left-0",
+          "w-full md:flex hidden justify-center border-b backdrop-blur top-0 left-0",
           isTransparent
             ? "absolute z-50 border-creatBG/10 bg-creatBG/60"
             : "relative border-creatBG bg-creatBG",
         )}
       >
-        <div className="flex w-full max-w-[1920px] justify-center items-center md:py-6 relative">
-          <div className="flex md:gap-x-16 items-center">
+        <div className="flex w-full max-w-[1920px] justify-center items-center py-6 relative">
+          <div className="flex gap-x-16 items-center">
             {items.map((item, i) => {
               if (item.href === "/")
-                return <Logo key={i} href="/" className="md:h-12" />;
+                return <Logo key={i} href="/" className="h-12" />;
               else
                 return (
                   <Link
@@ -222,9 +225,6 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
                 <FaRegUser className="text-white/50 text-lg group-hover:text-white transition-colors duration-300" />
               </a>
               <div className="grid grid-rows-10 h-full px-12 md:px-32">
-                <h1 className="text-xs md:text-base uppercase text-white/50 row-span-1 row-start-2">
-                  navigation
-                </h1>
                 <div className="text-5xl md:text-7xl flex flex-col gap-y-4 capitalize text-white row-span-5 row-start-3">
                   {items.map((item, index) => (
                     <motion.div
@@ -251,90 +251,84 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
                   ))}
                 </div>
 
-                <div className="flex flex-col gap-y-4 row-start-9">
-                  {/*label*/}
-                  <div className="flex text-xs md:text-base uppercase text-white/50 gap-x-4">
-                    <h1>socials</h1>
-                    <span>/</span>
-                    <h1>contact</h1>
-                  </div>
-
+                <div className="flex flex-col gap-y-4 row-start-10">
                   <div className="grid grid-rows-2 md:gap-y-2">
-                    {/*icons*/}
-                    <div className="flex text-lg md:text-2xl gap-x-4 text-white items-center">
-                      <motion.div
-                        whileHover={{
-                          y: -4,
-                        }}
-                      >
-                        <Link
-                          href="https://www.linkedin.com/"
-                          rel="noopener noreferrer"
-                          aria-label="Visit Our Linkedin Page"
-                          target="_blank"
-                          onClick={(e) => e.preventDefault()}
+                    <div className="flex gap-x-4 text-base md:text-xl items-end md:items-start">
+                      <div className="flex md:gap-x-4 flex-col">
+                        <a
+                          aria-label="Call +994554158215"
+                          href="tel:+994554158215"
+                          className="text-white/50 hover:text-white transition-colors duration-300"
                         >
-                          <FaLinkedin />
-                        </Link>
-                      </motion.div>
-
-                      <motion.div
-                        whileHover={{
-                          y: -4,
-                        }}
-                      >
-                        <Link
-                          href="https://www.facebook.com/"
-                          aria-label="Visit Our Facebook Page"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                          onClick={(e) => e.preventDefault()}
+                          +994 55 415 82 15
+                        </a>
+                        <a
+                          aria-label="Call +994502242944"
+                          href="tel:+994502242944"
+                          className="text-white/50 hover:text-white transition-colors duration-300"
                         >
-                          <FaSquareFacebook />
-                        </Link>
-                      </motion.div>
-
-                      <motion.div
-                        whileHover={{
-                          y: -4,
-                        }}
-                      >
-                        <Link
-                          href="https://www.instagram.com/"
-                          aria-label="Visit Our Instagram Page"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <FaSquareInstagram />
-                        </Link>
-                      </motion.div>
-                    </div>
-
-                    {/*numbers*/}
-                    <div className="flex gap-x-4 text-base md:text-xl">
-                      <a
-                        aria-label="Call +994554158215"
-                        href="tel:+994554158215"
-                        className="text-white/50 hover:text-white transition-colors duration-300"
-                      >
-                        +994 55 415 82 15
-                      </a>
-                      <a
-                        aria-label="Call +994502242944"
-                        href="tel:+994502242944"
-                        className="text-white/50 hover:text-white transition-colors duration-300"
-                      >
-                        +994 50 224 29 44
-                      </a>
+                          +994 50 224 29 44
+                        </a>
+                      </div>
                       <span className="h-full bg-white/50 w-[1px]" />
-                      <a
-                        aria-label="Email info@creat.az"
-                        href="mailto:info@creat.az"
-                        className="text-white/50 hover:text-white transition-colors duration-300"
-                      >
-                        info@creat.az
-                      </a>
+                      <div className="flex md:gap-x-4 flex-col h-full gap-y-1">
+                        <a
+                          aria-label="Email info@creat.az"
+                          href="mailto:info@creat.az"
+                          className="text-white/50 hover:text-white transition-colors duration-300"
+                        >
+                          info@creat.az
+                        </a>
+                        <div className="flex text-lg md:text-2xl md:gap-x-4 gap-x-2 text-white items-center">
+                          <motion.div
+                            whileHover={{
+                              y: -4,
+                            }}
+                          >
+                            <Link
+                              href="https://www.linkedin.com/"
+                              rel="noopener noreferrer"
+                              aria-label="Visit Our Linkedin Page"
+                              target="_blank"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <FaLinkedin />
+                            </Link>
+                          </motion.div>
+
+                          <motion.div
+                            whileHover={{
+                              y: -4,
+                            }}
+                          >
+                            <Link
+                              href="https://www.facebook.com/"
+                              aria-label="Visit Our Facebook Page"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <FaSquareFacebook />
+                            </Link>
+                          </motion.div>
+
+                          <motion.div
+                            whileHover={{
+                              y: -4,
+                            }}
+                          >
+                            <Link
+                              href="https://www.instagram.com/"
+                              aria-label="Visit Our Instagram Page"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <FaSquareInstagram />
+                            </Link>
+                          </motion.div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

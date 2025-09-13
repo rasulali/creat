@@ -5,13 +5,13 @@ import Nav from "@/components/navbar";
 import { categories } from "@/lib/helperFunctions";
 import { servicesSchema } from "@/lib/schemas";
 import Head from "next/head";
-import { FaAngleDown } from "react-icons/fa6";
+import { FaAngleDown, FaArrowRight } from "react-icons/fa6";
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { createClient } from "../../../utils/supabase/client";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 type Project = {
@@ -144,6 +144,9 @@ const ProjectCard = ({
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+          <h1 className="absolute bottom-2 left-2 right-2 text-base font-bold text-white z-10 truncate">
+            {project.name}
+          </h1>
         </div>
       )}
     </motion.div>
@@ -157,10 +160,24 @@ const ServicesContent = () => {
   const [projectsLoading, setProjectsLoading] = useState(true);
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
   const searchParams = useSearchParams();
+  const router = useRouter();
   const serviceParam = searchParams.get("service");
 
-  const handleServiceClick = (index: number) => {
-    setActiveService(activeService === index ? -1 : index);
+  const handleServiceClick = (index: number, categoryKey: string) => {
+    const newActiveService = activeService === index ? -1 : index;
+    setActiveService(newActiveService);
+
+    const params = new URLSearchParams(searchParams.toString());
+    if (newActiveService === -1) {
+      params.delete("service");
+    } else {
+      params.set("service", categoryKey);
+    }
+
+    const newUrl = params.toString()
+      ? `?${params.toString()}`
+      : window.location.pathname;
+    router.push(newUrl, { scroll: false });
   };
 
   const supabase = createClient();
@@ -269,7 +286,7 @@ const ServicesContent = () => {
                     }}
                     onMouseEnter={() => !isActive && setHoveredService(key)}
                     onMouseLeave={() => !isActive && setHoveredService(null)}
-                    onClick={() => handleServiceClick(index)}
+                    onClick={() => handleServiceClick(index, key)}
                   >
                     <motion.div
                       className="absolute inset-0 bg-gradient-to-r from-white/3 via-white/8 to-transparent rounded-2xl"
@@ -427,7 +444,7 @@ const ServicesContent = () => {
                                           duration: ANIMATION_CONFIG.DURATION,
                                           ease: ANIMATION_CONFIG.EASING,
                                         }}
-                                        className="w-32 h-40 rounded-lg overflow-hidden shadow-xl bg-black/30 border border-white/20 backdrop-blur-sm"
+                                        className="w-32 aspect-[3/4] rounded-lg overflow-hidden shadow-xl bg-black/30 border border-white/20 backdrop-blur-sm"
                                       >
                                         {project.bannerImage && (
                                           <div className="relative w-full h-full">
@@ -443,6 +460,9 @@ const ServicesContent = () => {
                                               className="object-cover transition-transform duration-300 hover:scale-110"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                                            <h1 className="absolute bottom-1 left-1 right-1 text-xs font-bold text-white z-10 truncate">
+                                              {project.name}
+                                            </h1>
                                           </div>
                                         )}
                                       </motion.div>
@@ -452,29 +472,14 @@ const ServicesContent = () => {
                               </div>
                             </div>
 
-                            <motion.div
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{
-                                delay: 0.3,
-                                duration: ANIMATION_CONFIG.DURATION,
-                                ease: ANIMATION_CONFIG.EASING,
-                              }}
+                            <Link
+                              href={`/projects?category=${key}`}
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center gap-x-2 text-xl font-medium px-8 py-4 border text-white/90 hover:text-creatBG hover:bg-white transition-all duration-300 rounded-lg backdrop-blur-sm border-white/30 hover:border-white/60"
                             >
-                              <Link
-                                href={`/projects?category=${key}`}
-                                className="inline-flex items-center gap-x-2 text-xl font-medium px-8 py-4 border text-white/90 hover:text-creatBG hover:bg-white transition-all duration-300 rounded-lg backdrop-blur-sm border-white/30 hover:border-white/60"
-                              >
-                                <span>View Projects</span>
-                                <motion.span
-                                  className="text-lg"
-                                  whileHover={{ x: 4 }}
-                                  transition={{ duration: 0.2 }}
-                                >
-                                  →
-                                </motion.span>
-                              </Link>
-                            </motion.div>
+                              <span>View Projects</span>
+                              <FaArrowRight className="text-lg" />
+                            </Link>
                           </div>
                         </div>
                       </motion.div>
