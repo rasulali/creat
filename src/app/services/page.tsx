@@ -7,7 +7,7 @@ import { servicesSchema } from "@/lib/schemas";
 import Head from "next/head";
 import { FaAngleDown } from "react-icons/fa6";
 import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { createClient } from "../../../utils/supabase/client";
 import Image from "next/image";
@@ -150,7 +150,7 @@ const ProjectCard = ({
   );
 };
 
-const Services = () => {
+const ServicesContent = () => {
   const [activeService, setActiveService] = useState(-1);
   const [hoveredService, setHoveredService] = useState<string | null>(null);
   const [projects, setProjects] = useState<Record<string, Project[]>>({});
@@ -494,6 +494,19 @@ const Services = () => {
         <Footer />
       </main>
     </>
+  );
+};
+const Services = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-screen bg-creatBG">
+          <div className="text-white text-xl">Loading services...</div>
+        </div>
+      }
+    >
+      <ServicesContent />
+    </Suspense>
   );
 };
 
