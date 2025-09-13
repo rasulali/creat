@@ -147,7 +147,7 @@ function ProjectsContent() {
                 <h1 className="text-5xl text-white/90">Projects</h1>
                 <span className="text-base text-white/50 self-end">
                   Showing {Math.min(filteredProjects.length, projectsPerPage)}{" "}
-                  of {filteredProjects.length} projects
+                  of {projects.length} projects
                 </span>
               </span>
             </TextAnim>
@@ -216,7 +216,14 @@ function ProjectsContent() {
               <div className="text-white/50 text-lg tracking-wide">
                 {activeFilters.length === 0 && !searchQuery
                   ? "Showing all projects"
-                  : `Filtering by: ${activeFilters.length ? `categories (${activeFilters.join(", ")})` : ""} ${activeFilters.length && searchQuery ? "and " : ""} ${searchQuery ? `search "${searchQuery}"` : ""}`}
+                  : `Filtering by: ${
+                      activeFilters.length
+                        ? `categories (${Object.entries(categories)
+                            .filter(([key]) => activeFilters.includes(key))
+                            .map(([_, category]) => category.name)
+                            .join(", ")})`
+                        : ""
+                    } ${activeFilters.length && searchQuery ? "and " : ""} ${searchQuery ? `search "${searchQuery}"` : ""}`}
               </div>
             </div>
 

@@ -8,10 +8,8 @@ import {
   FaSquareInstagram,
   FaLinkedin,
   FaRegUser,
-  FaChevronDown,
 } from "react-icons/fa6";
 import Logo from "./logo";
-import { GrLanguage } from "react-icons/gr";
 import { cn } from "@/lib/utils";
 
 export const items: Item[] = [
@@ -130,78 +128,8 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
     };
   }, []);
 
-  const [langHover, setLangHover] = useState(false);
-
-  const [actiteLang, setActiteLang] = useState<LanguageState>({
-    en: true,
-    az: false,
-    ru: false,
-  });
-
-  const handleLangChange = (key: keyof LanguageState) => {
-    if (actiteLang[key]) {
-      return;
-    }
-
-    const newLangState: LanguageState = Object.keys(actiteLang).reduce(
-      (acc, currentKey) => {
-        acc[currentKey as keyof LanguageState] = currentKey === key;
-        return acc;
-      },
-      {} as LanguageState,
-    );
-
-    setActiteLang(newLangState);
-  };
-
   return (
     <div className="font-manrope">
-      <motion.div
-        onHoverStart={() => {
-          setLangHover(true);
-        }}
-        onHoverEnd={() => {
-          setLangHover(false);
-        }}
-        initial={{ height: 24, width: 40 }}
-        animate={{
-          height: langHover ? 124 : 24,
-          width: langHover ? 68 : 40,
-        }}
-        transition={{ duration: 0 }}
-        className="absolute right-4 top-9 z-50"
-      >
-        <AnimatePresence mode="wait">
-          {langHover && (
-            <motion.div
-              initial={{ height: 0 }}
-              animate={{ height: langHover ? "auto" : 0 }}
-              exit={{ height: 0 }}
-              className="absolute flex flex-col px-4 rounded-lg z-40 right-0 top-8 backdrop-blur bg-black/30 overflow-hidden"
-            >
-              <div className="py-1">
-                {Object.entries(actiteLang).map(([key], index) => (
-                  <div key={index} className="flex gap-x-2 items-center">
-                    <h1
-                      onClick={() =>
-                        handleLangChange(key as keyof LanguageState)
-                      }
-                      className="text-white text-lg font-medium cursor-pointer
-              hover:text-creatBright transition-colors min-w-6"
-                    >
-                      {key}
-                    </h1>
-                    {actiteLang[key as keyof LanguageState] && (
-                      <div className="w-1 h-1 rounded-full bg-white inline pointer-events-none" />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-
       <nav
         ref={navRef}
         className={cn(
@@ -212,27 +140,6 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
         )}
       >
         <div className="flex w-full max-w-[1920px] justify-center items-center md:py-6 relative">
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col">
-            <div className="flex gap-x-2 items-center">
-              <GrLanguage
-                className={`text-xl ${langHover ? "text-creatBright" : "text-white"} transition-colors`}
-              />
-              <motion.div
-                animate={{ rotate: langHover ? 180 : 0 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 20,
-                  mass: 0.5,
-                }}
-                className="origin-center cursor-pointer"
-              >
-                <FaChevronDown
-                  className={`text-xs ${langHover ? "text-creatBright" : "text-white"} transition-colors`}
-                />
-              </motion.div>
-            </div>
-          </div>
           <div className="flex md:gap-x-16 items-center">
             {items.map((item, i) => {
               if (item.href === "/")
@@ -314,18 +221,6 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
               >
                 <FaRegUser className="text-white/50 text-lg group-hover:text-white transition-colors duration-300" />
               </a>
-              <div className="absolute flex gap-x-2 top-3 translate-y-1/2 left-16">
-                {Object.entries(actiteLang).map(([key], index) => (
-                  <h1
-                    key={index}
-                    onClick={() => handleLangChange(key as keyof LanguageState)}
-                    className={`uppercase cursor-pointer hover:text-creatBright transition-colors duration-300
-              ${actiteLang[key as keyof LanguageState] ? "text-white" : "text-white/50"}`}
-                  >
-                    {key}
-                  </h1>
-                ))}
-              </div>
               <div className="grid grid-rows-10 h-full px-12 md:px-32">
                 <h1 className="text-xs md:text-base uppercase text-white/50 row-span-1 row-start-2">
                   navigation

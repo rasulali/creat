@@ -35,6 +35,7 @@ declare global {
   type Category = {
     name: string;
     icon: IconType;
+    description?: string;
   };
 
   type partnerProject = {

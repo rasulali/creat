@@ -38,48 +38,68 @@ export const categories: Record<string, Category> = {
   road: {
     name: "Road Projects",
     icon: FaRoad,
+    description:
+      "Design and construction of transportation infrastructure including highways, mine access roads, and pedestrian bridges to improve connectivity and support industrial and community needs.",
   },
   mining: {
     name: "Mining Projects",
     icon: FaHelmetSafety,
+    description:
+      "Comprehensive mining operations and facility design including tailings storage, rockfill units, acid rock drainage systems, and processing plants for efficient mineral resource extraction.",
   },
   urban: {
     name: "Urban Planning",
     icon: FaCity,
+    description:
+      "Development of modern urban infrastructure including smart bus stops, amphitheaters, coffee shops, and post-conflict reconstruction projects to enhance city living and cultural spaces.",
   },
   landscape: {
     name: "Landscaping Works",
     icon: FaHillRockslide,
+    description:
+      "Ecological development and rehabilitation projects for lakes and urban areas, focusing on environmental restoration, water purification, and infrastructure improvement.",
   },
-
   industrial: {
     name: "Industrial Buildings",
     icon: FaIndustry,
+    description:
+      "Design and construction of industrial facilities including paint factories, adhesive plants, cement factories, and bank buildings to support various manufacturing and commercial sectors.",
   },
   residential: {
     name: "Residential Buildings",
     icon: FaBuilding,
+    description:
+      "Development of residential complexes, hotel accommodations, family recreation centers, and mosque buildings to create comfortable living and community spaces.",
   },
   "waste-management": {
     name: "Waste Management",
     icon: FaDumpster,
+    description:
+      "Projects focused on sustainable waste handling and environmental protection measures.",
   },
-
   "alternative-energy": {
     name: "Alternative Energy Systems",
     icon: FaLeaf,
+    description:
+      "Implementation of renewable energy solutions including wind turbine projects, solar power stations, and green zone developments for sustainable energy production.",
   },
   "water-power": {
     name: "Water & Power Lines",
     icon: FaGripLines,
+    description:
+      "Infrastructure projects for water supply systems, electrical transmission lines, pipeline networks, and pump stations to support industrial and agricultural needs.",
   },
   "industrial-facility": {
     name: "Industrial Facility Projects",
     icon: FaTractor,
+    description:
+      "Design and development of specialized industrial complexes including explosive material plants, agricultural processing facilities, warehouse complexes, and logistics centers.",
   },
   "education-development": {
     name: "Educational Spaces",
     icon: FaSchool,
+    description:
+      "Construction and development of educational infrastructure including kindergartens and secondary schools to support community education and early childhood development.",
   },
 };
 

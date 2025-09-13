@@ -13,7 +13,7 @@ const comfortaa = Comfortaa({
   weight: "variable",
   display: "swap",
   subsets: ["latin", "cyrillic", "latin-ext", "cyrillic-ext"],
-  variable: "--font-work-comfortaa",
+  variable: "--font-comfortaa",
   preload: true,
   adjustFontFallback: false,
 });

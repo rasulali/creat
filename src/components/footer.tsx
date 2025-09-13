@@ -148,7 +148,7 @@ const Footer = () => {
                   aria-label={`Visit ${category.name} Page`}
                   rel="noopener noreferrer"
                   key={key}
-                  href="/services"
+                  href={`/services?service=${key}`}
                   className="text-lg font-medium hover:text-creatBright transition-colors"
                 >
                   {category.name}
