@@ -1,12 +1,15 @@
 import Link from "next/link";
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
+import { SiInstagram, SiLinkedin, SiFacebook } from "react-icons/si";
 import { items } from "./navbar";
 import { categories } from "@/lib/helperFunctions";
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col items-center bg-creatBGLight text-white relative w-full px-28">
-      <div className="absolute inset-0">
+    <footer
+      className="flex flex-col items-center bg-creatBGLight text-white \
+      relative w-full md:px-28 px-6 overflow-hidden"
+    >
+      <div className="absolute inset-0 md:block hidden">
         <svg
           width="100%"
           height="100%"
@@ -64,59 +67,57 @@ const Footer = () => {
           ></path>
         </svg>
       </div>
-      <div className="flex flex-col justify-center max-w-[1600px] w-full mx-auto z-10">
-        <div className="flex w-full items-center justify-between py-20">
-          <div className="h-full flex">
-            <Link
-              aria-label="Visit Home Page"
-              rel="noopener noreferrer"
-              href="/"
-              className="w-64 h-fit"
-            >
-              <img
-                src="/logos/horizontal.svg"
-                alt=""
-                className="w-full h-full object-cover"
-              />
-            </Link>
-          </div>
-          <div className="flex gap-x-4">
+      <div className="flex flex-col justify-center md:max-w-[1600px] w-full md:mx-auto z-10">
+        <div className="flex w-full items-center justify-between md:py-20 py-6">
+          <Link
+            aria-label="Visit Home Page"
+            rel="noopener noreferrer"
+            href="/"
+            className="md:w-64 w-36 h-fit block"
+          >
+            <img
+              src="/logos/horizontal.svg"
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </Link>
+          <div className="flex md:gap-x-4 gap-x-2">
             <Link
               aria-label="Visit Our Instagram Page"
               rel="noopener noreferrer"
               href="https://www.instagram.com/"
-              className="group rounded-full border-2 hover:border-creatBright transition-colors p-4"
+              className="group block"
             >
-              <FaInstagram className="text-2xl group-hover:text-creatBright transition-colors" />
+              <SiInstagram className="md:text-4xl text-xl group-hover:text-creatBright transition-colors" />
             </Link>
             <Link
               aria-label="Visit Our Linkedin Page"
               rel="noopener noreferrer"
               href="https://linkedin.com/"
-              className="group rounded-full border-2 hover:border-creatBright transition-colors p-4"
+              className="group block"
             >
-              <FaLinkedinIn className="text-2xl group-hover:text-creatBright transition-colors" />
+              <SiLinkedin className="md:text-4xl text-xl group-hover:text-creatBright transition-colors" />
             </Link>
             <Link
               aria-label="Visit Our Facebook Page"
               rel="noopener noreferrer"
               href="https://www.facebook.com/"
-              className="group rounded-full border-2 hover:border-creatBright transition-colors p-4"
+              className="group block"
             >
-              <FaFacebookF className="text-2xl group-hover:text-creatBright transition-colors" />
+              <SiFacebook className="md:text-4xl text-xl group-hover:text-creatBright transition-colors" />
             </Link>
           </div>
         </div>
-        <div className="w-full flex items-top justify-around py-10 border-y border-white/10">
-          <div className="flex flex-col gap-y-8 p-8">
-            <h1 className="text-3xl font-bold">Address</h1>
+        <div className="w-full flex md:flex-row flex-col items-top justify-around md:py-10 border-y border-white/10">
+          <div className="flex flex-col md:gap-y-8 md:p-8 py-3 gap-y-2">
+            <h1 className="md:text-3xl text-lg font-bold">Address</h1>
             <Link
               aria-label="View on Google Maps"
               rel="noopener noreferrer"
               href="https://maps.app.goo.gl/CS2koQtTpYHTVvRq7"
               target="_blank"
             >
-              <p className="text-lg font-medium hover:text-creatBright transition-colors">
+              <p className="md:text-lg font-medium hover:text-creatBright transition-colors">
                 Baku, Azerbaijan <br />
                 Samad Vurgun st. 110 <br />
                 Vurgun Residence Building <br />
@@ -124,53 +125,54 @@ const Footer = () => {
               </p>
             </Link>
           </div>
-          <div className="flex flex-col gap-y-8 p-8">
-            <h1 className="text-3xl font-bold">Quick Links</h1>
-            <div className="flex flex-col gap-y-2">
+          <div className="flex flex-col md:gap-y-8 md:p-8 py-3 gap-y-2">
+            <h1 className="md:text-3xl text-lg font-bold">Quick Links</h1>
+            <div className="flex flex-col md:gap-y-2">
               {items.map((item, index) => (
                 <Link
                   aria-label={`Visit ${item.label} Page`}
                   rel="noopener noreferrer"
                   key={index}
                   href={item.href}
-                  className="text-lg font-medium hover:text-creatBright transition-colors capitalize"
+                  className="md:text-lg font-medium hover:text-creatBright transition-colors capitalize"
                 >
                   {item.label}
                 </Link>
               ))}
             </div>
           </div>
-          <div className="flex flex-col relative gap-y-8 p-8 bg-white/5 rounded-2xl backdrop-blur-sm border border-white/10">
-            <h1 className="text-3xl font-bold">Services</h1>
-            <div className="grid grid-cols-2 gap-y-2 gap-x-4">
+          <div className="flex flex-col relative md:gap-y-8 gap-y-2 md:p-8 p-3 bg-white/5 rounded-2xl md:backdrop-blur-sm border border-white/10">
+            <h1 className="md:text-3xl text-lg font-bold">Services</h1>
+            <div className="md:grid grid-cols-2 md:gap-y-2 gap-y-1 md:gap-x-4 flex flex-col">
               {Object.entries(categories).map(([key, category]) => (
                 <Link
                   aria-label={`Visit ${category.name} Page`}
                   rel="noopener noreferrer"
                   key={key}
                   href={`/services?service=${key}`}
-                  className="text-lg font-medium hover:text-creatBright transition-colors"
+                  className="md:text-lg font-medium hover:text-creatBright \
+        transition-colors border-b border-white/10 last:border-0 md:border-0"
                 >
                   {category.name}
                 </Link>
               ))}
             </div>
           </div>
-          <div className="flex flex-col gap-y-8 p-8">
-            <h1 className="text-3xl font-bold">Contacts</h1>
-            <div className="flex flex-col gap-y-4">
+          <div className="flex flex-col md:gap-y-8 gap-y-2 md:p-8 py-3">
+            <h1 className="md:text-3xl text-lg font-bold">Contacts</h1>
+            <div className="flex flex-col md:gap-y-4 gap-y-2">
               <div className="flex flex-col">
                 <a
                   aria-label="Call +994554158215"
                   href="tel:+994554158215"
-                  className="text-lg font-medium hover:text-creatBright transition-colors"
+                  className="md:text-lg font-medium hover:text-creatBright transition-colors"
                 >
                   (994) 55 415 82 15
                 </a>
                 <a
                   aria-label="Call +994502242944"
                   href="tel:+994502242944"
-                  className="text-lg font-medium hover:text-creatBright transition-colors"
+                  className="md:text-lg font-medium hover:text-creatBright transition-colors"
                 >
                   (994) 50 224 29 44
                 </a>
@@ -179,14 +181,14 @@ const Footer = () => {
                 <a
                   aria-label="Email info@creat.az"
                   href="mailto:info@creat.az"
-                  className="text-lg font-medium hover:text-creatBright transition-colors"
+                  className="md:text-lg font-medium hover:text-creatBright transition-colors"
                 >
                   info@creat.az
                 </a>
                 <a
                   aria-label="Email contact@creat.az"
                   href="mailto:contact@creat.az"
-                  className="text-lg font-medium hover:text-creatBright transition-colors"
+                  className="md:text-lg font-medium hover:text-creatBright transition-colors"
                 >
                   contact@creat.az
                 </a>
@@ -194,8 +196,8 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center h-20 w-full gap-x-4 text-lg">
-          <div className="flex gap-x-2 items-end leading-none">
+        <div className="flex items-center justify-center md:h-20 py-3 md:py-0 w-full md:gap-x-4 gap-x-2 md:text-lg text-sm">
+          <div className="flex md:gap-x-2 items-end leading-none">
             <span>©</span>
             <span className="text-creatBright mx-1 font-medium">Creat LLC</span>
             <span>2025</span>

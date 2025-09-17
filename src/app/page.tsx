@@ -478,10 +478,10 @@ export default function Home() {
                                   }}
                                   className="absolute w-full h-full rounded-[13px] bg-creatBright/50 -z-10 shadow-drop-shadow-lg-creatBright backdrop-blur"
                                 />
-                                <div className="w-[240px] drop-shadow-lg">
+                                <div className="w-[240px] drop-shadow-lg h-[120px]">
                                   <img
                                     src={partner.logo}
-                                    alt=""
+                                    alt={partner.name}
                                     className="w-full h-full select-none pointer-events-none"
                                   />
                                 </div>
