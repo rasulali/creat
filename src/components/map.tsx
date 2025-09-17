@@ -30,28 +30,21 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ className }) => {
           mapTypeControl={false}
         >
           <AdvancedMarker
+            onClick={() => setIsHovered(!isHovered)}
             position={position}
-            onClick={() => {
-              window.open(
-                "https://maps.app.goo.gl/eRN5D4TGCibRiumn6",
-                "_blank",
-              );
-            }}
           >
             <div
               className="relative"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={(e) => {
-                // Check if mouse is moving to the card area
                 const rect = e.currentTarget.getBoundingClientRect();
                 const cardArea = {
                   left: rect.left - 50,
                   right: rect.right + 50,
-                  top: rect.top - 100, // Extended upward to cover card area
+                  top: rect.top - 100,
                   bottom: rect.bottom,
                 };
 
-                // If mouse is not in the extended card area, hide
                 if (
                   e.clientX < cardArea.left ||
                   e.clientX > cardArea.right ||
@@ -80,7 +73,6 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ className }) => {
                     }}
                     className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 pointer-events-auto z-10"
                     onMouseLeave={(e) => {
-                      // Check if mouse is moving back to flower area
                       const flowerContainer =
                         e.currentTarget.parentElement?.parentElement;
                       if (flowerContainer) {
@@ -89,10 +81,9 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ className }) => {
                           left: rect.left - 10,
                           right: rect.right + 10,
                           top: rect.top - 10,
-                          bottom: rect.bottom + 30, // Extended downward to cover gap
+                          bottom: rect.bottom + 30,
                         };
 
-                        // If mouse is not in the extended flower area, hide
                         if (
                           e.clientX < extendedArea.left ||
                           e.clientX > extendedArea.right ||
@@ -116,7 +107,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ className }) => {
                         <div className="flex items-center gap-3">
                           <div className="flex-shrink-0">
                             <Image
-                              src="/vurgun.jpg"
+                              src="/vurgun.webp"
                               alt="Vurgun Residence Building"
                               width={64}
                               height={64}
@@ -134,7 +125,6 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ className }) => {
                           </div>
                         </div>
 
-                        {/* Arrow pointing down */}
                         <div className="absolute top-full left-1/2 transform -translate-x-1/2">
                           <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white"></div>
                           <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-200 absolute top-0 left-1/2 transform -translate-x-1/2 translate-y-px"></div>
