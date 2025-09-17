@@ -15,6 +15,7 @@ import { BiSolidQuoteAltLeft, BiSolidQuoteAltRight } from "react-icons/bi";
 import Image from "next/image";
 import Head from "next/head";
 import { aboutSchema } from "@/lib/schemas";
+import { cn } from "@/lib/utils";
 
 const About = () => {
   interface Service {
@@ -239,532 +240,548 @@ const About = () => {
         />
       </Head>
       <section className="w-full relative font-comfortaa overflow-hidden">
-        <Nav isTransparent={true} />
-        <div className="w-full h-[150vh] bg-creatBG">
-          <div className="relative w-full h-3/5">
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center">
-              <div className="flex flex-col">
-                <TextAnim dir=">">
-                  <h1 className="text-5xl text-white/90">
-                    Baku -Heart of Engineering
+        <Nav />
+        <div className="w-full flex flex-col h-[80svh] items-center justify-center relative">
+          <div className="absolute inset-0 -z-10">
+            <div className="relative w-full h-full">
+              <Image
+                src={`${BASE_URI}/home/about/banner.jpg`}
+                alt="Neft Daşları, known as Oil Rocks, an industrial settlement in the Caspian Sea off the coast of Baku, Azerbaijan in 1997."
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 70vw"
+                quality={75}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-[#040b18]/20" />
+            </div>
+          </div>
+          <div className="flex flex-col px-6">
+            <TextAnim dir=">">
+              <h1 className="md:text-5xl text-2xl text-white/90">
+                Baku -Heart of Engineering
+              </h1>
+            </TextAnim>
+            <TextAnim dir=">" delay={0.1}>
+              <p className="mt-4 md:text-xl text-white/70 max-w-2xl font-semibold">
+                Based in Azerbaijan, Baku — working with 29+ partners across 8+
+                countries. We deliver renewable energy, mining, transport and
+                industrial projects from feasibility to handover.
+              </p>
+            </TextAnim>
+          </div>
+        </div>
+        <div
+          className="flex md:flex-row md:py-24 flex-col justify-center \
+          items-center md:gap-x-24 gap-y-12 py-12"
+        >
+          <ParagraphAnimation>
+            <GlareCard
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="text-white/70 md:w-23 w-12 mt-3 md:mt-0"
+                  viewBox="0 0 512.002 512.002"
+                >
+                  <g fill="currentColor">
+                    <path d="M499.442 52.325c5.632 0 10.199-4.566 10.199-10.199V10.199C509.641 4.566 505.074 0 499.442 0H12.56C6.928 0 2.361 4.566 2.361 10.199v31.927c0 5.633 4.567 10.199 10.199 10.199h18.735v23.501H12.56c-5.632 0-10.199 4.566-10.199 10.199v31.927c0 5.633 4.567 10.199 10.199 10.199h19.233v329.75c0 2.957 1.266 5.612 3.276 7.475a31.455 31.455 0 0 0-3.775 14.974c0 17.452 14.198 31.65 31.649 31.65 17.452 0 31.65-14.198 31.65-31.65a31.452 31.452 0 0 0-3.775-14.974 10.158 10.158 0 0 0 3.276-7.474v-329.75H224.85v20.507h-38.295c-5.632 0-10.199 4.566-10.199 10.199v52.275c0 19.594 7.125 37.545 18.903 51.434-.036.346-.054.697-.054 1.052v10.974c0 30.046 21.915 55.056 50.596 59.923v12.431c0 5.633 4.567 10.199 10.199 10.199 14.384 0 26.085 11.703 26.085 26.085 0 14.383-11.701 26.087-26.084 26.087s-26.085-11.703-26.085-26.086c0-5.633-4.567-10.199-10.199-10.199s-10.199 4.566-10.199 10.199c0 25.632 20.852 46.484 46.484 46.484s46.484-20.852 46.484-46.484c0-22.128-15.543-40.696-36.285-45.357v-3.358c28.682-4.867 50.596-29.877 50.596-59.923V263.62c0-.355-.018-.706-.054-1.052 11.778-13.888 18.903-31.84 18.903-51.434V158.86c0-5.633-4.567-10.199-10.199-10.199h-38.295v-20.508h130.755v329.75a10.16 10.16 0 0 0 3.276 7.474 31.455 31.455 0 0 0-3.775 14.974c0 17.452 14.198 31.65 31.65 31.65 17.451 0 31.649-14.198 31.649-31.65a31.452 31.452 0 0 0-3.775-14.974 10.16 10.16 0 0 0 3.276-7.475v-329.75h19.233c5.632 0 10.199-4.566 10.199-10.199V86.025c0-5.633-4.567-10.199-10.199-10.199h-18.735V52.325h18.736zM62.944 491.602c-6.204 0-11.251-5.048-11.251-11.252 0-6.204 5.047-11.252 11.251-11.252s11.252 5.048 11.252 11.252c0 6.204-5.047 11.252-11.252 11.252zm-10.753-43.9V128.151h21.506v319.551H52.191zm124.165-339.949H22.76V96.224h153.597v11.529zm0-31.927H51.694V52.325h124.663v23.501zm89.845 237.858v-4.952c0-5.633-4.567-10.199-10.199-10.199s-10.199 4.566-10.199 10.199v4.952c-15.674-4.093-27.658-17.388-29.833-33.741 11.772 6.875 25.444 10.836 40.032 10.836s28.261-3.96 40.032-10.836c-2.175 16.353-14.159 29.648-29.833 33.741zm49.048-144.626v42.076c0 32.669-26.578 59.247-59.247 59.247s-59.247-26.578-59.247-59.247v-42.076h118.494zm-70-20.399v-20.508h21.506v20.508h-21.506zm70-40.906H196.755V52.325h118.494v55.428zM449.06 491.602c-6.204 0-11.252-5.048-11.252-11.252 0-6.204 5.048-11.252 11.252-11.252 6.204 0 11.251 5.048 11.251 11.252-.001 6.204-5.047 11.252-11.251 11.252zm-10.753-43.9V128.151h21.506v319.551h-21.506zm50.939-351.478v11.528H335.648V96.224h153.598zM335.648 75.826V52.325h124.664v23.501H335.648zM22.76 31.927V20.398h466.486v11.528H22.76z" />
+                    <path d="M256.002 191.56c-14.977 0-27.16 12.184-27.16 27.16 0 14.977 12.184 27.161 27.16 27.161 14.977 0 27.16-12.184 27.16-27.161.001-14.976-12.183-27.16-27.16-27.16zm0 33.923c-3.728 0-6.762-3.033-6.762-6.762s3.034-6.762 6.762-6.762c3.728 0 6.762 3.033 6.762 6.762s-3.034 6.762-6.762 6.762z" />
+                  </g>
+                </svg>
+              }
+              name="70+ Major Projects"
+              text="Delivering engineering excellence across renewable energy, mining, and urban development sectors nationwide"
+            />
+          </ParagraphAnimation>
+          <ParagraphAnimation delay={0.2}>
+            <GlareCard
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 256 256"
+                  className="text-white/70 md:w-23 w-12"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M42.484 236.397v-85.968c-11.644 18.479-21.063 30.425-23.971 28.746-3.43-1.98 5.019-21.268 18.797-45.976a10.278 10.278 0 0 1 .377-6.81c-13.563-24.396-21.832-43.362-18.433-45.325 3.429-1.98 15.904 14.973 30.408 39.248a10.254 10.254 0 0 1 5.746 3.751c27.895.455 48.444 2.775 48.444 6.7 0 3.959-20.925 6.287-49.209 6.71a10.314 10.314 0 0 1-2.382 1.844v94.004c23.886-7.021 49.33-10.82 75.739-10.82h.056V85.474c2.047.888 4.3 1.387 6.67 1.387 6.331 0 11.852-3.52 14.72-8.702 18.02 32.692 28.834 57.827 24.226 60.486-3.981 2.299-16.737-13.77-32.581-38.788v122.957c21.262 1.016 41.818 4.49 61.343 10.12v-70.79c-.835.381-1.789.81-2.219.979-16.743 6.588-29.32 10.151-30.332 7.747-1.081-2.565 11.869-9.791 30.094-17.784a7.125 7.125 0 0 1 2.923-3.357l.022-.017c2.758-19.49 6.186-33.699 8.926-33.355 2.766.348 2.544 15.229.343 35.064a7.181 7.181 0 0 1 1.54 4.188c15.458 12.105 26.012 22.148 24.345 24.346-1.55 2.045-13.612-4.872-28.039-15.198v70.49a258.67 258.67 0 0 1 43.962 18.75H2a258.64 258.64 0 0 1 40.484-17.6zm78.588-176.13c-37.599.72-65.036 3.926-65.036 9.273 0 5.314 27.109 8.514 64.361 9.26a16.686 16.686 0 0 1-2.487-8.755c0-3.649 1.181-7.019 3.162-9.778zm29.06 3.059c18.224-32.993 29.208-58.431 24.57-61.108-4.597-2.655-20.897 19.178-40.146 51.019.057-.001.112-.009.17-.009 6.884.001 12.808 4.163 15.406 10.098zm-4.496 6.719c0-6.016-4.894-10.91-10.91-10.91s-10.91 4.894-10.91 10.91 4.894 10.91 10.91 10.91 10.91-4.894 10.91-10.91z"
+                  />
+                </svg>
+              }
+              name="Green Energy Leader"
+              text="Pioneering Wind and Solar projects driving Azerbaijan's sustainable energy transition"
+            />
+          </ParagraphAnimation>
+          <ParagraphAnimation delay={0.4}>
+            <GlareCard
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="text-white/70 md:w-23 w-12"
+                  viewBox="0 0 256 256"
+                >
+                  <path
+                    fill="currentColor"
+                    d="m247.777 109.075-24.592-47.096a12.055 12.055 0 0 0-16.004-5.18l-24.125 12.062h-18.192L131.08 53.575a12.018 12.018 0 0 0-8.305-.587L72.598 67.616 48.819 55.728a12.058 12.058 0 0 0-16.004 5.178L8.223 108.003a12 12 0 0 0 5.27 16.288l24.36 12.18 54.344 42.494a11.917 11.917 0 0 0 4.482 2.19l57.957 14.489a11.91 11.91 0 0 0 2.882.353 12.068 12.068 0 0 0 8.513-3.51l36.797-36.797c.074-.074.145-.15.213-.23l15.474-18.102 23.992-11.996a12.001 12.001 0 0 0 5.27-16.287Zm-48.415 38.377-41.01-29.826a4.001 4.001 0 0 0-4.752.035l-12.8 9.6a28.144 28.144 0 0 1-33.6 0l-5.42-4.065a4 4 0 0 1-.43-6.028l39.135-39.135a4.028 4.028 0 0 1 2.828-1.172h20.676l.009.001h17.578l29.627 56.737ZM15.055 114.789a3.97 3.97 0 0 1 .26-3.083L39.906 64.61a4.018 4.018 0 0 1 3.562-2.144 3.951 3.951 0 0 1 1.772.418l21.33 10.664-28.298 54.19-21.202-10.602a3.97 3.97 0 0 1-2.016-2.346Zm145.32 72.041a4.015 4.015 0 0 1-3.8 1.052l-57.957-14.49a3.97 3.97 0 0 1-1.493-.729l-52.038-40.69L74.653 75.35l50.36-14.682a4 4 0 0 1 2.77.196l17.674 7.997h-2.144a11.92 11.92 0 0 0-8.484 3.515l-39.135 39.135a12 12 0 0 0 1.285 18.085l5.42 4.066a36.189 36.189 0 0 0 43.202 0l10.435-7.828 37.826 27.509Zm80.57-70.97a3.97 3.97 0 0 1-2.016 2.347l-21.202 10.601-28.297-54.19 21.329-10.663a4.017 4.017 0 0 1 5.334 1.726l24.593 47.096a3.97 3.97 0 0 1 .26 3.084Zm-125.064 97.971a3.996 3.996 0 0 1-4.85 2.911l-30.14-7.534a12.065 12.065 0 0 1-4.963-2.586L53.376 187.02a4 4 0 1 1 5.248-6.038l22.553 19.604a4.038 4.038 0 0 0 1.656.862l30.137 7.534a4 4 0 0 1 2.91 4.85Z"
+                  />
+                </svg>
+              }
+              name="Global Partnerships"
+              text="Collaborating with 29+ international partners across 8+ countries for innovative engineering solutions"
+            />
+          </ParagraphAnimation>
+        </div>
+        <div className="flex flex-col md:gap-y-24 md:py-48 py-12 relative">
+          <div className="flex flex-col md:px-28 px-6 h-full w-full max-w-[1920px] mx-auto justify-center">
+            <div className="flex flex-col md:gap-y-12 gap-y-6 relative">
+              <GearAnim className="-translate-y-2/3 -translate-x-28 hidden md:block" />
+              <div className="flex flex-col md:gap-y-6 gap-y-2">
+                <TextAnim>
+                  <h1 className="md:text-5xl text-2xl text-white/90">
+                    Who We Are?
                   </h1>
                 </TextAnim>
-                <TextAnim dir=">" delay={0.1}>
-                  <p className="mt-4 text-xl text-white/70 max-w-2xl font-semibold">
-                    Based in Azerbaijan, Baku — working with 29+ partners across
-                    8+ countries. We deliver renewable energy, mining, transport
-                    and industrial projects from feasibility to handover.
+                <TextAnim delay={0.1}>
+                  <p className="md:text-3xl md:w-2/3 text-lg tracking-tighter text-white/70">
+                    <span className="text-creatBright mr-2">
+                      CREAT Company LLC
+                    </span>
+                    is a professional firm specializing in project management,
+                    offering modern approaches and innovative solutions
                   </p>
                 </TextAnim>
               </div>
+              <div>
+                <TextAnim delay={0.2}>
+                  <h1 className="md:text-3xl text-white/70 md:w-2/3 text-lg">
+                    Established in{" "}
+                    <span className="relative">
+                      2019
+                      <div className="absolute h-px w-full bottom-0 left-0 bg-creatBright"></div>
+                    </span>
+                    , our company has quickly gained recognition in the industry
+                    by successfully completing numerous projects both locally
+                    and internationally
+                  </h1>
+                </TextAnim>
+              </div>
             </div>
-            <Image
-              src={`${BASE_URI}/home/about/banner.jpg`}
-              alt="Neft Daşları, known as Oil Rocks, an industrial settlement in the Caspian Sea off the coast of Baku, Azerbaijan in 1997."
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 70vw"
-              quality={75}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-[#040b18]/20" />
           </div>
-          <div className="w-full h-2/5 flex justify-center items-end">
-            <div className="flex items-center gap-x-24">
-              <ParagraphAnimation>
-                <GlareCard
-                  icon={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="text-white/70"
-                      width="92"
-                      viewBox="0 0 512.002 512.002"
-                    >
-                      <g fill="currentColor">
-                        <path d="M499.442 52.325c5.632 0 10.199-4.566 10.199-10.199V10.199C509.641 4.566 505.074 0 499.442 0H12.56C6.928 0 2.361 4.566 2.361 10.199v31.927c0 5.633 4.567 10.199 10.199 10.199h18.735v23.501H12.56c-5.632 0-10.199 4.566-10.199 10.199v31.927c0 5.633 4.567 10.199 10.199 10.199h19.233v329.75c0 2.957 1.266 5.612 3.276 7.475a31.455 31.455 0 0 0-3.775 14.974c0 17.452 14.198 31.65 31.649 31.65 17.452 0 31.65-14.198 31.65-31.65a31.452 31.452 0 0 0-3.775-14.974 10.158 10.158 0 0 0 3.276-7.474v-329.75H224.85v20.507h-38.295c-5.632 0-10.199 4.566-10.199 10.199v52.275c0 19.594 7.125 37.545 18.903 51.434-.036.346-.054.697-.054 1.052v10.974c0 30.046 21.915 55.056 50.596 59.923v12.431c0 5.633 4.567 10.199 10.199 10.199 14.384 0 26.085 11.703 26.085 26.085 0 14.383-11.701 26.087-26.084 26.087s-26.085-11.703-26.085-26.086c0-5.633-4.567-10.199-10.199-10.199s-10.199 4.566-10.199 10.199c0 25.632 20.852 46.484 46.484 46.484s46.484-20.852 46.484-46.484c0-22.128-15.543-40.696-36.285-45.357v-3.358c28.682-4.867 50.596-29.877 50.596-59.923V263.62c0-.355-.018-.706-.054-1.052 11.778-13.888 18.903-31.84 18.903-51.434V158.86c0-5.633-4.567-10.199-10.199-10.199h-38.295v-20.508h130.755v329.75a10.16 10.16 0 0 0 3.276 7.474 31.455 31.455 0 0 0-3.775 14.974c0 17.452 14.198 31.65 31.65 31.65 17.451 0 31.649-14.198 31.649-31.65a31.452 31.452 0 0 0-3.775-14.974 10.16 10.16 0 0 0 3.276-7.475v-329.75h19.233c5.632 0 10.199-4.566 10.199-10.199V86.025c0-5.633-4.567-10.199-10.199-10.199h-18.735V52.325h18.736zM62.944 491.602c-6.204 0-11.251-5.048-11.251-11.252 0-6.204 5.047-11.252 11.251-11.252s11.252 5.048 11.252 11.252c0 6.204-5.047 11.252-11.252 11.252zm-10.753-43.9V128.151h21.506v319.551H52.191zm124.165-339.949H22.76V96.224h153.597v11.529zm0-31.927H51.694V52.325h124.663v23.501zm89.845 237.858v-4.952c0-5.633-4.567-10.199-10.199-10.199s-10.199 4.566-10.199 10.199v4.952c-15.674-4.093-27.658-17.388-29.833-33.741 11.772 6.875 25.444 10.836 40.032 10.836s28.261-3.96 40.032-10.836c-2.175 16.353-14.159 29.648-29.833 33.741zm49.048-144.626v42.076c0 32.669-26.578 59.247-59.247 59.247s-59.247-26.578-59.247-59.247v-42.076h118.494zm-70-20.399v-20.508h21.506v20.508h-21.506zm70-40.906H196.755V52.325h118.494v55.428zM449.06 491.602c-6.204 0-11.252-5.048-11.252-11.252 0-6.204 5.048-11.252 11.252-11.252 6.204 0 11.251 5.048 11.251 11.252-.001 6.204-5.047 11.252-11.251 11.252zm-10.753-43.9V128.151h21.506v319.551h-21.506zm50.939-351.478v11.528H335.648V96.224h153.598zM335.648 75.826V52.325h124.664v23.501H335.648zM22.76 31.927V20.398h466.486v11.528H22.76z" />
-                        <path d="M256.002 191.56c-14.977 0-27.16 12.184-27.16 27.16 0 14.977 12.184 27.161 27.16 27.161 14.977 0 27.16-12.184 27.16-27.161.001-14.976-12.183-27.16-27.16-27.16zm0 33.923c-3.728 0-6.762-3.033-6.762-6.762s3.034-6.762 6.762-6.762c3.728 0 6.762 3.033 6.762 6.762s-3.034 6.762-6.762 6.762z" />
-                      </g>
-                    </svg>
-                  }
-                  name="70+ Major Projects"
-                  text="Delivering engineering excellence across renewable energy, mining, and urban development sectors nationwide"
-                />
-              </ParagraphAnimation>
-              <ParagraphAnimation delay={0.2}>
-                <GlareCard
-                  icon={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 256 256"
-                      className="text-white/70"
-                      width="96"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M42.484 236.397v-85.968c-11.644 18.479-21.063 30.425-23.971 28.746-3.43-1.98 5.019-21.268 18.797-45.976a10.278 10.278 0 0 1 .377-6.81c-13.563-24.396-21.832-43.362-18.433-45.325 3.429-1.98 15.904 14.973 30.408 39.248a10.254 10.254 0 0 1 5.746 3.751c27.895.455 48.444 2.775 48.444 6.7 0 3.959-20.925 6.287-49.209 6.71a10.314 10.314 0 0 1-2.382 1.844v94.004c23.886-7.021 49.33-10.82 75.739-10.82h.056V85.474c2.047.888 4.3 1.387 6.67 1.387 6.331 0 11.852-3.52 14.72-8.702 18.02 32.692 28.834 57.827 24.226 60.486-3.981 2.299-16.737-13.77-32.581-38.788v122.957c21.262 1.016 41.818 4.49 61.343 10.12v-70.79c-.835.381-1.789.81-2.219.979-16.743 6.588-29.32 10.151-30.332 7.747-1.081-2.565 11.869-9.791 30.094-17.784a7.125 7.125 0 0 1 2.923-3.357l.022-.017c2.758-19.49 6.186-33.699 8.926-33.355 2.766.348 2.544 15.229.343 35.064a7.181 7.181 0 0 1 1.54 4.188c15.458 12.105 26.012 22.148 24.345 24.346-1.55 2.045-13.612-4.872-28.039-15.198v70.49a258.67 258.67 0 0 1 43.962 18.75H2a258.64 258.64 0 0 1 40.484-17.6zm78.588-176.13c-37.599.72-65.036 3.926-65.036 9.273 0 5.314 27.109 8.514 64.361 9.26a16.686 16.686 0 0 1-2.487-8.755c0-3.649 1.181-7.019 3.162-9.778zm29.06 3.059c18.224-32.993 29.208-58.431 24.57-61.108-4.597-2.655-20.897 19.178-40.146 51.019.057-.001.112-.009.17-.009 6.884.001 12.808 4.163 15.406 10.098zm-4.496 6.719c0-6.016-4.894-10.91-10.91-10.91s-10.91 4.894-10.91 10.91 4.894 10.91 10.91 10.91 10.91-4.894 10.91-10.91z"
-                      />
-                    </svg>
-                  }
-                  name="Green Energy Leader"
-                  text="Pioneering Wind and Solar projects driving Azerbaijan's sustainable energy transition"
-                />
-              </ParagraphAnimation>
-              <ParagraphAnimation delay={0.4}>
-                <GlareCard
-                  icon={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="text-white/70"
-                      viewBox="0 0 256 256"
-                      width="96"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="m247.777 109.075-24.592-47.096a12.055 12.055 0 0 0-16.004-5.18l-24.125 12.062h-18.192L131.08 53.575a12.018 12.018 0 0 0-8.305-.587L72.598 67.616 48.819 55.728a12.058 12.058 0 0 0-16.004 5.178L8.223 108.003a12 12 0 0 0 5.27 16.288l24.36 12.18 54.344 42.494a11.917 11.917 0 0 0 4.482 2.19l57.957 14.489a11.91 11.91 0 0 0 2.882.353 12.068 12.068 0 0 0 8.513-3.51l36.797-36.797c.074-.074.145-.15.213-.23l15.474-18.102 23.992-11.996a12.001 12.001 0 0 0 5.27-16.287Zm-48.415 38.377-41.01-29.826a4.001 4.001 0 0 0-4.752.035l-12.8 9.6a28.144 28.144 0 0 1-33.6 0l-5.42-4.065a4 4 0 0 1-.43-6.028l39.135-39.135a4.028 4.028 0 0 1 2.828-1.172h20.676l.009.001h17.578l29.627 56.737ZM15.055 114.789a3.97 3.97 0 0 1 .26-3.083L39.906 64.61a4.018 4.018 0 0 1 3.562-2.144 3.951 3.951 0 0 1 1.772.418l21.33 10.664-28.298 54.19-21.202-10.602a3.97 3.97 0 0 1-2.016-2.346Zm145.32 72.041a4.015 4.015 0 0 1-3.8 1.052l-57.957-14.49a3.97 3.97 0 0 1-1.493-.729l-52.038-40.69L74.653 75.35l50.36-14.682a4 4 0 0 1 2.77.196l17.674 7.997h-2.144a11.92 11.92 0 0 0-8.484 3.515l-39.135 39.135a12 12 0 0 0 1.285 18.085l5.42 4.066a36.189 36.189 0 0 0 43.202 0l10.435-7.828 37.826 27.509Zm80.57-70.97a3.97 3.97 0 0 1-2.016 2.347l-21.202 10.601-28.297-54.19 21.329-10.663a4.017 4.017 0 0 1 5.334 1.726l24.593 47.096a3.97 3.97 0 0 1 .26 3.084Zm-125.064 97.971a3.996 3.996 0 0 1-4.85 2.911l-30.14-7.534a12.065 12.065 0 0 1-4.963-2.586L53.376 187.02a4 4 0 1 1 5.248-6.038l22.553 19.604a4.038 4.038 0 0 0 1.656.862l30.137 7.534a4 4 0 0 1 2.91 4.85Z"
-                      />
-                    </svg>
-                  }
-                  name="Global Partnerships"
-                  text="Collaborating with 29+ international partners across 8+ countries for innovative engineering solutions"
-                />
-              </ParagraphAnimation>
+          <div className="flex flex-col md:px-28 px-6 mt-12 md:mt-0 h-full w-full max-w-[1920px] mx-auto justify-center">
+            <div className="flex flex-col md:gap-y-12 gap-y-6 relative text-right">
+              <TargetAnim className="-translate-y-1/2 translate-x-28 hidden md:block" />
+              <div className="flex flex-col md:gap-y-6 gap-y-2">
+                <TextAnim dir="<">
+                  <h1 className="md:text-5xl text-2xl text-white/90">
+                    Our Misson
+                  </h1>
+                </TextAnim>
+                <TextAnim delay={0.1} dir="<">
+                  <p className="md:text-3xl text-lg ml-auto md:w-2/3 tracking-tighter text-white/70">
+                    Our mission is to fully meet our clients' needs, support
+                    their goals, and ultimately ensure the successful completion
+                    of their projects.
+                  </p>
+                </TextAnim>
+              </div>
+              <div>
+                <TextAnim delay={0.2} dir="<">
+                  <h1 className="md:text-3xl ml-auto md:w-2/3 text-lg text-white/70">
+                    At{" "}
+                    <span className="text-creatBright">CREAT Company LLC</span>,
+                    we offer customized approaches to project management,
+                    tailoring our solutions to the specific requirements of each
+                    project. Our primary focus is to earn our clients' trust and
+                    provide them with top-quality services that meet their exact
+                    demands
+                  </h1>
+                </TextAnim>
+              </div>
             </div>
           </div>
         </div>
-        <div className="bg-creatBG">
-          <div className="flex flex-col gap-y-24 py-48 relative">
-            <div className="flex flex-col px-28 h-full w-full max-w-[1920px] mx-auto justify-center">
-              <div className="flex flex-col gap-y-12 relative">
-                <GearAnim className="-translate-y-2/3 -translate-x-28" />
-                <div className="flex flex-col gap-y-6">
-                  <TextAnim>
-                    <h1 className="text-5xl text-white/90">Who We Are?</h1>
-                  </TextAnim>
-                  <TextAnim delay={0.1}>
-                    <p className="text-3xl w-2/3 tracking-tighter text-white/70">
-                      <span className="text-creatBright">
-                        CREAT Company LLC
-                      </span>{" "}
-                      is a professional firm specializing in project management,
-                      offering modern approaches and innovative solutions
-                    </p>
-                  </TextAnim>
-                </div>
-                <div>
-                  <TextAnim delay={0.2}>
-                    <h1 className="text-3xl text-white/70 w-2/3">
-                      Established in{" "}
-                      <span className="relative">
-                        2019
-                        <div className="absolute h-px w-full bottom-0 left-0 bg-creatBright"></div>
-                      </span>
-                      , our company has quickly gained recognition in the
-                      industry by successfully completing numerous projects both
-                      locally and internationally
-                    </h1>
-                  </TextAnim>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col px-28 h-full w-full max-w-[1920px] mx-auto justify-center">
-              <div className="flex flex-col gap-y-12 relative text-right">
-                <TargetAnim className="-translate-y-1/2 translate-x-28" />
-                <div className="flex flex-col gap-y-6">
-                  <TextAnim dir="<">
-                    <h1 className="text-5xl text-white/90">Our Misson</h1>
-                  </TextAnim>
-                  <TextAnim delay={0.1} dir="<">
-                    <p className="text-3xl ml-auto w-2/3 tracking-tighter text-white/70">
-                      Our mission is to fully meet our clients' needs, support
-                      their goals, and ultimately ensure the successful
-                      completion of their projects.
-                    </p>
-                  </TextAnim>
-                </div>
-                <div>
-                  <TextAnim delay={0.2} dir="<">
-                    <h1 className="text-3xl ml-auto w-2/3 text-white/70">
-                      At{" "}
-                      <span className="text-creatBright">
-                        CREAT Company LLC
-                      </span>
-                      , we offer customized approaches to project management,
-                      tailoring our solutions to the specific requirements of
-                      each project. Our primary focus is to earn our clients'
-                      trust and provide them with top-quality services that meet
-                      their exact demands
-                    </h1>
-                  </TextAnim>
-                </div>
-              </div>
-            </div>
+        <div className="relative bg-creatBGLight md:py-48 p-6 md:px-0">
+          <div
+            className="absolute top-0 left-0 w-full h-[100px] \
+            pointer-events-none -translate-y-1/2 z-10 hidden md:block"
+          >
+            <svg
+              width="100%"
+              height="100%"
+              preserveAspectRatio="none"
+              viewBox="0 0 1920 100"
+            >
+              <path
+                d="M0 13L29.2 13.8C58.3 14.7 116.7 16.3 174.8 15.8C233 15.3 291 12.7 349.2 11.5C407.3 10.3 465.7 10.7 523.8 11.8C582 13 640 15 698.2 14.7C756.3 14.3 814.7 11.7 872.8 11.3C931 11 989 13 1047.2 14.2C1105.3 15.3 1163.7 15.7 1221.8 14.7C1280 13.7 1338 11.3 1396.2 11.7C1454.3 12 1512.7 15 1570.8 16.3C1629 17.7 1687 17.3 1745.2 17.2C1803.3 17 1861.7 17 1890.8 17L1920 17L1920 0L1890.8 0C1861.7 0 1803.3 0 1745.2 0C1687 0 1629 0 1570.8 0C1512.7 0 1454.3 0 1396.2 0C1338 0 1280 0 1221.8 0C1163.7 0 1105.3 0 1047.2 0C989 0 931 0 872.8 0C814.7 0 756.3 0 698.2 0C640 0 582 0 523.8 0C465.7 0 407.3 0 349.2 0C291 0 233 0 174.8 0C116.7 0 58.3 0 29.2 0L0 0Z"
+                fill="#081731"
+              ></path>
+              <path
+                d="M0 26L29.2 28.3C58.3 30.7 116.7 35.3 174.8 36.7C233 38 291 36 349.2 36.8C407.3 37.7 465.7 41.3 523.8 45.2C582 49 640 53 698.2 53C756.3 53 814.7 49 872.8 44.8C931 40.7 989 36.3 1047.2 35.3C1105.3 34.3 1163.7 36.7 1221.8 35.5C1280 34.3 1338 29.7 1396.2 33C1454.3 36.3 1512.7 47.7 1570.8 53C1629 58.3 1687 57.7 1745.2 55.2C1803.3 52.7 1861.7 48.3 1890.8 46.2L1920 44L1920 15L1890.8 15C1861.7 15 1803.3 15 1745.2 15.2C1687 15.3 1629 15.7 1570.8 14.3C1512.7 13 1454.3 10 1396.2 9.7C1338 9.3 1280 11.7 1221.8 12.7C1163.7 13.7 1105.3 13.3 1047.2 12.2C989 11 931 9 872.8 9.3C814.7 9.7 756.3 12.3 698.2 12.7C640 13 582 11 523.8 9.8C465.7 8.7 407.3 8.3 349.2 9.5C291 10.7 233 13.3 174.8 13.8C116.7 14.3 58.3 12.7 29.2 11.8L0 11Z"
+                fill="#072047"
+              ></path>
+              <path
+                d="M0 47L29.2 46.8C58.3 46.7 116.7 46.3 174.8 46.8C233 47.3 291 48.7 349.2 51.2C407.3 53.7 465.7 57.3 523.8 60.7C582 64 640 67 698.2 66.8C756.3 66.7 814.7 63.3 872.8 59.3C931 55.3 989 50.7 1047.2 49.2C1105.3 47.7 1163.7 49.3 1221.8 48.8C1280 48.3 1338 45.7 1396.2 48C1454.3 50.3 1512.7 57.7 1570.8 62.5C1629 67.3 1687 69.7 1745.2 69.2C1803.3 68.7 1861.7 65.3 1890.8 63.7L1920 62L1920 42L1890.8 44.2C1861.7 46.3 1803.3 50.7 1745.2 53.2C1687 55.7 1629 56.3 1570.8 51C1512.7 45.7 1454.3 34.3 1396.2 31C1338 27.7 1280 32.3 1221.8 33.5C1163.7 34.7 1105.3 32.3 1047.2 33.3C989 34.3 931 38.7 872.8 42.8C814.7 47 756.3 51 698.2 51C640 51 582 47 523.8 43.2C465.7 39.3 407.3 35.7 349.2 34.8C291 34 233 36 174.8 34.7C116.7 33.3 58.3 28.7 29.2 26.3L0 24Z"
+                fill="#052a5f"
+              ></path>
+              <path
+                d="M0 78L29.2 80.2C58.3 82.3 116.7 86.7 174.8 88.3C233 90 291 89 349.2 86.5C407.3 84 465.7 80 523.8 79.5C582 79 640 82 698.2 82.2C756.3 82.3 814.7 79.7 872.8 80.2C931 80.7 989 84.3 1047.2 85.3C1105.3 86.3 1163.7 84.7 1221.8 83.2C1280 81.7 1338 80.3 1396.2 80.2C1454.3 80 1512.7 81 1570.8 82.5C1629 84 1687 86 1745.2 85.8C1803.3 85.7 1861.7 83.3 1890.8 82.2L1920 81L1920 60L1890.8 61.7C1861.7 63.3 1803.3 66.7 1745.2 67.2C1687 67.7 1629 65.3 1570.8 60.5C1512.7 55.7 1454.3 48.3 1396.2 46C1338 43.7 1280 46.3 1221.8 46.8C1163.7 47.3 1105.3 45.7 1047.2 47.2C989 48.7 931 53.3 872.8 57.3C814.7 61.3 756.3 64.7 698.2 64.8C640 65 582 62 523.8 58.7C465.7 55.3 407.3 51.7 349.2 49.2C291 46.7 233 45.3 174.8 44.8C116.7 44.3 58.3 44.7 29.2 44.8L0 45Z"
+                fill="#053478"
+              ></path>
+              <path
+                d="M0 101L29.2 101C58.3 101 116.7 101 174.8 101C233 101 291 101 349.2 101C407.3 101 465.7 101 523.8 101C582 101 640 101 698.2 101C756.3 101 814.7 101 872.8 101C931 101 989 101 1047.2 101C1105.3 101 1163.7 101 1221.8 101C1280 101 1338 101 1396.2 101C1454.3 101 1512.7 101 1570.8 101C1629 101 1687 101 1745.2 101C1803.3 101 1861.7 101 1890.8 101L1920 101L1920 79L1890.8 80.2C1861.7 81.3 1803.3 83.7 1745.2 83.8C1687 84 1629 82 1570.8 80.5C1512.7 79 1454.3 78 1396.2 78.2C1338 78.3 1280 79.7 1221.8 81.2C1163.7 82.7 1105.3 84.3 1047.2 83.3C989 82.3 931 78.7 872.8 78.2C814.7 77.7 756.3 80.3 698.2 80.2C640 80 582 77 523.8 77.5C465.7 78 407.3 82 349.2 84.5C291 87 233 88 174.8 86.3C116.7 84.7 58.3 80.3 29.2 78.2L0 76Z"
+                fill="#0c3d91"
+              ></path>
+            </svg>
           </div>
-          <div className="relative bg-creatBGLight py-48">
-            <div className="absolute top-0 left-0 w-full h-[100px] pointer-events-none -translate-y-1/2 z-10">
-              <svg
-                width="100%"
-                height="100%"
-                preserveAspectRatio="none"
-                viewBox="0 0 1920 100"
-              >
-                <path
-                  d="M0 13L29.2 13.8C58.3 14.7 116.7 16.3 174.8 15.8C233 15.3 291 12.7 349.2 11.5C407.3 10.3 465.7 10.7 523.8 11.8C582 13 640 15 698.2 14.7C756.3 14.3 814.7 11.7 872.8 11.3C931 11 989 13 1047.2 14.2C1105.3 15.3 1163.7 15.7 1221.8 14.7C1280 13.7 1338 11.3 1396.2 11.7C1454.3 12 1512.7 15 1570.8 16.3C1629 17.7 1687 17.3 1745.2 17.2C1803.3 17 1861.7 17 1890.8 17L1920 17L1920 0L1890.8 0C1861.7 0 1803.3 0 1745.2 0C1687 0 1629 0 1570.8 0C1512.7 0 1454.3 0 1396.2 0C1338 0 1280 0 1221.8 0C1163.7 0 1105.3 0 1047.2 0C989 0 931 0 872.8 0C814.7 0 756.3 0 698.2 0C640 0 582 0 523.8 0C465.7 0 407.3 0 349.2 0C291 0 233 0 174.8 0C116.7 0 58.3 0 29.2 0L0 0Z"
-                  fill="#081731"
-                ></path>
-                <path
-                  d="M0 26L29.2 28.3C58.3 30.7 116.7 35.3 174.8 36.7C233 38 291 36 349.2 36.8C407.3 37.7 465.7 41.3 523.8 45.2C582 49 640 53 698.2 53C756.3 53 814.7 49 872.8 44.8C931 40.7 989 36.3 1047.2 35.3C1105.3 34.3 1163.7 36.7 1221.8 35.5C1280 34.3 1338 29.7 1396.2 33C1454.3 36.3 1512.7 47.7 1570.8 53C1629 58.3 1687 57.7 1745.2 55.2C1803.3 52.7 1861.7 48.3 1890.8 46.2L1920 44L1920 15L1890.8 15C1861.7 15 1803.3 15 1745.2 15.2C1687 15.3 1629 15.7 1570.8 14.3C1512.7 13 1454.3 10 1396.2 9.7C1338 9.3 1280 11.7 1221.8 12.7C1163.7 13.7 1105.3 13.3 1047.2 12.2C989 11 931 9 872.8 9.3C814.7 9.7 756.3 12.3 698.2 12.7C640 13 582 11 523.8 9.8C465.7 8.7 407.3 8.3 349.2 9.5C291 10.7 233 13.3 174.8 13.8C116.7 14.3 58.3 12.7 29.2 11.8L0 11Z"
-                  fill="#072047"
-                ></path>
-                <path
-                  d="M0 47L29.2 46.8C58.3 46.7 116.7 46.3 174.8 46.8C233 47.3 291 48.7 349.2 51.2C407.3 53.7 465.7 57.3 523.8 60.7C582 64 640 67 698.2 66.8C756.3 66.7 814.7 63.3 872.8 59.3C931 55.3 989 50.7 1047.2 49.2C1105.3 47.7 1163.7 49.3 1221.8 48.8C1280 48.3 1338 45.7 1396.2 48C1454.3 50.3 1512.7 57.7 1570.8 62.5C1629 67.3 1687 69.7 1745.2 69.2C1803.3 68.7 1861.7 65.3 1890.8 63.7L1920 62L1920 42L1890.8 44.2C1861.7 46.3 1803.3 50.7 1745.2 53.2C1687 55.7 1629 56.3 1570.8 51C1512.7 45.7 1454.3 34.3 1396.2 31C1338 27.7 1280 32.3 1221.8 33.5C1163.7 34.7 1105.3 32.3 1047.2 33.3C989 34.3 931 38.7 872.8 42.8C814.7 47 756.3 51 698.2 51C640 51 582 47 523.8 43.2C465.7 39.3 407.3 35.7 349.2 34.8C291 34 233 36 174.8 34.7C116.7 33.3 58.3 28.7 29.2 26.3L0 24Z"
-                  fill="#052a5f"
-                ></path>
-                <path
-                  d="M0 78L29.2 80.2C58.3 82.3 116.7 86.7 174.8 88.3C233 90 291 89 349.2 86.5C407.3 84 465.7 80 523.8 79.5C582 79 640 82 698.2 82.2C756.3 82.3 814.7 79.7 872.8 80.2C931 80.7 989 84.3 1047.2 85.3C1105.3 86.3 1163.7 84.7 1221.8 83.2C1280 81.7 1338 80.3 1396.2 80.2C1454.3 80 1512.7 81 1570.8 82.5C1629 84 1687 86 1745.2 85.8C1803.3 85.7 1861.7 83.3 1890.8 82.2L1920 81L1920 60L1890.8 61.7C1861.7 63.3 1803.3 66.7 1745.2 67.2C1687 67.7 1629 65.3 1570.8 60.5C1512.7 55.7 1454.3 48.3 1396.2 46C1338 43.7 1280 46.3 1221.8 46.8C1163.7 47.3 1105.3 45.7 1047.2 47.2C989 48.7 931 53.3 872.8 57.3C814.7 61.3 756.3 64.7 698.2 64.8C640 65 582 62 523.8 58.7C465.7 55.3 407.3 51.7 349.2 49.2C291 46.7 233 45.3 174.8 44.8C116.7 44.3 58.3 44.7 29.2 44.8L0 45Z"
-                  fill="#053478"
-                ></path>
-                <path
-                  d="M0 101L29.2 101C58.3 101 116.7 101 174.8 101C233 101 291 101 349.2 101C407.3 101 465.7 101 523.8 101C582 101 640 101 698.2 101C756.3 101 814.7 101 872.8 101C931 101 989 101 1047.2 101C1105.3 101 1163.7 101 1221.8 101C1280 101 1338 101 1396.2 101C1454.3 101 1512.7 101 1570.8 101C1629 101 1687 101 1745.2 101C1803.3 101 1861.7 101 1890.8 101L1920 101L1920 79L1890.8 80.2C1861.7 81.3 1803.3 83.7 1745.2 83.8C1687 84 1629 82 1570.8 80.5C1512.7 79 1454.3 78 1396.2 78.2C1338 78.3 1280 79.7 1221.8 81.2C1163.7 82.7 1105.3 84.3 1047.2 83.3C989 82.3 931 78.7 872.8 78.2C814.7 77.7 756.3 80.3 698.2 80.2C640 80 582 77 523.8 77.5C465.7 78 407.3 82 349.2 84.5C291 87 233 88 174.8 86.3C116.7 84.7 58.3 80.3 29.2 78.2L0 76Z"
-                  fill="#0c3d91"
-                ></path>
-              </svg>
-            </div>
-            <div className="flex flex-col md:px-24 h-full w-full max-w-[1920px] mx-auto justify-center">
-              <div className="flex flex-col gap-y-24">
-                <div className="flex flex-col gap-y-12">
-                  <TextAnim>
-                    <h1 className="text-5xl text-white/90">Testimonials</h1>
-                  </TextAnim>
-                  <motion.div
-                    className="grid grid-cols-3 gap-8"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
-                    variants={{
-                      hidden: {},
-                      visible: {
-                        transition: {
-                          staggerChildren: 0.2,
-                        },
+          <div className="flex flex-col md:px-24 h-full w-full max-w-[1920px] mx-auto justify-center">
+            <div className="flex flex-col md:gap-y-24 gap-y-12">
+              <div className="flex flex-col md:gap-y-12 gap-y-6">
+                <TextAnim>
+                  <h1 className="md:text-5xl text-2xl text-white/90">
+                    Testimonials
+                  </h1>
+                </TextAnim>
+                <motion.div
+                  className="grid md:grid-cols-3 md:gap-8 gap-6"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                  variants={{
+                    hidden: {},
+                    visible: {
+                      transition: {
+                        staggerChildren: 0.2,
                       },
-                    }}
-                  >
-                    {testimonials.map((testimonial, index) => (
-                      <motion.div
-                        key={index}
-                        variants={{
-                          hidden: {
-                            opacity: 0,
-                            y: 30,
-                            scale: 0.95,
-                          },
-                          visible: {
-                            opacity: 1,
-                            y: 0,
-                            scale: 1,
-                            transition: {
-                              mass: 0.2,
-                            },
-                          },
-                        }}
-                        className={`bg-white/5 backdrop-blur rounded-xl p-8 \
-        border-2 border-white/10 ${Math.floor(index / 3) % 2 === 0 ? "-translate-x-4" : "translate-x-4"}`}
-                      >
-                        <BiSolidQuoteAltLeft className="text-white/5 text-6xl absolute bottom-4 left-4" />
-                        <BiSolidQuoteAltRight className="text-white/5 text-6xl absolute top-4 right-4" />
-                        <div className="flex flex-col justify-between h-full gap-y-4">
-                          <p className="text-white/80 text-lg">
-                            {testimonial.comment}
-                          </p>
-                          <div className="flex items-center">
-                            <div className="flex flex-col">
-                              <h4 className="text-white font-semibold">
-                                {testimonial.name}
-                              </h4>
-                              <p className="text-white/60 text-sm">
-                                {testimonial.role}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </div>
-
-                {/* Partners */}
-                <div className="flex flex-col gap-y-12">
-                  <TextAnim>
-                    <h1 className="text-5xl text-white/90">Partners</h1>
-                  </TextAnim>
-                  <motion.div
-                    className="grid grid-cols-10 gap-4 place-items-center w-fit"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
-                    variants={{
-                      hidden: {},
-                      visible: {
-                        transition: {
-                          staggerChildren: 0.01,
+                    },
+                  }}
+                >
+                  {testimonials.map((testimonial, index) => (
+                    <motion.div
+                      key={index}
+                      variants={{
+                        hidden: {
+                          opacity: 0,
+                          y: 30,
+                          scale: 0.95,
                         },
-                      },
-                    }}
-                  >
-                    {partners.map((partner, index) => (
-                      <motion.div
-                        key={partner.name}
-                        variants={{
-                          hidden: {
-                            opacity: 0,
-                            y: 20,
-                            scale: 0.9,
-                          },
-                          visible: {
-                            opacity: 1,
-                            y: index % 2 === 0 ? 16 : 0,
-                            scale: 1,
-                            transition: {
-                              mass: 0.2,
-                            },
-                          },
-                        }}
-                        whileHover={{
-                          scale: 0.98,
-                          y: (index % 2 === 0 ? 16 : 0) - 4,
+                        visible: {
+                          opacity: 1,
+                          y: 0,
+                          scale: 1,
                           transition: {
                             mass: 0.2,
-                            stiffness: 200,
                           },
-                        }}
-                        className="flex items-center justify-center rounded-xl drop-shadow origin-center relative"
+                        },
+                      }}
+                      className={`bg-white/5 backdrop-blur rounded-xl md:p-6 p-3 \
+        border-2 border-white/10 ${Math.floor(index / 3) % 2 === 0 ? "md:-translate-x-4" : "md:translate-x-4"}`}
+                    >
+                      <BiSolidQuoteAltLeft className="text-white/5 md:text-6xl text-4xl absolute bottom-4 left-4" />
+                      <BiSolidQuoteAltRight className="text-white/5 md:text-6xl text-4xl absolute top-4 right-4" />
+                      <div
+                        className="flex flex-col justify-between h-full \
+                        md:gap-y-4 gap-y-2"
                       >
-                        <Link
-                          href={partner.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <img
-                            src={partner.logo}
-                            alt={`Logo of ${partner.name}`}
-                            className="w-40 object-contain"
-                          />
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </div>
+                        <p className="text-white/80 md:text-lg">
+                          {testimonial.comment}
+                        </p>
+                        <div className="flex items-center">
+                          <div className="flex flex-col">
+                            <h4 className="text-white font-semibold">
+                              {testimonial.name}
+                            </h4>
+                            <p className="text-white/60 md:text-sm text-xs">
+                              {testimonial.role}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+
+              {/* Partners */}
+              <div className="flex flex-col gap-y-12">
+                <TextAnim>
+                  <h1 className="md:text-5xl text-2xl text-white/90">
+                    Partners
+                  </h1>
+                </TextAnim>
+                <motion.div
+                  className="grid md:grid-cols-10 grid-cols-3 md:gap-4 gap-2 place-items-center w-fit"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                  variants={{
+                    hidden: {},
+                    visible: {
+                      transition: {
+                        staggerChildren: 0.01,
+                      },
+                    },
+                  }}
+                >
+                  {partners.map((partner, index) => (
+                    <motion.div
+                      key={partner.name}
+                      variants={{
+                        hidden: {
+                          opacity: 0,
+                          y: 20,
+                          scale: 0.9,
+                        },
+                        visible: {
+                          opacity: 1,
+                          y: 0,
+                          scale: 1,
+                          transition: {
+                            mass: 0.2,
+                          },
+                        },
+                      }}
+                      whileHover={{
+                        scale: 0.98,
+                        y: -4,
+                        transition: {
+                          mass: 0.2,
+                          stiffness: 200,
+                        },
+                      }}
+                      className={cn(
+                        "flex items-center justify-center rounded-xl drop-shadow origin-center relative",
+                        index % 2 === 0
+                          ? "md:translate-y-4"
+                          : "md:translate-y-0",
+                        index % 3 === 1 ? "-translate-y-4" : "translate-y-0",
+                      )}
+                    >
+                      <Link
+                        href={partner.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <img
+                          src={partner.logo}
+                          alt={`Logo of ${partner.name}`}
+                          className="w-40 object-contain"
+                        />
+                      </Link>
+                    </motion.div>
+                  ))}
+                </motion.div>
               </div>
             </div>
-            <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-1/2">
-              <svg
-                width="100%"
-                height="100%"
-                preserveAspectRatio="none"
-                viewBox="0 0 1920 100"
-              >
-                <path
-                  d="M0 22L29.2 20.8C58.3 19.7 116.7 17.3 174.8 16.5C233 15.7 291 16.3 349.2 17.8C407.3 19.3 465.7 21.7 523.8 22C582 22.3 640 20.7 698.2 20.2C756.3 19.7 814.7 20.3 872.8 19.8C931 19.3 989 17.7 1047.2 19.5C1105.3 21.3 1163.7 26.7 1221.8 29.8C1280 33 1338 34 1396.2 34.3C1454.3 34.7 1512.7 34.3 1570.8 32.8C1629 31.3 1687 28.7 1745.2 28.5C1803.3 28.3 1861.7 30.7 1890.8 31.8L1920 33L1920 0L1890.8 0C1861.7 0 1803.3 0 1745.2 0C1687 0 1629 0 1570.8 0C1512.7 0 1454.3 0 1396.2 0C1338 0 1280 0 1221.8 0C1163.7 0 1105.3 0 1047.2 0C989 0 931 0 872.8 0C814.7 0 756.3 0 698.2 0C640 0 582 0 523.8 0C465.7 0 407.3 0 349.2 0C291 0 233 0 174.8 0C116.7 0 58.3 0 29.2 0L0 0Z"
-                  fill="#0c3d91"
-                ></path>
-                <path
-                  d="M0 30L29.2 30C58.3 30 116.7 30 174.8 30.2C233 30.3 291 30.7 349.2 31.5C407.3 32.3 465.7 33.7 523.8 33.3C582 33 640 31 698.2 29.7C756.3 28.3 814.7 27.7 872.8 28C931 28.3 989 29.7 1047.2 32.2C1105.3 34.7 1163.7 38.3 1221.8 40.8C1280 43.3 1338 44.7 1396.2 45.8C1454.3 47 1512.7 48 1570.8 47.2C1629 46.3 1687 43.7 1745.2 42C1803.3 40.3 1861.7 39.7 1890.8 39.3L1920 39L1920 31L1890.8 29.8C1861.7 28.7 1803.3 26.3 1745.2 26.5C1687 26.7 1629 29.3 1570.8 30.8C1512.7 32.3 1454.3 32.7 1396.2 32.3C1338 32 1280 31 1221.8 27.8C1163.7 24.7 1105.3 19.3 1047.2 17.5C989 15.7 931 17.3 872.8 17.8C814.7 18.3 756.3 17.7 698.2 18.2C640 18.7 582 20.3 523.8 20C465.7 19.7 407.3 17.3 349.2 15.8C291 14.3 233 13.7 174.8 14.5C116.7 15.3 58.3 17.7 29.2 18.8L0 20Z"
-                  fill="#06357d"
-                ></path>
-                <path
-                  d="M0 49L29.2 48.5C58.3 48 116.7 47 174.8 47C233 47 291 48 349.2 47.8C407.3 47.7 465.7 46.3 523.8 46C582 45.7 640 46.3 698.2 45C756.3 43.7 814.7 40.3 872.8 39.2C931 38 989 39 1047.2 42.7C1105.3 46.3 1163.7 52.7 1221.8 55.2C1280 57.7 1338 56.3 1396.2 58.5C1454.3 60.7 1512.7 66.3 1570.8 65.7C1629 65 1687 58 1745.2 55C1803.3 52 1861.7 53 1890.8 53.5L1920 54L1920 37L1890.8 37.3C1861.7 37.7 1803.3 38.3 1745.2 40C1687 41.7 1629 44.3 1570.8 45.2C1512.7 46 1454.3 45 1396.2 43.8C1338 42.7 1280 41.3 1221.8 38.8C1163.7 36.3 1105.3 32.7 1047.2 30.2C989 27.7 931 26.3 872.8 26C814.7 25.7 756.3 26.3 698.2 27.7C640 29 582 31 523.8 31.3C465.7 31.7 407.3 30.3 349.2 29.5C291 28.7 233 28.3 174.8 28.2C116.7 28 58.3 28 29.2 28L0 28Z"
-                  fill="#052e69"
-                ></path>
-                <path
-                  d="M0 62L29.2 61.2C58.3 60.3 116.7 58.7 174.8 57.7C233 56.7 291 56.3 349.2 56.2C407.3 56 465.7 56 523.8 55.8C582 55.7 640 55.3 698.2 53C756.3 50.7 814.7 46.3 872.8 44.7C931 43 989 44 1047.2 47.7C1105.3 51.3 1163.7 57.7 1221.8 61.5C1280 65.3 1338 66.7 1396.2 68.8C1454.3 71 1512.7 74 1570.8 72.8C1629 71.7 1687 66.3 1745.2 63.7C1803.3 61 1861.7 61 1890.8 61L1920 61L1920 52L1890.8 51.5C1861.7 51 1803.3 50 1745.2 53C1687 56 1629 63 1570.8 63.7C1512.7 64.3 1454.3 58.7 1396.2 56.5C1338 54.3 1280 55.7 1221.8 53.2C1163.7 50.7 1105.3 44.3 1047.2 40.7C989 37 931 36 872.8 37.2C814.7 38.3 756.3 41.7 698.2 43C640 44.3 582 43.7 523.8 44C465.7 44.3 407.3 45.7 349.2 45.8C291 46 233 45 174.8 45C116.7 45 58.3 46 29.2 46.5L0 47Z"
-                  fill="#062655"
-                ></path>
-                <path
-                  d="M0 79L29.2 77.5C58.3 76 116.7 73 174.8 71.8C233 70.7 291 71.3 349.2 71.8C407.3 72.3 465.7 72.7 523.8 70.8C582 69 640 65 698.2 61.5C756.3 58 814.7 55 872.8 55C931 55 989 58 1047.2 62.7C1105.3 67.3 1163.7 73.7 1221.8 77C1280 80.3 1338 80.7 1396.2 81.8C1454.3 83 1512.7 85 1570.8 84.3C1629 83.7 1687 80.3 1745.2 78.5C1803.3 76.7 1861.7 76.3 1890.8 76.2L1920 76L1920 59L1890.8 59C1861.7 59 1803.3 59 1745.2 61.7C1687 64.3 1629 69.7 1570.8 70.8C1512.7 72 1454.3 69 1396.2 66.8C1338 64.7 1280 63.3 1221.8 59.5C1163.7 55.7 1105.3 49.3 1047.2 45.7C989 42 931 41 872.8 42.7C814.7 44.3 756.3 48.7 698.2 51C640 53.3 582 53.7 523.8 53.8C465.7 54 407.3 54 349.2 54.2C291 54.3 233 54.7 174.8 55.7C116.7 56.7 58.3 58.3 29.2 59.2L0 60Z"
-                  fill="#071f43"
-                ></path>
-                <path
-                  d="M0 101L29.2 101C58.3 101 116.7 101 174.8 101C233 101 291 101 349.2 101C407.3 101 465.7 101 523.8 101C582 101 640 101 698.2 101C756.3 101 814.7 101 872.8 101C931 101 989 101 1047.2 101C1105.3 101 1163.7 101 1221.8 101C1280 101 1338 101 1396.2 101C1454.3 101 1512.7 101 1570.8 101C1629 101 1687 101 1745.2 101C1803.3 101 1861.7 101 1890.8 101L1920 101L1920 74L1890.8 74.2C1861.7 74.3 1803.3 74.7 1745.2 76.5C1687 78.3 1629 81.7 1570.8 82.3C1512.7 83 1454.3 81 1396.2 79.8C1338 78.7 1280 78.3 1221.8 75C1163.7 71.7 1105.3 65.3 1047.2 60.7C989 56 931 53 872.8 53C814.7 53 756.3 56 698.2 59.5C640 63 582 67 523.8 68.8C465.7 70.7 407.3 70.3 349.2 69.8C291 69.3 233 68.7 174.8 69.8C116.7 71 58.3 74 29.2 75.5L0 77Z"
-                  fill="#081731"
-                ></path>
-              </svg>
-            </div>
           </div>
-          <div className="relative bg-creatBG">
-            <div className="flex flex-col px-28 py-48 h-full w-full max-w-[1920px] mx-auto justify-center relative">
-              <div className="flex flex-col">
-                <div className="flex flex-col gap-y-48">
-                  <div className="flex flex-col gap-y-6">
-                    <TextAnim>
-                      <h1 className="text-5xl text-white/90 ">Our Values</h1>
-                    </TextAnim>
-                    <TextAnim>
-                      <div className="flex gap-x-4 items-center">
-                        <h1
-                          className="text-[160px] font-bold bg-clip-text text-transparent flex font-manrope"
-                          style={{
-                            backgroundImage:
-                              "linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.5))",
-                          }}
-                        >
-                          Reliability
-                        </h1>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-fit h-[160px]"
-                          viewBox="0 0 24 24"
-                        >
-                          <defs>
-                            <linearGradient
-                              id="grad"
-                              x1="0%"
-                              y1="0%"
-                              x2="100%"
-                              y2="100%"
-                            >
-                              <stop
-                                offset="10%"
-                                style={{
-                                  stopColor: "rgba(255, 255, 255, 0.3)",
-                                  stopOpacity: 0.3,
-                                }}
-                              />
-                              <stop
-                                offset="30%"
-                                style={{
-                                  stopColor: "rgba(255, 255, 255, 0.5)",
-                                  stopOpacity: 0.5,
-                                }}
-                              />
-                              <stop
-                                offset="50%"
-                                style={{
-                                  stopColor: "rgba(255, 255, 255, 0.9)",
-                                  stopOpacity: 0.9,
-                                }}
-                              />
-                              <stop
-                                offset="70%"
-                                style={{
-                                  stopColor: "rgba(255, 255, 255, 0.5)",
-                                  stopOpacity: 0.5,
-                                }}
-                              />
-                              <stop
-                                offset="90%"
-                                style={{
-                                  stopColor: "rgba(255, 255, 255, 0.1)",
-                                  stopOpacity: 0.1,
-                                }}
-                              />
-                            </linearGradient>
-                          </defs>
-                          <path
-                            fill="url(#grad)"
-                            fillRule="evenodd"
-                            d="M3.378 5.082C3 5.62 3 7.22 3 10.417v1.574c0 5.638 4.239 8.375 6.899 9.536c.721.315 1.082.473 2.101.473c1.02 0 1.38-.158 2.101-.473C16.761 20.365 21 17.63 21 11.991v-1.574c0-3.198 0-4.797-.378-5.335c-.377-.537-1.88-1.052-4.887-2.081l-.573-.196C13.595 2.268 12.812 2 12 2s-1.595.268-3.162.805L8.265 3c-3.007 1.03-4.51 1.545-4.887 2.082M15.06 10.5a.75.75 0 0 0-1.12-.999l-3.011 3.374l-.87-.974a.75.75 0 0 0-1.118 1l1.428 1.6a.75.75 0 0 0 1.119 0z"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
-                      </div>
-                    </TextAnim>
-                    <TextAnim delay={0.1}>
-                      <p className="text-3xl font-medium text-white/80 max-w-[70%]">
-                        Honesty and reliability towards our clients and partners
-                        are our most important principles. We consistently
-                        fulfill our commitments to clients and strive to provide
-                        them with the highest level of service
-                      </p>
-                    </TextAnim>
-                  </div>
-                  <div className="flex flex-col gap-y-6 items-end">
-                    <TextAnim dir="<">
-                      <div className="flex gap-x-4 items-center w-fit">
-                        <h1
-                          className="text-[160px] font-bold bg-clip-text text-transparent flex font-manrope"
-                          style={{
-                            backgroundImage:
-                              "linear-gradient(to top, transparent, rgba(251, 191, 36, 1))",
-                          }}
-                        >
-                          Innovation
-                        </h1>
-                        <svg
-                          className="h-[160px]"
-                          viewBox="0 0 160 160"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            className="fill-white/80"
-                            d="M95.5984 106.71C95.665 108.034 95.9317 109.315 96.3984 110.555C97.1584 112.735 96.4534 115.155 94.6484 116.595L92.4984 129.87C92.3659 130.971 91.8318 131.984 90.9984 132.715L88.6484 134.86L88.1984 135.31L85.7484 138.205C85.2724 138.775 84.6754 139.232 84.0008 139.543C83.3262 139.853 82.5909 140.009 81.8484 140H78.1484C77.4054 140.009 76.6698 139.852 75.9952 139.54C75.3206 139.229 74.7238 138.771 74.2484 138.2L71.7984 135.31L71.3484 134.86L68.9984 132.71C68.166 131.98 67.632 130.969 67.4984 129.87L65.3484 116.445C64.4684 115.743 63.8277 114.785 63.5144 113.703C63.201 112.622 63.2303 111.469 63.5984 110.405C64.066 109.174 64.336 107.876 64.3984 106.56C69.9817 107.184 75.5817 107.5 81.1984 107.51C85.5984 107.51 90.5984 107.21 95.5984 106.71ZM119.998 60.0002C120.009 67.0028 118.182 73.8855 114.698 79.9602L114.148 80.8102C113.648 81.6102 113.148 82.4102 112.598 83.1602C105.798 93.0352 100.248 95.1852 96.8484 101.57C91.6848 102.142 86.4935 102.426 81.2984 102.42C75.2084 102.42 69.1417 102.054 63.0984 101.32C59.6984 95.1352 54.1984 92.8902 47.4984 83.1552C46.9484 82.4052 46.4484 81.6052 45.9484 80.8052L45.3984 79.9602C41.2729 72.8675 39.4374 64.6743 40.1426 56.4994C40.8478 48.3246 44.0592 40.5667 49.3384 34.2852C54.6227 27.9964 61.7131 23.4844 69.6482 21.3611C77.5833 19.2378 85.9794 19.6058 93.6984 22.4152C101.412 25.2196 108.075 30.3318 112.781 37.0567C117.486 43.7815 120.006 51.7925 119.998 60.0002ZM89.9984 62.8452C91.2064 62.4983 92.2687 61.7676 93.0248 60.7637C93.781 59.7598 94.19 58.5371 94.19 57.2802C94.19 56.0234 93.781 54.8007 93.0248 53.7967C92.2687 52.7928 91.2064 52.0622 89.9984 51.7152L74.4984 47.4702C73.0984 47.1202 72.3484 46.3702 72.3484 45.8702C72.3484 45.3752 73.0984 44.6752 74.3984 44.2752L90.4984 40.2852C90.8182 40.2156 91.1203 40.0814 91.3863 39.8907C91.6523 39.7 91.8765 39.4569 92.0451 39.1764C92.2137 38.8959 92.3231 38.5839 92.3667 38.2595C92.4102 37.9351 92.387 37.6053 92.2984 37.2902C92.1326 36.655 91.7282 36.1081 91.1694 35.7635C90.6106 35.4189 89.9404 35.3031 89.2984 35.4402L73.1484 39.4402C71.607 39.7225 70.2023 40.5067 69.1532 41.6706C68.1041 42.8346 67.4695 44.3129 67.3484 45.8752C67.4611 47.4403 68.0928 48.9231 69.1434 50.0887C70.1939 51.2543 71.6033 52.0361 73.1484 52.3102L88.5484 56.6052C88.7244 56.6506 88.8797 56.7545 88.9888 56.8999C89.0978 57.0453 89.1541 57.2236 89.1484 57.4052C89.1519 57.5807 89.0938 57.7518 88.9842 57.8889C88.8745 58.0259 88.7203 58.1202 88.5484 58.1552L69.9984 63.1452C68.7716 63.4589 67.6858 64.1755 66.9151 65.1801C66.1444 66.1847 65.7335 67.4191 65.7484 68.6852C65.7234 71.2952 67.4734 73.5902 69.9984 74.2702L85.4984 78.2152C86.8984 78.5652 87.6484 79.3152 87.6484 79.8152C87.6484 80.3152 86.8984 81.0102 85.5984 81.4102L69.9984 85.0502C69.6704 85.0863 69.3527 85.1867 69.0635 85.3456C68.7743 85.5044 68.5193 85.7187 68.3129 85.9762C68.1065 86.2336 67.9529 86.5292 67.8607 86.846C67.7686 87.1629 67.7397 87.4948 67.7759 87.8227C67.812 88.1507 67.9123 88.4684 68.0712 88.7575C68.2301 89.0467 68.4444 89.3018 68.7018 89.5082C68.9593 89.7146 69.2548 89.8682 69.5717 89.9604C69.8885 90.0525 70.2204 90.0813 70.5484 90.0452H71.1484L86.8484 86.3952C88.3897 86.113 89.7944 85.3288 90.8435 84.1648C91.8926 83.0009 92.5272 81.5225 92.6484 79.9602C92.5194 78.4138 91.8873 76.9523 90.8489 75.7992C89.8105 74.6461 88.4228 73.8649 86.8984 73.5752L71.4484 69.3302C71.2716 69.3053 71.111 69.2138 70.9994 69.0744C70.8879 68.9349 70.8339 68.7582 70.8484 68.5802C70.8448 68.4048 70.9029 68.2336 71.0126 68.0966C71.1222 67.9595 71.2764 67.8653 71.4484 67.8302L89.9984 62.8452Z"
-                          />
-                          <path
-                            className="stroke-amber-400"
-                            d="M52.5 15L53.8475 20.98C54.4086 23.4642 55.6623 25.7385 57.4631 27.5394C59.264 29.3402 61.5383 30.5939 64.0225 31.155L70 32.5L64.02 33.8475C61.5358 34.4086 59.2615 35.6623 57.4606 37.4631C55.6598 39.264 54.4061 41.5383 53.845 44.0225L52.5 50L51.1525 44.02C50.5914 41.5358 49.3377 39.2615 47.5369 37.4606C45.736 35.6598 43.4617 34.4061 40.9775 33.845L35 32.5L40.98 31.1525C43.4642 30.5914 45.7385 29.3377 47.5394 27.5369C49.3402 25.736 50.5939 23.4617 51.155 20.9775L52.5 15ZM32.5 40L33.4625 44.27C33.8633 46.0443 34.7588 47.6687 36.045 48.955C37.3313 50.2412 38.9557 51.1367 40.73 51.5375L45 52.5L40.73 53.4625C38.9557 53.8633 37.3313 54.7588 36.045 56.045C34.7588 57.3313 33.8633 58.9557 33.4625 60.73L32.5 65L31.5375 60.73C31.1367 58.9557 30.2412 57.3313 28.955 56.045C27.6687 54.7588 26.0443 53.8633 24.27 53.4625L20 52.5L24.27 51.5375C26.0443 51.1367 27.6687 50.2412 28.955 48.955C30.2412 47.6687 31.1367 46.0443 31.5375 44.27L32.5 40Z"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    </TextAnim>
-                    <div className="max-w-[70%]">
-                      <TextAnim dir="<" delay={0.1}>
-                        <p className="text-3xl font-medium text-white/80 w-fit text-right">
-                          In line with modern trends, we employ innovative
-                          technologies and advanced methods in our projects.
-                          This enables us to enhance our clients'
-                          competitiveness and help them achieve their business
-                          objectives
-                        </p>
-                      </TextAnim>
+          <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-1/2 hidden md:block">
+            <svg
+              width="100%"
+              height="100%"
+              preserveAspectRatio="none"
+              viewBox="0 0 1920 100"
+            >
+              <path
+                d="M0 22L29.2 20.8C58.3 19.7 116.7 17.3 174.8 16.5C233 15.7 291 16.3 349.2 17.8C407.3 19.3 465.7 21.7 523.8 22C582 22.3 640 20.7 698.2 20.2C756.3 19.7 814.7 20.3 872.8 19.8C931 19.3 989 17.7 1047.2 19.5C1105.3 21.3 1163.7 26.7 1221.8 29.8C1280 33 1338 34 1396.2 34.3C1454.3 34.7 1512.7 34.3 1570.8 32.8C1629 31.3 1687 28.7 1745.2 28.5C1803.3 28.3 1861.7 30.7 1890.8 31.8L1920 33L1920 0L1890.8 0C1861.7 0 1803.3 0 1745.2 0C1687 0 1629 0 1570.8 0C1512.7 0 1454.3 0 1396.2 0C1338 0 1280 0 1221.8 0C1163.7 0 1105.3 0 1047.2 0C989 0 931 0 872.8 0C814.7 0 756.3 0 698.2 0C640 0 582 0 523.8 0C465.7 0 407.3 0 349.2 0C291 0 233 0 174.8 0C116.7 0 58.3 0 29.2 0L0 0Z"
+                fill="#0c3d91"
+              ></path>
+              <path
+                d="M0 30L29.2 30C58.3 30 116.7 30 174.8 30.2C233 30.3 291 30.7 349.2 31.5C407.3 32.3 465.7 33.7 523.8 33.3C582 33 640 31 698.2 29.7C756.3 28.3 814.7 27.7 872.8 28C931 28.3 989 29.7 1047.2 32.2C1105.3 34.7 1163.7 38.3 1221.8 40.8C1280 43.3 1338 44.7 1396.2 45.8C1454.3 47 1512.7 48 1570.8 47.2C1629 46.3 1687 43.7 1745.2 42C1803.3 40.3 1861.7 39.7 1890.8 39.3L1920 39L1920 31L1890.8 29.8C1861.7 28.7 1803.3 26.3 1745.2 26.5C1687 26.7 1629 29.3 1570.8 30.8C1512.7 32.3 1454.3 32.7 1396.2 32.3C1338 32 1280 31 1221.8 27.8C1163.7 24.7 1105.3 19.3 1047.2 17.5C989 15.7 931 17.3 872.8 17.8C814.7 18.3 756.3 17.7 698.2 18.2C640 18.7 582 20.3 523.8 20C465.7 19.7 407.3 17.3 349.2 15.8C291 14.3 233 13.7 174.8 14.5C116.7 15.3 58.3 17.7 29.2 18.8L0 20Z"
+                fill="#06357d"
+              ></path>
+              <path
+                d="M0 49L29.2 48.5C58.3 48 116.7 47 174.8 47C233 47 291 48 349.2 47.8C407.3 47.7 465.7 46.3 523.8 46C582 45.7 640 46.3 698.2 45C756.3 43.7 814.7 40.3 872.8 39.2C931 38 989 39 1047.2 42.7C1105.3 46.3 1163.7 52.7 1221.8 55.2C1280 57.7 1338 56.3 1396.2 58.5C1454.3 60.7 1512.7 66.3 1570.8 65.7C1629 65 1687 58 1745.2 55C1803.3 52 1861.7 53 1890.8 53.5L1920 54L1920 37L1890.8 37.3C1861.7 37.7 1803.3 38.3 1745.2 40C1687 41.7 1629 44.3 1570.8 45.2C1512.7 46 1454.3 45 1396.2 43.8C1338 42.7 1280 41.3 1221.8 38.8C1163.7 36.3 1105.3 32.7 1047.2 30.2C989 27.7 931 26.3 872.8 26C814.7 25.7 756.3 26.3 698.2 27.7C640 29 582 31 523.8 31.3C465.7 31.7 407.3 30.3 349.2 29.5C291 28.7 233 28.3 174.8 28.2C116.7 28 58.3 28 29.2 28L0 28Z"
+                fill="#052e69"
+              ></path>
+              <path
+                d="M0 62L29.2 61.2C58.3 60.3 116.7 58.7 174.8 57.7C233 56.7 291 56.3 349.2 56.2C407.3 56 465.7 56 523.8 55.8C582 55.7 640 55.3 698.2 53C756.3 50.7 814.7 46.3 872.8 44.7C931 43 989 44 1047.2 47.7C1105.3 51.3 1163.7 57.7 1221.8 61.5C1280 65.3 1338 66.7 1396.2 68.8C1454.3 71 1512.7 74 1570.8 72.8C1629 71.7 1687 66.3 1745.2 63.7C1803.3 61 1861.7 61 1890.8 61L1920 61L1920 52L1890.8 51.5C1861.7 51 1803.3 50 1745.2 53C1687 56 1629 63 1570.8 63.7C1512.7 64.3 1454.3 58.7 1396.2 56.5C1338 54.3 1280 55.7 1221.8 53.2C1163.7 50.7 1105.3 44.3 1047.2 40.7C989 37 931 36 872.8 37.2C814.7 38.3 756.3 41.7 698.2 43C640 44.3 582 43.7 523.8 44C465.7 44.3 407.3 45.7 349.2 45.8C291 46 233 45 174.8 45C116.7 45 58.3 46 29.2 46.5L0 47Z"
+                fill="#062655"
+              ></path>
+              <path
+                d="M0 79L29.2 77.5C58.3 76 116.7 73 174.8 71.8C233 70.7 291 71.3 349.2 71.8C407.3 72.3 465.7 72.7 523.8 70.8C582 69 640 65 698.2 61.5C756.3 58 814.7 55 872.8 55C931 55 989 58 1047.2 62.7C1105.3 67.3 1163.7 73.7 1221.8 77C1280 80.3 1338 80.7 1396.2 81.8C1454.3 83 1512.7 85 1570.8 84.3C1629 83.7 1687 80.3 1745.2 78.5C1803.3 76.7 1861.7 76.3 1890.8 76.2L1920 76L1920 59L1890.8 59C1861.7 59 1803.3 59 1745.2 61.7C1687 64.3 1629 69.7 1570.8 70.8C1512.7 72 1454.3 69 1396.2 66.8C1338 64.7 1280 63.3 1221.8 59.5C1163.7 55.7 1105.3 49.3 1047.2 45.7C989 42 931 41 872.8 42.7C814.7 44.3 756.3 48.7 698.2 51C640 53.3 582 53.7 523.8 53.8C465.7 54 407.3 54 349.2 54.2C291 54.3 233 54.7 174.8 55.7C116.7 56.7 58.3 58.3 29.2 59.2L0 60Z"
+                fill="#071f43"
+              ></path>
+              <path
+                d="M0 101L29.2 101C58.3 101 116.7 101 174.8 101C233 101 291 101 349.2 101C407.3 101 465.7 101 523.8 101C582 101 640 101 698.2 101C756.3 101 814.7 101 872.8 101C931 101 989 101 1047.2 101C1105.3 101 1163.7 101 1221.8 101C1280 101 1338 101 1396.2 101C1454.3 101 1512.7 101 1570.8 101C1629 101 1687 101 1745.2 101C1803.3 101 1861.7 101 1890.8 101L1920 101L1920 74L1890.8 74.2C1861.7 74.3 1803.3 74.7 1745.2 76.5C1687 78.3 1629 81.7 1570.8 82.3C1512.7 83 1454.3 81 1396.2 79.8C1338 78.7 1280 78.3 1221.8 75C1163.7 71.7 1105.3 65.3 1047.2 60.7C989 56 931 53 872.8 53C814.7 53 756.3 56 698.2 59.5C640 63 582 67 523.8 68.8C465.7 70.7 407.3 70.3 349.2 69.8C291 69.3 233 68.7 174.8 69.8C116.7 71 58.3 74 29.2 75.5L0 77Z"
+                fill="#081731"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <div className="relative bg-creatBG">
+          <div className="flex flex-col md:px-28 md:py-48 p-6 h-full w-full md:max-w-[1920px] md:mx-auto justify-center relative">
+            <div className="flex flex-col">
+              <div className="flex flex-col md:gap-y-48 gap-y-12">
+                <div className="flex flex-col md:gap-y-6">
+                  <TextAnim>
+                    <h1 className="md:text-5xl text-2xl text-white/90">
+                      Our Values
+                    </h1>
+                  </TextAnim>
+                  <TextAnim>
+                    <div className="flex gap-x-4 items-center">
+                      <h1
+                        className="md:text-[160px] text-[40px] font-bold bg-clip-text text-transparent flex font-manrope"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.5))",
+                        }}
+                      >
+                        Reliability
+                      </h1>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="md:w-fit md:h-[160px] h-[40px] w-[40px]"
+                        viewBox="0 0 24 24"
+                      >
+                        <defs>
+                          <linearGradient
+                            id="grad"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="100%"
+                          >
+                            <stop
+                              offset="10%"
+                              style={{
+                                stopColor: "rgba(255, 255, 255, 0.3)",
+                                stopOpacity: 0.3,
+                              }}
+                            />
+                            <stop
+                              offset="30%"
+                              style={{
+                                stopColor: "rgba(255, 255, 255, 0.5)",
+                                stopOpacity: 0.5,
+                              }}
+                            />
+                            <stop
+                              offset="50%"
+                              style={{
+                                stopColor: "rgba(255, 255, 255, 0.9)",
+                                stopOpacity: 0.9,
+                              }}
+                            />
+                            <stop
+                              offset="70%"
+                              style={{
+                                stopColor: "rgba(255, 255, 255, 0.5)",
+                                stopOpacity: 0.5,
+                              }}
+                            />
+                            <stop
+                              offset="90%"
+                              style={{
+                                stopColor: "rgba(255, 255, 255, 0.1)",
+                                stopOpacity: 0.1,
+                              }}
+                            />
+                          </linearGradient>
+                        </defs>
+                        <path
+                          fill="url(#grad)"
+                          fillRule="evenodd"
+                          d="M3.378 5.082C3 5.62 3 7.22 3 10.417v1.574c0 5.638 4.239 8.375 6.899 9.536c.721.315 1.082.473 2.101.473c1.02 0 1.38-.158 2.101-.473C16.761 20.365 21 17.63 21 11.991v-1.574c0-3.198 0-4.797-.378-5.335c-.377-.537-1.88-1.052-4.887-2.081l-.573-.196C13.595 2.268 12.812 2 12 2s-1.595.268-3.162.805L8.265 3c-3.007 1.03-4.51 1.545-4.887 2.082M15.06 10.5a.75.75 0 0 0-1.12-.999l-3.011 3.374l-.87-.974a.75.75 0 0 0-1.118 1l1.428 1.6a.75.75 0 0 0 1.119 0z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-y-6">
-                    <TextAnim>
-                      <div className="flex gap-x-4 items-center">
-                        <h1
-                          className="text-[160px] font-bold bg-clip-text text-transparent flex font-manrope"
-                          style={{
-                            backgroundImage:
-                              "linear-gradient(135deg, rgba(5, 150, 105, 1), transparent)",
-                          }}
-                        >
-                          Teamwork
-                        </h1>
-                        <svg
-                          className="w-fit h-[160px] fill-emerald-600/60 p-4"
-                          viewBox="0 0 160 160"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g clipPath="url(#clip0_220_3)">
-                            <path d="M151.624 10.7151C149.722 10.5222 147.806 10.9148 146.133 11.8405C145.317 9.19089 143.352 7.04887 140.783 6.00668C138.213 4.9645 135.312 5.13259 132.88 6.46447C131.526 2.27211 127.425 -0.402626 123.043 0.0484688C120.191 0.372638 117.651 2.00207 116.168 4.45914C113.951 2.81793 111.112 2.26388 108.441 2.95102C105.769 3.63816 103.55 5.49322 102.4 8.00047H76.1387C75.6521 7.99686 75.1757 7.86139 74.76 7.60847L63.9787 1.1578C62.7392 0.408728 61.3202 0.00883105 59.872 0.000468785H20.3814C15.5015 -0.0649041 11.3461 3.53454 10.7147 8.3738C10.522 10.2768 10.9146 12.1932 11.84 13.8671C9.18969 14.6828 7.04694 16.6475 6.00504 19.2174C4.96315 21.7872 5.13268 24.6894 6.46669 27.1205C2.26784 28.4695 -0.410683 32.5768 0.0480222 36.9631C0.371009 39.8152 2.00075 42.3554 4.45869 43.8378C3.10545 45.7042 2.48483 48.0026 2.71469 50.2965C3.09568 53.4849 5.0934 56.2517 8.00002 57.6165V83.8671C7.99537 84.3514 7.85893 84.8252 7.60536 85.2378L1.09869 96.0751C0.390559 97.3105 0.0122071 98.7073 2.21975e-05 100.131V139.622C-0.0614047 144.501 3.53794 148.653 8.37602 149.286C10.2779 149.474 12.192 149.081 13.8667 148.16C14.683 150.811 16.6483 152.954 19.2185 153.996C21.7887 155.037 24.6912 154.868 27.1227 153.534C28.3582 157.392 31.9486 160.008 36 160C39.2148 160.001 42.192 158.308 43.8347 155.544C46.0538 157.186 48.8944 157.739 51.5675 157.052C54.2406 156.364 56.4614 154.509 57.6134 152H83.8614C84.3479 152.004 84.8244 152.14 85.24 152.392L96.0214 158.848C97.2616 159.595 98.6806 159.992 100.128 159.998H139.619C144.499 160.063 148.654 156.464 149.285 151.624C149.477 149.722 149.085 147.807 148.16 146.134C150.81 145.318 152.953 143.353 153.995 140.784C155.037 138.214 154.867 135.312 153.533 132.88C157.73 131.532 160.408 127.428 159.952 123.043C159.629 120.191 157.999 117.651 155.541 116.168C156.895 114.302 157.515 112.004 157.285 109.71C156.901 106.525 154.904 103.763 152 102.4V76.1338C152.006 75.6484 152.141 75.1733 152.392 74.7578L158.851 63.9791C159.597 62.7379 159.994 61.3181 160 59.8698V20.3791C160.061 15.5003 156.462 11.3475 151.624 10.7151ZM5.35469 36.4351C5.23114 35.3049 5.59439 34.1755 6.35364 33.3293C7.1129 32.483 8.19641 31.9998 9.33336 32.0005H26.6667C28.1394 32.0005 29.3334 30.8066 29.3334 29.3338C29.3334 27.861 28.1394 26.6671 26.6667 26.6671H14.6667C13.5299 26.6698 12.4457 26.1887 11.6849 25.344C10.9242 24.4993 10.5588 23.3708 10.68 22.2405C11.0213 20.1152 12.8973 18.5805 15.048 18.6671H32C33.4728 18.6671 34.6667 17.4732 34.6667 16.0005C34.6667 14.5277 33.4728 13.3338 32 13.3338H20C18.8632 13.3365 17.779 12.8554 17.0182 12.0107C16.2575 11.1659 15.8921 10.0374 16.0134 8.90714C16.3535 6.78125 18.2302 5.24595 20.3814 5.3338H59.872C60.3581 5.33749 60.8339 5.47396 61.248 5.72847L72.032 12.1871C73.2731 12.9312 74.6917 13.3273 76.1387 13.3338H101.333V37.0378L96.7147 33.2565C93.2488 30.6111 88.3737 30.8791 85.2187 33.8885C82.876 36.1604 82.0618 39.5838 83.1307 42.6671H74.1894C72.0906 42.676 70.0794 43.5092 68.5894 44.9871L43.4934 69.8778L43.44 69.9311L42.3307 71.0298C41.0299 72.3015 38.9472 72.2872 37.664 70.9978C36.4928 69.8219 36.3785 67.9586 37.3974 66.6485L44.7307 57.6885C45.3828 56.891 45.5172 55.7892 45.076 54.8583C44.6348 53.9275 43.6968 53.334 42.6667 53.3338H12.3814C10.2341 53.4177 8.36236 51.8848 8.02136 49.7631C7.89943 48.6338 8.26342 47.5059 9.02249 46.6608C9.78156 45.8158 10.8641 45.3333 12 45.3338H26.6667C28.1394 45.3338 29.3334 44.1399 29.3334 42.6671C29.3334 41.1944 28.1394 40.0005 26.6667 40.0005H9.71469C7.56956 40.0835 5.6992 38.554 5.35469 36.4351ZM112 87.0858L87.6534 111.23C87.1636 111.719 86.5004 111.995 85.808 111.998H72.912L48.7707 87.6618C48.2799 87.1717 48.0028 86.5074 48 85.8138V72.9071L72.3387 48.7711C72.8293 48.2794 73.4948 48.0023 74.1894 48.0005H87.096L111.237 72.3365C111.724 72.8295 111.998 73.4941 112 74.1871V87.0858ZM49.7387 151.979C48.6159 152.1 47.4949 151.735 46.6587 150.976C45.8185 150.215 45.3375 149.135 45.3334 148V147.96V133.334C45.3334 131.861 44.1394 130.667 42.6667 130.667C41.1939 130.667 40 131.861 40 133.334V148V148.038V150.291C40.0733 152.446 38.5274 154.317 36.3974 154.651C35.2769 154.773 34.1581 154.408 33.3254 153.648C32.4833 152.886 32.002 151.803 32 150.667V145.334V145.28V133.334C32 131.861 30.8061 130.667 29.3334 130.667C27.8606 130.667 26.6667 131.861 26.6667 133.334V145.334V145.366C26.6596 146.497 26.1742 147.571 25.3307 148.325C24.4872 149.078 23.3643 149.438 22.24 149.318C20.1152 148.978 18.5802 147.103 18.6667 144.952V140V139.96V128C18.6667 126.528 17.4728 125.334 16 125.334C14.5273 125.334 13.3334 126.528 13.3334 128V140V140.024C13.3284 141.156 12.8444 142.233 12.0012 142.987C11.158 143.742 10.0346 144.104 8.90936 143.984C6.78513 143.645 5.24966 141.771 5.33336 139.622V100.131C5.33747 99.6507 5.46315 99.1792 5.69869 98.7605L12.1867 87.9711C12.9292 86.7304 13.3252 85.3131 13.3334 83.8671V58.6671H37.0347L33.2507 63.2885C30.8111 66.2558 30.6376 70.4818 32.8257 73.6391C35.0138 76.7964 39.0318 78.1176 42.6667 76.8751V85.8138C42.6755 87.9125 43.5087 89.9237 44.9867 91.4138L69.856 116.48C69.8854 116.512 69.9147 116.542 69.9467 116.571L71.032 117.664C71.9664 118.616 72.2382 120.035 71.7213 121.264C71.2044 122.493 70 123.291 68.6667 123.288C67.941 123.292 67.2358 123.048 66.6667 122.598L57.7094 115.267C56.912 114.601 55.8005 114.459 54.8612 114.903C53.9218 115.346 53.3256 116.295 53.3334 117.334V147.619C53.4071 149.771 51.8655 151.641 49.7387 151.979ZM154.645 123.566C154.769 124.696 154.406 125.825 153.646 126.672C152.887 127.518 151.804 128.001 150.667 128H133.333C131.861 128 130.667 129.194 130.667 130.667C130.667 132.14 131.861 133.334 133.333 133.334H145.333C146.47 133.331 147.554 133.812 148.315 134.657C149.076 135.502 149.441 136.63 149.32 137.76C148.979 139.886 147.103 141.42 144.952 141.334H128C126.527 141.334 125.333 142.528 125.333 144C125.333 145.473 126.527 146.667 128 146.667H140C141.137 146.664 142.221 147.146 142.982 147.99C143.743 148.835 144.108 149.964 143.987 151.094C143.647 153.22 141.77 154.755 139.619 154.667H100.128C99.642 154.663 99.1662 154.527 98.752 154.272L87.968 147.814C86.727 147.07 85.3084 146.674 83.8614 146.667H58.6667V122.958L63.2854 126.739C66.7481 129.395 71.6306 129.126 74.7814 126.107C77.1247 123.838 77.942 120.417 76.8774 117.334H85.8107C87.9094 117.325 89.9206 116.492 91.4107 115.014L116.499 90.1338L116.592 90.0431L117.677 88.9765C118.978 87.7048 121.061 87.719 122.344 89.0085C123.515 90.1843 123.63 92.0477 122.611 93.3578L115.277 102.318C114.63 103.114 114.496 104.212 114.935 105.14C115.374 106.068 116.307 106.662 117.333 106.667H147.619C149.766 106.583 151.638 108.116 151.979 110.238C152.101 111.367 151.737 112.495 150.978 113.34C150.218 114.185 149.136 114.668 148 114.667H133.333C131.861 114.667 130.667 115.861 130.667 117.334C130.667 118.807 131.861 120 133.333 120H150.293C152.435 119.922 154.301 121.45 154.645 123.566ZM154.667 59.8698C154.663 60.3554 154.527 60.8309 154.275 61.2458L147.813 72.0298C147.07 73.27 146.673 74.6877 146.667 76.1338V101.334H122.957L126.741 96.7125C129.488 93.2795 129.214 88.33 126.104 85.2218C123.775 82.9865 120.406 82.2102 117.333 83.2005V74.1871C117.325 72.0884 116.491 70.0772 115.013 68.5871L90.1334 43.4831L90.0827 43.4325L88.9814 42.3231C88.3566 41.706 88.0076 40.8626 88.0136 39.9844C88.0196 39.1062 88.3802 38.2677 89.0134 37.6591C90.2054 36.5219 92.0434 36.4093 93.3654 37.3925L102.323 44.7231C103.119 45.3677 104.215 45.4988 105.141 45.0604C106.067 44.6221 106.66 43.6918 106.667 42.6671V12.3818C106.584 10.2341 108.118 8.36271 110.24 8.0218C111.369 7.90069 112.496 8.26505 113.341 9.02402C114.185 9.783 114.667 10.8651 114.667 12.0005V26.6671C114.667 28.1399 115.861 29.3338 117.333 29.3338C118.806 29.3338 120 28.1399 120 26.6671V9.71514C119.916 7.56699 121.451 5.69493 123.573 5.35514C124.702 5.23403 125.829 5.59838 126.674 6.35736C127.518 7.11633 128 8.19841 128 9.3338V26.6671C128 28.1399 129.194 29.3338 130.667 29.3338C132.139 29.3338 133.333 28.1399 133.333 26.6671V14.6671C133.331 13.5308 133.813 12.4473 134.657 11.6871C135.502 10.927 136.63 10.5619 137.76 10.6831C139.885 11.0232 141.42 12.8983 141.333 15.0485V32.0005C141.333 33.4732 142.527 34.6671 144 34.6671C145.473 34.6671 146.667 33.4732 146.667 32.0005V20.0005C146.665 18.8641 147.146 17.7806 147.991 17.0205C148.835 16.2603 149.964 15.8953 151.093 16.0165C153.217 16.3575 154.751 18.2304 154.667 20.3791V59.8698Z" />
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_220_3">
-                              <rect width="160" height="160" fill="none" />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                      </div>
-                    </TextAnim>
-                    <TextAnim delay={0.1}>
-                      <p className="text-3xl font-medium text-white/80 max-w-[70%]">
-                        We understand the value of collective success, not just
-                        individual achievements. When executing our projects, we
-                        collaborate closely with every member of our team and
-                        highly value collaborative work principles
+                  </TextAnim>
+                  <TextAnim delay={0.1}>
+                    <p className="md:text-3xl text-lg font-medium text-white/80 md:max-w-[70%]">
+                      Honesty and reliability towards our clients and partners
+                      are our most important principles. We consistently fulfill
+                      our commitments to clients and strive to provide them with
+                      the highest level of service
+                    </p>
+                  </TextAnim>
+                </div>
+                <div className="flex flex-col md:gap-y-6 items-end">
+                  <TextAnim dir="<">
+                    <div className="flex gap-x-4 items-center w-fit">
+                      <h1
+                        className="md:text-[160px] text-[40px] font-bold bg-clip-text text-transparent flex font-manrope"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to top, transparent, rgba(251, 191, 36, 1))",
+                        }}
+                      >
+                        Innovation
+                      </h1>
+                      <svg
+                        className="md:h-[160px] h-[40px] md:w-fit w-[40px]"
+                        viewBox="0 0 160 160"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          className="fill-white/80"
+                          d="M95.5984 106.71C95.665 108.034 95.9317 109.315 96.3984 110.555C97.1584 112.735 96.4534 115.155 94.6484 116.595L92.4984 129.87C92.3659 130.971 91.8318 131.984 90.9984 132.715L88.6484 134.86L88.1984 135.31L85.7484 138.205C85.2724 138.775 84.6754 139.232 84.0008 139.543C83.3262 139.853 82.5909 140.009 81.8484 140H78.1484C77.4054 140.009 76.6698 139.852 75.9952 139.54C75.3206 139.229 74.7238 138.771 74.2484 138.2L71.7984 135.31L71.3484 134.86L68.9984 132.71C68.166 131.98 67.632 130.969 67.4984 129.87L65.3484 116.445C64.4684 115.743 63.8277 114.785 63.5144 113.703C63.201 112.622 63.2303 111.469 63.5984 110.405C64.066 109.174 64.336 107.876 64.3984 106.56C69.9817 107.184 75.5817 107.5 81.1984 107.51C85.5984 107.51 90.5984 107.21 95.5984 106.71ZM119.998 60.0002C120.009 67.0028 118.182 73.8855 114.698 79.9602L114.148 80.8102C113.648 81.6102 113.148 82.4102 112.598 83.1602C105.798 93.0352 100.248 95.1852 96.8484 101.57C91.6848 102.142 86.4935 102.426 81.2984 102.42C75.2084 102.42 69.1417 102.054 63.0984 101.32C59.6984 95.1352 54.1984 92.8902 47.4984 83.1552C46.9484 82.4052 46.4484 81.6052 45.9484 80.8052L45.3984 79.9602C41.2729 72.8675 39.4374 64.6743 40.1426 56.4994C40.8478 48.3246 44.0592 40.5667 49.3384 34.2852C54.6227 27.9964 61.7131 23.4844 69.6482 21.3611C77.5833 19.2378 85.9794 19.6058 93.6984 22.4152C101.412 25.2196 108.075 30.3318 112.781 37.0567C117.486 43.7815 120.006 51.7925 119.998 60.0002ZM89.9984 62.8452C91.2064 62.4983 92.2687 61.7676 93.0248 60.7637C93.781 59.7598 94.19 58.5371 94.19 57.2802C94.19 56.0234 93.781 54.8007 93.0248 53.7967C92.2687 52.7928 91.2064 52.0622 89.9984 51.7152L74.4984 47.4702C73.0984 47.1202 72.3484 46.3702 72.3484 45.8702C72.3484 45.3752 73.0984 44.6752 74.3984 44.2752L90.4984 40.2852C90.8182 40.2156 91.1203 40.0814 91.3863 39.8907C91.6523 39.7 91.8765 39.4569 92.0451 39.1764C92.2137 38.8959 92.3231 38.5839 92.3667 38.2595C92.4102 37.9351 92.387 37.6053 92.2984 37.2902C92.1326 36.655 91.7282 36.1081 91.1694 35.7635C90.6106 35.4189 89.9404 35.3031 89.2984 35.4402L73.1484 39.4402C71.607 39.7225 70.2023 40.5067 69.1532 41.6706C68.1041 42.8346 67.4695 44.3129 67.3484 45.8752C67.4611 47.4403 68.0928 48.9231 69.1434 50.0887C70.1939 51.2543 71.6033 52.0361 73.1484 52.3102L88.5484 56.6052C88.7244 56.6506 88.8797 56.7545 88.9888 56.8999C89.0978 57.0453 89.1541 57.2236 89.1484 57.4052C89.1519 57.5807 89.0938 57.7518 88.9842 57.8889C88.8745 58.0259 88.7203 58.1202 88.5484 58.1552L69.9984 63.1452C68.7716 63.4589 67.6858 64.1755 66.9151 65.1801C66.1444 66.1847 65.7335 67.4191 65.7484 68.6852C65.7234 71.2952 67.4734 73.5902 69.9984 74.2702L85.4984 78.2152C86.8984 78.5652 87.6484 79.3152 87.6484 79.8152C87.6484 80.3152 86.8984 81.0102 85.5984 81.4102L69.9984 85.0502C69.6704 85.0863 69.3527 85.1867 69.0635 85.3456C68.7743 85.5044 68.5193 85.7187 68.3129 85.9762C68.1065 86.2336 67.9529 86.5292 67.8607 86.846C67.7686 87.1629 67.7397 87.4948 67.7759 87.8227C67.812 88.1507 67.9123 88.4684 68.0712 88.7575C68.2301 89.0467 68.4444 89.3018 68.7018 89.5082C68.9593 89.7146 69.2548 89.8682 69.5717 89.9604C69.8885 90.0525 70.2204 90.0813 70.5484 90.0452H71.1484L86.8484 86.3952C88.3897 86.113 89.7944 85.3288 90.8435 84.1648C91.8926 83.0009 92.5272 81.5225 92.6484 79.9602C92.5194 78.4138 91.8873 76.9523 90.8489 75.7992C89.8105 74.6461 88.4228 73.8649 86.8984 73.5752L71.4484 69.3302C71.2716 69.3053 71.111 69.2138 70.9994 69.0744C70.8879 68.9349 70.8339 68.7582 70.8484 68.5802C70.8448 68.4048 70.9029 68.2336 71.0126 68.0966C71.1222 67.9595 71.2764 67.8653 71.4484 67.8302L89.9984 62.8452Z"
+                        />
+                        <path
+                          className="stroke-amber-400"
+                          d="M52.5 15L53.8475 20.98C54.4086 23.4642 55.6623 25.7385 57.4631 27.5394C59.264 29.3402 61.5383 30.5939 64.0225 31.155L70 32.5L64.02 33.8475C61.5358 34.4086 59.2615 35.6623 57.4606 37.4631C55.6598 39.264 54.4061 41.5383 53.845 44.0225L52.5 50L51.1525 44.02C50.5914 41.5358 49.3377 39.2615 47.5369 37.4606C45.736 35.6598 43.4617 34.4061 40.9775 33.845L35 32.5L40.98 31.1525C43.4642 30.5914 45.7385 29.3377 47.5394 27.5369C49.3402 25.736 50.5939 23.4617 51.155 20.9775L52.5 15ZM32.5 40L33.4625 44.27C33.8633 46.0443 34.7588 47.6687 36.045 48.955C37.3313 50.2412 38.9557 51.1367 40.73 51.5375L45 52.5L40.73 53.4625C38.9557 53.8633 37.3313 54.7588 36.045 56.045C34.7588 57.3313 33.8633 58.9557 33.4625 60.73L32.5 65L31.5375 60.73C31.1367 58.9557 30.2412 57.3313 28.955 56.045C27.6687 54.7588 26.0443 53.8633 24.27 53.4625L20 52.5L24.27 51.5375C26.0443 51.1367 27.6687 50.2412 28.955 48.955C30.2412 47.6687 31.1367 46.0443 31.5375 44.27L32.5 40Z"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  </TextAnim>
+                  <div className="md:max-w-[70%]">
+                    <TextAnim dir="<" delay={0.1}>
+                      <p className="md:text-3xl text-lg font-medium text-white/80 w-fit text-right">
+                        In line with modern trends, we employ innovative
+                        technologies and advanced methods in our projects. This
+                        enables us to enhance our clients' competitiveness and
+                        help them achieve their business objectives
                       </p>
                     </TextAnim>
                   </div>
-                  <div className="flex flex-col gap-y-6 items-end">
-                    <TextAnim dir="<">
-                      <div className="flex gap-x-4 items-center w-fit">
-                        <h1
-                          className="text-[160px] font-bold bg-clip-text text-transparent flex font-manrope"
-                          style={{
-                            background: `linear-gradient(
+                </div>
+                <div className="flex flex-col md:gap-y-6">
+                  <TextAnim>
+                    <div className="flex gap-x-4 items-center">
+                      <h1
+                        className="md:text-[160px] text-[40px] font-bold bg-clip-text text-transparent flex font-manrope"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(135deg, rgba(5, 150, 105, 1), transparent)",
+                        }}
+                      >
+                        Teamwork
+                      </h1>
+                      <svg
+                        className="md:w-fit w-[40px] md:h-[160px] h-[40px] fill-emerald-600/60 md:p-4"
+                        viewBox="0 0 160 160"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g clipPath="url(#clip0_220_3)">
+                          <path d="M151.624 10.7151C149.722 10.5222 147.806 10.9148 146.133 11.8405C145.317 9.19089 143.352 7.04887 140.783 6.00668C138.213 4.9645 135.312 5.13259 132.88 6.46447C131.526 2.27211 127.425 -0.402626 123.043 0.0484688C120.191 0.372638 117.651 2.00207 116.168 4.45914C113.951 2.81793 111.112 2.26388 108.441 2.95102C105.769 3.63816 103.55 5.49322 102.4 8.00047H76.1387C75.6521 7.99686 75.1757 7.86139 74.76 7.60847L63.9787 1.1578C62.7392 0.408728 61.3202 0.00883105 59.872 0.000468785H20.3814C15.5015 -0.0649041 11.3461 3.53454 10.7147 8.3738C10.522 10.2768 10.9146 12.1932 11.84 13.8671C9.18969 14.6828 7.04694 16.6475 6.00504 19.2174C4.96315 21.7872 5.13268 24.6894 6.46669 27.1205C2.26784 28.4695 -0.410683 32.5768 0.0480222 36.9631C0.371009 39.8152 2.00075 42.3554 4.45869 43.8378C3.10545 45.7042 2.48483 48.0026 2.71469 50.2965C3.09568 53.4849 5.0934 56.2517 8.00002 57.6165V83.8671C7.99537 84.3514 7.85893 84.8252 7.60536 85.2378L1.09869 96.0751C0.390559 97.3105 0.0122071 98.7073 2.21975e-05 100.131V139.622C-0.0614047 144.501 3.53794 148.653 8.37602 149.286C10.2779 149.474 12.192 149.081 13.8667 148.16C14.683 150.811 16.6483 152.954 19.2185 153.996C21.7887 155.037 24.6912 154.868 27.1227 153.534C28.3582 157.392 31.9486 160.008 36 160C39.2148 160.001 42.192 158.308 43.8347 155.544C46.0538 157.186 48.8944 157.739 51.5675 157.052C54.2406 156.364 56.4614 154.509 57.6134 152H83.8614C84.3479 152.004 84.8244 152.14 85.24 152.392L96.0214 158.848C97.2616 159.595 98.6806 159.992 100.128 159.998H139.619C144.499 160.063 148.654 156.464 149.285 151.624C149.477 149.722 149.085 147.807 148.16 146.134C150.81 145.318 152.953 143.353 153.995 140.784C155.037 138.214 154.867 135.312 153.533 132.88C157.73 131.532 160.408 127.428 159.952 123.043C159.629 120.191 157.999 117.651 155.541 116.168C156.895 114.302 157.515 112.004 157.285 109.71C156.901 106.525 154.904 103.763 152 102.4V76.1338C152.006 75.6484 152.141 75.1733 152.392 74.7578L158.851 63.9791C159.597 62.7379 159.994 61.3181 160 59.8698V20.3791C160.061 15.5003 156.462 11.3475 151.624 10.7151ZM5.35469 36.4351C5.23114 35.3049 5.59439 34.1755 6.35364 33.3293C7.1129 32.483 8.19641 31.9998 9.33336 32.0005H26.6667C28.1394 32.0005 29.3334 30.8066 29.3334 29.3338C29.3334 27.861 28.1394 26.6671 26.6667 26.6671H14.6667C13.5299 26.6698 12.4457 26.1887 11.6849 25.344C10.9242 24.4993 10.5588 23.3708 10.68 22.2405C11.0213 20.1152 12.8973 18.5805 15.048 18.6671H32C33.4728 18.6671 34.6667 17.4732 34.6667 16.0005C34.6667 14.5277 33.4728 13.3338 32 13.3338H20C18.8632 13.3365 17.779 12.8554 17.0182 12.0107C16.2575 11.1659 15.8921 10.0374 16.0134 8.90714C16.3535 6.78125 18.2302 5.24595 20.3814 5.3338H59.872C60.3581 5.33749 60.8339 5.47396 61.248 5.72847L72.032 12.1871C73.2731 12.9312 74.6917 13.3273 76.1387 13.3338H101.333V37.0378L96.7147 33.2565C93.2488 30.6111 88.3737 30.8791 85.2187 33.8885C82.876 36.1604 82.0618 39.5838 83.1307 42.6671H74.1894C72.0906 42.676 70.0794 43.5092 68.5894 44.9871L43.4934 69.8778L43.44 69.9311L42.3307 71.0298C41.0299 72.3015 38.9472 72.2872 37.664 70.9978C36.4928 69.8219 36.3785 67.9586 37.3974 66.6485L44.7307 57.6885C45.3828 56.891 45.5172 55.7892 45.076 54.8583C44.6348 53.9275 43.6968 53.334 42.6667 53.3338H12.3814C10.2341 53.4177 8.36236 51.8848 8.02136 49.7631C7.89943 48.6338 8.26342 47.5059 9.02249 46.6608C9.78156 45.8158 10.8641 45.3333 12 45.3338H26.6667C28.1394 45.3338 29.3334 44.1399 29.3334 42.6671C29.3334 41.1944 28.1394 40.0005 26.6667 40.0005H9.71469C7.56956 40.0835 5.6992 38.554 5.35469 36.4351ZM112 87.0858L87.6534 111.23C87.1636 111.719 86.5004 111.995 85.808 111.998H72.912L48.7707 87.6618C48.2799 87.1717 48.0028 86.5074 48 85.8138V72.9071L72.3387 48.7711C72.8293 48.2794 73.4948 48.0023 74.1894 48.0005H87.096L111.237 72.3365C111.724 72.8295 111.998 73.4941 112 74.1871V87.0858ZM49.7387 151.979C48.6159 152.1 47.4949 151.735 46.6587 150.976C45.8185 150.215 45.3375 149.135 45.3334 148V147.96V133.334C45.3334 131.861 44.1394 130.667 42.6667 130.667C41.1939 130.667 40 131.861 40 133.334V148V148.038V150.291C40.0733 152.446 38.5274 154.317 36.3974 154.651C35.2769 154.773 34.1581 154.408 33.3254 153.648C32.4833 152.886 32.002 151.803 32 150.667V145.334V145.28V133.334C32 131.861 30.8061 130.667 29.3334 130.667C27.8606 130.667 26.6667 131.861 26.6667 133.334V145.334V145.366C26.6596 146.497 26.1742 147.571 25.3307 148.325C24.4872 149.078 23.3643 149.438 22.24 149.318C20.1152 148.978 18.5802 147.103 18.6667 144.952V140V139.96V128C18.6667 126.528 17.4728 125.334 16 125.334C14.5273 125.334 13.3334 126.528 13.3334 128V140V140.024C13.3284 141.156 12.8444 142.233 12.0012 142.987C11.158 143.742 10.0346 144.104 8.90936 143.984C6.78513 143.645 5.24966 141.771 5.33336 139.622V100.131C5.33747 99.6507 5.46315 99.1792 5.69869 98.7605L12.1867 87.9711C12.9292 86.7304 13.3252 85.3131 13.3334 83.8671V58.6671H37.0347L33.2507 63.2885C30.8111 66.2558 30.6376 70.4818 32.8257 73.6391C35.0138 76.7964 39.0318 78.1176 42.6667 76.8751V85.8138C42.6755 87.9125 43.5087 89.9237 44.9867 91.4138L69.856 116.48C69.8854 116.512 69.9147 116.542 69.9467 116.571L71.032 117.664C71.9664 118.616 72.2382 120.035 71.7213 121.264C71.2044 122.493 70 123.291 68.6667 123.288C67.941 123.292 67.2358 123.048 66.6667 122.598L57.7094 115.267C56.912 114.601 55.8005 114.459 54.8612 114.903C53.9218 115.346 53.3256 116.295 53.3334 117.334V147.619C53.4071 149.771 51.8655 151.641 49.7387 151.979ZM154.645 123.566C154.769 124.696 154.406 125.825 153.646 126.672C152.887 127.518 151.804 128.001 150.667 128H133.333C131.861 128 130.667 129.194 130.667 130.667C130.667 132.14 131.861 133.334 133.333 133.334H145.333C146.47 133.331 147.554 133.812 148.315 134.657C149.076 135.502 149.441 136.63 149.32 137.76C148.979 139.886 147.103 141.42 144.952 141.334H128C126.527 141.334 125.333 142.528 125.333 144C125.333 145.473 126.527 146.667 128 146.667H140C141.137 146.664 142.221 147.146 142.982 147.99C143.743 148.835 144.108 149.964 143.987 151.094C143.647 153.22 141.77 154.755 139.619 154.667H100.128C99.642 154.663 99.1662 154.527 98.752 154.272L87.968 147.814C86.727 147.07 85.3084 146.674 83.8614 146.667H58.6667V122.958L63.2854 126.739C66.7481 129.395 71.6306 129.126 74.7814 126.107C77.1247 123.838 77.942 120.417 76.8774 117.334H85.8107C87.9094 117.325 89.9206 116.492 91.4107 115.014L116.499 90.1338L116.592 90.0431L117.677 88.9765C118.978 87.7048 121.061 87.719 122.344 89.0085C123.515 90.1843 123.63 92.0477 122.611 93.3578L115.277 102.318C114.63 103.114 114.496 104.212 114.935 105.14C115.374 106.068 116.307 106.662 117.333 106.667H147.619C149.766 106.583 151.638 108.116 151.979 110.238C152.101 111.367 151.737 112.495 150.978 113.34C150.218 114.185 149.136 114.668 148 114.667H133.333C131.861 114.667 130.667 115.861 130.667 117.334C130.667 118.807 131.861 120 133.333 120H150.293C152.435 119.922 154.301 121.45 154.645 123.566ZM154.667 59.8698C154.663 60.3554 154.527 60.8309 154.275 61.2458L147.813 72.0298C147.07 73.27 146.673 74.6877 146.667 76.1338V101.334H122.957L126.741 96.7125C129.488 93.2795 129.214 88.33 126.104 85.2218C123.775 82.9865 120.406 82.2102 117.333 83.2005V74.1871C117.325 72.0884 116.491 70.0772 115.013 68.5871L90.1334 43.4831L90.0827 43.4325L88.9814 42.3231C88.3566 41.706 88.0076 40.8626 88.0136 39.9844C88.0196 39.1062 88.3802 38.2677 89.0134 37.6591C90.2054 36.5219 92.0434 36.4093 93.3654 37.3925L102.323 44.7231C103.119 45.3677 104.215 45.4988 105.141 45.0604C106.067 44.6221 106.66 43.6918 106.667 42.6671V12.3818C106.584 10.2341 108.118 8.36271 110.24 8.0218C111.369 7.90069 112.496 8.26505 113.341 9.02402C114.185 9.783 114.667 10.8651 114.667 12.0005V26.6671C114.667 28.1399 115.861 29.3338 117.333 29.3338C118.806 29.3338 120 28.1399 120 26.6671V9.71514C119.916 7.56699 121.451 5.69493 123.573 5.35514C124.702 5.23403 125.829 5.59838 126.674 6.35736C127.518 7.11633 128 8.19841 128 9.3338V26.6671C128 28.1399 129.194 29.3338 130.667 29.3338C132.139 29.3338 133.333 28.1399 133.333 26.6671V14.6671C133.331 13.5308 133.813 12.4473 134.657 11.6871C135.502 10.927 136.63 10.5619 137.76 10.6831C139.885 11.0232 141.42 12.8983 141.333 15.0485V32.0005C141.333 33.4732 142.527 34.6671 144 34.6671C145.473 34.6671 146.667 33.4732 146.667 32.0005V20.0005C146.665 18.8641 147.146 17.7806 147.991 17.0205C148.835 16.2603 149.964 15.8953 151.093 16.0165C153.217 16.3575 154.751 18.2304 154.667 20.3791V59.8698Z" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_220_3">
+                            <rect width="160" height="160" fill="none" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </div>
+                  </TextAnim>
+                  <TextAnim delay={0.1}>
+                    <p className="md:text-3xl text-lg font-medium text-white/80 md:max-w-[70%]">
+                      We understand the value of collective success, not just
+                      individual achievements. When executing our projects, we
+                      collaborate closely with every member of our team and
+                      highly value collaborative work principles
+                    </p>
+                  </TextAnim>
+                </div>
+                <div className="flex flex-col md:gap-y-6 items-end">
+                  <TextAnim dir="<">
+                    <div className="flex gap-x-4 items-center w-fit">
+                      <h1
+                        className="md:text-[160px] text-[40px] font-bold bg-clip-text text-transparent flex font-manrope"
+                        style={{
+                          background: `linear-gradient(
           45deg,
           rgba(12, 61, 145, 0.7) 5%,
           rgba(255, 255, 255, 0.9) 10%,
@@ -774,241 +791,248 @@ const About = () => {
           rgba(255, 255, 255, 0.9) 80%,
           rgba(12, 61, 145, 0.7) 95%
         )`,
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                            backgroundClip: "text",
-                          }}
-                        >
-                          Quality
-                        </h1>
-                        <svg
-                          className="w-fit h-[160px] p-4"
-                          viewBox="0 0 160 160"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g className="fill-white/80">
-                            <path d="M111.274 24.4219H82.751V49.9756H121.059L111.274 24.4219Z" />
-                            <path d="M56.46 55.4863C55.3193 58.6859 52.29 60.9958 48.7031 60.9958C46.862 60.9958 45.1536 61.9049 44.1299 63.4277C43.5192 64.3395 43.1937 65.4049 43.1937 66.5052C43.1937 66.5264 43.1878 66.5459 43.1875 66.5671L77.2422 155.466V55.4863H56.46Z" />
-                            <path d="M39.806 73.1416C38.4355 74.152 36.7588 74.7692 34.929 74.7692C30.3717 74.7692 26.6644 71.0625 26.6644 66.5052C26.6644 65.0339 26.097 63.6562 25.0651 62.626C24.0133 61.5739 22.625 60.9958 21.1549 60.9958C17.5684 60.9958 14.5391 58.6859 13.3984 55.4863H0.00195312L69.9482 151.83L39.806 73.1416Z" />
-                            <path d="M18.5391 24.4115L0 49.9759H13.3988C14.5394 46.776 17.5687 44.4665 21.1553 44.4665C24.1937 44.4665 26.6647 41.9938 26.6647 38.9567C26.6647 34.3997 30.3721 30.6927 34.9294 30.6927C36.7565 30.6927 38.4313 31.3079 39.8011 32.3161L42.8255 24.4111L18.5391 24.4115Z" />
-                            <path d="M48.7253 24.4111L43.1865 38.888C43.1868 38.9115 43.1937 38.9336 43.1937 38.957C43.1937 40.0254 43.5368 41.1494 44.1354 42.0426C44.3141 42.3119 44.5322 42.5726 44.7891 42.8285C45.861 43.9017 47.2129 44.4668 48.7031 44.4668C52.2897 44.4668 55.319 46.7767 56.46 49.9762H77.2422V24.4111H48.7253Z" />
-                            <path d="M150.872 37.3939C149.995 41.0153 146.748 43.7217 142.861 43.7217C138.303 43.7217 134.596 40.0143 134.596 35.4574C134.596 33.9564 134.042 32.6165 132.996 31.5807C131.909 30.4801 130.561 29.9206 129.057 29.9206C125.47 29.9206 122.441 27.6107 121.301 24.4111H117.17L126.968 49.9762H160L150.872 37.3939Z" />
-                            <path d="M126.96 55.4863L112.56 93.068L90.0498 151.819L159.983 55.4863H126.96Z" />
-                            <path d="M82.751 55.4863V155.467L121.058 55.4863H82.751Z" />
-                          </g>
-                          <g className="fill-creatBGLight">
-                            <path d="M39.7734 47.8519C39.0436 47.1221 38.347 46.2926 37.7497 45.3965C35.9909 42.7751 34.929 39.5566 34.929 36.1387C34.929 45.2969 27.4964 52.7298 18.3379 52.7298C22.9173 52.7298 27.0648 54.5882 30.0843 57.6074C33.0706 60.5937 34.9287 64.7415 34.9287 69.3206C34.9287 65.903 35.9906 62.6842 37.7493 60.0628C40.7357 55.6162 45.8122 52.7295 51.5195 52.7295C46.9408 52.7292 42.793 50.8708 39.7734 47.8519Z" />
-                            <path d="M147.862 16.6198C144.781 13.5384 142.863 9.25814 142.863 4.5332C142.863 13.9837 135.193 21.6533 125.709 21.6533C130.468 21.6533 134.748 23.5706 137.83 26.6862C140.946 29.7686 142.863 34.0824 142.863 38.8073C142.863 34.4932 144.472 30.5218 147.109 27.5078C150.259 23.9134 154.847 21.6533 159.983 21.6533C155.258 21.6533 150.978 19.7357 147.862 16.6198Z" />
-                          </g>
-                        </svg>
-                      </div>
-                    </TextAnim>
-                    <div className="max-w-[70%]">
-                      <TextAnim dir="<" delay={0.1}>
-                        <p className="text-3xl font-medium text-white/80 w-fit text-right">
-                          Quality is at the heart of our work. We adhere to the
-                          highest standards in every project and pay particular
-                          attention to the quality of the solutions we deliver
-                          to our clients
-                        </p>
-                      </TextAnim>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-1/2 z-10">
-              <svg
-                width="100%"
-                height="100%"
-                preserveAspectRatio="none"
-                viewBox="0 0 1920 100"
-              >
-                <path
-                  d="M0 13L29.2 13.8C58.3 14.7 116.7 16.3 174.8 15.8C233 15.3 291 12.7 349.2 11.5C407.3 10.3 465.7 10.7 523.8 11.8C582 13 640 15 698.2 14.7C756.3 14.3 814.7 11.7 872.8 11.3C931 11 989 13 1047.2 14.2C1105.3 15.3 1163.7 15.7 1221.8 14.7C1280 13.7 1338 11.3 1396.2 11.7C1454.3 12 1512.7 15 1570.8 16.3C1629 17.7 1687 17.3 1745.2 17.2C1803.3 17 1861.7 17 1890.8 17L1920 17L1920 0L1890.8 0C1861.7 0 1803.3 0 1745.2 0C1687 0 1629 0 1570.8 0C1512.7 0 1454.3 0 1396.2 0C1338 0 1280 0 1221.8 0C1163.7 0 1105.3 0 1047.2 0C989 0 931 0 872.8 0C814.7 0 756.3 0 698.2 0C640 0 582 0 523.8 0C465.7 0 407.3 0 349.2 0C291 0 233 0 174.8 0C116.7 0 58.3 0 29.2 0L0 0Z"
-                  fill="#081731"
-                ></path>
-                <path
-                  d="M0 26L29.2 28.3C58.3 30.7 116.7 35.3 174.8 36.7C233 38 291 36 349.2 36.8C407.3 37.7 465.7 41.3 523.8 45.2C582 49 640 53 698.2 53C756.3 53 814.7 49 872.8 44.8C931 40.7 989 36.3 1047.2 35.3C1105.3 34.3 1163.7 36.7 1221.8 35.5C1280 34.3 1338 29.7 1396.2 33C1454.3 36.3 1512.7 47.7 1570.8 53C1629 58.3 1687 57.7 1745.2 55.2C1803.3 52.7 1861.7 48.3 1890.8 46.2L1920 44L1920 15L1890.8 15C1861.7 15 1803.3 15 1745.2 15.2C1687 15.3 1629 15.7 1570.8 14.3C1512.7 13 1454.3 10 1396.2 9.7C1338 9.3 1280 11.7 1221.8 12.7C1163.7 13.7 1105.3 13.3 1047.2 12.2C989 11 931 9 872.8 9.3C814.7 9.7 756.3 12.3 698.2 12.7C640 13 582 11 523.8 9.8C465.7 8.7 407.3 8.3 349.2 9.5C291 10.7 233 13.3 174.8 13.8C116.7 14.3 58.3 12.7 29.2 11.8L0 11Z"
-                  fill="#072047"
-                ></path>
-                <path
-                  d="M0 47L29.2 46.8C58.3 46.7 116.7 46.3 174.8 46.8C233 47.3 291 48.7 349.2 51.2C407.3 53.7 465.7 57.3 523.8 60.7C582 64 640 67 698.2 66.8C756.3 66.7 814.7 63.3 872.8 59.3C931 55.3 989 50.7 1047.2 49.2C1105.3 47.7 1163.7 49.3 1221.8 48.8C1280 48.3 1338 45.7 1396.2 48C1454.3 50.3 1512.7 57.7 1570.8 62.5C1629 67.3 1687 69.7 1745.2 69.2C1803.3 68.7 1861.7 65.3 1890.8 63.7L1920 62L1920 42L1890.8 44.2C1861.7 46.3 1803.3 50.7 1745.2 53.2C1687 55.7 1629 56.3 1570.8 51C1512.7 45.7 1454.3 34.3 1396.2 31C1338 27.7 1280 32.3 1221.8 33.5C1163.7 34.7 1105.3 32.3 1047.2 33.3C989 34.3 931 38.7 872.8 42.8C814.7 47 756.3 51 698.2 51C640 51 582 47 523.8 43.2C465.7 39.3 407.3 35.7 349.2 34.8C291 34 233 36 174.8 34.7C116.7 33.3 58.3 28.7 29.2 26.3L0 24Z"
-                  fill="#052a5f"
-                ></path>
-                <path
-                  d="M0 78L29.2 80.2C58.3 82.3 116.7 86.7 174.8 88.3C233 90 291 89 349.2 86.5C407.3 84 465.7 80 523.8 79.5C582 79 640 82 698.2 82.2C756.3 82.3 814.7 79.7 872.8 80.2C931 80.7 989 84.3 1047.2 85.3C1105.3 86.3 1163.7 84.7 1221.8 83.2C1280 81.7 1338 80.3 1396.2 80.2C1454.3 80 1512.7 81 1570.8 82.5C1629 84 1687 86 1745.2 85.8C1803.3 85.7 1861.7 83.3 1890.8 82.2L1920 81L1920 60L1890.8 61.7C1861.7 63.3 1803.3 66.7 1745.2 67.2C1687 67.7 1629 65.3 1570.8 60.5C1512.7 55.7 1454.3 48.3 1396.2 46C1338 43.7 1280 46.3 1221.8 46.8C1163.7 47.3 1105.3 45.7 1047.2 47.2C989 48.7 931 53.3 872.8 57.3C814.7 61.3 756.3 64.7 698.2 64.8C640 65 582 62 523.8 58.7C465.7 55.3 407.3 51.7 349.2 49.2C291 46.7 233 45.3 174.8 44.8C116.7 44.3 58.3 44.7 29.2 44.8L0 45Z"
-                  fill="#053478"
-                ></path>
-                <path
-                  d="M0 101L29.2 101C58.3 101 116.7 101 174.8 101C233 101 291 101 349.2 101C407.3 101 465.7 101 523.8 101C582 101 640 101 698.2 101C756.3 101 814.7 101 872.8 101C931 101 989 101 1047.2 101C1105.3 101 1163.7 101 1221.8 101C1280 101 1338 101 1396.2 101C1454.3 101 1512.7 101 1570.8 101C1629 101 1687 101 1745.2 101C1803.3 101 1861.7 101 1890.8 101L1920 101L1920 79L1890.8 80.2C1861.7 81.3 1803.3 83.7 1745.2 83.8C1687 84 1629 82 1570.8 80.5C1512.7 79 1454.3 78 1396.2 78.2C1338 78.3 1280 79.7 1221.8 81.2C1163.7 82.7 1105.3 84.3 1047.2 83.3C989 82.3 931 78.7 872.8 78.2C814.7 77.7 756.3 80.3 698.2 80.2C640 80 582 77 523.8 77.5C465.7 78 407.3 82 349.2 84.5C291 87 233 88 174.8 86.3C116.7 84.7 58.3 80.3 29.2 78.2L0 76Z"
-                  fill="#0c3d91"
-                ></path>
-              </svg>
-            </div>
-          </div>
-          <div className="relative bg-creatBGLight">
-            <div className="flex flex-col px-28 h-full w-full max-w-[1920px] mx-auto justify-center">
-              <div className="flex flex-col gap-y-12 mt-48">
-                <div className="flex flex-col gap-y-6">
-                  <div className="flex justify-between items-end">
-                    <TextAnim>
-                      <h1 className="text-5xl text-white/90 ">Our Services</h1>
-                    </TextAnim>
-                    <TextAnim>
-                      <Link
-                        aria-label="View All Services"
-                        rel="noopener noreferrer"
-                        className="text-white uppercase hover:opacity-70 transition-opacity font-medium"
-                        href="/services"
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          backgroundClip: "text",
+                        }}
                       >
-                        All Services
-                      </Link>
+                        Quality
+                      </h1>
+                      <svg
+                        className="md:h-[160px] md:p-4 h-[40px] w-[40px] md:w-fit"
+                        viewBox="0 0 160 160"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g className="fill-white/80">
+                          <path d="M111.274 24.4219H82.751V49.9756H121.059L111.274 24.4219Z" />
+                          <path d="M56.46 55.4863C55.3193 58.6859 52.29 60.9958 48.7031 60.9958C46.862 60.9958 45.1536 61.9049 44.1299 63.4277C43.5192 64.3395 43.1937 65.4049 43.1937 66.5052C43.1937 66.5264 43.1878 66.5459 43.1875 66.5671L77.2422 155.466V55.4863H56.46Z" />
+                          <path d="M39.806 73.1416C38.4355 74.152 36.7588 74.7692 34.929 74.7692C30.3717 74.7692 26.6644 71.0625 26.6644 66.5052C26.6644 65.0339 26.097 63.6562 25.0651 62.626C24.0133 61.5739 22.625 60.9958 21.1549 60.9958C17.5684 60.9958 14.5391 58.6859 13.3984 55.4863H0.00195312L69.9482 151.83L39.806 73.1416Z" />
+                          <path d="M18.5391 24.4115L0 49.9759H13.3988C14.5394 46.776 17.5687 44.4665 21.1553 44.4665C24.1937 44.4665 26.6647 41.9938 26.6647 38.9567C26.6647 34.3997 30.3721 30.6927 34.9294 30.6927C36.7565 30.6927 38.4313 31.3079 39.8011 32.3161L42.8255 24.4111L18.5391 24.4115Z" />
+                          <path d="M48.7253 24.4111L43.1865 38.888C43.1868 38.9115 43.1937 38.9336 43.1937 38.957C43.1937 40.0254 43.5368 41.1494 44.1354 42.0426C44.3141 42.3119 44.5322 42.5726 44.7891 42.8285C45.861 43.9017 47.2129 44.4668 48.7031 44.4668C52.2897 44.4668 55.319 46.7767 56.46 49.9762H77.2422V24.4111H48.7253Z" />
+                          <path d="M150.872 37.3939C149.995 41.0153 146.748 43.7217 142.861 43.7217C138.303 43.7217 134.596 40.0143 134.596 35.4574C134.596 33.9564 134.042 32.6165 132.996 31.5807C131.909 30.4801 130.561 29.9206 129.057 29.9206C125.47 29.9206 122.441 27.6107 121.301 24.4111H117.17L126.968 49.9762H160L150.872 37.3939Z" />
+                          <path d="M126.96 55.4863L112.56 93.068L90.0498 151.819L159.983 55.4863H126.96Z" />
+                          <path d="M82.751 55.4863V155.467L121.058 55.4863H82.751Z" />
+                        </g>
+                        <g className="fill-creatBGLight">
+                          <path d="M39.7734 47.8519C39.0436 47.1221 38.347 46.2926 37.7497 45.3965C35.9909 42.7751 34.929 39.5566 34.929 36.1387C34.929 45.2969 27.4964 52.7298 18.3379 52.7298C22.9173 52.7298 27.0648 54.5882 30.0843 57.6074C33.0706 60.5937 34.9287 64.7415 34.9287 69.3206C34.9287 65.903 35.9906 62.6842 37.7493 60.0628C40.7357 55.6162 45.8122 52.7295 51.5195 52.7295C46.9408 52.7292 42.793 50.8708 39.7734 47.8519Z" />
+                          <path d="M147.862 16.6198C144.781 13.5384 142.863 9.25814 142.863 4.5332C142.863 13.9837 135.193 21.6533 125.709 21.6533C130.468 21.6533 134.748 23.5706 137.83 26.6862C140.946 29.7686 142.863 34.0824 142.863 38.8073C142.863 34.4932 144.472 30.5218 147.109 27.5078C150.259 23.9134 154.847 21.6533 159.983 21.6533C155.258 21.6533 150.978 19.7357 147.862 16.6198Z" />
+                        </g>
+                      </svg>
+                    </div>
+                  </TextAnim>
+                  <div className="md:max-w-[70%]">
+                    <TextAnim dir="<" delay={0.1}>
+                      <p className="md:text-3xl text-lg font-medium text-white/80 w-fit text-right">
+                        Quality is at the heart of our work. We adhere to the
+                        highest standards in every project and pay particular
+                        attention to the quality of the solutions we deliver to
+                        our clients
+                      </p>
                     </TextAnim>
                   </div>
-                  <TextAnim delay={0.1}>
-                    <p className="text-3xl w-2/3 tracking-tighter text-white/70">
-                      <span className="text-creatBright">
-                        CREAT Company LLC
-                      </span>{" "}
-                      offers a wide range of project management services. These
-                      services encompass all stages of a project, from inception
-                      to completion
-                    </p>
-                  </TextAnim>
                 </div>
               </div>
-              <div className="grid grid-cols-3 grid-rows-2 gap-x-8 py-16">
-                {services.map((service, index) => (
-                  <Service
-                    key={index}
-                    name={service.name}
-                    description={service.description}
-                    icon={service.icon}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-1/2">
-              <svg
-                width="100%"
-                height="100%"
-                preserveAspectRatio="none"
-                viewBox="0 0 1920 100"
-              >
-                <path
-                  d="M0 22L29.2 20.8C58.3 19.7 116.7 17.3 174.8 16.5C233 15.7 291 16.3 349.2 17.8C407.3 19.3 465.7 21.7 523.8 22C582 22.3 640 20.7 698.2 20.2C756.3 19.7 814.7 20.3 872.8 19.8C931 19.3 989 17.7 1047.2 19.5C1105.3 21.3 1163.7 26.7 1221.8 29.8C1280 33 1338 34 1396.2 34.3C1454.3 34.7 1512.7 34.3 1570.8 32.8C1629 31.3 1687 28.7 1745.2 28.5C1803.3 28.3 1861.7 30.7 1890.8 31.8L1920 33L1920 0L1890.8 0C1861.7 0 1803.3 0 1745.2 0C1687 0 1629 0 1570.8 0C1512.7 0 1454.3 0 1396.2 0C1338 0 1280 0 1221.8 0C1163.7 0 1105.3 0 1047.2 0C989 0 931 0 872.8 0C814.7 0 756.3 0 698.2 0C640 0 582 0 523.8 0C465.7 0 407.3 0 349.2 0C291 0 233 0 174.8 0C116.7 0 58.3 0 29.2 0L0 0Z"
-                  fill="#0c3d91"
-                ></path>
-                <path
-                  d="M0 30L29.2 30C58.3 30 116.7 30 174.8 30.2C233 30.3 291 30.7 349.2 31.5C407.3 32.3 465.7 33.7 523.8 33.3C582 33 640 31 698.2 29.7C756.3 28.3 814.7 27.7 872.8 28C931 28.3 989 29.7 1047.2 32.2C1105.3 34.7 1163.7 38.3 1221.8 40.8C1280 43.3 1338 44.7 1396.2 45.8C1454.3 47 1512.7 48 1570.8 47.2C1629 46.3 1687 43.7 1745.2 42C1803.3 40.3 1861.7 39.7 1890.8 39.3L1920 39L1920 31L1890.8 29.8C1861.7 28.7 1803.3 26.3 1745.2 26.5C1687 26.7 1629 29.3 1570.8 30.8C1512.7 32.3 1454.3 32.7 1396.2 32.3C1338 32 1280 31 1221.8 27.8C1163.7 24.7 1105.3 19.3 1047.2 17.5C989 15.7 931 17.3 872.8 17.8C814.7 18.3 756.3 17.7 698.2 18.2C640 18.7 582 20.3 523.8 20C465.7 19.7 407.3 17.3 349.2 15.8C291 14.3 233 13.7 174.8 14.5C116.7 15.3 58.3 17.7 29.2 18.8L0 20Z"
-                  fill="#06357d"
-                ></path>
-                <path
-                  d="M0 49L29.2 48.5C58.3 48 116.7 47 174.8 47C233 47 291 48 349.2 47.8C407.3 47.7 465.7 46.3 523.8 46C582 45.7 640 46.3 698.2 45C756.3 43.7 814.7 40.3 872.8 39.2C931 38 989 39 1047.2 42.7C1105.3 46.3 1163.7 52.7 1221.8 55.2C1280 57.7 1338 56.3 1396.2 58.5C1454.3 60.7 1512.7 66.3 1570.8 65.7C1629 65 1687 58 1745.2 55C1803.3 52 1861.7 53 1890.8 53.5L1920 54L1920 37L1890.8 37.3C1861.7 37.7 1803.3 38.3 1745.2 40C1687 41.7 1629 44.3 1570.8 45.2C1512.7 46 1454.3 45 1396.2 43.8C1338 42.7 1280 41.3 1221.8 38.8C1163.7 36.3 1105.3 32.7 1047.2 30.2C989 27.7 931 26.3 872.8 26C814.7 25.7 756.3 26.3 698.2 27.7C640 29 582 31 523.8 31.3C465.7 31.7 407.3 30.3 349.2 29.5C291 28.7 233 28.3 174.8 28.2C116.7 28 58.3 28 29.2 28L0 28Z"
-                  fill="#052e69"
-                ></path>
-                <path
-                  d="M0 62L29.2 61.2C58.3 60.3 116.7 58.7 174.8 57.7C233 56.7 291 56.3 349.2 56.2C407.3 56 465.7 56 523.8 55.8C582 55.7 640 55.3 698.2 53C756.3 50.7 814.7 46.3 872.8 44.7C931 43 989 44 1047.2 47.7C1105.3 51.3 1163.7 57.7 1221.8 61.5C1280 65.3 1338 66.7 1396.2 68.8C1454.3 71 1512.7 74 1570.8 72.8C1629 71.7 1687 66.3 1745.2 63.7C1803.3 61 1861.7 61 1890.8 61L1920 61L1920 52L1890.8 51.5C1861.7 51 1803.3 50 1745.2 53C1687 56 1629 63 1570.8 63.7C1512.7 64.3 1454.3 58.7 1396.2 56.5C1338 54.3 1280 55.7 1221.8 53.2C1163.7 50.7 1105.3 44.3 1047.2 40.7C989 37 931 36 872.8 37.2C814.7 38.3 756.3 41.7 698.2 43C640 44.3 582 43.7 523.8 44C465.7 44.3 407.3 45.7 349.2 45.8C291 46 233 45 174.8 45C116.7 45 58.3 46 29.2 46.5L0 47Z"
-                  fill="#062655"
-                ></path>
-                <path
-                  d="M0 79L29.2 77.5C58.3 76 116.7 73 174.8 71.8C233 70.7 291 71.3 349.2 71.8C407.3 72.3 465.7 72.7 523.8 70.8C582 69 640 65 698.2 61.5C756.3 58 814.7 55 872.8 55C931 55 989 58 1047.2 62.7C1105.3 67.3 1163.7 73.7 1221.8 77C1280 80.3 1338 80.7 1396.2 81.8C1454.3 83 1512.7 85 1570.8 84.3C1629 83.7 1687 80.3 1745.2 78.5C1803.3 76.7 1861.7 76.3 1890.8 76.2L1920 76L1920 59L1890.8 59C1861.7 59 1803.3 59 1745.2 61.7C1687 64.3 1629 69.7 1570.8 70.8C1512.7 72 1454.3 69 1396.2 66.8C1338 64.7 1280 63.3 1221.8 59.5C1163.7 55.7 1105.3 49.3 1047.2 45.7C989 42 931 41 872.8 42.7C814.7 44.3 756.3 48.7 698.2 51C640 53.3 582 53.7 523.8 53.8C465.7 54 407.3 54 349.2 54.2C291 54.3 233 54.7 174.8 55.7C116.7 56.7 58.3 58.3 29.2 59.2L0 60Z"
-                  fill="#071f43"
-                ></path>
-                <path
-                  d="M0 101L29.2 101C58.3 101 116.7 101 174.8 101C233 101 291 101 349.2 101C407.3 101 465.7 101 523.8 101C582 101 640 101 698.2 101C756.3 101 814.7 101 872.8 101C931 101 989 101 1047.2 101C1105.3 101 1163.7 101 1221.8 101C1280 101 1338 101 1396.2 101C1454.3 101 1512.7 101 1570.8 101C1629 101 1687 101 1745.2 101C1803.3 101 1861.7 101 1890.8 101L1920 101L1920 74L1890.8 74.2C1861.7 74.3 1803.3 74.7 1745.2 76.5C1687 78.3 1629 81.7 1570.8 82.3C1512.7 83 1454.3 81 1396.2 79.8C1338 78.7 1280 78.3 1221.8 75C1163.7 71.7 1105.3 65.3 1047.2 60.7C989 56 931 53 872.8 53C814.7 53 756.3 56 698.2 59.5C640 63 582 67 523.8 68.8C465.7 70.7 407.3 70.3 349.2 69.8C291 69.3 233 68.7 174.8 69.8C116.7 71 58.3 74 29.2 75.5L0 77Z"
-                  fill="#081731"
-                ></path>
-              </svg>
             </div>
           </div>
-          <div className="min-h-dvh">
-            <div className="flex flex-col px-28 h-full w-full max-w-[1920px] mx-auto justify-center relative py-24">
-              <div className="flex flex-col gap-y-12 py-24">
-                <div className="flex flex-col gap-y-6">
-                  <TextAnim dir=">">
-                    <h1 className="text-5xl text-white/90 ">Our Team</h1>
-                  </TextAnim>
-                  <ParagraphAnimation>
-                    <p className="text-3xl tracking-tighter text-white/70 max-w-[800px]">
-                      The driving force behind CREAT Company LLC's success is
-                      our professional and experienced team. Our team consists
-                      of experts with in-depth knowledge and extensive
-                      experience in project management. They approach each
-                      project individually, providing our clients with the best
-                      solutions tailored to their specific needs and ensuring
-                      the successful implementation of projects. Our team
-                      continuously updates their knowledge and skills through
-                      ongoing training and development programs and is
-                      proficient in working with modern technologies
-                    </p>
-                  </ParagraphAnimation>
-                </div>
-              </div>
-              <div className="flex flex-col gap-y-12 py-24">
-                <div className="flex flex-col gap-y-6 w-fit ml-auto text-right">
-                  <TextAnim dir="<">
-                    <h1 className="text-5xl text-white/90">Our Achievements</h1>
-                  </TextAnim>
-                  <ParagraphAnimation>
-                    <p className="text-3xl tracking-tighter text-white/70 max-w-[800px]">
-                      Over the years, our company has successfully completed
-                      numerous projects. Our achievements include large and
-                      small-scale projects in various fields. These projects
-                      have been highly appreciated by our clients both locally
-                      and internationally, earning their trust. At CREAT Company
-                      LLC, we always consider our clients' success as our own
-                      and dedicate all our efforts to meeting their needs
-                    </p>
-                  </ParagraphAnimation>
-                </div>
-              </div>
-              <div className="flex flex-col gap-y-12 py-24">
-                <div className="flex flex-col gap-y-6">
-                  <TextAnim dir=">">
-                    <h1 className="text-5xl text-white/90 ">
-                      Our Future Goals
+          <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-1/2 z-10 hidden md:block">
+            <svg
+              width="100%"
+              height="100%"
+              preserveAspectRatio="none"
+              viewBox="0 0 1920 100"
+            >
+              <path
+                d="M0 13L29.2 13.8C58.3 14.7 116.7 16.3 174.8 15.8C233 15.3 291 12.7 349.2 11.5C407.3 10.3 465.7 10.7 523.8 11.8C582 13 640 15 698.2 14.7C756.3 14.3 814.7 11.7 872.8 11.3C931 11 989 13 1047.2 14.2C1105.3 15.3 1163.7 15.7 1221.8 14.7C1280 13.7 1338 11.3 1396.2 11.7C1454.3 12 1512.7 15 1570.8 16.3C1629 17.7 1687 17.3 1745.2 17.2C1803.3 17 1861.7 17 1890.8 17L1920 17L1920 0L1890.8 0C1861.7 0 1803.3 0 1745.2 0C1687 0 1629 0 1570.8 0C1512.7 0 1454.3 0 1396.2 0C1338 0 1280 0 1221.8 0C1163.7 0 1105.3 0 1047.2 0C989 0 931 0 872.8 0C814.7 0 756.3 0 698.2 0C640 0 582 0 523.8 0C465.7 0 407.3 0 349.2 0C291 0 233 0 174.8 0C116.7 0 58.3 0 29.2 0L0 0Z"
+                fill="#081731"
+              ></path>
+              <path
+                d="M0 26L29.2 28.3C58.3 30.7 116.7 35.3 174.8 36.7C233 38 291 36 349.2 36.8C407.3 37.7 465.7 41.3 523.8 45.2C582 49 640 53 698.2 53C756.3 53 814.7 49 872.8 44.8C931 40.7 989 36.3 1047.2 35.3C1105.3 34.3 1163.7 36.7 1221.8 35.5C1280 34.3 1338 29.7 1396.2 33C1454.3 36.3 1512.7 47.7 1570.8 53C1629 58.3 1687 57.7 1745.2 55.2C1803.3 52.7 1861.7 48.3 1890.8 46.2L1920 44L1920 15L1890.8 15C1861.7 15 1803.3 15 1745.2 15.2C1687 15.3 1629 15.7 1570.8 14.3C1512.7 13 1454.3 10 1396.2 9.7C1338 9.3 1280 11.7 1221.8 12.7C1163.7 13.7 1105.3 13.3 1047.2 12.2C989 11 931 9 872.8 9.3C814.7 9.7 756.3 12.3 698.2 12.7C640 13 582 11 523.8 9.8C465.7 8.7 407.3 8.3 349.2 9.5C291 10.7 233 13.3 174.8 13.8C116.7 14.3 58.3 12.7 29.2 11.8L0 11Z"
+                fill="#072047"
+              ></path>
+              <path
+                d="M0 47L29.2 46.8C58.3 46.7 116.7 46.3 174.8 46.8C233 47.3 291 48.7 349.2 51.2C407.3 53.7 465.7 57.3 523.8 60.7C582 64 640 67 698.2 66.8C756.3 66.7 814.7 63.3 872.8 59.3C931 55.3 989 50.7 1047.2 49.2C1105.3 47.7 1163.7 49.3 1221.8 48.8C1280 48.3 1338 45.7 1396.2 48C1454.3 50.3 1512.7 57.7 1570.8 62.5C1629 67.3 1687 69.7 1745.2 69.2C1803.3 68.7 1861.7 65.3 1890.8 63.7L1920 62L1920 42L1890.8 44.2C1861.7 46.3 1803.3 50.7 1745.2 53.2C1687 55.7 1629 56.3 1570.8 51C1512.7 45.7 1454.3 34.3 1396.2 31C1338 27.7 1280 32.3 1221.8 33.5C1163.7 34.7 1105.3 32.3 1047.2 33.3C989 34.3 931 38.7 872.8 42.8C814.7 47 756.3 51 698.2 51C640 51 582 47 523.8 43.2C465.7 39.3 407.3 35.7 349.2 34.8C291 34 233 36 174.8 34.7C116.7 33.3 58.3 28.7 29.2 26.3L0 24Z"
+                fill="#052a5f"
+              ></path>
+              <path
+                d="M0 78L29.2 80.2C58.3 82.3 116.7 86.7 174.8 88.3C233 90 291 89 349.2 86.5C407.3 84 465.7 80 523.8 79.5C582 79 640 82 698.2 82.2C756.3 82.3 814.7 79.7 872.8 80.2C931 80.7 989 84.3 1047.2 85.3C1105.3 86.3 1163.7 84.7 1221.8 83.2C1280 81.7 1338 80.3 1396.2 80.2C1454.3 80 1512.7 81 1570.8 82.5C1629 84 1687 86 1745.2 85.8C1803.3 85.7 1861.7 83.3 1890.8 82.2L1920 81L1920 60L1890.8 61.7C1861.7 63.3 1803.3 66.7 1745.2 67.2C1687 67.7 1629 65.3 1570.8 60.5C1512.7 55.7 1454.3 48.3 1396.2 46C1338 43.7 1280 46.3 1221.8 46.8C1163.7 47.3 1105.3 45.7 1047.2 47.2C989 48.7 931 53.3 872.8 57.3C814.7 61.3 756.3 64.7 698.2 64.8C640 65 582 62 523.8 58.7C465.7 55.3 407.3 51.7 349.2 49.2C291 46.7 233 45.3 174.8 44.8C116.7 44.3 58.3 44.7 29.2 44.8L0 45Z"
+                fill="#053478"
+              ></path>
+              <path
+                d="M0 101L29.2 101C58.3 101 116.7 101 174.8 101C233 101 291 101 349.2 101C407.3 101 465.7 101 523.8 101C582 101 640 101 698.2 101C756.3 101 814.7 101 872.8 101C931 101 989 101 1047.2 101C1105.3 101 1163.7 101 1221.8 101C1280 101 1338 101 1396.2 101C1454.3 101 1512.7 101 1570.8 101C1629 101 1687 101 1745.2 101C1803.3 101 1861.7 101 1890.8 101L1920 101L1920 79L1890.8 80.2C1861.7 81.3 1803.3 83.7 1745.2 83.8C1687 84 1629 82 1570.8 80.5C1512.7 79 1454.3 78 1396.2 78.2C1338 78.3 1280 79.7 1221.8 81.2C1163.7 82.7 1105.3 84.3 1047.2 83.3C989 82.3 931 78.7 872.8 78.2C814.7 77.7 756.3 80.3 698.2 80.2C640 80 582 77 523.8 77.5C465.7 78 407.3 82 349.2 84.5C291 87 233 88 174.8 86.3C116.7 84.7 58.3 80.3 29.2 78.2L0 76Z"
+                fill="#0c3d91"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <div className="relative bg-creatBGLight">
+          <div className="flex flex-col md:px-28 gap-y-6 px-6 py-6 md:py-0 h-full w-full md:max-w-[1920px] mx-auto justify-center">
+            <div className="flex flex-col md:gap-y-12 md:mt-48">
+              <div className="flex flex-col md:gap-y-6 gap-y-4">
+                <div className="flex justify-between items-end">
+                  <TextAnim>
+                    <h1 className="md:text-5xl text-2xl text-white/90">
+                      Our Services
                     </h1>
                   </TextAnim>
-                  <ParagraphAnimation>
-                    <p className="text-3xl tracking-tighter text-white/70 max-w-[800px]">
-                      At CREAT Company LLC, we are optimistic about the future
-                      and strive for continuous improvement. One of our primary
-                      goals is to offer our clients even higher-quality services
-                      by applying modern approaches to project management. To
-                      achieve this, we plan to expand the use of new
-                      technologies, enhance our team's knowledge and skills, and
-                      broaden our scope of operations. In the future, we aim to
-                      undertake even larger and more complex projects, support
-                      our clients' success, and become one of the leading
-                      companies in the industry
-                    </p>
-                  </ParagraphAnimation>
-                </div>
-              </div>
-              <div className="flex flex-col gap-y-12 py-24">
-                <div className="flex flex-col gap-y-6 w-fit ml-auto text-right">
-                  <TextAnim dir="<">
-                    <h1 className="text-5xl text-white/90">Conclusion</h1>
+                  <TextAnim>
+                    <Link
+                      aria-label="View All Services"
+                      rel="noopener noreferrer"
+                      className="text-white md:text-base text-sm uppercase hover:opacity-70 transition-opacity font-medium"
+                      href="/services"
+                    >
+                      All Services
+                    </Link>
                   </TextAnim>
-                  <ParagraphAnimation>
-                    <p className="text-3xl tracking-tighter text-white/70 max-w-[800px]">
-                      CREAT Company LLC is a reliable firm that operates based
-                      on the principles of reliability, quality, and innovation
-                      in project management. Our goal is to ensure our clients'
-                      success and support them in achieving their objectives.
-                      Thanks to our team's professionalism and experience, we
-                      are ready to successfully complete any project and fully
-                      meet our clients' expectations. In the future, we will
-                      continue to collaborate closely with our clients, helping
-                      them move forward and becoming one of the leading
-                      companies in the industry
-                    </p>
-                  </ParagraphAnimation>
                 </div>
+                <TextAnim delay={0.1}>
+                  <p className="md:text-3xl md:w-2/3 text-lg tracking-tighter text-white/70">
+                    <span className="text-creatBright mr-2">
+                      CREAT Company LLC
+                    </span>
+                    offers a wide range of project management services. These
+                    services encompass all stages of a project, from inception
+                    to completion
+                  </p>
+                </TextAnim>
               </div>
+            </div>
+            <div className="grid md:grid-cols-3 md:grid-rows-2 md:gap-8 gap-4 md:py-16">
+              {services.map((service, index) => (
+                <Service
+                  key={index}
+                  name={service.name}
+                  description={service.description}
+                  icon={service.icon}
+                />
+              ))}
+            </div>
+          </div>
+          <div
+            className="absolute bottom-0 left-0 w-full h-[100px] \
+            pointer-events-none translate-y-1/2 hidden md:block"
+          >
+            <svg
+              width="100%"
+              height="100%"
+              preserveAspectRatio="none"
+              viewBox="0 0 1920 100"
+            >
+              <path
+                d="M0 22L29.2 20.8C58.3 19.7 116.7 17.3 174.8 16.5C233 15.7 291 16.3 349.2 17.8C407.3 19.3 465.7 21.7 523.8 22C582 22.3 640 20.7 698.2 20.2C756.3 19.7 814.7 20.3 872.8 19.8C931 19.3 989 17.7 1047.2 19.5C1105.3 21.3 1163.7 26.7 1221.8 29.8C1280 33 1338 34 1396.2 34.3C1454.3 34.7 1512.7 34.3 1570.8 32.8C1629 31.3 1687 28.7 1745.2 28.5C1803.3 28.3 1861.7 30.7 1890.8 31.8L1920 33L1920 0L1890.8 0C1861.7 0 1803.3 0 1745.2 0C1687 0 1629 0 1570.8 0C1512.7 0 1454.3 0 1396.2 0C1338 0 1280 0 1221.8 0C1163.7 0 1105.3 0 1047.2 0C989 0 931 0 872.8 0C814.7 0 756.3 0 698.2 0C640 0 582 0 523.8 0C465.7 0 407.3 0 349.2 0C291 0 233 0 174.8 0C116.7 0 58.3 0 29.2 0L0 0Z"
+                fill="#0c3d91"
+              ></path>
+              <path
+                d="M0 30L29.2 30C58.3 30 116.7 30 174.8 30.2C233 30.3 291 30.7 349.2 31.5C407.3 32.3 465.7 33.7 523.8 33.3C582 33 640 31 698.2 29.7C756.3 28.3 814.7 27.7 872.8 28C931 28.3 989 29.7 1047.2 32.2C1105.3 34.7 1163.7 38.3 1221.8 40.8C1280 43.3 1338 44.7 1396.2 45.8C1454.3 47 1512.7 48 1570.8 47.2C1629 46.3 1687 43.7 1745.2 42C1803.3 40.3 1861.7 39.7 1890.8 39.3L1920 39L1920 31L1890.8 29.8C1861.7 28.7 1803.3 26.3 1745.2 26.5C1687 26.7 1629 29.3 1570.8 30.8C1512.7 32.3 1454.3 32.7 1396.2 32.3C1338 32 1280 31 1221.8 27.8C1163.7 24.7 1105.3 19.3 1047.2 17.5C989 15.7 931 17.3 872.8 17.8C814.7 18.3 756.3 17.7 698.2 18.2C640 18.7 582 20.3 523.8 20C465.7 19.7 407.3 17.3 349.2 15.8C291 14.3 233 13.7 174.8 14.5C116.7 15.3 58.3 17.7 29.2 18.8L0 20Z"
+                fill="#06357d"
+              ></path>
+              <path
+                d="M0 49L29.2 48.5C58.3 48 116.7 47 174.8 47C233 47 291 48 349.2 47.8C407.3 47.7 465.7 46.3 523.8 46C582 45.7 640 46.3 698.2 45C756.3 43.7 814.7 40.3 872.8 39.2C931 38 989 39 1047.2 42.7C1105.3 46.3 1163.7 52.7 1221.8 55.2C1280 57.7 1338 56.3 1396.2 58.5C1454.3 60.7 1512.7 66.3 1570.8 65.7C1629 65 1687 58 1745.2 55C1803.3 52 1861.7 53 1890.8 53.5L1920 54L1920 37L1890.8 37.3C1861.7 37.7 1803.3 38.3 1745.2 40C1687 41.7 1629 44.3 1570.8 45.2C1512.7 46 1454.3 45 1396.2 43.8C1338 42.7 1280 41.3 1221.8 38.8C1163.7 36.3 1105.3 32.7 1047.2 30.2C989 27.7 931 26.3 872.8 26C814.7 25.7 756.3 26.3 698.2 27.7C640 29 582 31 523.8 31.3C465.7 31.7 407.3 30.3 349.2 29.5C291 28.7 233 28.3 174.8 28.2C116.7 28 58.3 28 29.2 28L0 28Z"
+                fill="#052e69"
+              ></path>
+              <path
+                d="M0 62L29.2 61.2C58.3 60.3 116.7 58.7 174.8 57.7C233 56.7 291 56.3 349.2 56.2C407.3 56 465.7 56 523.8 55.8C582 55.7 640 55.3 698.2 53C756.3 50.7 814.7 46.3 872.8 44.7C931 43 989 44 1047.2 47.7C1105.3 51.3 1163.7 57.7 1221.8 61.5C1280 65.3 1338 66.7 1396.2 68.8C1454.3 71 1512.7 74 1570.8 72.8C1629 71.7 1687 66.3 1745.2 63.7C1803.3 61 1861.7 61 1890.8 61L1920 61L1920 52L1890.8 51.5C1861.7 51 1803.3 50 1745.2 53C1687 56 1629 63 1570.8 63.7C1512.7 64.3 1454.3 58.7 1396.2 56.5C1338 54.3 1280 55.7 1221.8 53.2C1163.7 50.7 1105.3 44.3 1047.2 40.7C989 37 931 36 872.8 37.2C814.7 38.3 756.3 41.7 698.2 43C640 44.3 582 43.7 523.8 44C465.7 44.3 407.3 45.7 349.2 45.8C291 46 233 45 174.8 45C116.7 45 58.3 46 29.2 46.5L0 47Z"
+                fill="#062655"
+              ></path>
+              <path
+                d="M0 79L29.2 77.5C58.3 76 116.7 73 174.8 71.8C233 70.7 291 71.3 349.2 71.8C407.3 72.3 465.7 72.7 523.8 70.8C582 69 640 65 698.2 61.5C756.3 58 814.7 55 872.8 55C931 55 989 58 1047.2 62.7C1105.3 67.3 1163.7 73.7 1221.8 77C1280 80.3 1338 80.7 1396.2 81.8C1454.3 83 1512.7 85 1570.8 84.3C1629 83.7 1687 80.3 1745.2 78.5C1803.3 76.7 1861.7 76.3 1890.8 76.2L1920 76L1920 59L1890.8 59C1861.7 59 1803.3 59 1745.2 61.7C1687 64.3 1629 69.7 1570.8 70.8C1512.7 72 1454.3 69 1396.2 66.8C1338 64.7 1280 63.3 1221.8 59.5C1163.7 55.7 1105.3 49.3 1047.2 45.7C989 42 931 41 872.8 42.7C814.7 44.3 756.3 48.7 698.2 51C640 53.3 582 53.7 523.8 53.8C465.7 54 407.3 54 349.2 54.2C291 54.3 233 54.7 174.8 55.7C116.7 56.7 58.3 58.3 29.2 59.2L0 60Z"
+                fill="#071f43"
+              ></path>
+              <path
+                d="M0 101L29.2 101C58.3 101 116.7 101 174.8 101C233 101 291 101 349.2 101C407.3 101 465.7 101 523.8 101C582 101 640 101 698.2 101C756.3 101 814.7 101 872.8 101C931 101 989 101 1047.2 101C1105.3 101 1163.7 101 1221.8 101C1280 101 1338 101 1396.2 101C1454.3 101 1512.7 101 1570.8 101C1629 101 1687 101 1745.2 101C1803.3 101 1861.7 101 1890.8 101L1920 101L1920 74L1890.8 74.2C1861.7 74.3 1803.3 74.7 1745.2 76.5C1687 78.3 1629 81.7 1570.8 82.3C1512.7 83 1454.3 81 1396.2 79.8C1338 78.7 1280 78.3 1221.8 75C1163.7 71.7 1105.3 65.3 1047.2 60.7C989 56 931 53 872.8 53C814.7 53 756.3 56 698.2 59.5C640 63 582 67 523.8 68.8C465.7 70.7 407.3 70.3 349.2 69.8C291 69.3 233 68.7 174.8 69.8C116.7 71 58.3 74 29.2 75.5L0 77Z"
+                fill="#081731"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <div
+          className="flex flex-col md:px-28 px-6 h-full w-full md:max-w-[1920px] \
+          mx-auto justify-center relative md:py-24 py-12 gap-y-12 md:gap-y-0"
+        >
+          <div className="flex flex-col md:gap-y-12 md:py-24">
+            <div className="flex flex-col md:gap-y-6 gap-y-3">
+              <TextAnim dir=">">
+                <h1 className="md:text-5xl text-white/90 text-2xl">Our Team</h1>
+              </TextAnim>
+              <ParagraphAnimation>
+                <p className="md:text-3xl text-lg tracking-tighter text-white/70 md:max-w-[800px]">
+                  The driving force behind CREAT Company LLC's success is our
+                  professional and experienced team. Our team consists of
+                  experts with in-depth knowledge and extensive experience in
+                  project management. They approach each project individually,
+                  providing our clients with the best solutions tailored to
+                  their specific needs and ensuring the successful
+                  implementation of projects. Our team continuously updates
+                  their knowledge and skills through ongoing training and
+                  development programs and is proficient in working with modern
+                  technologies
+                </p>
+              </ParagraphAnimation>
+            </div>
+          </div>
+          <div className="flex flex-col md:gap-y-12 md:py-24">
+            <div className="flex flex-col md:gap-y-6 gap-y-3 w-fit ml-auto text-right">
+              <TextAnim dir="<">
+                <h1 className="md:text-5xl text-2xl text-white/90">
+                  Our Achievements
+                </h1>
+              </TextAnim>
+              <ParagraphAnimation>
+                <p className="md:text-3xl text-lg tracking-tighter text-white/70 md:max-w-[800px]">
+                  Over the years, our company has successfully completed
+                  numerous projects. Our achievements include large and
+                  small-scale projects in various fields. These projects have
+                  been highly appreciated by our clients both locally and
+                  internationally, earning their trust. At CREAT Company LLC, we
+                  always consider our clients' success as our own and dedicate
+                  all our efforts to meeting their needs
+                </p>
+              </ParagraphAnimation>
+            </div>
+          </div>
+          <div className="flex flex-col md:gap-y-12 md:py-24">
+            <div className="flex flex-col md:gap-y-6 gap-y-3">
+              <TextAnim dir=">">
+                <h1 className="md:text-5xl text-2xl text-white/90">
+                  Our Future Goals
+                </h1>
+              </TextAnim>
+              <ParagraphAnimation>
+                <p className="md:text-3xl text-lg tracking-tighter text-white/70 md:max-w-[800px]">
+                  At CREAT Company LLC, we are optimistic about the future and
+                  strive for continuous improvement. One of our primary goals is
+                  to offer our clients even higher-quality services by applying
+                  modern approaches to project management. To achieve this, we
+                  plan to expand the use of new technologies, enhance our team's
+                  knowledge and skills, and broaden our scope of operations. In
+                  the future, we aim to undertake even larger and more complex
+                  projects, support our clients' success, and become one of the
+                  leading companies in the industry
+                </p>
+              </ParagraphAnimation>
+            </div>
+          </div>
+          <div className="flex flex-col md:gap-y-12 md:py-24">
+            <div className="flex flex-col md:gap-y-6 gap-y-3 w-fit ml-auto text-right">
+              <TextAnim dir="<">
+                <h1 className="md:text-5xl text-2xl text-white/90">
+                  Conclusion
+                </h1>
+              </TextAnim>
+              <ParagraphAnimation>
+                <p className="md:text-3xl text-lg tracking-tighter text-white/70 md:max-w-[800px]">
+                  CREAT Company LLC is a reliable firm that operates based on
+                  the principles of reliability, quality, and innovation in
+                  project management. Our goal is to ensure our clients' success
+                  and support them in achieving their objectives. Thanks to our
+                  team's professionalism and experience, we are ready to
+                  successfully complete any project and fully meet our clients'
+                  expectations. In the future, we will continue to collaborate
+                  closely with our clients, helping them move forward and
+                  becoming one of the leading companies in the industry
+                </p>
+              </ParagraphAnimation>
             </div>
           </div>
         </div>

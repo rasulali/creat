@@ -5,9 +5,8 @@ interface ServiceProps {
   name: string;
   description: string;
   icon: ReactNode;
-  link?: string;
 }
-const Service: React.FC<ServiceProps> = ({ name, description, icon, link }) => {
+const Service: React.FC<ServiceProps> = ({ name, description, icon }) => {
   const ref = useRef(null);
   const serviceInView = useInView(ref, { once: true, amount: 0.5 });
   const [serviceHovered, setServiceHovered] = useState(false);
@@ -30,16 +29,16 @@ const Service: React.FC<ServiceProps> = ({ name, description, icon, link }) => {
         className="absolute top-0 left-1/2 h-px bg-white -translate-x-1/2"
       />
 
-      <div className="stroke-white w-12 mb-8">{icon}</div>
+      <div className="stroke-white md:w-12 w-6 mb-3 md:mb-8">{icon}</div>
       <motion.span
         initial={{ opacity: 0.8 }}
         animate={{ opacity: serviceHovered ? 0.5 : 0.8 }}
-        className="text-3xl font-comfortaa text-white"
+        className="md:text-3xl text-lg font-comfortaa text-white"
       >
         <h1>{name}</h1>
       </motion.span>
-      <div className="my-4">
-        <p className="text-white text-xl font-manrope font-light">
+      <div className="md:my-4">
+        <p className="text-white md:text-xl font-manrope font-light">
           {description}
         </p>
       </div>

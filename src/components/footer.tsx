@@ -141,7 +141,10 @@ const Footer = () => {
               ))}
             </div>
           </div>
-          <div className="flex flex-col relative md:gap-y-8 gap-y-2 md:p-8 p-3 bg-white/5 rounded-2xl md:backdrop-blur-sm border border-white/10">
+          <div
+            className="flex flex-col relative md:gap-y-8 gap-y-2 md:p-8 md:bg-white/5 \
+            md:rounded-2xl md:backdrop-blur-sm md:border border-white/10"
+          >
             <h1 className="md:text-3xl text-lg font-bold">Services</h1>
             <div className="md:grid grid-cols-2 md:gap-y-2 gap-y-1 md:gap-x-4 flex flex-col">
               {Object.entries(categories).map(([key, category]) => (
