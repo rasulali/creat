@@ -7,7 +7,7 @@ import { servicesSchema } from "@/lib/schemas";
 import Head from "next/head";
 import { FaAngleDown, FaArrowRight } from "react-icons/fa6";
 import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect, useRef, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense, useMemo } from "react";
 import Link from "next/link";
 import { createClient } from "../../../utils/supabase/client";
 import Image from "next/image";
@@ -131,7 +131,7 @@ const ProjectCard = ({
           ease: ANIMATION_CONFIG.EASING,
         },
       }}
-      className="w-48 aspect-[3/4] rounded-lg overflow-hidden shadow-xl bg-black/30 border border-white/20 backdrop-blur-sm"
+      className="w-48 aspect-[3/4] rounded-lg overflow-hidden shadow-xl bg-black/30 border border-white/20 backdrop-blur-sm hidden md:block"
       style={{ zIndex: total - index }}
     >
       {project.bannerImage && (
@@ -144,9 +144,9 @@ const ProjectCard = ({
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-          <h1 className="absolute bottom-2 left-2 right-2 text-base font-bold text-white z-10 truncate">
+          <h3 className="absolute bottom-2 left-2 right-2 text-base font-bold text-white z-10 truncate">
             {project.name}
-          </h1>
+          </h3>
         </div>
       )}
     </motion.div>
@@ -162,6 +162,7 @@ const ServicesContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const serviceParam = searchParams.get("service");
+  const supabase = useMemo(() => createClient(), []);
 
   const handleServiceClick = (index: number, categoryKey: string) => {
     const newActiveService = activeService === index ? -1 : index;
@@ -179,8 +180,6 @@ const ServicesContent = () => {
       : window.location.pathname;
     router.push(newUrl, { scroll: false });
   };
-
-  const supabase = createClient();
 
   useEffect(() => {
     async function fetchProjects() {
@@ -252,17 +251,17 @@ const ServicesContent = () => {
       </Head>
       <main className="relative overflow-hidden">
         <Nav />
-        <section className="px-8 md:px-28 py-32 flex flex-col">
-          <div className="flex flex-col gap-y-12">
+        <section className="px-6 md:px-28 py-20 md:py-32 flex flex-col">
+          <div className="flex flex-col gap-y-8 md:gap-y-12">
             <TextAnim>
-              <h1 className="text-4xl md:text-5xl text-white/90 font-light tracking-wide">
+              <h1 className="text-3xl md:text-5xl text-white/90 font-light tracking-wide">
                 Our Services
               </h1>
             </TextAnim>
             <AnimatedDivider />
           </div>
 
-          <div className="flex flex-col relative mt-12">
+          <div className="flex flex-col relative mt-8 md:mt-0">
             {Object.entries(categories).map(([key, category], index) => {
               const number = (index + 1).toString().padStart(2, "0");
               const categoryProjects = projects[key] || [];
@@ -301,7 +300,7 @@ const ServicesContent = () => {
                       }}
                     />
 
-                    <div className="flex flex-col p-8 md:p-12 relative z-10">
+                    <div className="flex flex-col py-6 px-4 md:p-12 relative z-10">
                       <AnimatePresence>
                         {isHovered && !projectsLoading && (
                           <motion.div
@@ -338,15 +337,15 @@ const ServicesContent = () => {
                       </AnimatePresence>
 
                       <motion.div
-                        className="flex justify-between items-center text-white/90 text-2xl md:text-3xl relative z-30"
+                        className="flex justify-between items-center text-white/90 text-lg md:text-3xl relative z-30"
                         animate={{ scale: isHovered ? 1.01 : 1 }}
                         transition={{
                           duration: ANIMATION_CONFIG.HOVER_DURATION,
                         }}
                       >
-                        <div className="flex gap-x-4 md:gap-x-6 items-center pr-8 md:pr-16">
+                        <div className="flex gap-x-3 md:gap-x-6 items-center pr-8 md:pr-16">
                           <motion.span
-                            className="w-12 md:w-16 text-lg md:text-2xl font-mono transition-all duration-300"
+                            className="w-8 md:w-16 font-mono transition-all duration-300 text-sm md:text-base"
                             animate={{
                               opacity: isHovered ? 1 : 0.6,
                               color: isHovered ? "#ffffff" : "#ffffff99",
@@ -368,7 +367,7 @@ const ServicesContent = () => {
                         </div>
                       </motion.div>
 
-                      <div className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2">
+                      <div className="absolute right-4 md:right-8 top-4 md:top-12">
                         <motion.div
                           initial={{ rotate: 0 }}
                           animate={{ rotate: isActive ? 180 : 0 }}
@@ -380,7 +379,7 @@ const ServicesContent = () => {
                         >
                           <FaAngleDown
                             className={cn(
-                              "text-white w-8 h-8 md:w-12 md:h-12 transition-opacity duration-300",
+                              "text-white aspect-square text-xl md:text-3xl transition-opacity duration-300",
                               isHovered ? "opacity-100" : "opacity-60",
                             )}
                           />
@@ -400,11 +399,12 @@ const ServicesContent = () => {
                         }}
                         className="overflow-hidden"
                       >
-                        <div className="pt-8 pl-20 pr-4 pb-4">
-                          <div className="space-y-6">
+                        <div className="pt-6 md:pt-8 md:pl-20 md:pr-4 md:pb-4">
+                          +{" "}
+                          <div className="space-y-4 md:space-y-6">
                             <div className="relative">
                               <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-white/60 to-transparent rounded-full" />
-                              <div className="flex gap-x-12">
+                              <div className="flex flex-col md:flex-row gap-y-4 md:gap-x-12">
                                 <motion.p
                                   initial={{ opacity: 0, y: 20 }}
                                   animate={{ opacity: 1, y: 0 }}
@@ -413,13 +413,13 @@ const ServicesContent = () => {
                                     duration: ANIMATION_CONFIG.DURATION,
                                     ease: ANIMATION_CONFIG.EASING,
                                   }}
-                                  className="text-xl text-white/80 leading-relaxed max-w-4xl"
+                                  className="text-base md:text-xl text-white/80 leading-relaxed max-w-4xl"
                                 >
                                   {category.description}
                                 </motion.p>
                                 {categoryProjects.length > 0 && (
                                   <motion.div
-                                    className="flex gap-4 items-center"
+                                    className="flex gap-3 md:gap-4 items-center"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{
@@ -444,7 +444,7 @@ const ServicesContent = () => {
                                           duration: ANIMATION_CONFIG.DURATION,
                                           ease: ANIMATION_CONFIG.EASING,
                                         }}
-                                        className="w-32 aspect-[3/4] rounded-lg overflow-hidden shadow-xl bg-black/30 border border-white/20 backdrop-blur-sm"
+                                        className="w-24 md:w-32 aspect-[3/4] rounded-lg overflow-hidden shadow-xl bg-black/30 border border-white/20 backdrop-blur-sm"
                                       >
                                         {project.bannerImage && (
                                           <div className="relative w-full h-full">
@@ -458,11 +458,12 @@ const ServicesContent = () => {
                                               fill
                                               quality={75}
                                               className="object-cover transition-transform duration-300 hover:scale-110"
+                                              sizes="(max-width: 768px) 96px, 128px"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                                            <h1 className="absolute bottom-1 left-1 right-1 text-xs font-bold text-white z-10 truncate">
+                                            <p className="absolute bottom-1 left-1 right-1 text-xs font-bold text-white z-10 truncate">
                                               {project.name}
-                                            </h1>
+                                            </p>
                                           </div>
                                         )}
                                       </motion.div>
@@ -475,10 +476,10 @@ const ServicesContent = () => {
                             <Link
                               href={`/projects?category=${key}`}
                               onClick={(e) => e.stopPropagation()}
-                              className="inline-flex items-center gap-x-2 text-xl font-medium px-8 py-4 border text-white/90 hover:text-creatBG hover:bg-white transition-all duration-300 rounded-lg backdrop-blur-sm border-white/30 hover:border-white/60"
+                              className="inline-flex items-center gap-x-2 text-sm md:text-xl font-medium px-6 py-3 md:px-8 md:py-4 border text-white/90 hover:text-creatBG hover:bg-white transition-all duration-300 rounded-lg backdrop-blur-sm border-white/30 hover:border-white/60"
                             >
                               <span>View Projects</span>
-                              <FaArrowRight className="text-lg" />
+                              <FaArrowRight className="text-sm md:text-lg" />
                             </Link>
                           </div>
                         </div>

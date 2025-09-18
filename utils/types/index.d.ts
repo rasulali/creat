@@ -1,4 +1,10 @@
 declare global {
+  interface Service {
+    name: string;
+    description: string;
+    icon: ReactNode;
+    link?: string;
+  }
   interface Testimonial {
     stars: 1 | 2 | 3 | 4 | 5;
     comment: string;
