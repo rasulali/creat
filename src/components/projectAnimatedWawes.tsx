@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { createProjectSlug } from "@/lib/helperFunctions";
@@ -7,8 +7,6 @@ import Image from "next/image";
 interface ProjectAnimatedWawesProps {
   project: any;
   categories: any;
-  projectHover: number;
-  setProjectHover: (id: number) => void;
   imageurl: string;
 }
 
@@ -106,13 +104,11 @@ WaveLayer.displayName = "WaveLayer";
 const ProjectAnimatedWawes = ({
   project,
   categories,
-  projectHover,
-  setProjectHover,
   imageurl,
 }: ProjectAnimatedWawesProps) => {
   const projectId = String(project?.id);
-  const isHovered = projectHover === project?.id;
   const categoryName = categories?.[project?.category]?.name;
+  const [projectHover, setProjectHover] = useState(false);
 
   const gradientStops = useMemo(
     () =>
@@ -142,9 +138,9 @@ const ProjectAnimatedWawes = ({
 
   return (
     <motion.div
-      onHoverStart={() => setProjectHover(project.id)}
-      onHoverEnd={() => setProjectHover(-1)}
-      className="rounded-2xl overflow-hidden  w-full h-full"
+      onHoverStart={() => setProjectHover(true)}
+      onHoverEnd={() => setProjectHover(false)}
+      className="md:rounded-2xl rounded-lg overflow-hidden w-full h-full"
     >
       <Link
         aria-label={`View featured project ${project.name}`}
@@ -152,13 +148,13 @@ const ProjectAnimatedWawes = ({
         href={`/projects/${createProjectSlug(project.name, project.id)}/`}
         className="block relative"
       >
-        <div className="absolute bottom-0 left-0 px-3 flex w-full h-1/3 flex-col z-20 overflow-hidden">
+        <div className="absolute bottom-0 left-0 px-3 hidden md:flex w-full h-1/3 flex-col z-20 overflow-hidden">
           <motion.div
             className="absolute inset-0 w-full h-full"
             initial={{ opacity: 0, y: 20 }}
             animate={{
-              opacity: isHovered ? 1 : 0,
-              y: isHovered ? 0 : 20,
+              opacity: projectHover ? 1 : 0,
+              y: projectHover ? 0 : 20,
             }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
@@ -186,14 +182,13 @@ const ProjectAnimatedWawes = ({
               </svg>
             </div>
           </motion.div>
-
           <div className="relative z-10 flex flex-col justify-end h-full pb-3">
             <motion.h1
               className="text-xs text-white/50 font-medium font-comfortaa uppercase tracking-wide drop-shadow-lg"
               initial={{ opacity: 0, y: 10 }}
               animate={{
-                opacity: isHovered ? 1 : 0,
-                y: isHovered ? 0 : 10,
+                opacity: projectHover ? 1 : 0,
+                y: projectHover ? 0 : 10,
               }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
             >
@@ -203,8 +198,8 @@ const ProjectAnimatedWawes = ({
               className="text-lg text-white/95 font-medium font-comfortaa drop-shadow-lg"
               initial={{ opacity: 0, y: 10 }}
               animate={{
-                opacity: isHovered ? 1 : 0,
-                y: isHovered ? 0 : 10,
+                opacity: projectHover ? 1 : 0,
+                y: projectHover ? 0 : 10,
               }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.2 }}
             >
@@ -214,10 +209,17 @@ const ProjectAnimatedWawes = ({
         </div>
 
         <motion.div
-          animate={{ scale: isHovered ? 1.1 : 1 }}
+          animate={{ scale: projectHover ? 1.1 : 1 }}
           transition={{ damping: 30 }}
-          className="w-full h-full overflow-hidden"
+          className="w-full h-full overflow-hidden relative"
         >
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-black/50 \
+            to-transparent md:hidden flex flex-col justify-end p-3"
+          >
+            <h1 className="text-xs text-white/70 uppercase">{categoryName}</h1>
+            <h1 className="text-white text-sm">{project?.name}</h1>
+          </div>
           <Image
             width={640}
             height={480}

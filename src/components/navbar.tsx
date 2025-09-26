@@ -131,7 +131,7 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
   return (
     <div className="font-manrope">
       <nav className="w-full md:hidden flex bg-creatBG p-6">
-        <Logo href="/" className="h-6 w-32" />
+        <Logo href="/" className="h-6 w-fit" />
       </nav>
       <nav
         ref={navRef}
