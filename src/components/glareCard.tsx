@@ -38,7 +38,7 @@ export const GlareCard = ({
     "--duration": "300ms",
     "--foil-size": "100%",
     "--opacity": "0",
-    "--radius": "48px",
+    "--radius": "24px",
     "--easing": "ease",
     "--transition": "var(--duration) var(--easing)",
   } as any;
@@ -67,12 +67,16 @@ export const GlareCard = ({
       refElement.current?.style.setProperty("--bg-y", `${background.y}%`);
     }
   };
+
   return (
     <div
       style={containerStyle}
-      className="relative isolate pointer-events-none [contain:layout_style] [perspective:600px] transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] will-change-transform w-[320px] [aspect-ratio:10/12]"
+      className="relative isolate pointer-events-none [contain:layout_style] [perspective:600px] transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] will-change-transform w-full max-w-[320px] md:w-[320px] md:aspect-[10/12] aspect-[5/8]"
       ref={refElement}
       onPointerMove={(event) => {
+        // Disable 3D effects on mobile for better performance
+        if (window.innerWidth < 768) return;
+
         const rotateFactor = 0.4;
         const rect = event.currentTarget.getBoundingClientRect();
         const position = {
@@ -102,7 +106,7 @@ export const GlareCard = ({
       }}
       onPointerEnter={() => {
         isPointerInside.current = true;
-        if (refElement.current) {
+        if (refElement.current && window.innerWidth >= 768) {
           setTimeout(() => {
             if (isPointerInside.current) {
               refElement.current?.style.setProperty("--duration", "0s");
@@ -119,21 +123,21 @@ export const GlareCard = ({
         }
       }}
     >
-      <div className="h-full grid will-change-transform origin-center transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] [transform:rotateY(var(--r-x))_rotateX(var(--r-y))] rounded-[var(--radius)] border border-creatBGLight/50 hover:[--opacity:0.6] hover:[--duration:200ms] hover:[--easing:linear] hover:filter-none overflow-hidden cursor-default">
+      <div className="h-full grid will-change-transform origin-center transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] md:[transform:rotateY(var(--r-x))_rotateX(var(--r-y))] rounded-[var(--radius)] border border-creatBGLight/50 hover:[--opacity:0.6] hover:[--duration:200ms] hover:[--easing:linear] hover:filter-none overflow-hidden cursor-default">
         <div className="w-full h-full grid [grid-area:1/1] mix-blend-soft-light [clip-path:inset(0_0_0_0_round_var(--radius))]">
           <div
             className={cn(
-              "h-full w-full flex flex-col bg-creatBG p-6",
+              "h-full w-full flex flex-col bg-creatBG p-4 md:p-6",
               className,
             )}
           >
-            <div className="mb-4">{icon}</div>
+            <div className="mb-3 md:mb-4">{icon}</div>
             <div className="flex flex-col h-full justify-between pointer-events-auto">
-              <div className="flex flex-col gap-y-3">
-                <h1 className="md:text-2xl font-semibold text-neutral-100">
+              <div className="flex flex-col gap-y-2 md:gap-y-3">
+                <h1 className="text-xl md:text-2xl font-semibold text-neutral-100">
                   {name}
                 </h1>
-                <p className="text-neutral-300 text-lg">{text}</p>
+                <p className="text-neutral-300 text-base md:text-lg">{text}</p>
               </div>
             </div>
           </div>

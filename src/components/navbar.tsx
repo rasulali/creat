@@ -131,7 +131,23 @@ const Nav: React.FC<NavProps> = ({ isTransparent = false }) => {
   return (
     <div className="font-manrope">
       <nav className="w-full md:hidden flex bg-creatBG p-6">
-        <Logo href="/" className="h-6 w-fit" />
+        <motion.div
+          initial={{
+            rotate: 0,
+            y: -100,
+          }}
+          animate={{
+            y: 0,
+            transition: { duration: 0.5, ease: [0.51, 0.92, 0.24, 1.15] },
+          }}
+          exit={{
+            rotate: 0,
+            y: -100,
+          }}
+          className="h-6 w-[108px]"
+        >
+          <Logo href="/" className="h-full w-full" />
+        </motion.div>
       </nav>
       <nav
         ref={navRef}

@@ -108,7 +108,7 @@ const Footer = () => {
             </Link>
           </div>
         </div>
-        <div className="w-full flex md:flex-row flex-col items-top justify-around md:py-10 border-y border-white/10">
+        <div className="w-full flex md:flex-row flex-col items-top justify-around md:py-10">
           <div className="flex flex-col md:gap-y-8 md:p-8 py-3 gap-y-2">
             <h1 className="md:text-3xl text-lg font-bold">Address</h1>
             <Link
@@ -154,7 +154,7 @@ const Footer = () => {
                   key={key}
                   href={`/services?service=${key}`}
                   className="md:text-lg font-medium hover:text-creatBright \
-        transition-colors border-b border-white/10 last:border-0 md:border-0"
+        transition-colors border-b border-white/5 last:border-0 md:border-0"
                 >
                   {category.name}
                 </Link>

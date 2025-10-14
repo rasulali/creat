@@ -113,6 +113,19 @@ export default function Home() {
     amount: 0.5,
   });
 
+  const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const updateSize = () => {
+      setScreenSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    window.addEventListener("resize", updateSize);
+    updateSize();
+
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
   const [activePartnerIndex, setActivePartnerIndex] = useState(-1);
   useEffect(() => {
     if (activePartnerIndex > -1) {
@@ -148,8 +161,8 @@ export default function Home() {
         />
       </Head>
       <main className="bg-creatBG text-white">
-        <section className="flex flex-col min-h-dvh relative">
-          <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <section className="flex flex-col h-dvh relative">
+          <div className="absolute inset-0 overflow-hidden">
             <video
               className="w-full h-full object-cover"
               autoPlay
@@ -175,12 +188,12 @@ export default function Home() {
           </div>
           <Nav isTransparent={true} />
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
-            <FaChevronDown className="text-white text-3xl animate-bounce" />
+            <FaChevronDown className="text-white md:text-3xl animate-bounce" />
           </div>
-          <div className="my-auto py-16 flex justify-center">
-            <div className="w-full max-w-[1920px] h-full py-24 flex relative items-center">
-              <div className="md:pl-28 h-fit flex flex-col md:gap-y-4 flex-shrink-0 w-full relative">
-                <div className="h-[500px] flex absolute bottom-0 right-0">
+          <div className="flex justify-center h-full">
+            <div className="w-full md:max-w-[1920px] h-full flex relative items-center">
+              <div className="md:px-28 px-6 h-full flex flex-col justify-center md:gap-y-4 flex-shrink-0 w-full relative">
+                <div className="md:h-[500px] h-[160px] w-[123px] md:w-[407px] flex absolute bottom-0 right-0">
                   <motion.svg
                     className="w-full h-full"
                     viewBox="0 0 3343 4102"
@@ -188,14 +201,13 @@ export default function Home() {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <motion.path
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 1 }}
+                      initial={{ pathLength: 0, pathOffset: 1 }}
+                      animate={{ pathLength: 1, pathOffset: 0 }}
                       transition={{
                         duration: 2,
                         ease: [0.76, 0, 0.24, 1],
                       }}
-                      className="stroke-white/70"
-                      strokeWidth={12}
+                      className="stroke-white/70 md:stroke-[12px] stroke-[24px]"
                       strokeDasharray="0 1"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -203,32 +215,36 @@ export default function Home() {
                     />
                   </motion.svg>
                 </div>
-                <div className="md:px-3 md:py-1 md:border-x-2 border-x-creatBright backdrop-blur w-fit h-fit md:rounded-md bg-creatBright/25 cursor-default">
-                  <h1 className="capitalize md:text-lg font-medium text-creatBright">
-                    Trusted Project Partner
-                  </h1>
-                </div>
-                <div className="flex flex-col md:gap-y-4">
-                  <h1 className="md:text-7xl font-bold md:leading-[1.2] text-nowrap ">
-                    Architectural <br />
-                    Services with{" "}
-                    <span className="text-creatBright font-bold md:tracking-wide">
-                      Creat
-                    </span>
-                  </h1>
-                  <p className="md:text-xl text-neutral-200 md:leading-8 md:ml-1 font-semibold">
-                    Discover top-tier construction services with Creat.
-                    <br />
-                    From concept to completion, we turn your vision into reality
-                    with <br />
-                    expertise and dedication.
-                  </p>
+                <div className="flex flex-col gap-y-2 md:gap-y-4 px-3 md:px-0">
+                  <div className="px-2 py-1 md:px-3 md:py-1 border-x-2 border-x-creatBright backdrop-blur w-fit h-fit rounded-md bg-creatBright/25 cursor-default">
+                    <h1 className="capitalize text-xs md:text-lg font-medium text-creatBright">
+                      Trusted Project Partner
+                    </h1>
+                  </div>
+
+                  <div className="flex flex-col gap-y-2 md:gap-y-4">
+                    <h1 className="text-lg md:text-7xl font-bold leading-tight md:leading-[1.2]">
+                      Architectural <br className="md:block" />
+                      Services with{" "}
+                      <span className="text-creatBright font-bold md:tracking-wide">
+                        Creat
+                      </span>
+                    </h1>
+
+                    <p className="text-xs md:text-xl text-neutral-200 leading-relaxed md:leading-8 md:ml-1 font-semibold">
+                      Discover top-tier construction services with Creat.
+                      <br className="md:block" />
+                      From concept to completion, we turn your vision into
+                      reality with <br className="md:block" />
+                      expertise and dedication.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
-        <section className="w-full relative">
+        <section className="w-full relative overflow-hidden">
           <AnimatePresence>
             {activePartnerIndex > -1 && partners[activePartnerIndex].id > 0 && (
               <div className="fixed inset-0 z-50">
@@ -334,23 +350,23 @@ export default function Home() {
               damping: 30,
               mass: 0.5,
             }}
-            className="flex flex-col h-full w-full max-w-[1920px] mx-auto justify-center pt-24 pb-36 origin-center"
+            className="flex flex-col h-full w-full max-w-[1920px] mx-auto justify-center md:pt-24 md:pb-36 py-12 origin-center"
           >
-            <div className="px-28">
+            <div className="md:px-28 px-6">
               <div className="flex gap-x-2 items-center mb-4">
-                <div className="h-px bg-white w-8" />
+                <div className="h-px bg-white md:w-8 w-3" />
                 <h1 className="font-medium">Our Clients</h1>
               </div>
-              <div className="flex flex-col gap-y-16">
-                <div className="flex flex-col gap-y-4">
+              <div className="flex flex-col md:gap-y-16 gap-y-8">
+                <div className="flex flex-col md:gap-y-4 gap-y-2">
                   <TextAnim>
-                    <h1 className="text-5xl font-medium">
+                    <h1 className="md:text-5xl text-xl font-medium">
                       People who choose to work with{" "}
                       <span className="text-creatBright">us</span>
                     </h1>
                   </TextAnim>
                   <TextAnim delay={0.1}>
-                    <p className="text-xl max-w-[500px] leading-relaxed">
+                    <p className="md:text-xl max-w-[500px] leading-relaxed">
                       Over the course of{" "}
                       <span className="relative">
                         only 5 years
@@ -365,7 +381,7 @@ export default function Home() {
                   </TextAnim>
                 </div>
                 <TextAnim dir="<" delay={0.2}>
-                  <h1 className="text-5xl text-right capitalize leading-snug">
+                  <h1 className="md:text-5xl text-xl text-right capitalize leading-snug">
                     Trusted by{" "}
                     <span className="relative">
                       Leading Business
@@ -382,177 +398,164 @@ export default function Home() {
             </div>
             <div
               ref={partnersRef}
-              className="flex flex-col gap-y-16 items-center mt-32 py-4  overflow-hidden"
+              className="flex flex-wrap gap-x-10 md:gap-x-16 gap-y-10 md:gap-y-16 items-center justify-center md:mt-32 mt-6 py-3 md:py-4"
             >
-              {Array(Math.ceil(partners.length / 5))
-                .fill(null)
-                .map((_, Gindex) => (
+              {partners.map((partner, index) => {
+                const isMd = screenSize.width >= 768;
+                const itemWidth = isMd ? 240 : 120;
+                const gapX = isMd ? 16 : 10;
+                const totalPadding = isMd ? 256 : 0;
+                const availableWidth = screenSize.width - totalPadding;
+                const approxItemsPerRow = (() => {
+                  let n = 0;
+                  while (true) {
+                    const needed = (n + 1) * itemWidth + n * gapX;
+                    if (needed > availableWidth) {
+                      return Math.max(1, n);
+                    }
+                    n++;
+                  }
+                })();
+                const rowIndex = Math.floor(index / approxItemsPerRow);
+                const direction = rowIndex % 2 === 0 ? 1 : -1;
+
+                const initialOffset = 0;
+                const animateOffset = direction * (isMd ? 24 : 12);
+
+                return (
                   <motion.div
-                    initial={{
-                      x: Gindex % 2 ? 100 : -100,
-                    }}
+                    initial={{ x: initialOffset }}
                     animate={{
-                      x: partnersInView
-                        ? Gindex === Math.ceil(partners.length / 5) - 1 // Check if last row
-                          ? 0
-                          : Gindex % 2
-                            ? -100
-                            : 100
-                        : Gindex % 2
-                          ? 100
-                          : -100,
+                      x: partnersInView ? animateOffset : initialOffset,
                     }}
                     transition={{
                       type: "spring",
-                      bounce: 0.1,
-                      delay: 0.1 * (Gindex + 1),
+                      stiffness: 100,
+                      damping: 20,
+                      mass: 0.5,
                     }}
-                    key={`G-${Gindex}`}
-                    className="flex gap-x-16"
+                    key={index}
+                    className="w-fit h-fit z-10 relative"
                   >
-                    {partners
-                      .slice(Gindex * 5, (Gindex + 1) * 5)
-                      .map((partner, index) => {
-                        const absoluteIndex = Gindex * 5 + index;
-                        return (
-                          <motion.div
-                            key={absoluteIndex}
-                            className="w-fit h-fit z-10 relative"
-                          >
-                            <motion.div
-                              onClick={() => {
-                                partners[absoluteIndex].id > 0 &&
-                                  setActivePartnerIndex(absoluteIndex);
-                              }}
+                    <motion.div
+                      onClick={() => {
+                        partner.id > 0 && setActivePartnerIndex(index);
+                      }}
+                      animate={{
+                        x: partnerIndex === index ? -2 : 0,
+                        y: partnerIndex === index ? -2 : 0,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 20,
+                        mass: 0.5,
+                      }}
+                      className="relative w-fit h-fit cursor-pointer"
+                      onHoverStart={() => handlePartnerHover(index)}
+                      onHoverEnd={() => handlePartnerHover(-1)}
+                    >
+                      <div className="w-full h-full">
+                        <motion.div
+                          animate={{
+                            x: partnerIndex === index ? 4 : 0,
+                            y: partnerIndex === index ? 4 : 0,
+                          }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 20,
+                            mass: 0.5,
+                          }}
+                          className={`absolute w-full h-full rounded-[6px] md:rounded-[13px] ${
+                            partnerIndex === index
+                              ? "bg-[#E6D2D8]"
+                              : "bg-neutral-200"
+                          } -z-20 md:-right-2 -right-1 md:top-2 top-1`}
+                        />
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{
+                            opacity: partnerIndex === index ? 1 : 0,
+                            x: partnerIndex === index ? 4 : 0,
+                            y: partnerIndex === index ? 4 : 0,
+                          }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 20,
+                            mass: 0.5,
+                          }}
+                          className="absolute w-full h-full rounded-[6px] md:rounded-[13px] bg-creatBright/50 -z-10 shadow-drop-shadow-lg-creatBright backdrop-blur"
+                        />
+                        <div className="w-[120px] md:w-[240px] h-[60px] md:h-[120px] drop-shadow-lg">
+                          <img
+                            src={partner.logo}
+                            alt={partner.name}
+                            className="w-full h-full select-none pointer-events-none"
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      animate={{
+                        x: partnerIndex === index ? -2 : 0,
+                        y: partnerIndex === index ? -2 : 0,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 20,
+                        mass: 0.5,
+                      }}
+                      className="w-fit h-fit absolute md:-top-2 md:-left-2 -top-1 -left-1"
+                    >
+                      <div className="relative block w-fit h-fit rounded-full cursor-pointer group">
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: partnerIndex === index ? 1 : 0 }}
+                          style={{
+                            background: partner.color || "#fbbf24",
+                            opacity: 0.5,
+                          }}
+                          className="absolute w-full h-1/5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-md z-10"
+                        />
+                        <div
+                          className={`px-2.5 md:px-4 py-1 md:py-2 rounded-full \
+bg-white/50 backdrop-blur h-fit drop-shadow max-w-[${itemWidth}px] overflow-hidden`}
+                        >
+                          <div className="w-full overflow-hidden h-full">
+                            <motion.h1
                               animate={{
-                                x: partnerIndex === absoluteIndex ? -4 : 0,
-                                y: partnerIndex === absoluteIndex ? -4 : 0,
+                                x:
+                                  partner.animated && partnerIndex === index
+                                    ? ["0%", "-100%"]
+                                    : "0%",
                               }}
                               transition={{
-                                type: "spring",
-                                stiffness: 400,
-                                damping: 20,
-                                mass: 0.5,
+                                x: {
+                                  repeat: Infinity,
+                                  repeatType: "loop",
+                                  duration: partnerIndex === index ? 8 : 0,
+                                  ease: "linear",
+                                },
                               }}
-                              className="relative w-fit h-fit cursor-pointer"
-                              onHoverStart={() => {
-                                handlePartnerHover(absoluteIndex);
-                              }}
-                              onHoverEnd={() => {
-                                handlePartnerHover(-1);
-                              }}
+                              initial={false}
+                              className="text-black md:text-sm text-[10px] font-semibold text-nowrap"
                             >
-                              <div className="w-full h-full">
-                                <motion.div
-                                  animate={{
-                                    x: partnerIndex === absoluteIndex ? 8 : 0,
-                                    y: partnerIndex === absoluteIndex ? 8 : 0,
-                                  }}
-                                  transition={{
-                                    type: "spring",
-                                    stiffness: 400,
-                                    damping: 20,
-                                    mass: 0.5,
-                                  }}
-                                  className={`absolute w-full h-full rounded-[13px] ${
-                                    partnerIndex === absoluteIndex
-                                      ? "bg-[#E6D2D8]"
-                                      : "bg-neutral-200"
-                                  } -z-20 -right-2 top-2`}
-                                />
-                                <motion.div
-                                  initial={{
-                                    opacity: 0,
-                                  }}
-                                  animate={{
-                                    opacity:
-                                      partnerIndex === absoluteIndex ? 1 : 0,
-                                    x: partnerIndex === absoluteIndex ? 8 : 0,
-                                    y: partnerIndex === absoluteIndex ? 8 : 0,
-                                  }}
-                                  transition={{
-                                    type: "spring",
-                                    stiffness: 400,
-                                    damping: 20,
-                                    mass: 0.5,
-                                  }}
-                                  className="absolute w-full h-full rounded-[13px] bg-creatBright/50 -z-10 shadow-drop-shadow-lg-creatBright backdrop-blur"
-                                />
-                                <div className="w-[240px] drop-shadow-lg h-[120px]">
-                                  <img
-                                    src={partner.logo}
-                                    alt={partner.name}
-                                    className="w-full h-full select-none pointer-events-none"
-                                  />
-                                </div>
-                              </div>
-                            </motion.div>
-                            <motion.div
-                              animate={{
-                                x: partnerIndex === absoluteIndex ? -4 : 0,
-                                y: partnerIndex === absoluteIndex ? -4 : 0,
-                              }}
-                              transition={{
-                                type: "spring",
-                                stiffness: 400,
-                                damping: 20,
-                                mass: 0.5,
-                              }}
-                              className="w-fit h-fit absolute -top-2 -left-2"
-                            >
-                              <div className="relative block w-fit h-fit rounded-full cursor-pointer group">
-                                <motion.div
-                                  initial={{
-                                    opacity: 0,
-                                  }}
-                                  animate={{
-                                    opacity:
-                                      partnerIndex === absoluteIndex ? 1 : 0,
-                                  }}
-                                  style={{
-                                    background: partner.color || "#fbbf24",
-                                    opacity: 0.5,
-                                  }}
-                                  className="absolute w-full h-1/5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-md z-10"
-                                />
-                                <div className="px-4 py-2 rounded-full bg-white/50 backdrop-blur h-fit drop-shadow max-w-[240px] overflow-hidden">
-                                  <div className="w-full overflow-hidden h-full">
-                                    <motion.h1
-                                      animate={{
-                                        x:
-                                          partner.animated &&
-                                          partnerIndex === absoluteIndex
-                                            ? ["0%", "-100%"]
-                                            : "0%",
-                                      }}
-                                      transition={{
-                                        x: {
-                                          repeat: Infinity,
-                                          repeatType: "loop",
-                                          duration:
-                                            partnerIndex === absoluteIndex
-                                              ? 8
-                                              : 0,
-                                          ease: "linear",
-                                        },
-                                      }}
-                                      initial={false}
-                                      className="text-black text-sm font-semibold text-nowrap"
-                                    >
-                                      {partner.name}
-                                    </motion.h1>
-                                  </div>
-                                </div>
-                              </div>
-                            </motion.div>
-                          </motion.div>
-                        );
-                      })}
+                              {partner.name}
+                            </motion.h1>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
                   </motion.div>
-                ))}
+                );
+              })}
             </div>
           </motion.div>
-          <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-1/2 z-10">
+          <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-1/2 z-10 hidden md:block">
             <svg
               width="100%"
               height="100%"
@@ -583,16 +586,19 @@ export default function Home() {
           </div>
         </section>
         <section className="w-full relative">
-          <div className="flex flex-col px-28 h-full w-full max-w-[1920px] mx-auto justify-center pt-24 pb-36">
+          <div
+            className="flex flex-col md:px-28 px-3 h-full w-full max-w-[1920px] \
+            mx-auto justify-center md:py-24 md:pb-24 pb-12"
+          >
             <div className="flex gap-x-2 items-center mb-4">
-              <div className="h-px bg-white w-8" />
+              <div className="h-px bg-white md:w-8 w-3" />
               <h1 className="font-medium">Our Services</h1>
             </div>
-            <div className="flex w-full justify-between items-start">
+            <div className="flex w-full flex-wrap gap-4 justify-between items-start">
               <TextAnim>
-                <h1 className="text-5xl font-medium leading-tight">
+                <h1 className="md:text-5xl text-lg font-medium leading-tight">
                   Comprehensive Solutions <br /> Tailored to
-                  <span className="inline-block relative px-6">
+                  <span className="inline-block relative md:px-6 px-2">
                     {" "}
                     You
                     <img
@@ -608,29 +614,31 @@ export default function Home() {
                 aria-label="View all services"
                 rel="noopener noreferrer"
                 href="/services"
-                className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit group border-2 border-white/10 font-medium
-              hover:bg-creatBright hover:border-creatBright transition-all duration-300 flex flex-shrink-0 md:gap-x-3 items-center
-              hover:shadow-drop-shadow-button-creatBright"
+                className="group md:py-4 md:px-6 py-2 px-3 uppercase tracking-wider text-xs md:text-sm font-medium
+    rounded-full w-fit transition-all duration-300 flex items-center md:gap-x-3 gap-x-1.5
+    border-2 border-white/20 hover:border-creatBright
+    bg-white/5 hover:bg-creatBright text-white/90 hover:text-white
+    shadow-lg hover:shadow-drop-shadow-button-creatBright
+    active:scale-95 md:active:scale-100"
               >
-                <h1 className="md:text-lg font-semibold">View All Services</h1>
-                <div
-                  className="flex items-center justify-center md:h-6 aspect-square
-                relative overflow-hidden"
-                >
+                <span className="relative inline-flex items-center justify-center overflow-hidden w-5 h-5">
+                  {/* First arrow slides in from left - only on md */}
                   <FaArrowRight
-                    className="absolute text-base top-1/2 -translate-y-1/2 left-1/2
-                -translate-x-[200%] transition-all duration-300 group-hover:-translate-x-1/2"
+                    className="absolute transition-all duration-500 md:text-2xl text-base
+      -translate-x-8 opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
                   />
+                  {/* Second arrow - slides out on md, scales on mobile */}
                   <FaArrowRight
-                    className="absolute text-base top-1/2 -translate-y-1/2 left-1/2
-                -translate-x-1/2 transition-all duration-300 group-hover:translate-x-[200%]"
+                    className="absolute transition-all duration-500 md:text-2xl text-base
+      translate-x-0 opacity-100 md:group-hover:translate-x-8 md:group-hover:opacity-0
+      group-hover:scale-110 md:group-hover:scale-100"
                   />
-                </div>
+                </span>
               </Link>
             </div>
-            <div className="w-full mt-16">
+            <div className="w-full md:mt-16 mt-3">
               <TextAnim delay={0.2}>
-                <p className="text-neutral-300 text-2xl">
+                <p className="text-neutral-300 md:text-2xl">
                   <span className="text-creatBright font-semibold">
                     CREAT Company LLC{" "}
                   </span>
@@ -641,14 +649,17 @@ export default function Home() {
                 </p>
               </TextAnim>
             </div>
-            <div className="flex gap-x-8 items-center justify-center w-full mt-16">
+            <div
+              className="flex flex-wrap md:gap-8 gap-3 items-center \
+              justify-center w-full md:mt-16 mt-3"
+            >
               <GlareCard
                 className="group"
                 icon={
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 32 32"
-                    className="w-20 h-20"
+                    className="md:w-20 md:h-20 w-12 h-12"
                   >
                     <path
                       className="transition-colors duration-1000 fill-white/50 group-hover:fill-green-800/50"
@@ -665,7 +676,7 @@ export default function Home() {
                 icon={
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-20 h-20"
+                    className="md:w-20 md:h-20 w-12 h-12"
                     viewBox="0 0 512 512"
                   >
                     <path
@@ -683,7 +694,7 @@ export default function Home() {
                 icon={
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-20 h-20"
+                    className="md:w-20 md:h-20 w-12 h-12"
                     viewBox="0 0 64 64"
                   >
                     <path
@@ -697,7 +708,7 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-[calc(100%-1px)] z-10">
+          <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-[calc(100%-1px)] z-10 hidden md:block">
             <svg
               width="100%"
               height="100%"
@@ -713,55 +724,57 @@ export default function Home() {
             </svg>
           </div>
         </section>
-        <section className="w-full py-36 relative bg-creatBGLight">
-          <div className="flex flex-col px-28 h-full w-full max-w-[1920px] mx-auto">
+        <section className="w-full md:py-36 py-12 relative bg-creatBGLight">
+          <div className="flex flex-col md:px-28 px-6 h-full w-full max-w-[1920px] mx-auto">
             <div className="flex gap-x-2 items-center mb-4">
-              <div className="h-px bg-white w-8" />
+              <div className="h-px bg-white md:w-8 w-3" />
               <h1 className="font-medium">About Us</h1>
             </div>
 
             <div className="w-full flex flex-col gap-y-2">
               <div className="flex justify-between items-center">
                 <TextAnim>
-                  <h1 className="font-bold text-4xl text-creatBright">
+                  <h1 className="font-bold md:text-5xl text-creatBright">
                     CREAT Company LLC
                   </h1>
                 </TextAnim>
                 <Link
-                  aria-label="More About Us"
+                  aria-label="More about us"
                   rel="noopener noreferrer"
                   href="/about"
-                  className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit group border-2 border-white/10 font-medium
-              hover:bg-creatBright hover:border-creatBright transition-all duration-300 flex flex-shrink-0 md:gap-x-3 items-center
-              hover:shadow-drop-shadow-button-creatBright"
+                  className="group md:py-4 md:px-6 py-2 px-3 uppercase tracking-wider text-xs md:text-sm font-medium
+    rounded-full w-fit transition-all duration-300 flex items-center md:gap-x-3 gap-x-1.5
+    border-2 border-white/20 hover:border-creatBright
+    bg-white/5 hover:bg-creatBright text-white/90 hover:text-white
+    shadow-lg hover:shadow-drop-shadow-button-creatBright
+    active:scale-95 md:active:scale-100"
                 >
-                  <h1 className="md:text-lg font-semibold">More About Us</h1>
-                  <div
-                    className="flex items-center justify-center md:h-6 aspect-square
-                relative overflow-hidden"
-                  >
+                  <span className="relative inline-flex items-center justify-center overflow-hidden w-5 h-5">
+                    {/* First arrow slides in from left - only on md */}
                     <FaArrowRight
-                      className="absolute text-base top-1/2 -translate-y-1/2 left-1/2
-                -translate-x-[200%] transition-all duration-300 group-hover:-translate-x-1/2"
+                      className="absolute transition-all duration-500 md:text-2xl text-base
+      -translate-x-8 opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
                     />
+                    {/* Second arrow - slides out on md, scales on mobile */}
                     <FaArrowRight
-                      className="absolute text-base top-1/2 -translate-y-1/2 left-1/2
-                -translate-x-1/2 transition-all duration-300 group-hover:translate-x-[200%]"
+                      className="absolute transition-all duration-500 md:text-2xl text-base
+      translate-x-0 opacity-100 md:group-hover:translate-x-8 md:group-hover:opacity-0
+      group-hover:scale-110 md:group-hover:scale-100"
                     />
-                  </div>
+                  </span>
                 </Link>
               </div>
 
               <ParagraphAnimation>
-                <p className="text-white text-2xl">
+                <p className="text-white md:text-2xl">
                   Achieve Project Success with Alternative Energy and Innovative
                   Approaches
                 </p>
               </ParagraphAnimation>
             </div>
-            <div className="w-full mt-12 flex flex-col gap-y-4">
+            <div className="w-full md:mt-12 mt-3 flex flex-col gap-y-4">
               <ParagraphAnimation>
-                <p className="text-white text-2xl max-w-[800px]">
+                <p className="text-white md:text-2xl max-w-[800px]">
                   CREAT Company LLC has been recognized for delivering
                   high-quality and innovative projects across several key
                   sectors since its establishment in 2019. Our company has
@@ -774,7 +787,7 @@ export default function Home() {
                 </p>
               </ParagraphAnimation>
               <ParagraphAnimation>
-                <p className="text-white text-2xl max-w-[800px]">
+                <p className="text-white md:text-2xl max-w-[800px]">
                   At CREAT Company LLC, we prioritize quality, sustainability,
                   and customer satisfaction in every project. We are committed
                   to delivering more successful projects in the future
@@ -782,7 +795,10 @@ export default function Home() {
               </ParagraphAnimation>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-[calc(100%-1px)] z-10">
+          <div
+            className="absolute bottom-0 left-0 w-full h-[100px] \
+            pointer-events-none translate-y-[calc(100%-1px)] z-10 hidden md:block"
+          >
             <svg
               width="100%"
               height="100%"
@@ -798,18 +814,18 @@ export default function Home() {
             </svg>
           </div>
         </section>
-        <section className="w-full pt-36 pb-72 relative">
-          <div className="flex flex-col px-28 h-full w-full max-w-[1920px] mx-auto">
+        <section className="w-full md:pt-36 md:pb-72 py-12 relative">
+          <div className="flex flex-col md:px-28 px-6 h-full w-full max-w-[1920px] mx-auto">
             <div className="flex gap-x-2 items-center mb-4">
-              <div className="h-px bg-white w-8" />
+              <div className="h-px bg-white md:w-8 w-3" />
               <h1 className="font-medium">Our Projects</h1>
             </div>
             <div
               ref={projectsRef}
-              className="w-full flex justify-between items-center mb-16"
+              className="w-full flex justify-between items-center md:mb-16 mb-6"
             >
               <TextAnim>
-                <h1 className="text-5xl font-medium leading-tight text-nowrap">
+                <h1 className="md:text-5xl font-medium leading-tight text-nowrap">
                   Explore Our Projects <br /> That{" "}
                   <span className="text-creatBright font-bold uppercase">
                     Inspire
@@ -817,30 +833,32 @@ export default function Home() {
                 </h1>
               </TextAnim>
               <Link
-                aria-label="View All Projects"
+                aria-label="View all projects"
                 rel="noopener noreferrer"
                 href="/projects"
-                className="md:rounded-lg md:py-5 md:px-7 uppercase w-fit group border-2 border-white/10 font-medium
-              hover:bg-creatBright hover:border-creatBright transition-all duration-300 flex md:gap-x-3 items-center
-              hover:shadow-drop-shadow-button-creatBright"
+                className="group md:py-4 md:px-6 py-2 px-3 uppercase tracking-wider text-xs md:text-sm font-medium
+    rounded-full w-fit transition-all duration-300 flex items-center md:gap-x-3 gap-x-1.5
+    border-2 border-white/20 hover:border-creatBright
+    bg-white/5 hover:bg-creatBright text-white/90 hover:text-white
+    shadow-lg hover:shadow-drop-shadow-button-creatBright
+    active:scale-95 md:active:scale-100"
               >
-                <h1 className="md:text-lg font-semibold">View All Projects</h1>
-                <div
-                  className="flex items-center justify-center md:h-6 aspect-square
-                relative overflow-hidden"
-                >
+                <span className="relative inline-flex items-center justify-center overflow-hidden w-5 h-5">
+                  {/* First arrow slides in from left - only on md */}
                   <FaArrowRight
-                    className="absolute text-base top-1/2 -translate-y-1/2 left-1/2
-                -translate-x-[200%] transition-all duration-300 group-hover:-translate-x-1/2"
+                    className="absolute transition-all duration-500 md:text-2xl text-base
+      -translate-x-8 opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
                   />
+                  {/* Second arrow - slides out on md, scales on mobile */}
                   <FaArrowRight
-                    className="absolute text-base top-1/2 -translate-y-1/2 left-1/2
-                -translate-x-1/2 transition-all duration-300 group-hover:translate-x-[200%]"
+                    className="absolute transition-all duration-500 md:text-2xl text-base
+      translate-x-0 opacity-100 md:group-hover:translate-x-8 md:group-hover:opacity-0
+      group-hover:scale-110 md:group-hover:scale-100"
                   />
-                </div>
+                </span>
               </Link>
             </div>
-            <div className="flex w-full items-center justify-center gap-x-12">
+            <div className="flex flex-wrap w-full items-center justify-center md:gap-12 gap-3">
               <ProjectCard
                 projectsInView={projectsInView}
                 id={1}
@@ -879,7 +897,7 @@ nəzərdə tutulub."
               />
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-[calc(100%-1px)]">
+          <div className="absolute bottom-0 left-0 w-full h-[100px] pointer-events-none translate-y-[calc(100%-1px)] hidden md:block">
             <svg
               fill="#081731"
               preserveAspectRatio="none"
@@ -895,16 +913,16 @@ nəzərdə tutulub."
             </svg>
           </div>
         </section>
-        <section className="w-full py-36 bg-creatBGLight">
+        <section className="w-full md:py-36 py-12 bg-creatBGLight hidden md:block">
           <div className="flex flex-col h-full w-full">
-            <div className="flex flex-col h-full w-full max-w-[1920px] mx-auto px-28">
+            <div className="flex flex-col h-full w-full max-w-[1920px] mx-auto md:px-28 px-3">
               <div className="flex gap-x-2 items-center mb-4">
-                <div className="h-px bg-white w-8" />
+                <div className="h-px bg-white md:w-8 w-3" />
                 <h1 className="font-medium">Testimonial</h1>
               </div>
-              <div className="w-full flex justify-between items-center mb-16">
+              <div className="w-full flex justify-between items-center md:mb-16 mb-8">
                 <TextAnim>
-                  <h1 className="text-5xl font-medium leading-tight text-nowrap">
+                  <h1 className="md:text-5xl font-medium leading-tight text-nowrap">
                     What Our{" "}
                     <span className="text-creatBright font-bold">Clients</span>{" "}
                     Say
@@ -913,8 +931,8 @@ nəzərdə tutulub."
                 </TextAnim>
               </div>
             </div>
-            <div className="flex w-full items-center">
-              <div className="flex flex-col w-1/2 h-fit">
+            <div className="flex flex-wrap w-full items-center">
+              <div className="flex flex-col md:w-1/2 h-fit">
                 <motion.div
                   onHoverStart={() => stopAutoCycle()}
                   onHoverEnd={() => startAutoCycle()}
@@ -989,7 +1007,7 @@ nəzərdə tutulub."
                   </motion.div>
                 </div>
               </div>
-              <div className="w-1/2 min-h-[500px] flex items-center justify-center relative p-4">
+              <div className="md:w-1/2 min-h-[500px] flex items-center justify-center relative p-4">
                 <motion.div
                   className="relative w-[420px] h-[580px]"
                   onHoverStart={() => stopAutoCycle()}
@@ -1074,9 +1092,12 @@ nəzərdə tutulub."
             </div>
           </div>
         </section>
-        <section className="w-full min-h-[600px] py-36 bg-creatBG relative flex items-center justify-center">
+        <section
+          className="w-full min-h-[600px] md:py-36 py-12 bg-creatBG relative flex \
+          items-center justify-center hidden md:block"
+        >
           <EmailForm />
-          <div className="absolute w-full h-[300px] top-[-2px] left-0">
+          <div className="absolute w-full h-[300px] top-[-2px] left-0 hidden md:block">
             <svg
               width="100%"
               height="100%"
