@@ -522,8 +522,9 @@ export default function Home() {
                           className="absolute w-full h-1/5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-md z-10"
                         />
                         <div
+                          style={{ width: itemWidth }}
                           className={`px-2.5 md:px-4 py-1 md:py-2 rounded-full \
-bg-white/50 backdrop-blur h-fit drop-shadow max-w-[${itemWidth}px] overflow-hidden`}
+bg-white/50 backdrop-blur h-fit drop-shadow overflow-hidden`}
                         >
                           <div className="w-full overflow-hidden h-full">
                             <motion.h1
@@ -1093,8 +1094,8 @@ nəzərdə tutulub."
           </div>
         </section>
         <section
-          className="w-full min-h-[600px] md:py-36 py-12 bg-creatBG relative flex \
-          items-center justify-center hidden md:block"
+          className="w-full min-h-[600px] md:py-36 py-12 bg-creatBG relative \
+          items-center justify-center hidden md:flex"
         >
           <EmailForm />
           <div className="absolute w-full h-[300px] top-[-2px] left-0 hidden md:block">
