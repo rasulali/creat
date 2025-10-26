@@ -1,4 +1,5 @@
 "use client";
+
 import { useInView, motion } from "motion/react";
 import { useRef } from "react";
 import { isEmail } from "validator";
@@ -50,21 +51,28 @@ const EmailForm = () => {
         damping: 20,
         delay: 0.2,
       }}
-      className="max-h-[400px] rounded-2xl bg-creatBGLight/10 border-2 backdrop-blur
-          border-creatBGLight/20 flex gap-x-12 justify-between px-[60px] py-[72px] z-10"
+      className="
+        rounded-2xl text-white flex flex-col gap-y-6 px-6 py-8 z-10
+        md:max-h-[400px] md:bg-creatBGLight/10 md:border-2 md:border-creatBGLight/20 md:backdrop-blur
+        md:flex-row md:gap-x-12 md:justify-between md:px-[60px] md:py-[72px]
+      "
     >
-      <div className="flex flex-col gap-y-4">
-        <h1 className="text-4xl font-bold">
+      {/* Left text block */}
+      <div className="flex flex-col gap-y-2 md:gap-y-4">
+        <h1 className="text-2xl md:text-4xl font-bold leading-tight">
           Contact with us for <br />
           Further discussion
         </h1>
-        <p className="text-xl text-neutral-200">
+
+        <p className="text-sm md:text-xl text-neutral-200 leading-relaxed">
           Do you have a big project in mind?
-          <br />
+          <br className="hidden md:block" />
           Let’s turn your vision into reality
         </p>
       </div>
-      <div className="my-auto flex items-center justify-center w-fit">
+
+      {/* Arrow (hidden on mobile, keep original on md+) */}
+      <div className="hidden md:flex my-auto items-center justify-center w-fit text-white">
         <svg viewBox="0 0 24 24" className="w-12 h-12">
           <g
             fill="none"
@@ -92,21 +100,41 @@ const EmailForm = () => {
           </g>
         </svg>
       </div>
-      <div className="flex flex-col gap-y-4">
-        <h1 className="text-2xl font-bold">Submit Your Email</h1>
-        <form ref={formRef} className="flex gap-x-4" onSubmit={handleSubmit}>
+
+      {/* Form block */}
+      <div className="flex flex-col gap-y-3 md:gap-y-4 md:my-auto">
+        <h1 className="text-xl md:text-2xl font-bold">Submit Your Email</h1>
+
+        <form
+          ref={formRef}
+          className="flex flex-col gap-y-3 md:flex-row md:gap-x-4 md:gap-y-0"
+          onSubmit={handleSubmit}
+        >
           <input
             required
             name="email"
             type="email"
-            className="bg-transparent border-creatBGLight/50 min-w-[300px] px-6 py-5 rounded-lg
-                outline-none text-xl border-2 focus:border-creatBGLight transition-colors text-white"
+            className="
+              w-full rounded-lg outline-none text-base text-white
+              bg-transparent border-2 border-white/30 px-4 py-4
+              transition-colors focus:border-white
+              md:min-w-[300px] md:w-auto md:px-6 md:py-5 md:text-xl
+              md:border-creatBGLight/50 md:focus:border-creatBGLight
+            "
             placeholder="Enter your email"
           />
+
           <button
             type="submit"
-            className="bg-black px-6 py-5 rounded-lg text-white text-xl font-bold
-                group hover:bg-white hover:text-black transition-colors"
+            className="
+              w-full rounded-lg font-bold
+              px-4 py-4 text-base
+              bg-white text-black
+              transition-colors
+              md:w-auto md:px-6 md:py-5 md:text-xl
+              md:bg-black md:text-white
+              md:hover:bg-white md:hover:text-black
+            "
           >
             Submit
           </button>
@@ -115,4 +143,5 @@ const EmailForm = () => {
     </motion.div>
   );
 };
+
 export default EmailForm;

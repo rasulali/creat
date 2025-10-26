@@ -71,10 +71,9 @@ export const GlareCard = ({
   return (
     <div
       style={containerStyle}
-      className="relative isolate pointer-events-none [contain:layout_style] [perspective:600px] transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] will-change-transform w-full max-w-[320px] md:w-[320px] md:aspect-[10/12] aspect-[5/8]"
+      className="relative isolate pointer-events-none [contain:layout_style] md:[perspective:600px] transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] md:will-change-transform w-full aspect-[3/2] md:w-[320px] md:aspect-[10/12]"
       ref={refElement}
       onPointerMove={(event) => {
-        // Disable 3D effects on mobile for better performance
         if (window.innerWidth < 768) return;
 
         const rotateFactor = 0.4;
@@ -105,8 +104,9 @@ export const GlareCard = ({
         updateStyles();
       }}
       onPointerEnter={() => {
+        if (window.innerWidth < 768) return;
         isPointerInside.current = true;
-        if (refElement.current && window.innerWidth >= 768) {
+        if (refElement.current) {
           setTimeout(() => {
             if (isPointerInside.current) {
               refElement.current?.style.setProperty("--duration", "0s");
@@ -115,6 +115,7 @@ export const GlareCard = ({
         }
       }}
       onPointerLeave={() => {
+        if (window.innerWidth < 768) return;
         isPointerInside.current = false;
         if (refElement.current) {
           refElement.current.style.removeProperty("--duration");
@@ -123,7 +124,7 @@ export const GlareCard = ({
         }
       }}
     >
-      <div className="h-full grid will-change-transform origin-center transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] md:[transform:rotateY(var(--r-x))_rotateX(var(--r-y))] rounded-[var(--radius)] border border-creatBGLight/50 hover:[--opacity:0.6] hover:[--duration:200ms] hover:[--easing:linear] hover:filter-none overflow-hidden cursor-default">
+      <div className="h-full grid will-change-transform origin-center transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] md:[transform:rotateY(var(--r-x))_rotateX(var(--r-y))] rounded-[var(--radius)] border border-creatBGLight/50 md:hover:[--opacity:0.6] md:hover:[--duration:200ms] md:hover:[--easing:linear] md:hover:filter-none overflow-hidden">
         <div className="w-full h-full grid [grid-area:1/1] mix-blend-soft-light [clip-path:inset(0_0_0_0_round_var(--radius))]">
           <div
             className={cn(
@@ -142,9 +143,9 @@ export const GlareCard = ({
             </div>
           </div>
         </div>
-        <div className="w-full h-full grid [grid-area:1/1] mix-blend-soft-light [clip-path:inset(0_0_1px_0_round_var(--radius))] opacity-[var(--opacity)] transition-opacity transition-background duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] will-change-background [background:radial-gradient(farthest-corner_circle_at_var(--m-x)_var(--m-y),_rgba(255,255,255,0.8)_10%,_rgba(255,255,255,0.65)_20%,_rgba(255,255,255,0)_90%)]" />
+        <div className="w-full h-full grid [grid-area:1/1] mix-blend-soft-light [clip-path:inset(0_0_1px_0_round_var(--radius))] opacity-[var(--opacity)] transition-opacity transition-background duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] md:will-change-background [background:radial-gradient(farthest-corner_circle_at_var(--m-x)_var(--m-y),_rgba(255,255,255,0.8)_10%,_rgba(255,255,255,0.65)_20%,_rgba(255,255,255,0)_90%)]" />
         <div
-          className="w-full h-full grid [grid-area:1/1] mix-blend-color-dodge opacity-[var(--opacity)] will-change-background transition-opacity [clip-path:inset(0_0_1px_0_round_var(--radius))] [background-blend-mode:hue_hue_hue_overlay] [background:var(--pattern),_var(--rainbow),_var(--diagonal),_var(--shade)] relative after:content-[''] after:grid-area-[inherit] after:bg-repeat-[inherit] after:bg-attachment-[inherit] after:bg-origin-[inherit] after:bg-clip-[inherit] after:bg-[inherit] after:mix-blend-exclusion after:[background-size:var(--foil-size),_200%_400%,_800%,_200%] after:[background-position:center,_0%_var(--bg-y),_calc(var(--bg-x)*_-1)_calc(var(--bg-y)*_-1),_var(--bg-x)_var(--bg-y)] after:[background-blend-mode:soft-light,_hue,_hard-light]"
+          className="w-full h-full grid [grid-area:1/1] mix-blend-color-dodge opacity-[var(--opacity)] md:will-change-background transition-opacity [clip-path:inset(0_0_1px_0_round_var(--radius))] [background-blend-mode:hue_hue_hue_overlay] [background:var(--pattern),_var(--rainbow),_var(--diagonal),_var(--shade)] relative after:content-[''] after:grid-area-[inherit] after:bg-repeat-[inherit] after:bg-attachment-[inherit] after:bg-origin-[inherit] after:bg-clip-[inherit] after:bg-[inherit] after:mix-blend-exclusion after:[background-size:var(--foil-size),_200%_400%,_800%,_200%] after:[background-position:center,_0%_var(--bg-y),_calc(var(--bg-x)*_-1)_calc(var(--bg-y)*_-1),_var(--bg-x)_var(--bg-y)] after:[background-blend-mode:soft-light,_hue,_hard-light]"
           style={{ ...backgroundStyle }}
         />
       </div>

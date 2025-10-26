@@ -11,8 +11,8 @@ interface CommentProps {
 const Comment: React.FC<CommentProps> = ({ stars, comment, name, role }) => {
   return (
     <div
-      className="flex flex-col p-7 gap-y-4 drop-shadow justify-start h-fit
-      rounded-2xl bg-white/70 backdrop-blur-lg w-[574px] flex-shrink-0 select-none"
+      className="flex flex-col md:p-7 p-3 md:gap-y-4 gap-y-2 drop-shadow justify-start h-fit
+      rounded-2xl bg-white/70 backdrop-blur-lg md:w-[574px] flex-shrink-0 select-none"
     >
       <div className="flex gap-x-2 items-center">
         {Array.from({ length: 5 }).map((_, index) =>
@@ -24,17 +24,19 @@ const Comment: React.FC<CommentProps> = ({ stars, comment, name, role }) => {
         )}
         <h1 className="text-zinc-900 font-semibold">{stars}.0</h1>
       </div>
-      <p className="text-wrap text-neutral-700 h-[72px] overflow-hidden">
+      <p className="text-wrap text-neutral-700 text-sm md:text-base md:h-18 h-16 overflow-hidden">
         {comment}
       </p>
       <div className="flex items-center justify-between">
         <div className="flex flex-col w-fit gap-y-2 text-zinc-900">
           <div className="flex items-center">
-            <h1 className="text-2xl">{name}</h1>
+            <h1 className="md:text-2xl text-sm">{name}</h1>
           </div>
-          <h2 className="font-serif text-neutral-700">{role}</h2>
+          <h2 className="font-serif text-neutral-700 md:text-base text-xs">
+            {role}
+          </h2>
         </div>
-        <BiSolidQuoteRight className="text-transparent text-6xl stroke-neutral-300 stroke-1" />
+        <BiSolidQuoteRight className="text-transparent md:text-6xl text-5xl stroke-neutral-300 stroke-1" />
       </div>
     </div>
   );

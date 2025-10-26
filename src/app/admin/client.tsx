@@ -890,24 +890,26 @@ export const Form = () => {
       </div>
       <section className="w-full col-start-1 row-start-1">
         {/* Add New Project */}
-        <div className="w-full flex flex-col gap-y-8 bg-gradient-to-br from-slate-50 to-white rounded-2xl p-6 shadow-xl border border-slate-100 relative">
+        <div className="w-full flex flex-col gap-y-6 md:gap-y-8 bg-white md:bg-gradient-to-br md:from-slate-50 md:to-white rounded-2xl p-4 md:p-6 shadow-xl border border-slate-100 relative">
           {resetForm && (
-            <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 rounded-2xl flex items-center justify-center pointer-events-none">
-              <ImSpinner9 className="animate-spin text-blue-600 text-4xl" />
+            <div className="absolute inset-0 bg-white/90 md:bg-white/80 md:backdrop-blur-sm z-10 rounded-2xl flex items-center justify-center pointer-events-none">
+              <ImSpinner9 className="animate-spin text-blue-600 text-3xl md:text-4xl" />
             </div>
           )}
+
           {/* Heading and Description */}
-          <div className="flex justify-between items-center">
-            <div className="flex flex-col space-y-2">
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent leading-tight">
+          <div className="flex flex-col gap-3 md:gap-0 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-col space-y-1 md:space-y-2 text-center md:text-left">
+              <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent leading-tight">
                 {editingProject ? "Edit Project" : " Add New Project"}
               </h1>
-              <p className="text-orange-500 font-bold text-lg">
+              <p className="text-orange-500 font-bold text-base md:text-lg">
                 Please review changes before publishing!
               </p>
             </div>
+
             <motion.div
-              className="cursor-pointer p-3 rounded-xl hover:bg-slate-100 transition-all duration-200 hover:shadow-md border border-slate-200 hover:border-slate-300"
+              className="self-center md:self-auto cursor-pointer p-2 md:p-3 rounded-xl hover:bg-slate-100 transition-all duration-200 hover:shadow-md border border-slate-200 hover:border-slate-300"
               whileHover={{ scale: 1.05 }}
             >
               <motion.div
@@ -917,7 +919,7 @@ export const Form = () => {
               >
                 <IoRefresh
                   onClick={handleFormReset}
-                  className="text-3xl text-slate-600 hover:text-blue-500 transition-colors duration-200"
+                  className="text-2xl md:text-3xl text-slate-600 hover:text-blue-500 transition-colors duration-200"
                 />
               </motion.div>
             </motion.div>
@@ -927,13 +929,13 @@ export const Form = () => {
           <form
             id="uploadForm"
             onSubmit={handleSubmit}
-            className="flex flex-wrap gap-y-6"
+            className="flex flex-wrap gap-y-5 md:gap-y-6"
           >
             {/* Category Select */}
             <span className="w-full">
               <label
                 htmlFor="category"
-                className="block text-lg font-medium text-slate-700 mb-2 relative after:content-['*'] after:text-red-500 after:text-2xl after:absolute after:-top-1 after:-right-2"
+                className="block text-base md:text-lg font-medium text-slate-700 mb-2 relative after:content-['*'] after:text-red-500 after:text-xl md:after:text-2xl after:absolute after:-top-1 after:-right-2"
               >
                 Category
               </label>
@@ -949,8 +951,8 @@ export const Form = () => {
                         ? "oklch(0.552 0.016 285.938)"
                         : "black",
                   }}
-                  className="w-full bg-white/80 backdrop-blur-sm border-2 border-slate-200 rounded-xl
-               p-4 pr-10 text-slate-700
+                  className="w-full bg-white border-2 border-slate-200 rounded-xl
+               p-3 md:p-4 pr-10 text-slate-700
                focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white transition-all
                duration-200
                shadow-sm hover:shadow-md hover:border-slate-300 appearance-none"
@@ -989,7 +991,7 @@ export const Form = () => {
             <span className="w-full">
               <label
                 htmlFor="name"
-                className="block text-lg font-medium text-slate-700 mb-2 relative after:content-['*'] after:text-2xl after:text-red-500 after:absolute after:-top-1 after:-right-2"
+                className="block text-base md:text-lg font-medium text-slate-700 mb-2 relative after:content-['*'] after:text-xl md:after:text-2xl after:text-red-500 after:absolute after:-top-1 after:-right-2"
               >
                 Name
               </label>
@@ -999,7 +1001,7 @@ export const Form = () => {
                 id="name"
                 required
                 placeholder="Provide a name for the project"
-                className="w-full bg-white/80 backdrop-blur-sm border-2 border-slate-200 rounded-xl p-4
+                className="w-full bg-white border-2 border-slate-200 rounded-xl p-3 md:p-4
                   text-slate-700 placeholder-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-100
                   focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md hover:border-slate-300"
               />
@@ -1009,7 +1011,7 @@ export const Form = () => {
             <span className="w-full">
               <label
                 htmlFor="location"
-                className="block text-lg font-medium text-slate-700 mb-2"
+                className="block text-base md:text-lg font-medium text-slate-700 mb-2"
               >
                 Location
               </label>
@@ -1018,7 +1020,7 @@ export const Form = () => {
                 name="location"
                 id="location"
                 placeholder="Enter project location"
-                className="w-full bg-white/80 backdrop-blur-sm border-2 border-slate-200 rounded-xl p-4
+                className="w-full bg-white border-2 border-slate-200 rounded-xl p-3 md:p-4
                   text-slate-700 placeholder-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-100
                   focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md hover:border-slate-300"
               />
@@ -1028,7 +1030,7 @@ export const Form = () => {
             <span className="w-full">
               <label
                 htmlFor="service"
-                className="block text-lg font-medium text-slate-700 mb-2"
+                className="block text-base md:text-lg font-medium text-slate-700 mb-2"
               >
                 Service
               </label>
@@ -1037,7 +1039,7 @@ export const Form = () => {
                 name="service"
                 id="service"
                 placeholder="Enter service provided"
-                className="w-full bg-white/80 backdrop-blur-sm border-2 border-slate-200 rounded-xl p-4
+                className="w-full bg-white border-2 border-slate-200 rounded-xl p-3 md:p-4
                   text-slate-700 placeholder-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-100
                   focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md hover:border-slate-300
                   [color-scheme:light]"
@@ -1048,34 +1050,34 @@ export const Form = () => {
             <span className="w-full">
               <label
                 htmlFor="description"
-                className="block text-lg font-medium text-slate-700 mb-2"
+                className="block text-base md:text-lg font-medium text-slate-700 mb-2"
               >
                 Description
               </label>
               <textarea
                 name="description"
                 id="description"
-                className="resize-y overflow-y-scroll w-full bg-white/80 backdrop-blur-sm border-2 border-slate-200
-                  rounded-xl p-4 text-slate-700 placeholder-slate-400 focus:border-blue-400 focus:ring-4
+                className="resize-y w-full bg-white border-2 border-slate-200
+                  rounded-xl p-3 md:p-4 text-slate-700 placeholder-slate-400 focus:border-blue-400 focus:ring-4
                   focus:ring-blue-100 focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md
-                  hover:border-slate-300 min-h-[8rem] max-h-[16rem]"
+                  hover:border-slate-300 min-h-[6rem] md:min-h-[8rem] max-h-[16rem]"
                 placeholder="Provide a description for the project"
               />
             </span>
 
             {/* Image Upload */}
-            <span className="w-full flex flex-col space-y-4">
-              <span className="flex justify-between items-center flex-wrap">
+            <span className="w-full flex flex-col space-y-3 md:space-y-4">
+              <span className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center flex-wrap">
                 <label
                   htmlFor="images"
-                  className="text-lg font-medium text-slate-700 relative after:content-['*'] after:text-2xl
+                  className="text-base md:text-lg font-medium text-slate-700 relative after:content-['*'] after:text-xl md:after:text-2xl
                     after:text-red-500 after:absolute after:-top-1 after:-right-4 text-nowrap"
                 >
                   Upload Image(s)
                 </label>
                 {selectedImages.length > 0 ? (
                   <button
-                    className="appearance-none"
+                    className="appearance-none self-start md:self-auto"
                     type="button"
                     onClick={() => {
                       setModalDeleteState(true);
@@ -1086,7 +1088,7 @@ export const Form = () => {
                     </h1>
                   </button>
                 ) : (
-                  <div className="text-zinc-500 flex gap-x-2 text-sm">
+                  <div className="text-zinc-500 flex flex-wrap gap-x-2 gap-y-1 text-xs md:text-sm">
                     <span>.jpg</span>
                     <span>.jpeg</span>
                     <span>.png</span>
@@ -1112,21 +1114,21 @@ export const Form = () => {
             </span>
 
             {/* Submit Button and Loading */}
-            <div className="w-full flex items-center justify-between">
+            <div className="w-full flex flex-col gap-3 md:gap-0 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-x-2">
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl
+                  className="px-5 md:px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl
                   font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-200
                   shadow-md hover:shadow-lg hover:scale-105"
                 >
                   Publish Changes
                 </button>
                 {loading && (
-                  <ImSpinner9 className="animate-spin text-blue-600 text-2xl" />
+                  <ImSpinner9 className="animate-spin text-blue-600 text-xl md:text-2xl" />
                 )}
               </div>
-              <span className="text-slate-500 text-sm">
+              <span className="text-slate-500 text-xs md:text-sm">
                 Fields marked with an asterisk
                 <span className="text-red-500 mx-1">*</span>are required.
               </span>
@@ -1288,18 +1290,14 @@ export const Preview = () => {
   return (
     <AnimatePresence>
       {
-        <section
-          className="w-full col-start-2 row-start-1
-    scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-200/50
-    hover:scrollbar-thumb-neutral-300/75 scrollbar-thumb-rounded-full"
-        >
-          <div className="w-full flex flex-col bg-gradient-to-br from-slate-50 to-white gap-y-8 rounded-2xl p-6 shadow-xl border border-slate-100">
+        <section className="w-full col-start-2 row-start-1 h-full">
+          <div className="w-full flex flex-col bg-white md:bg-gradient-to-br md:from-slate-50 md:to-white gap-y-6 md:gap-y-8 rounded-2xl p-4 md:p-6 shadow-xl border border-slate-100">
             {/* Header Section */}
-            <div className="flex flex-col space-y-2">
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent leading-tight">
+            <div className="flex flex-col space-y-1 md:space-y-2">
+              <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent leading-tight">
                 Content Overview
               </h1>
-              <p className="text-slate-600 text-lg font-medium">
+              <p className="text-slate-600 text-base md:text-lg font-medium">
                 View and manage your website content
               </p>
             </div>
@@ -1310,20 +1308,21 @@ export const Preview = () => {
                 <input
                   type="text"
                   placeholder="Search projects, categories, locations..."
-                  className="w-full bg-white/80 backdrop-blur-sm border-2 border-slate-200
-                rounded-xl p-4 pl-12 text-slate-700 placeholder-slate-400
+                  className="w-full bg-white border-2 border-slate-200
+                rounded-xl p-3 md:p-4 pl-3 pr-10 md:pl-12 md:pr-4 text-slate-700 placeholder-slate-400
                 focus:border-blue-400 focus:ring-4 focus:ring-blue-100
                 focus:bg-white transition-all duration-200 shadow-sm
                 hover:shadow-md group-hover:border-slate-300"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                {/* Icon on RIGHT for mobile, LEFT for md+ */}
                 <FaMagnifyingGlass
-                  className="absolute top-1/2 -translate-y-1/2 left-4
-              text-slate-400 text-lg pointer-events-none
+                  className="absolute top-1/2 -translate-y-1/2 right-3 md:right-auto md:left-4
+              text-slate-400 text-base md:text-lg pointer-events-none
               group-focus-within:text-blue-500 transition-colors duration-200"
                 />
-                {/* Search suggestions hint */}
+                {/* Search suggestions hint (md+) */}
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400 hidden md:block">
                   {searchTerm
                     ? `${filteredProjects.length} results`
@@ -1333,17 +1332,17 @@ export const Preview = () => {
 
               {/* Project Count Display with Chip */}
               <div className="w-full">
-                <div className="flex justify-between items-center bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-slate-200 shadow-sm">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 bg-white rounded-xl p-3 md:p-4 border border-slate-200 shadow-sm">
                   <div>
                     <Link
                       href="/projects"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="View all projects"
-                      className="text-slate-600 hover:underline hover:text-blue-600 text-lg font-medium"
+                      className="text-slate-600 hover:underline hover:text-blue-600 text-base md:text-lg font-medium"
                     >
                       Currently showing{" "}
-                      <span className="font-bold text-xl">
+                      <span className="font-bold text-lg md:text-xl">
                         {filteredProjects.length}
                       </span>{" "}
                       projects
@@ -1351,25 +1350,29 @@ export const Preview = () => {
                     </Link>
                   </div>
 
-                  <div className="bg-slate-100 border border-slate-200 rounded-full px-3 py-1 flex items-center gap-2">
-                    <span className="text-slate-500 text-sm font-medium">
+                  <div className="self-start md:self-auto bg-slate-100 border border-slate-200 rounded-full px-2.5 md:px-3 py-1 flex items-center gap-1.5 md:gap-2">
+                    <span className="text-slate-500 text-xs md:text-sm font-medium">
                       Total:
                     </span>
-                    <span className="text-slate-800 font-bold text-lg">
+                    <span className="text-slate-800 font-bold text-sm md:text-lg">
                       {dataTable.length}
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Projects Grid */}
-              <div className="w-full space-y-6">
+              {/* Projects List */}
+              <div
+                className="w-full space-y-4 md:space-y-6 overflow-y-scroll max-h-dvh
+      scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-200/50
+      hover:scrollbar-thumb-neutral-300/75 scrollbar-thumb-rounded-full"
+              >
                 {dataError ? (
-                  <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-                    <div className="text-red-600 text-lg font-medium mb-2">
+                  <div className="bg-red-50 border border-red-200 rounded-xl p-4 md:p-6 text-center">
+                    <div className="text-red-600 text-base md:text-lg font-medium mb-1 md:mb-2">
                       ⚠️ Error Loading Projects
                     </div>
-                    <p className="text-red-500">
+                    <p className="text-red-500 text-sm md:text-base">
                       Please try refreshing the page or contact support.
                     </p>
                   </div>
@@ -1381,238 +1384,231 @@ export const Preview = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.05 }}
                       className="group bg-white rounded-2xl shadow-lg hover:shadow-xl
-                    transition-all duration-300 border border-slate-100
-                    hover:border-slate-200 overflow-hidden"
+    transition-all duration-300 border border-slate-100
+    hover:border-slate-200 overflow-hidden"
                     >
-                      {/* Project Card */}
-                      <div className="grid gap-6 lg:grid-cols-4 p-6">
-                        {/* Image Section */}
-                        <div className="lg:col-span-1">
-                          <div
-                            className="aspect-video w-full relative overflow-hidden rounded-xl
-                        shadow-md group-hover:shadow-lg transition-shadow duration-300"
-                          >
-                            {project.bannerImage && (
-                              <Image
-                                quality={50}
-                                width={200}
-                                height={100}
-                                className="w-full h-full object-cover group-hover:scale-105
-                              transition-transform duration-500"
-                                src={project.images[project.bannerImage]}
-                                alt={project.name}
-                              />
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Content Section */}
-                        <div className="lg:col-span-3 flex flex-col space-y-4">
-                          {/* Header with Actions */}
-                          <div className="flex justify-between items-start">
-                            <Link
-                              href={`/projects/${createProjectSlug(project.name, project.id)}/`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-2xl font-bold text-slate-800 group-hover:text-blue-600
-                              transition-colors duration-200 hover:underline"
+                      {/* Item fills container width (no horizontal scroll) */}
+                      <div className="w-full overflow-x-hidden">
+                        <div className="grid gap-4 md:gap-6 md:grid-cols-4 p-4 md:p-6 w-full">
+                          {/* Image Section */}
+                          <div className="md:col-span-1">
+                            <div
+                              className="md:aspect-video aspect-square w-full relative overflow-hidden rounded-xl
+            shadow-md group-hover:shadow-lg transition-shadow duration-300"
                             >
-                              <HighlightText
-                                text={project.name}
-                                searchTerm={searchTerm}
-                              />
-                              <FaArrowUpRightFromSquare className="ml-2 w-4 h-4 text-slate-600 group-hover:text-blue-600 transition-colors duration-200 inline" />
-                            </Link>
-                          </div>
-                          <div className="flex w-full justify-between items-center gap-x-2 opacity-70 group-hover:opacity-100 transition-opacity duration-200">
-                            {/* Ranking Controls */}
-                            <div className="flex gap-x-2">
-                              {/* Priority Badge */}
-                              <div className="flex items-center gap-x-2">
-                                <div className="bg-slate-100 border border-slate-200 rounded-lg px-2 py-1 text-xs font-medium text-slate-600">
-                                  Rank:
-                                  <HighlightText
-                                    text={JSON.stringify(project.rank)}
-                                    searchTerm={searchTerm}
-                                  />
-                                </div>
-                                <div className="text-xs font-medium">
-                                  ID:
-                                  <HighlightText
-                                    text={JSON.stringify(project.id)}
-                                    searchTerm={searchTerm}
-                                  />
-                                </div>
-                              </div>
-                              <button
-                                onClick={() => moveProjectUp(project)}
-                                disabled={index === 0}
-                                className={`p-2 rounded-lg transition-all duration-200 border shadow-sm hover:shadow-md
- flex items-center justify-center aspect-square ${
-   index === 0
-     ? "text-gray-300 border-gray-200 cursor-not-allowed"
-     : "text-green-500 border-green-200 hover:bg-green-50 hover:border-green-300 hover:scale-105"
- }`}
-                                title="Move Up"
-                              >
-                                <FaArrowUp className="w-3 h-3" />
-                              </button>
-                              <button
-                                onClick={() => moveProjectDown(project)}
-                                disabled={index === filteredProjects.length - 1}
-                                className={`p-2 rounded-lg transition-all duration-200 border shadow-sm hover:shadow-md
-              flex items-center justify-center aspect-square ${
-                index === filteredProjects.length - 1
-                  ? "text-gray-300 border-gray-200 cursor-not-allowed"
-                  : "text-orange-500 border-orange-200 hover:bg-orange-50 hover:border-orange-300 hover:scale-105"
-              }`}
-                                title="Move Down"
-                              >
-                                <FaArrowDown className="w-3 h-3" />
-                              </button>
-                              <button
-                                onClick={() => setProjectRank(project.id, 0)}
-                                className={`p-2 rounded-lg transition-all duration-200 border shadow-sm hover:shadow-md
-              flex items-center justify-center aspect-square ${
-                project.rank === 0
-                  ? "text-yellow-500 border-yellow-200 hover:bg-yellow-50 hover:border-yellow-300 hover:scale-105"
-                  : "text-gray-300 border-gray-200"
-              }`}
-                                title="Reset Rank"
-                              >
-                                {project.rank === 0 ? (
-                                  <FaStar className="w-3 h-3" />
-                                ) : (
-                                  <FaRegStar className="w-3 h-3" />
-                                )}
-                              </button>
-                            </div>
-
-                            {/* Edit/Delete buttons */}
-                            <div className="flex gap-x-2">
-                              <button
-                                onClick={() => setEditingProject(project)}
-                                className="p-3 text-blue-500 rounded-xl hover:bg-blue-50
-              hover:scale-105 transition-all duration-200 border border-blue-200
-              hover:border-blue-300 shadow-sm hover:shadow-md aspect-square flex items-center justify-center"
-                                title="Edit Project"
-                              >
-                                <FaPen className="w-4 h-4" />
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setDeleteProject(true);
-                                  setEditingProject(project);
-                                }}
-                                className="p-3 text-red-500 rounded-xl hover:bg-red-50
-              hover:scale-105 transition-all duration-200 border border-red-200
-              hover:border-red-300 shadow-sm hover:shadow-md aspect-square flex items-center justify-center"
-                                title="Delete Project"
-                              >
-                                <FaTrash className="w-4 h-4" />
-                              </button>
-                            </div>
-                          </div>
-                          {/* Project Details Grid */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
-                              <span className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
-                                Service
-                              </span>
-                              <p className="text-slate-800 font-medium mt-1">
-                                <HighlightText
-                                  text={project.service || "Not specified"}
-                                  searchTerm={searchTerm}
+                              {project.bannerImage && (
+                                <Image
+                                  quality={50}
+                                  width={200}
+                                  height={100}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                  src={project.images[project.bannerImage]}
+                                  alt={project.name}
                                 />
-                              </p>
-                            </div>
-
-                            <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
-                              <span className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
-                                Category
-                              </span>
-                              <p className="text-slate-800 font-medium mt-1">
-                                <HighlightText
-                                  text={`${categories[project.category].name}`}
-                                  searchTerm={searchTerm}
-                                />
-                              </p>
-                            </div>
-
-                            <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
-                              <span className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
-                                Location
-                              </span>
-                              <p className="text-slate-800 font-medium mt-1">
-                                <HighlightText
-                                  text={project.location || "Not specified"}
-                                  searchTerm={searchTerm}
-                                />
-                              </p>
-                            </div>
-
-                            <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
-                              <span className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
-                                Created
-                              </span>
-                              <p className="text-slate-800 font-medium mt-1">
-                                <HighlightText
-                                  text={formatDate(project.created_at)}
-                                  searchTerm={searchTerm}
-                                />
-                              </p>
+                              )}
                             </div>
                           </div>
 
-                          {/* Description - Inset/Sunken Design */}
-                          {project.description && (
-                            <div className="relative">
-                              <div
-                                className="bg-gradient-to-br from-slate-100 to-slate-50
-                            rounded-xl p-5 border-2 border-slate-200
-                            shadow-inner relative overflow-hidden"
+                          {/* Content Section */}
+                          <div className="md:col-span-3 flex flex-col space-y-3 md:space-y-4">
+                            {/* Header with Actions */}
+                            <div className="flex justify-between items-start gap-2">
+                              <Link
+                                href={`/projects/${createProjectSlug(project.name, project.id)}/`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xl md:text-2xl font-bold text-slate-800 group-hover:text-blue-600
+              transition-colors duration-200 hover:underline"
                               >
-                                {/* Inner shadow effect */}
-                                <div className="absolute inset-0 shadow-inner rounded-xl pointer-events-none" />
+                                <HighlightText
+                                  text={project.name}
+                                  searchTerm={searchTerm}
+                                />
+                                <FaArrowUpRightFromSquare className="ml-2 w-4 h-4 text-slate-600 group-hover:text-blue-600 transition-colors duration-200 inline" />
+                              </Link>
+                            </div>
 
-                                <div className="relative z-10">
-                                  <div className="flex items-center gap-2 mb-3">
-                                    <div className="w-1 h-4 bg-gradient-to-b from-blue-400 to-blue-600 rounded-full" />
-                                    <span className="text-sm font-semibold text-slate-600 uppercase tracking-wide">
-                                      Description
-                                    </span>
-                                  </div>
-                                  <div className="text-slate-700 leading-relaxed font-medium">
+                            <div className="flex w-full justify-between items-center gap-x-2 opacity-80 md:opacity-70 group-hover:opacity-100 transition-opacity duration-200">
+                              {/* Ranking Controls */}
+                              <div className="flex gap-x-1.5 md:gap-x-2">
+                                <div className="flex items-center gap-x-1.5 md:gap-x-2">
+                                  <div className="bg-slate-100 border border-slate-200 rounded-lg px-1.5 md:px-2 py-0.5 text-[10px] md:text-xs font-medium text-slate-600">
+                                    Rank:
                                     <HighlightText
-                                      text={project.description}
+                                      text={JSON.stringify(project.rank)}
+                                      searchTerm={searchTerm}
+                                    />
+                                  </div>
+                                  <div className="text-[10px] md:text-xs font-medium">
+                                    ID:
+                                    <HighlightText
+                                      text={JSON.stringify(project.id)}
                                       searchTerm={searchTerm}
                                     />
                                   </div>
                                 </div>
+                                <button
+                                  onClick={() => moveProjectUp(project)}
+                                  disabled={index === 0}
+                                  className={`p-2 rounded-lg transition-all duration-200 border shadow-sm hover:shadow-md
+                flex items-center justify-center aspect-square ${
+                  index === 0
+                    ? "text-gray-300 border-gray-200 cursor-not-allowed"
+                    : "text-green-500 border-green-200 hover:bg-green-50 hover:border-green-300 hover:scale-105"
+                }`}
+                                  title="Move Up"
+                                >
+                                  <FaArrowUp className="w-3 h-3" />
+                                </button>
+                                <button
+                                  onClick={() => moveProjectDown(project)}
+                                  disabled={
+                                    index === filteredProjects.length - 1
+                                  }
+                                  className={`p-2 rounded-lg transition-all duration-200 border shadow-sm hover:shadow-md
+                flex items-center justify-center aspect-square ${
+                  index === filteredProjects.length - 1
+                    ? "text-gray-300 border-gray-200 cursor-not-allowed"
+                    : "text-orange-500 border-orange-200 hover:bg-orange-50 hover:border-orange-300 hover:scale-105"
+                }`}
+                                  title="Move Down"
+                                >
+                                  <FaArrowDown className="w-3 h-3" />
+                                </button>
+                                <button
+                                  onClick={() => setProjectRank(project.id, 0)}
+                                  className={`p-2 rounded-lg transition-all duration-200 border shadow-sm hover:shadow-md
+                flex items-center justify-center aspect-square ${
+                  project.rank === 0
+                    ? "text-yellow-500 border-yellow-200 hover:bg-yellow-50 hover:border-yellow-300 hover:scale-105"
+                    : "text-gray-300 border-gray-200"
+                }`}
+                                  title="Reset Rank"
+                                >
+                                  {project.rank === 0 ? (
+                                    <FaStar className="w-3 h-3" />
+                                  ) : (
+                                    <FaRegStar className="w-3 h-3" />
+                                  )}
+                                </button>
+                              </div>
 
-                                {/* Subtle pattern overlay */}
-                                <div
-                                  className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_1px_1px,_rgba(0,0,0,0.15)_1px,_transparent_0)]
-                              bg-[length:20px_20px] pointer-events-none"
-                                />
+                              {/* Edit/Delete buttons */}
+                              <div className="flex gap-x-2">
+                                <button
+                                  onClick={() => setEditingProject(project)}
+                                  className="p-2.5 md:p-3 text-blue-500 rounded-xl hover:bg-blue-50
+                hover:scale-105 transition-all duration-200 border border-blue-200
+                hover:border-blue-300 shadow-sm hover:shadow-md aspect-square flex items-center justify-center"
+                                  title="Edit Project"
+                                >
+                                  <FaPen className="w-4 h-4" />
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setDeleteProject(true);
+                                    setEditingProject(project);
+                                  }}
+                                  className="p-2.5 md:p-3 text-red-500 rounded-xl hover:bg-red-50
+                hover:scale-105 transition-all duration-200 border border-red-200
+                hover:border-red-300 shadow-sm hover:shadow-md aspect-square flex items-center justify-center"
+                                  title="Delete Project"
+                                >
+                                  <FaTrash className="w-4 h-4" />
+                                </button>
                               </div>
                             </div>
-                          )}
+
+                            {/* Project Details Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                              <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
+                                <span className="text-xs md:text-sm font-semibold text-slate-500 uppercase tracking-wide">
+                                  Service
+                                </span>
+                                <p className="text-slate-800 font-medium mt-1 text-sm md:text-base">
+                                  <HighlightText
+                                    text={project.service || "Not specified"}
+                                    searchTerm={searchTerm}
+                                  />
+                                </p>
+                              </div>
+
+                              <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
+                                <span className="text-xs md:text-sm font-semibold text-slate-500 uppercase tracking-wide">
+                                  Category
+                                </span>
+                                <p className="text-slate-800 font-medium mt-1 text-sm md:text-base">
+                                  <HighlightText
+                                    text={`${categories[project.category].name}`}
+                                    searchTerm={searchTerm}
+                                  />
+                                </p>
+                              </div>
+
+                              <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
+                                <span className="text-xs md:text-sm font-semibold text-slate-500 uppercase tracking-wide">
+                                  Location
+                                </span>
+                                <p className="text-slate-800 font-medium mt-1 text-sm md:text-base">
+                                  <HighlightText
+                                    text={project.location || "Not specified"}
+                                    searchTerm={searchTerm}
+                                  />
+                                </p>
+                              </div>
+
+                              <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
+                                <span className="text-xs md:text-sm font-semibold text-slate-500 uppercase tracking-wide">
+                                  Created
+                                </span>
+                                <p className="text-slate-800 font-medium mt-1 text-sm md:text-base">
+                                  <HighlightText
+                                    text={formatDate(project.created_at)}
+                                    searchTerm={searchTerm}
+                                  />
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Description */}
+                            {project.description && (
+                              <div className="relative">
+                                <div className="bg-gradient-to-br from-slate-100 to-slate-50 rounded-xl p-4 md:p-5 border-2 border-slate-200 shadow-inner relative overflow-hidden">
+                                  <div className="absolute inset-0 shadow-inner rounded-xl pointer-events-none" />
+                                  <div className="relative z-10">
+                                    <div className="flex items-center gap-2 mb-2 md:mb-3">
+                                      <div className="w-1 h-4 bg-gradient-to-b from-blue-400 to-blue-600 rounded-full" />
+                                      <span className="text-xs md:text-sm font-semibold text-slate-600 uppercase tracking-wide">
+                                        Description
+                                      </span>
+                                    </div>
+                                    <div className="text-slate-700 leading-relaxed font-medium text-sm md:text-base">
+                                      <HighlightText
+                                        text={project.description}
+                                        searchTerm={searchTerm}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_1px_1px,_rgba(0,0,0,0.15)_1px,_transparent_0)] bg-[length:20px_20px] pointer-events-none" />
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </motion.div>
                   ))
                 ) : (
-                  <div className="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl p-12 text-center">
+                  <div className="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl p-8 md:p-12 text-center">
                     <div className="flex w-full items-center justify-center">
-                      <FaMagnifyingGlass className="text-6xl mb-4 text-center" />
+                      <FaMagnifyingGlass className="text-5xl md:text-6xl mb-3 md:mb-4 text-center" />
                     </div>
-                    <h3 className="text-xl font-semibold text-slate-600 mb-2">
+                    <h3 className="text-lg md:text-xl font-semibold text-slate-600 mb-1 md:mb-2">
                       {dataTable.length === 0
                         ? "No Projects Yet"
                         : "No Matching Projects"}
                     </h3>
-                    <p className="text-slate-500">
+                    <p className="text-slate-500 text-sm md:text-base">
                       {dataTable.length === 0
                         ? "Start by creating your first project above."
                         : "Try adjusting your search terms or clearing the search."}
@@ -1620,8 +1616,7 @@ export const Preview = () => {
                     {searchTerm && (
                       <button
                         onClick={() => setSearchTerm("")}
-                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg
-                                          hover:bg-blue-600 transition-colors duration-200"
+                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200"
                       >
                         Clear Search
                       </button>
@@ -1777,26 +1772,27 @@ export const Customers = () => {
           place="top"
           content="Click to Remove"
         />
-        <div className="w-full flex flex-col bg-gradient-to-br from-slate-50 to-white gap-y-8 rounded-2xl p-6 shadow-xl border border-slate-100">
+
+        <div className="w-full flex flex-col bg-white md:bg-gradient-to-br md:from-slate-50 md:to-white gap-y-6 md:gap-y-8 rounded-2xl p-4 md:p-6 shadow-xl border border-slate-100">
           {/* Header Section */}
-          <div className="flex justify-between items-end">
-            <div className="flex flex-col space-y-2">
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent leading-tight">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-3 md:gap-0">
+            <div className="flex flex-col space-y-1 md:space-y-2 text-center md:text-left">
+              <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent leading-tight">
                 List of Submitted Emails
               </h1>
-              <p className="text-slate-600 text-lg font-medium">
+              <p className="text-slate-600 text-base md:text-lg font-medium">
                 View the emails that have been submitted to us
               </p>
             </div>
-            <div className="flex gap-x-4">
+
+            <div className="flex flex-col md:flex-row gap-2 md:gap-4">
               <button
                 onClick={() => emails.length > 0 && openDeleteAllModal()}
                 className={`${
                   emails.length > 0
-                    ? "border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 hover:shadow-md transition-all duration-200 hover:scale-105"
+                    ? "border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 hover:shadow-md transition-all duration-200 md:hover:scale-105"
                     : "cursor-default border-slate-200 text-slate-600 bg-slate-50"
-                }
-    bg-white px-6 py-3 rounded-xl border-2 font-bold`}
+                } bg-white px-4 py-2 md:px-6 md:py-3 rounded-xl border-2 font-bold w-full md:w-auto`}
                 disabled={emails.length === 0}
               >
                 Delete All
@@ -1806,10 +1802,9 @@ export const Customers = () => {
                 onClick={() => emails.length > 0 && exportEmailsToXLSX()}
                 className={`${
                   emails.length > 0
-                    ? "border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-300 hover:shadow-md transition-all duration-200 hover:scale-105"
+                    ? "border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-300 hover:shadow-md transition-all duration-200 md:hover:scale-105"
                     : "cursor-default border-slate-200 text-slate-500 bg-slate-50"
-                }
-    bg-white px-6 py-3 rounded-xl border-2 font-bold`}
+                } bg-white px-4 py-2 md:px-6 md:py-3 rounded-xl border-2 font-bold w-full md:w-auto`}
                 disabled={emails.length === 0}
               >
                 Export to XLSX
@@ -1820,14 +1815,14 @@ export const Customers = () => {
           {/* Emails List */}
           <div className="w-full">
             {loading ? (
-              <div className="flex justify-center items-center h-32">
-                <ImSpinner9 className="animate-spin text-blue-600 text-4xl" />
-                <span className="ml-4 text-slate-600 font-medium">
+              <div className="flex justify-center items-center h-24 md:h-32 gap-3">
+                <ImSpinner9 className="animate-spin text-blue-600 text-3xl md:text-4xl" />
+                <span className="text-slate-600 font-medium text-sm md:text-base">
                   Loading...
                 </span>
               </div>
             ) : (
-              <ul className="space-y-4">
+              <ul className="space-y-3 md:space-y-4">
                 {emails.length > 0 ? (
                   emails.map((item, index) => (
                     <motion.li
@@ -1835,38 +1830,37 @@ export const Customers = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.05 }}
-                      className="flex items-center justify-between bg-white rounded-xl p-4 shadow-md
-                        hover:shadow-lg border border-slate-100 hover:border-slate-200 transition-all duration-300
-                        group overflow-hidden"
+                      className="flex items-center justify-between bg-white rounded-xl p-3 md:p-4 shadow-md
+                           hover:shadow-lg border border-slate-100 hover:border-slate-200 transition-all duration-300
+                           group overflow-hidden"
                     >
                       <a
                         href={`mailto:${item.email}`}
-                        className="text-slate-800 font-medium group-hover:text-blue-600 transition-colors duration-200"
+                        className="text-slate-800 font-medium text-sm md:text-base group-hover:text-blue-600 transition-colors duration-200 break-all"
                       >
                         {item.email}
                       </a>
-                      <div className="flex items-center gap-x-4">
+                      <div className="flex items-center gap-x-3 md:gap-x-4">
                         <FaXmark
                           id="email-delete"
                           onClick={() => deleteEmail(item.email)}
-                          className="text-red-500 text-xl cursor-pointer hover:text-red-600
-                                              hover:scale-110 transition-all duration-200"
+                          className="text-red-500 text-lg md:text-xl cursor-pointer hover:text-red-600 hover:scale-110 transition-all duration-200"
                         />
-                        <span className="text-sm text-slate-500 min-w-20 text-right">
+                        <span className="text-xs md:text-sm text-slate-500 min-w-20 text-right">
                           {new Date(item.created_at).toLocaleDateString()}
                         </span>
                       </div>
                     </motion.li>
                   ))
                 ) : (
-                  <div className="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl p-12 text-center">
+                  <div className="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl p-8 md:p-12 text-center">
                     <div className="w-full flex justify-center items-center">
-                      <FaEnvelopeOpen className="text-6xl mb-4" />
+                      <FaEnvelopeOpen className="text-5xl md:text-6xl mb-3 md:mb-4" />
                     </div>
-                    <h3 className="text-xl font-semibold text-slate-600 mb-2">
+                    <h3 className="text-lg md:text-xl font-semibold text-slate-600 mb-1 md:mb-2">
                       No Emails Submitted Yet
                     </h3>
-                    <p className="text-slate-500">
+                    <p className="text-slate-500 text-sm md:text-base">
                       Check back later or encourage submissions on your website.
                     </p>
                   </div>

@@ -2,7 +2,7 @@
 import Nav from "@/components/navbar";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { FaArrowLeft, FaArrowRight, FaChevronDown } from "react-icons/fa6";
+import { FaArrowRight, FaChevronDown } from "react-icons/fa6";
 import { AnimatePresence, motion, useInView } from "motion/react";
 import ProjectCard from "@/components/projectCard";
 import Comment from "@/components/comment";
@@ -20,6 +20,7 @@ import { homeSchema } from "@/lib/schemas";
 import { createClient } from "../../utils/supabase/client";
 
 export default function Home() {
+  const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
   const projectsRef = useRef(null);
   const projectsInView = useInView(projectsRef, {
     once: true,
@@ -54,7 +55,6 @@ export default function Home() {
   const [activeIndexTestimonial, setActiveIndexTestimonial] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [isAutoCycleOn, setIsAutoCycleOn] = useState(true);
 
   const nextTestimonial = () => {
     setActiveIndexTestimonial((prevIndex) =>
@@ -65,34 +65,12 @@ export default function Home() {
   const startAutoCycle = () => {
     intervalRef.current = setInterval(() => {
       nextTestimonial();
-      setIsAutoCycleOn(true);
     }, 1500);
   };
 
   const stopAutoCycle = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setIsAutoCycleOn(false);
-  };
-
-  const handleClickLeftTestimonial = () => {
-    stopAutoCycle();
-    if (activeIndexTestimonial === 0) {
-      setActiveIndexTestimonial(testimonials.length - 1);
-    } else {
-      setActiveIndexTestimonial((prevIndex) => prevIndex - 1);
-    }
-    timeoutRef.current = setTimeout(startAutoCycle, 5000);
-  };
-
-  const handleClickRightTestimonial = () => {
-    stopAutoCycle();
-    if (activeIndexTestimonial === testimonials.length - 1) {
-      setActiveIndexTestimonial(0);
-    } else {
-      setActiveIndexTestimonial((prevIndex) => prevIndex + 1);
-    }
-    timeoutRef.current = setTimeout(startAutoCycle, 5000);
   };
 
   useEffect(() => {
@@ -108,12 +86,11 @@ export default function Home() {
 
   const [partnerIndex, setPartnerIndex] = useState(-1);
   const partnersRef = useRef(null);
+
   const partnersInView = useInView(partnersRef, {
     once: true,
-    amount: 0.5,
+    amount: screenSize.width <= 768 ? 0.1 : 0.5,
   });
-
-  const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     const updateSize = () => {
@@ -861,6 +838,7 @@ bg-white/50 backdrop-blur h-fit drop-shadow overflow-hidden`}
             </div>
             <div className="flex flex-wrap w-full items-center justify-center md:gap-12 gap-3">
               <ProjectCard
+                screenSize={screenSize}
                 projectsInView={projectsInView}
                 id={1}
                 name="HDEC (PowerChina)"
@@ -873,6 +851,7 @@ qorunması və enerji səmərəliliyini artırmaq məqsədini daşıyır."
               />
 
               <ProjectCard
+                screenSize={screenSize}
                 projectsInView={projectsInView}
                 id={2}
                 delay={0.1}
@@ -883,6 +862,7 @@ qorunması və enerji səmərəliliyini artırmaq məqsədini daşıyır."
               />
 
               <ProjectCard
+                screenSize={screenSize}
                 projectsInView={projectsInView}
                 id={3}
                 delay={0.2}
@@ -914,7 +894,8 @@ nəzərdə tutulub."
             </svg>
           </div>
         </section>
-        <section className="w-full md:py-36 py-12 bg-creatBGLight hidden md:block">
+        {/* Testimonial */}
+        <section className="w-full md:py-36 py-12 bg-creatBGLight">
           <div className="flex flex-col h-full w-full">
             <div className="flex flex-col h-full w-full max-w-[1920px] mx-auto md:px-28 px-3">
               <div className="flex gap-x-2 items-center mb-4">
@@ -933,20 +914,25 @@ nəzərdə tutulub."
               </div>
             </div>
             <div className="flex flex-wrap w-full items-center">
-              <div className="flex flex-col md:w-1/2 h-fit">
+              <div className="flex flex-col md:w-1/2 h-fit w-full px-6">
                 <motion.div
                   onHoverStart={() => stopAutoCycle()}
                   onHoverEnd={() => startAutoCycle()}
-                  className="w-full overflow-hidden h-[280px] relative"
+                  className="w-full md:h-[280px] h-[212px] relative"
                 >
                   {testimonials.map((t, index) => (
                     <motion.div
                       animate={{
                         scale: index === activeIndexTestimonial ? 1 : 0.8,
-                        x: index === activeIndexTestimonial ? 0 : -100,
+                        x:
+                          index === activeIndexTestimonial
+                            ? 0
+                            : screenSize.width <= 768
+                              ? -40
+                              : -100,
                         zIndex: index === activeIndexTestimonial ? 1 : 0,
                       }}
-                      className="absolute top-4 right-4"
+                      className="absolute md:top-4 md:right-4"
                       transition={{
                         mass: 0.5,
                         stiffness: 100,
@@ -963,52 +949,8 @@ nəzərdə tutulub."
                     </motion.div>
                   ))}
                 </motion.div>
-                <div className="flex gap-x-12 w-fit items-center justify-center p-4 ml-auto mr-[303px] translate-x-1/2">
-                  <motion.div
-                    animate={{
-                      scale: isAutoCycleOn ? 1 : 1.2,
-                      x: isAutoCycleOn ? 0 : -10,
-                    }}
-                    whileTap={{
-                      x: -10,
-                      rotate: -15,
-                    }}
-                    whileHover={{
-                      rotate: 15,
-                    }}
-                    onClick={() => {
-                      handleClickLeftTestimonial();
-                    }}
-                    className={`w-10 h-10 bg-creatBright rounded-full flex items-center justify-center
-                  outline-2 outline-creatBright outline-offset-4 cursor-pointer`}
-                  >
-                    <motion.span>
-                      <FaArrowLeft className="text-xl text-creatBGLight" />
-                    </motion.span>
-                  </motion.div>
-                  <motion.div
-                    animate={{
-                      scale: isAutoCycleOn ? 1 : 1.2,
-                      x: isAutoCycleOn ? 0 : 10,
-                    }}
-                    whileTap={{
-                      x: 10,
-                      rotate: 15,
-                    }}
-                    whileHover={{
-                      rotate: -15,
-                    }}
-                    onClick={() => {
-                      handleClickRightTestimonial();
-                    }}
-                    className={`w-10 h-10 bg-creatBright rounded-full flex items-center justify-center
-                  outline-2 outline-creatBright outline-offset-4 cursor-pointer`}
-                  >
-                    <FaArrowRight className="text-xl text-creatBGLight" />
-                  </motion.div>
-                </div>
               </div>
-              <div className="md:w-1/2 min-h-[500px] flex items-center justify-center relative p-4">
+              <div className="hidden md:flex w-1/2 min-h-[500px] items-center justify-center relative p-4">
                 <motion.div
                   className="relative w-[420px] h-[580px]"
                   onHoverStart={() => stopAutoCycle()}
@@ -1094,8 +1036,8 @@ nəzərdə tutulub."
           </div>
         </section>
         <section
-          className="w-full min-h-[600px] md:py-36 py-12 bg-creatBG relative \
-          items-center justify-center hidden md:flex"
+          className="w-full md:min-h-[600px] md:py-36 py-12 bg-creatBG relative \
+          flex items-center justify-center"
         >
           <EmailForm />
           <div className="absolute w-full h-[300px] top-[-2px] left-0 hidden md:block">
@@ -1135,7 +1077,7 @@ nəzərdə tutulub."
               ></path>
             </svg>
           </div>
-          <div className="absolute w-full h-[300px] bottom-0 left-0 translate-y-[1px]">
+          <div className="absolute w-full h-[300px] bottom-0 left-0 translate-y-[1px] hidden md:block">
             <svg
               viewBox="0 0 1920 300"
               width="100%"

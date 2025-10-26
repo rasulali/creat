@@ -62,7 +62,7 @@ const Dashboard = async () => {
 
           {/* Right Column - Preview */}
           <div className="w-full lg:w-1/2 lg:sticky lg:top-8">
-            <div className="min-h-[50vh] lg:h-[calc(100vh-6rem)] lg:overflow-y-auto">
+            <div className="min-h-[50vh]">
               <Preview />
             </div>
           </div>

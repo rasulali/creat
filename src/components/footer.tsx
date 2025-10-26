@@ -68,12 +68,12 @@ const Footer = () => {
         </svg>
       </div>
       <div className="flex flex-col justify-center md:max-w-[1600px] w-full md:mx-auto z-10">
-        <div className="flex w-full items-center justify-between md:py-20 py-6">
+        <div className="flex w-full items-center justify-between md:py-20 py-8">
           <Link
             aria-label="Visit Home Page"
             rel="noopener noreferrer"
             href="/"
-            className="md:w-64 w-36 h-fit block"
+            className="md:w-64 w-32 h-fit block"
           >
             <img
               src="/logos/horizontal.svg"
@@ -81,14 +81,14 @@ const Footer = () => {
               className="w-full h-full object-cover"
             />
           </Link>
-          <div className="flex md:gap-x-4 gap-x-2">
+          <div className="flex md:gap-x-4 gap-x-3">
             <Link
               aria-label="Visit Our Instagram Page"
               rel="noopener noreferrer"
               href="https://www.instagram.com/"
               className="group block"
             >
-              <SiInstagram className="md:text-4xl text-xl group-hover:text-creatBright transition-colors" />
+              <SiInstagram className="md:text-4xl text-2xl md:group-hover:text-creatBright transition-colors" />
             </Link>
             <Link
               aria-label="Visit Our Linkedin Page"
@@ -96,7 +96,7 @@ const Footer = () => {
               href="https://linkedin.com/"
               className="group block"
             >
-              <SiLinkedin className="md:text-4xl text-xl group-hover:text-creatBright transition-colors" />
+              <SiLinkedin className="md:text-4xl text-2xl md:group-hover:text-creatBright transition-colors" />
             </Link>
             <Link
               aria-label="Visit Our Facebook Page"
@@ -104,20 +104,20 @@ const Footer = () => {
               href="https://www.facebook.com/"
               className="group block"
             >
-              <SiFacebook className="md:text-4xl text-xl group-hover:text-creatBright transition-colors" />
+              <SiFacebook className="md:text-4xl text-2xl md:group-hover:text-creatBright transition-colors" />
             </Link>
           </div>
         </div>
-        <div className="w-full flex md:flex-row flex-col items-top justify-around md:py-10">
-          <div className="flex flex-col md:gap-y-8 md:p-8 py-3 gap-y-2">
-            <h1 className="md:text-3xl text-lg font-bold">Address</h1>
+        <div className="w-full flex md:flex-row flex-col items-top justify-around md:py-10 py-4">
+          <div className="flex flex-col md:gap-y-8 md:p-8 py-4 gap-y-3">
+            <h1 className="md:text-3xl text-xl font-bold">Address</h1>
             <Link
               aria-label="View on Google Maps"
               rel="noopener noreferrer"
               href="https://maps.app.goo.gl/CS2koQtTpYHTVvRq7"
               target="_blank"
             >
-              <p className="md:text-lg font-medium hover:text-creatBright transition-colors">
+              <p className="md:text-lg text-sm font-medium md:hover:text-creatBright transition-colors leading-relaxed">
                 Baku, Azerbaijan <br />
                 Samad Vurgun st. 110 <br />
                 Vurgun Residence Building <br />
@@ -125,27 +125,24 @@ const Footer = () => {
               </p>
             </Link>
           </div>
-          <div className="flex flex-col md:gap-y-8 md:p-8 py-3 gap-y-2">
-            <h1 className="md:text-3xl text-lg font-bold">Quick Links</h1>
-            <div className="flex flex-col md:gap-y-2">
+          <div className="flex flex-col md:gap-y-8 md:p-8 py-4 gap-y-3">
+            <h1 className="md:text-3xl text-xl font-bold">Quick Links</h1>
+            <div className="flex flex-col md:gap-y-2 gap-y-1">
               {items.map((item, index) => (
                 <Link
                   aria-label={`Visit ${item.label} Page`}
                   rel="noopener noreferrer"
                   key={index}
                   href={item.href}
-                  className="md:text-lg font-medium hover:text-creatBright transition-colors capitalize"
+                  className="md:text-lg text-sm font-medium md:hover:text-creatBright transition-colors capitalize"
                 >
                   {item.label}
                 </Link>
               ))}
             </div>
           </div>
-          <div
-            className="flex flex-col relative md:gap-y-8 gap-y-2 md:p-8 md:bg-white/5 \
-            md:rounded-2xl md:backdrop-blur-sm md:border border-white/10"
-          >
-            <h1 className="md:text-3xl text-lg font-bold">Services</h1>
+          <div className="flex flex-col relative md:gap-y-8 gap-y-3 py-4 md:p-8 md:bg-white/5 md:rounded-2xl md:backdrop-blur-sm md:border border-white/10">
+            <h1 className="md:text-3xl text-xl font-bold">Services</h1>
             <div className="md:grid grid-cols-2 md:gap-y-2 gap-y-1 md:gap-x-4 flex flex-col">
               {Object.entries(categories).map(([key, category]) => (
                 <Link
@@ -153,45 +150,44 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   key={key}
                   href={`/services?service=${key}`}
-                  className="md:text-lg font-medium hover:text-creatBright \
-        transition-colors border-b border-white/5 last:border-0 md:border-0"
+                  className="md:text-lg text-sm font-medium md:hover:text-creatBright transition-colors border-b border-white/5 last:border-0 md:border-0 pb-1 md:pb-0"
                 >
                   {category.name}
                 </Link>
               ))}
             </div>
           </div>
-          <div className="flex flex-col md:gap-y-8 gap-y-2 md:p-8 py-3">
-            <h1 className="md:text-3xl text-lg font-bold">Contacts</h1>
-            <div className="flex flex-col md:gap-y-4 gap-y-2">
-              <div className="flex flex-col">
+          <div className="flex flex-col md:gap-y-8 gap-y-3 md:p-8 py-4">
+            <h1 className="md:text-3xl text-xl font-bold">Contacts</h1>
+            <div className="flex flex-col md:gap-y-4 gap-y-3">
+              <div className="flex flex-col gap-y-1">
                 <a
                   aria-label="Call +994554158215"
                   href="tel:+994554158215"
-                  className="md:text-lg font-medium hover:text-creatBright transition-colors"
+                  className="md:text-lg text-sm font-medium md:hover:text-creatBright transition-colors"
                 >
                   (994) 55 415 82 15
                 </a>
                 <a
                   aria-label="Call +994502242944"
                   href="tel:+994502242944"
-                  className="md:text-lg font-medium hover:text-creatBright transition-colors"
+                  className="md:text-lg text-sm font-medium md:hover:text-creatBright transition-colors"
                 >
                   (994) 50 224 29 44
                 </a>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-y-1">
                 <a
                   aria-label="Email info@creat.az"
                   href="mailto:info@creat.az"
-                  className="md:text-lg font-medium hover:text-creatBright transition-colors"
+                  className="md:text-lg text-sm font-medium md:hover:text-creatBright transition-colors"
                 >
                   info@creat.az
                 </a>
                 <a
                   aria-label="Email contact@creat.az"
                   href="mailto:contact@creat.az"
-                  className="md:text-lg font-medium hover:text-creatBright transition-colors"
+                  className="md:text-lg text-sm font-medium md:hover:text-creatBright transition-colors"
                 >
                   contact@creat.az
                 </a>
@@ -199,19 +195,19 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center md:h-20 py-3 md:py-0 w-full md:gap-x-4 gap-x-2 md:text-lg text-sm">
-          <div className="flex md:gap-x-2 items-end leading-none">
+        <div className="flex items-center justify-center md:h-20 py-6 md:py-0 w-full md:gap-x-4 gap-x-2 md:text-base text-xs">
+          <div className="flex md:gap-x-2 gap-x-1 items-end leading-none">
             <span>©</span>
             <span className="text-creatBright mx-1 font-medium">Creat LLC</span>
             <span>2025</span>
           </div>
-          <div className="h-4 w-px bg-neutral-300" />
+          <div className="h-3 md:h-4 w-px bg-neutral-300" />
           <span className="text-neutral-300">
             Built by
             <Link
               target="_blank"
               href="https://alee.az"
-              className="mx-2 capitalize font-bold hover:text-white transition-colors"
+              className="mx-1 md:mx-2 capitalize font-bold md:hover:text-white transition-colors"
             >
               Rasul Aliyev
             </Link>

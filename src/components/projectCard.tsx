@@ -12,6 +12,7 @@ interface CardProps {
   name: string;
   link: string;
   desc: string;
+  screenSize: { width: number; height: number };
 }
 const ProjectCard: React.FC<CardProps> = ({
   projectsInView,
@@ -21,21 +22,21 @@ const ProjectCard: React.FC<CardProps> = ({
   link,
   desc,
   image,
+  screenSize,
 }) => {
   const [projectHover, setProjectHover] = useState(false);
   return (
     <motion.div
-      initial={{ y: "50%" }}
-      animate={{ y: projectsInView ? 0 : "50%" }}
+      initial={{ y: screenSize.width <= 768 ? 0 : "50%" }}
+      animate={{ y: projectsInView ? 0 : screenSize.width <= 768 ? 0 : "50%" }}
       onHoverStart={() => {
-        setProjectHover(true);
+        screenSize.width >= 768 && setProjectHover(true);
       }}
       onHoverEnd={() => {
-        setProjectHover(false);
+        screenSize.width >= 768 && setProjectHover(false);
       }}
       transition={{ duration: 0.5, delay: delay }}
-      className="p-9 rounded-2xl overflow-hidden w-[410px] h-[500px] flex flex-col \
-      items-start relative z-10 border-2 border-creatBG hover:border-creatBright/80 transition-colors duration-500"
+      className="p-4 md:p-9 rounded-2xl overflow-hidden w-full aspect-[4/3] md:w-[410px] md:aspect-[410/500] flex flex-col items-start relative z-10 border-2 border-creatBG md:hover:border-creatBright/80 transition-colors duration-500"
     >
       <div className="w-full h-full absolute top-0 left-0 -z-50 pointer-events-none">
         <Image
@@ -46,12 +47,12 @@ const ProjectCard: React.FC<CardProps> = ({
           className="w-full h-full object-cover"
         />
       </div>
-      <div className="flex flex-col mt-auto h-fit w-full gap-y-2">
+      <div className="flex flex-col mt-auto h-fit w-full gap-y-1 md:gap-y-2">
         <Link
           aria-label={`Visit ${name}'s page`}
           rel="noopener noreferrer"
           href={link}
-          className="text-2xl font-bold text-white hover:text-zinc-900 transition-colors duration-300"
+          className="text-lg md:text-2xl font-bold text-white md:hover:text-zinc-900 transition-colors duration-300"
         >
           {name}
         </Link>
@@ -68,7 +69,7 @@ const ProjectCard: React.FC<CardProps> = ({
             transition={{ duration: 0.5, ease: "linear" }}
             className="w-full overflow-hidden flex items-center"
           >
-            <p className="text-white font-medium text-lg">{desc}</p>
+            <p className="text-white font-medium text-sm md:text-lg">{desc}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -77,21 +78,14 @@ const ProjectCard: React.FC<CardProps> = ({
         aria-label={`Visit ${name}'s page`}
         rel="noopener noreferrer"
         href={link}
-        className="uppercase w-fit
-          font-medium flex items-center mt-8 group"
+        className="uppercase w-fit font-medium flex items-center mt-3 md:mt-8 group"
       >
-        <h1 className="md:text-lg text-white font-bold group-hover:text-zinc-900 transition-all duration-300">
+        <h1 className="text-sm md:text-lg text-white font-bold md:group-hover:text-zinc-900 transition-all duration-300">
           View Project
         </h1>
-        <div className="flex items-center justify-center md:h-6 aspect-square rounded-full text-white relative overflow-hidden">
-          <FaArrowRight
-            className="absolute text-base top-1/2 -translate-y-1/2 left-1/2
-                -translate-x-[200%] transition-all duration-300 group-hover:-translate-x-1/2 group-hover:text-zinc-900"
-          />
-          <FaArrowRight
-            className="absolute text-base top-1/2 -translate-y-1/2 left-1/2
-                -translate-x-1/2 transition-all duration-300 group-hover:translate-x-[200%] group-hover:text-zinc-900"
-          />
+        <div className="flex items-center justify-center h-5 md:h-6 aspect-square rounded-full text-white relative overflow-hidden">
+          <FaArrowRight className="absolute text-sm md:text-base top-1/2 -translate-y-1/2 left-1/2 -translate-x-[200%] transition-all duration-300 md:group-hover:-translate-x-1/2 md:group-hover:text-zinc-900" />
+          <FaArrowRight className="absolute text-sm md:text-base top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition-all duration-300 md:group-hover:translate-x-[200%] md:group-hover:text-zinc-900" />
         </div>
       </Link>
 
