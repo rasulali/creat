@@ -144,15 +144,19 @@ export default function Home() {
               className="w-full h-full object-cover"
               autoPlay
               muted
+              preload="metadata"
+              poster={`${BASE_URI}/home/bg.webp`}
               playsInline
               loop
-              poster={`${BASE_URI}/home/bg.webp`}
-              preload="metadata"
               onError={(e) => {
                 e.preventDefault();
               }}
             >
-              <source src={`${BASE_URI}/home/bg.mp4`} type="video/mp4" />
+              <source
+                src={`${BASE_URI}/home/bg.mp4`}
+                type="video/mp4"
+                aria-errormessage="Video not supported"
+              />
             </video>
           </div>
           <Nav isTransparent={true} />
@@ -234,7 +238,7 @@ export default function Home() {
                     damping: 30,
                     stiffness: 300,
                   }}
-                  className="absolute bottom-0 left-0 right-0 h-[50vh] max-h-[800px] bg-white text-black rounded-t-3xl overflow-hidden md:h-[85vh]"
+                  className="absolute bottom-0 left-0 right-0 max-h-[800px] bg-white text-black rounded-t-3xl overflow-hidden md:h-[85vh]"
                 >
                   {/* Close Button */}
                   <button
@@ -272,7 +276,7 @@ export default function Home() {
                     </div>
 
                     {/* Content Section - Now at bottom on mobile */}
-                    <div className="flex-none p-4 border-t border-gray-200 md:flex-1 md:border-t-0 md:border-r md:p-8 md:w-1/3 md:order-1">
+                    <div className="flex-none md:flex flex-col items-center justify-center p-4 border-t border-gray-200 md:flex-1 md:border-t-0 md:border-r md:p-8 md:w-1/3 md:order-1">
                       {/* Mobile: Side by side layout */}
                       <div className="flex flex-row items-center justify-between gap-4 md:flex-col md:justify-center">
                         {/* Logo */}
