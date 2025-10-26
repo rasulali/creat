@@ -242,75 +242,89 @@ export default function Home() {
                     damping: 30,
                     stiffness: 300,
                   }}
-                  className="absolute bottom-0 left-0 right-0 h-[85vh] max-h-[800px] bg-white text-black rounded-t-3xl overflow-hidden"
+                  className="absolute bottom-0 left-0 right-0 h-[50vh] max-h-[800px] bg-white text-black rounded-t-3xl overflow-hidden md:h-[85vh]"
                 >
+                  {/* Close Button */}
                   <button
                     onClick={() => setActivePartnerIndex(-1)}
-                    className="absolute right-6 top-6 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors"
+                    className="absolute right-4 top-4 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors md:right-6 md:top-6"
                   >
-                    <IoClose className="text-2xl text-black" />
+                    <IoClose className="text-xl text-black md:text-2xl" />
                   </button>
 
-                  <div className="flex flex-col lg:flex-row h-full">
-                    <div className="lg:w-1/3 p-8 flex flex-col items-center justify-center border-r border-gray-200">
-                      <Link
-                        aria-label={`Visit ${partners[activePartnerIndex].name} website`}
-                        rel="noopener noreferrer"
-                        href={partners[activePartnerIndex].link}
-                        target="_blank"
-                        className="mb-6 max-w-[280px]"
-                      >
-                        <img
-                          src={partners[activePartnerIndex].logo}
-                          alt={partners[activePartnerIndex].name}
-                          className="w-full h-auto object-contain"
-                        />
-                      </Link>
-
-                      <Link
-                        aria-label={`Visit ${partners[activePartnerIndex].name} website`}
-                        rel="noopener noreferrer"
-                        href={partners[activePartnerIndex].link}
-                        target="_blank"
-                        className="font-medium text-lg flex items-center gap-x-2 text-gray-600 hover:text-creatBright transition-colors mb-8"
-                      >
-                        {prettifyUrl(partners[activePartnerIndex].link)}
-                        <LuExternalLink className="text-lg" />
-                      </Link>
-
-                      <div className="w-fit max-w-xs">
-                        <Link
-                          aria-label={`View all project for ${partners[activePartnerIndex].name}`}
-                          rel="noopener noreferrer"
-                          href={`/projects?search=${partners[activePartnerIndex].searchTerm}`}
-                          className="w-full py-3 px-6 bg-creatBright text-white rounded-lg font-semibold hover:bg-creatBright/90 transition-colors flex items-center justify-center gap-2"
-                        >
-                          View Projects
-                          <FaArrowRight />
-                        </Link>
-                      </div>
-                    </div>
-
-                    <div className="lg:w-2/3 relative">
-                      <div className="relative w-full h-full">
+                  <div className="flex flex-col h-full md:flex-row">
+                    {/* Image Section - Now at top on mobile */}
+                    <div className="flex-1 relative md:flex-none md:w-2/3 md:order-2">
+                      <div className="relative w-full h-48 md:h-full">
                         <Image
                           src={partnerProjects[partners[activePartnerIndex].id]}
                           alt={partners[activePartnerIndex].name}
                           fill
                           priority
-                          sizes="(max-width: 1024px) 100vw, 66vw"
+                          sizes="(max-width: 768px) 100vw, 66vw"
                           quality={75}
                           className="object-cover"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent md:from-black/40" />
 
-                        <div className="absolute bottom-6 left-6 text-white">
-                          <h2 className="text-3xl font-bold mb-2">
+                        {/* Image Overlay Text */}
+                        <div className="absolute bottom-4 left-4 text-white md:bottom-6 md:left-6">
+                          <h2 className="text-xl font-bold mb-1 md:text-3xl md:mb-2">
                             {partners[activePartnerIndex].name}
                           </h2>
-                          <p className="text-lg opacity-90">Featured Project</p>
+                          <p className="text-sm opacity-90 md:text-lg">
+                            Featured Project
+                          </p>
                         </div>
                       </div>
+                    </div>
+
+                    {/* Content Section - Now at bottom on mobile */}
+                    <div className="flex-none p-4 border-t border-gray-200 md:flex-1 md:border-t-0 md:border-r md:p-8 md:w-1/3 md:order-1">
+                      {/* Mobile: Side by side layout */}
+                      <div className="flex flex-row items-center justify-between gap-4 md:flex-col md:justify-center">
+                        {/* Logo */}
+                        <div className="flex-1">
+                          <Link
+                            aria-label={`Visit ${partners[activePartnerIndex].name} website`}
+                            rel="noopener noreferrer"
+                            href={partners[activePartnerIndex].link}
+                            target="_blank"
+                            className="block max-w-[120px] md:max-w-[280px] md:mb-6"
+                          >
+                            <img
+                              src={partners[activePartnerIndex].logo}
+                              alt={partners[activePartnerIndex].name}
+                              className="w-full h-auto object-contain max-h-12 md:max-h-none"
+                            />
+                          </Link>
+                        </div>
+
+                        {/* View Projects Button */}
+                        <div className="flex-1 max-w-[140px] md:max-w-xs md:w-full">
+                          <Link
+                            aria-label={`View all projects for ${partners[activePartnerIndex].name}`}
+                            rel="noopener noreferrer"
+                            href={`/projects?search=${partners[activePartnerIndex].searchTerm}`}
+                            className="w-full py-2 px-4 bg-creatBright text-white rounded-lg font-semibold hover:bg-creatBright/90 transition-colors flex items-center justify-center gap-2 text-xs md:text-base md:py-3 md:px-6"
+                          >
+                            View Projects
+                            <FaArrowRight className="text-xs md:text-sm" />
+                          </Link>
+                        </div>
+                      </div>
+
+                      {/* Website Link - Hidden on mobile, visible on desktop */}
+                      <Link
+                        aria-label={`Visit ${partners[activePartnerIndex].name} website`}
+                        rel="noopener noreferrer"
+                        href={partners[activePartnerIndex].link}
+                        target="_blank"
+                        className="hidden md:flex font-medium text-lg items-center gap-x-2 text-gray-600 hover:text-creatBright transition-colors mb-8 justify-center mt-4"
+                      >
+                        {prettifyUrl(partners[activePartnerIndex].link)}
+                        <LuExternalLink className="text-lg" />
+                      </Link>
                     </div>
                   </div>
                 </motion.div>
