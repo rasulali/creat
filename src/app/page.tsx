@@ -144,21 +144,16 @@ export default function Home() {
               className="w-full h-full object-cover"
               autoPlay
               muted
-              preload="none"
-              poster={`${BASE_URI}/home/bg.webp`}
               playsInline
               loop
+              poster={`${BASE_URI}/home/bg.webp`}
+              preload="metadata"
               onError={(e) => {
                 e.preventDefault();
               }}
             >
-              <source
-                src={`${BASE_URI}/home/bg.mp4`}
-                type="video/mp4"
-                aria-errormessage="Video not supported"
-              />
+              <source src={`${BASE_URI}/home/bg.mp4`} type="video/mp4" />
             </video>
-            <div className="absolute inset-0 bg-creatBG/25"></div>
           </div>
           <Nav isTransparent={true} />
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
