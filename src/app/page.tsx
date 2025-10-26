@@ -106,14 +106,29 @@ export default function Home() {
   const [activePartnerIndex, setActivePartnerIndex] = useState(-1);
   useEffect(() => {
     if (activePartnerIndex > -1) {
+      // Lock body scroll and fix iOS Safari viewport issues
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+
       const handleEscape = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
           setActivePartnerIndex(-1);
         }
       };
       document.addEventListener("keydown", handleEscape);
+
       return () => {
         document.removeEventListener("keydown", handleEscape);
+        // Restore body scroll and position
+        const scrollY = document.body.style.top;
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+        document.body.style.overflow = "";
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
       };
     }
   }, [activePartnerIndex]);
@@ -220,12 +235,24 @@ export default function Home() {
         <section className="w-full relative overflow-hidden">
           <AnimatePresence>
             {activePartnerIndex > -1 && partners[activePartnerIndex].id > 0 && (
-              <div className="fixed inset-0 z-50">
+              <div
+                className="fixed inset-0 z-[9999]"
+                style={{
+                  height: "100dvh",
+                  minHeight: "100dvh -webkit-fill-available",
+                  width: "100vw",
+                }}
+              >
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   className="absolute inset-0 bg-black/60 backdrop-blur-md"
+                  style={{
+                    height: "100dvh",
+                    minHeight: "100dvh -webkit-fill-available",
+                    width: "100vw",
+                  }}
                   onClick={() => setActivePartnerIndex(-1)}
                 />
 
