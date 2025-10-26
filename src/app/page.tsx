@@ -144,6 +144,8 @@ export default function Home() {
               className="w-full h-full object-cover"
               autoPlay
               muted
+              preload="none"
+              poster={`${BASE_URI}/home/bg.webp`}
               playsInline
               loop
               onError={(e) => {
@@ -153,11 +155,6 @@ export default function Home() {
               <source
                 src={`${BASE_URI}/home/bg.mp4`}
                 type="video/mp4"
-                aria-errormessage="Video not supported"
-              />
-              <source
-                src={`${BASE_URI}/home/bg.webm`}
-                type="video/webm"
                 aria-errormessage="Video not supported"
               />
             </video>
