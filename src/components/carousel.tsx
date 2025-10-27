@@ -158,6 +158,39 @@ export const Card = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { onCardClose, cards } = useContext(CarouselContext);
 
+  useEffect(() => {
+    const setViewportHeight = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+
+    setViewportHeight();
+    window.addEventListener("resize", setViewportHeight);
+
+    return () => {
+      window.removeEventListener("resize", setViewportHeight);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (open) {
+      const styleId = "modal-viewport-fix";
+      if (!document.getElementById(styleId)) {
+        const style = document.createElement("style");
+        style.id = styleId;
+        style.innerHTML = `
+          .modal-full-height {
+            height: 100vh;
+            height: 100svh;
+            height: calc(var(--vh, 1vh) * 100);
+            min-height: -webkit-fill-available;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }
+  }, [open]);
+
   const handleNext = useCallback(() => {
     const totalCards = cards.length;
     const nextIndex = (currentIndex + 1) % totalCards;
@@ -189,15 +222,30 @@ export const Card = ({
     }
 
     if (open) {
+      const scrollY = window.scrollY;
+
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
+
       window.addEventListener("keydown", onKeyDown);
     } else {
-      document.body.style.overflow = "auto";
       window.removeEventListener("keydown", onKeyDown);
     }
 
     return () => {
       window.removeEventListener("keydown", onKeyDown);
+
+      if (open) {
+        // Restore scroll position
+        const scrollY = document.body.style.top;
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+        document.body.style.overflow = "";
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
     };
   }, [open, handleNext, handlePrev, handleClose]);
 
@@ -213,12 +261,13 @@ export const Card = ({
     <>
       <AnimatePresence>
         {open && (
-          <div className="fixed inset-0 h-screen z-[9999] overflow-hidden">
+          <div className="fixed inset-0 z-[9999] overflow-hidden modal-full-height">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/80 backdrop-blur-lg z-[50]"
+              className="fixed inset-0 bg-black/80 backdrop-blur-lg z-[50] modal-full-height"
+              style={{ width: "100vw" }}
               onClick={handleClose}
             />
 
@@ -230,7 +279,8 @@ export const Card = ({
               exit={{ opacity: 0 }}
               role="dialog"
               aria-modal="true"
-              className="relative h-screen w-screen z-[60]"
+              className="relative z-[60] modal-full-height"
+              style={{ width: "100vw" }}
               onClick={(e) => {
                 e.stopPropagation();
               }}
