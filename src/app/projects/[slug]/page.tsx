@@ -96,7 +96,7 @@ const Content = () => {
               viewport={{ once: true }}
               className="h-px bg-white/50 w-0 hidden md:block"
             />
-            <div className="flex w-full h-full px-4 py-16 md:gap-x-16 gap-x-6 md:max-w-[664px] ml-auto">
+            <div className="flex w-full h-full px-6 py-16 md:gap-x-16 gap-x-6 md:max-w-[664px] ml-auto">
               <div className="flex flex-col">
                 <h1 className="md:text-base text-sm text-white/50 uppercase">
                   Location

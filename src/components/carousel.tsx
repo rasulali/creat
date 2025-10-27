@@ -8,7 +8,6 @@ import React, {
   useCallback,
 } from "react";
 import { FaArrowLeft, FaArrowRight, FaX } from "react-icons/fa6";
-import { useOutsideClick } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import { handleDisplayName } from "@/lib/helperFunctions";
 import Image from "next/image";
@@ -155,7 +154,14 @@ export const Card = ({
   const [open, setOpen] = useState(false);
   const [currentCard, setCurrentCard] = useState(card);
   const [currentIndex, setCurrentIndex] = useState(index);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [slideDirection, setSlideDirection] = useState<number>(0);
+
+  const modalContentRef = useRef<HTMLDivElement | null>(null);
+  const imageWrapperRef = useRef<HTMLDivElement | null>(null);
+
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
   const { onCardClose, cards } = useContext(CarouselContext);
 
   useEffect(() => {
@@ -163,13 +169,9 @@ export const Card = ({
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
     };
-
     setViewportHeight();
     window.addEventListener("resize", setViewportHeight);
-
-    return () => {
-      window.removeEventListener("resize", setViewportHeight);
-    };
+    return () => window.removeEventListener("resize", setViewportHeight);
   }, []);
 
   useEffect(() => {
@@ -191,54 +193,54 @@ export const Card = ({
     }
   }, [open]);
 
+  const resetZoom = () => {
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
+  };
+
   const handleNext = useCallback(() => {
     const totalCards = cards.length;
     const nextIndex = (currentIndex + 1) % totalCards;
+    setSlideDirection(1);
     setCurrentCard(cards[nextIndex]);
     setCurrentIndex(nextIndex);
+    resetZoom();
   }, [cards, currentIndex]);
 
   const handlePrev = useCallback(() => {
     const totalCards = cards.length;
     const prevIndex = (currentIndex - 1 + totalCards) % totalCards;
+    setSlideDirection(-1);
     setCurrentCard(cards[prevIndex]);
     setCurrentIndex(prevIndex);
+    resetZoom();
   }, [cards, currentIndex]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
+    resetZoom();
     onCardClose(currentIndex);
   }, [onCardClose, currentIndex]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        handleClose();
-      } else if (event.key === "ArrowRight") {
-        handleNext();
-      } else if (event.key === "ArrowLeft") {
-        handlePrev();
-      }
+      if (event.key === "Escape") handleClose();
+      else if (event.key === "ArrowRight") handleNext();
+      else if (event.key === "ArrowLeft") handlePrev();
     }
-
     if (open) {
       const scrollY = window.scrollY;
-
       document.body.style.position = "fixed";
       document.body.style.top = `-${scrollY}px`;
       document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
-
       window.addEventListener("keydown", onKeyDown);
     } else {
       window.removeEventListener("keydown", onKeyDown);
     }
-
     return () => {
       window.removeEventListener("keydown", onKeyDown);
-
       if (open) {
-        // Restore scroll position
         const scrollY = document.body.style.top;
         document.body.style.position = "";
         document.body.style.top = "";
@@ -249,12 +251,75 @@ export const Card = ({
     };
   }, [open, handleNext, handlePrev, handleClose]);
 
-  useOutsideClick(containerRef, () => handleClose());
-
   const handleOpen = () => {
     setOpen(true);
     setCurrentCard(card);
     setCurrentIndex(index);
+    resetZoom();
+    setSlideDirection(0);
+  };
+
+  const handleImageDoubleClick = (e: React.MouseEvent) => {
+    if (scale > 1) {
+      resetZoom();
+      return;
+    }
+    const rect = imageWrapperRef.current?.getBoundingClientRect();
+    if (rect) {
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * -100;
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * -100;
+      setScale(2.5);
+      setPosition({ x, y });
+    }
+  };
+
+  useEffect(() => {
+    let lastTap = 0;
+    const onTouch = (e: TouchEvent) => {
+      const now = Date.now();
+      const delta = now - lastTap;
+      if (delta < 300 && delta > 0) {
+        e.preventDefault();
+        if (scale > 1) {
+          resetZoom();
+        } else {
+          const rect = imageWrapperRef.current?.getBoundingClientRect();
+          if (rect && e.touches[0]) {
+            const x =
+              ((e.touches[0].clientX - rect.left) / rect.width - 0.5) * -100;
+            const y =
+              ((e.touches[0].clientY - rect.top) / rect.height - 0.5) * -100;
+            setScale(2.5);
+            setPosition({ x, y });
+          }
+        }
+      }
+      lastTap = now;
+    };
+    const imgWrap = imageWrapperRef.current;
+    if (open) {
+      imgWrap?.addEventListener("touchstart", onTouch, { passive: false });
+    }
+    return () => {
+      imgWrap?.removeEventListener("touchstart", onTouch);
+    };
+  }, [open, scale]);
+
+  // only animating header+image block
+  const slideVariants = {
+    enter: (dir: number) => ({
+      x: dir === 0 ? "0%" : `${dir * 100}%`,
+      opacity: dir === 0 ? 1 : 0,
+    }),
+    center: { x: "0%", opacity: 1 },
+    exit: (dir: number) => ({
+      x: `${dir * -100}%`,
+      opacity: 0,
+      position: "absolute" as const,
+      top: 0,
+      left: 0,
+      right: 0,
+    }),
   };
 
   return (
@@ -262,54 +327,127 @@ export const Card = ({
       <AnimatePresence>
         {open && (
           <div className="fixed inset-0 z-[9999] overflow-hidden modal-full-height">
+            {/* backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              exit={{ opacity: 0, transition: { duration: 0 } }}
               className="fixed inset-0 bg-black/80 backdrop-blur-lg z-[50] modal-full-height"
               style={{ width: "100vw" }}
               onClick={handleClose}
             />
 
-            <motion.div
-              ref={containerRef}
-              layoutId={layout ? `card-${card.title}` : undefined}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              role="dialog"
-              aria-modal="true"
-              className="relative z-[60] modal-full-height"
-              style={{ width: "100vw" }}
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
+            {/* static modal shell (controls stay still) */}
+            <div
+              className="fixed inset-0 z-[60] modal-full-height w-[100vw] flex items-center justify-center"
+              onDoubleClick={handleImageDoubleClick}
             >
+              {/* top-left text + image wrapper animated together */}
+              <AnimatePresence initial={false} custom={slideDirection}>
+                <motion.div
+                  key={currentIndex}
+                  ref={modalContentRef}
+                  custom={slideDirection}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit={{ opacity: 0, transition: { duration: 0 } }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  className="relative w-full h-full flex items-center justify-center p-4 md:p-10"
+                  drag={scale === 1 ? "x" : false}
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2}
+                  dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+                  onDragEnd={(_, info) => {
+                    if (scale === 1) {
+                      if (info.offset.x < -150 || info.velocity.x < -800) {
+                        handleNext();
+                      } else if (info.offset.x > 150 || info.velocity.x > 800) {
+                        handlePrev();
+                      }
+                    }
+                  }}
+                >
+                  {/* header (category / title) */}
+                  <div className="absolute top-0 left-0 z-[70] p-4 md:p-6 bg-gradient-to-r via-creatBG from-creatBG to-transparent rounded-br-2xl pointer-events-none select-none">
+                    <motion.p className="text-sm md:text-base font-medium text-white/80">
+                      {currentCard.category}
+                    </motion.p>
+                    <motion.p className="text-xl md:text-4xl font-semibold text-white mt-1">
+                      {handleDisplayName(currentCard.title)}
+                    </motion.p>
+                  </div>
+
+                  {/* image */}
+                  <div
+                    className="w-full h-full flex items-center justify-center"
+                    onClick={(e) => {
+                      if (scale === 1 && e.target === e.currentTarget) {
+                        handleClose();
+                      }
+                    }}
+                  >
+                    <motion.div
+                      ref={imageWrapperRef}
+                      className="relative max-w-full max-h-full cursor-pointer"
+                      onClick={(e) => e.stopPropagation()}
+                      animate={{
+                        scale: scale,
+                        x: position.x,
+                        y: position.y,
+                      }}
+                      drag={scale > 1}
+                      dragConstraints={{
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                      }}
+                      dragElastic={0.05}
+                      dragMomentum={false}
+                      onDrag={(_, info) => {
+                        if (scale > 1) {
+                          setPosition({
+                            x: position.x + info.delta.x,
+                            y: position.y + info.delta.y,
+                          });
+                        }
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                      }}
+                      style={{
+                        touchAction: scale > 1 ? "none" : "auto",
+                      }}
+                      onDoubleClick={handleImageDoubleClick}
+                    >
+                      <Image
+                        src={currentCard.src}
+                        alt={currentCard.title}
+                        width={1920}
+                        height={1080}
+                        className="max-w-full max-h-[calc(100vh-2rem)] md:max-h-[calc(100vh-5rem)] w-auto h-auto object-contain select-none pointer-events-none"
+                        sizes="100vw"
+                        priority
+                        draggable={false}
+                      />
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* close button */}
               <button
                 onClick={handleClose}
                 aria-label="Close"
-                className="absolute top-3 right-3 md:top-6 md:right-6 h-10 w-10 md:h-8 md:w-8 bg-black/50 hover:bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center z-[70] cursor-pointer"
+                className="hidden md:flex absolute top-6 right-6 h-8 w-8 bg-black/50 hover:bg-black/80 backdrop-blur-sm rounded-full items-center justify-center z-[70] cursor-pointer"
               >
-                <FaX className="h-4 w-4 md:h-6 md:w-6 text-white" />
+                <FaX className="h-6 w-6 text-white" />
               </button>
 
-              <div className="absolute bottom-10 right-4 z-[70] flex items-center gap-3 md:hidden">
-                <button
-                  onClick={handlePrev}
-                  aria-label="Previous image"
-                  className="h-12 w-12 bg-black/70 border border-white/70 rounded-full flex items-center justify-center cursor-pointer"
-                >
-                  <FaArrowLeft className="h-6 w-6 text-white" />
-                </button>
-                <button
-                  onClick={handleNext}
-                  aria-label="Next image"
-                  className="h-12 w-12 bg-black/70 border border-white/70 rounded-full flex items-center justify-center cursor-pointer"
-                >
-                  <FaArrowRight className="h-6 w-6 text-white" />
-                </button>
-              </div>
-
+              {/* prev/next arrows */}
               <button
                 onClick={handlePrev}
                 aria-label="Previous image"
@@ -325,29 +463,7 @@ export const Card = ({
               >
                 <FaArrowRight className="h-6 w-6 text-white" />
               </button>
-
-              <div className="absolute top-0 left-0 z-[70] p-4 md:p-6 bg-gradient-to-r via-creatBG from-creatBG to-transparent">
-                <motion.p className="text-sm md:text-base font-medium text-white">
-                  {currentCard.category}
-                </motion.p>
-                <motion.p className="text-xl md:text-4xl font-semibold text-white mt-1">
-                  {handleDisplayName(currentCard.title)}
-                </motion.p>
-              </div>
-
-              <div className="w-full h-full p-4 md:p-10">
-                <div className="relative w-full h-full">
-                  <Image
-                    src={currentCard.src}
-                    alt={currentCard.title}
-                    fill
-                    className="object-contain"
-                    sizes="100vw"
-                    priority
-                  />
-                </div>
-              </div>
-            </motion.div>
+            </div>
           </div>
         )}
       </AnimatePresence>
@@ -358,7 +474,6 @@ export const Card = ({
         className="rounded-3xl bg-gray-100 aspect-[3/4] overflow-hidden flex flex-col items-start justify-start relative z-10 cursor-pointer snap-start w-72 md:w-[512px]"
       >
         <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
-
         <div className="relative z-40 px-4 py-2">
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
@@ -367,7 +482,6 @@ export const Card = ({
             {handleDisplayName(card.title)}
           </motion.p>
         </div>
-
         <Image
           src={card.src}
           fill
