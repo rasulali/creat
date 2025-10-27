@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState, useRef, Suspense, useCallback } from "react";
 import { createClient } from "../../../utils/supabase/client";
 import { cn } from "@/lib/utils";
@@ -29,15 +30,17 @@ function ProjectsContent() {
   const [currentPage, setCurrentPage] = useState(
     parseInt(searchParams.get("page") || "1", 10),
   );
+
   const projectsPerPage = 12;
 
-  // Mobile search states
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const sheetInputRef = useRef<HTMLInputElement | null>(null);
+
   const debounceTimer = useRef<number | null>(null);
   const [debouncedSearch, setDebouncedSearch] = useState(searchQuery);
 
-  // Debounce search
+  const firstRenderRef = useRef(true);
+
   useEffect(() => {
     if (debounceTimer.current) window.clearTimeout(debounceTimer.current);
 
@@ -50,7 +53,6 @@ function ProjectsContent() {
     };
   }, [searchQuery]);
 
-  // Mobile sheet effects
   useEffect(() => {
     if (mobileFiltersOpen) {
       document.body.style.overflow = "hidden";
@@ -61,7 +63,6 @@ function ProjectsContent() {
     }
   }, [mobileFiltersOpen]);
 
-  // Close on ESC
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMobileFiltersOpen(false);
@@ -71,7 +72,6 @@ function ProjectsContent() {
     return () => window.removeEventListener("keydown", handleEsc);
   }, [mobileFiltersOpen]);
 
-  // Update URL params
   const updateUrlParams = useCallback(() => {
     const params = new URLSearchParams();
 
@@ -88,14 +88,20 @@ function ProjectsContent() {
     }
 
     const newUrl = params.toString() ? `?${params.toString()}` : "/projects";
-    router.push(newUrl, { scroll: false });
+
+    router.replace(newUrl, { scroll: true });
   }, [activeFilters, debouncedSearch, currentPage, router]);
 
   useEffect(() => {
+    if (firstRenderRef.current) {
+      firstRenderRef.current = false;
+      window.scrollTo({ top: 0, behavior: "auto" });
+      return;
+    }
+
     updateUrlParams();
   }, [updateUrlParams]);
 
-  // Filter logic
   const toggleCategory = useCallback((category: string) => {
     setActiveFilters((current) =>
       current.includes(category)
@@ -111,7 +117,6 @@ function ProjectsContent() {
     setCurrentPage(1);
   }, []);
 
-  // Data fetching
   const supabase = createClient();
   const [projects, setProjects] = useState<Project[]>([]);
   const [projectsLoading, setProjectsLoading] = useState(true);
@@ -132,7 +137,6 @@ function ProjectsContent() {
     fetchData();
   }, [supabase]);
 
-  // Filter and paginate projects
   const filteredProjects = useCallback(() => {
     return projects.filter((project) => {
       if (
@@ -194,6 +198,7 @@ function ProjectsContent() {
                 </span>
               </span>
             </TextAnim>
+
             <div className="md:mt-12 mt-3 relative">
               <div className="relative flex items-center">
                 <FaMagnifyingGlass className="absolute md:left-4 left-2 text-white/50 md:text-lg text-sm" />
@@ -222,6 +227,7 @@ function ProjectsContent() {
                 )}
               </div>
             </div>
+
             <div className="flex items-center md:hidden gap-x-2 mt-6">
               <button
                 onClick={clearFilters}
@@ -238,10 +244,7 @@ function ProjectsContent() {
                   <FaFilter className="text-xs font-bold" />
                 )}
               </button>
-              <div
-                className="flex w-full \
-              overflow-x-auto scrollbar-hide gap-x-2"
-              >
+              <div className="flex w-full overflow-x-auto scrollbar-hide gap-x-2">
                 {Object.entries(categories).map(([key, category]) => (
                   <button
                     key={key}
@@ -258,7 +261,7 @@ function ProjectsContent() {
                 ))}
               </div>
             </div>
-            {/* Desktop Filters */}
+
             <div className="flex-col md:mt-8 gap-y-4 hidden md:flex">
               <div className="flex items-center gap-4 flex-wrap">
                 <button
@@ -277,6 +280,7 @@ function ProjectsContent() {
                       : "Filters"}
                   </span>
                 </button>
+
                 {Object.entries(categories).map(([key, category]) => (
                   <button
                     key={key}
@@ -294,7 +298,7 @@ function ProjectsContent() {
                 ))}
               </div>
             </div>
-            {/* Projects Grid */}
+
             <div className="md:mt-12 mt-6 grid md:grid-cols-3 w-fit mx-auto md:gap-12 gap-8 place-items-center">
               {projectsLoading ? (
                 <div className="col-span-3">
@@ -322,7 +326,7 @@ function ProjectsContent() {
                 ))
               )}
             </div>
-            {/* Pagination */}
+
             {totalPages > 1 && (
               <div className="py-4 md:py-0 md:pt-12 flex justify-center items-center space-x-2">
                 <button

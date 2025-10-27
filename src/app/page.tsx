@@ -106,7 +106,6 @@ export default function Home() {
   const [activePartnerIndex, setActivePartnerIndex] = useState(-1);
   useEffect(() => {
     if (activePartnerIndex > -1) {
-      // Lock body scroll and fix iOS Safari viewport issues
       const scrollY = window.scrollY;
       document.body.style.position = "fixed";
       document.body.style.top = `-${scrollY}px`;
@@ -122,7 +121,6 @@ export default function Home() {
 
       return () => {
         document.removeEventListener("keydown", handleEscape);
-        // Restore body scroll and position
         const scrollY = document.body.style.top;
         document.body.style.position = "";
         document.body.style.top = "";
@@ -267,7 +265,6 @@ export default function Home() {
                   }}
                   className="absolute bottom-0 left-0 right-0 max-h-[800px] bg-white text-black rounded-t-3xl overflow-hidden md:h-[85vh]"
                 >
-                  {/* Close Button */}
                   <button
                     onClick={() => setActivePartnerIndex(-1)}
                     className="absolute right-4 top-4 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors md:right-6 md:top-6"
@@ -276,7 +273,6 @@ export default function Home() {
                   </button>
 
                   <div className="flex flex-col h-full md:flex-row">
-                    {/* Image Section - Now at top on mobile */}
                     <div className="flex-1 relative md:flex-none md:w-2/3 md:order-2">
                       <div className="relative w-full h-48 md:h-full">
                         <Image
@@ -290,7 +286,6 @@ export default function Home() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent md:from-black/40" />
 
-                        {/* Image Overlay Text */}
                         <div className="absolute bottom-4 left-4 text-white md:bottom-6 md:left-6">
                           <h2 className="text-xl font-bold mb-1 md:text-3xl md:mb-2">
                             {partners[activePartnerIndex].name}
@@ -302,11 +297,8 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* Content Section - Now at bottom on mobile */}
                     <div className="flex-none md:flex flex-col items-center justify-center p-4 border-t border-gray-200 md:flex-1 md:border-t-0 md:border-r md:p-8 md:w-1/3 md:order-1">
-                      {/* Mobile: Side by side layout */}
                       <div className="flex flex-row items-center justify-between gap-4 md:flex-col md:justify-center">
-                        {/* Logo */}
                         <div className="flex-1">
                           <Link
                             aria-label={`Visit ${partners[activePartnerIndex].name} website`}
@@ -323,7 +315,6 @@ export default function Home() {
                           </Link>
                         </div>
 
-                        {/* View Projects Button */}
                         <div className="flex-1 max-w-[140px] md:max-w-xs md:w-full">
                           <Link
                             aria-label={`View all projects for ${partners[activePartnerIndex].name}`}
@@ -337,7 +328,6 @@ export default function Home() {
                         </div>
                       </div>
 
-                      {/* Website Link - Hidden on mobile, visible on desktop */}
                       <Link
                         aria-label={`Visit ${partners[activePartnerIndex].name} website`}
                         rel="noopener noreferrer"
@@ -637,12 +627,10 @@ bg-white/50 backdrop-blur h-fit drop-shadow overflow-hidden`}
     active:scale-95 md:active:scale-100"
               >
                 <span className="relative inline-flex items-center justify-center overflow-hidden w-5 h-5">
-                  {/* First arrow slides in from left - only on md */}
                   <FaArrowRight
                     className="absolute transition-all duration-500 md:text-2xl text-base
       -translate-x-8 opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
                   />
-                  {/* Second arrow - slides out on md, scales on mobile */}
                   <FaArrowRight
                     className="absolute transition-all duration-500 md:text-2xl text-base
       translate-x-0 opacity-100 md:group-hover:translate-x-8 md:group-hover:opacity-0
@@ -765,12 +753,10 @@ bg-white/50 backdrop-blur h-fit drop-shadow overflow-hidden`}
     active:scale-95 md:active:scale-100"
                 >
                   <span className="relative inline-flex items-center justify-center overflow-hidden w-5 h-5">
-                    {/* First arrow slides in from left - only on md */}
                     <FaArrowRight
                       className="absolute transition-all duration-500 md:text-2xl text-base
       -translate-x-8 opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
                     />
-                    {/* Second arrow - slides out on md, scales on mobile */}
                     <FaArrowRight
                       className="absolute transition-all duration-500 md:text-2xl text-base
       translate-x-0 opacity-100 md:group-hover:translate-x-8 md:group-hover:opacity-0
@@ -859,12 +845,10 @@ bg-white/50 backdrop-blur h-fit drop-shadow overflow-hidden`}
     active:scale-95 md:active:scale-100"
               >
                 <span className="relative inline-flex items-center justify-center overflow-hidden w-5 h-5">
-                  {/* First arrow slides in from left - only on md */}
                   <FaArrowRight
                     className="absolute transition-all duration-500 md:text-2xl text-base
       -translate-x-8 opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
                   />
-                  {/* Second arrow - slides out on md, scales on mobile */}
                   <FaArrowRight
                     className="absolute transition-all duration-500 md:text-2xl text-base
       translate-x-0 opacity-100 md:group-hover:translate-x-8 md:group-hover:opacity-0
@@ -931,7 +915,6 @@ nəzərdə tutulub."
             </svg>
           </div>
         </section>
-        {/* Testimonial */}
         <section className="w-full md:py-36 py-12 bg-creatBGLight">
           <div className="flex flex-col h-full w-full">
             <div className="flex flex-col h-full w-full max-w-[1920px] mx-auto md:px-28 px-3">
@@ -1053,7 +1036,6 @@ nəzərdə tutulub."
                         }}
                       >
                         <div className="w-full h-full relative">
-                          {/* Client image */}
                           <div className="relative w-full h-full overflow-hidden rounded-md drop-shadow-md">
                             <Image
                               src={`${BASE_URI}/home/letters/${t.image}`}
