@@ -68,40 +68,48 @@ const Content = () => {
       <StructuredData project={project} />
       <Nav isTransparent={true} />
       <section className="flex flex-col relative">
-        <div className="relative z-10 w-full h-full grid [grid-template-rows:1fr_4fr_1fr]">
+        <div className="relative z-10 w-full h-full grid md:[grid-template-rows:1fr_4fr_1fr]">
           <div
             className="row-span-1 row-start-2 flex flex-col justify-center
-            gap-y-8 px-6"
+            md:gap-y-8 gap-y-3 px-6 pt-16 md:pt-0"
           >
-            <div className="w-[calc(50%-24px)]">
+            <div className="md:w-[calc(50%-24px)]">
               <TextAnim dir=">">
-                <h1 className="text-4xl text-white/90">{project?.name}</h1>
+                <h1 className="md:text-4xl text-2xl text-white/90">
+                  {project?.name}
+                </h1>
               </TextAnim>
             </div>
             <ParagraphAnimation>
-              <div className="w-1/2">
-                <p className="text-white/70 text-xl">{project?.description}</p>
+              <div className="md:w-1/2">
+                <p className="text-white/70 md:text-xl">
+                  {project?.description}
+                </p>
               </div>
             </ParagraphAnimation>
           </div>
-          <div className="row-span-1 row-start-3 w-1/2 h-full flex flex-col">
+          <div className="row-span-1 row-start-3 md:w-1/2 h-full flex flex-col">
             <motion.span
               initial={{ width: 0, opacity: 0 }}
               whileInView={{ width: "calc(100% - 64px)", opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.2 }}
               viewport={{ once: true }}
-              className="h-px bg-white/50 w-0"
+              className="h-px bg-white/50 w-0 hidden md:block"
             />
-            <div className="flex w-full h-full px-4 py-16 gap-x-16 max-w-[664px] ml-auto">
+            <div className="flex w-full h-full px-4 py-16 md:gap-x-16 gap-x-6 md:max-w-[664px] ml-auto">
               <div className="flex flex-col">
-                <h1 className="text-white/50 uppercase">Location</h1>
-                <h1 className="text-xl font-medium text-white/90">
+                <h1 className="md:text-base text-sm text-white/50 uppercase">
+                  Location
+                </h1>
+                <h1 className="md:text-xl font-medium text-white/90">
                   {project?.location}
                 </h1>
               </div>
               <div className="flex flex-col">
-                <h1 className="text-white/50 uppercase">Service</h1>
-                <h1 className="text-xl font-medium text-white/90">
+                <h1 className="md:text-base text-sm text-white/50 uppercase">
+                  Service
+                </h1>
+                <h1 className="md:text-xl font-medium text-white/90">
                   {project?.service}
                 </h1>
               </div>
@@ -125,10 +133,11 @@ const Content = () => {
           </div>
         </div>
       </section>
-      <section className="py-32">
-        <div className="ml-32 flex w-[calc(100%-128px)] gap-x-4">
+      <section className="md:py-32 py-6">
+        <div className="md:ml-32 ml-6 flex md:w-[calc(100%-128px)] gap-x-4">
           <motion.span
-            className="text-white/90 text-xl font-medium font-comfortaa border border-white/50 w-14 h-14 flex justify-center items-center rounded-full"
+            className="text-white/90 md:text-xl wf font-medium font-comfortaa \
+            border border-white/50 md:w-14 md:h-14 w-10 h-10 shrink-0 flex justify-center items-center rounded-full"
             initial={{ scale: 0, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.2 }}
@@ -136,10 +145,10 @@ const Content = () => {
           >
             02
           </motion.span>
-          <div className="flex flex-col w-full h-28">
+          <div className="flex flex-col w-full md:h-28">
             <motion.span
               viewport={{ once: true }}
-              className="w-0 h-px bg-white/50 mt-7"
+              className="w-0 h-px bg-white/50 md:mt-7 mt-5"
               initial={{
                 width: 0,
                 opacity: 0,
@@ -148,7 +157,7 @@ const Content = () => {
               transition={{ duration: 0.2, delay: 0.2 }}
             />
             <motion.h1
-              className="text-white/90 mt-7 font-comfortaa text-xl tracking-wide"
+              className="text-white/90 md:mt-7 mt-2 font-comfortaa md:text-xl tracking-wide"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
@@ -157,7 +166,7 @@ const Content = () => {
             </motion.h1>
           </div>
         </div>
-        <div>
+        <div className="px-6">
           <Carousel project={project} />
         </div>
       </section>

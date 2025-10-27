@@ -25,7 +25,7 @@ interface CarouselProps {
   initialScroll?: number;
 }
 
-type Card = {
+type CardType = {
   src: string;
   title: string;
   category: string;
@@ -35,7 +35,7 @@ type Card = {
 export const CarouselContext = createContext<{
   onCardClose: (index: number) => void;
   currentIndex: number;
-  cards: Card[];
+  cards: CardType[];
 }>({
   onCardClose: () => {},
   currentIndex: 0,
@@ -48,14 +48,14 @@ export const Carousel = ({ project, initialScroll = 0 }: CarouselProps) => {
   const [canScrollRight, setCanScrollRight] = React.useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const cards = Object.entries(project?.images || {})
-    .reverse()
+  const cards: CardType[] = Object.entries(project?.images || {})
     .map(([filename, imageUrl]) => ({
       category: project?.name || "",
       title: filename,
       src: imageUrl,
       alt: project?.images[filename] || "",
-    }));
+    }))
+    .reverse();
 
   useEffect(() => {
     if (carouselRef.current) {
@@ -68,7 +68,7 @@ export const Carousel = ({ project, initialScroll = 0 }: CarouselProps) => {
     if (carouselRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
       setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
     }
   };
 
@@ -94,14 +94,22 @@ export const Carousel = ({ project, initialScroll = 0 }: CarouselProps) => {
     >
       <div className="relative w-full">
         <div
-          className="flex w-full overflow-x-scroll overscroll-x-auto py-10 md:py-20 scroll-smooth [scrollbar-width:none]"
+          className={[
+            "flex w-full overflow-x-scroll overscroll-x-auto py-6 scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+            "md:py-20",
+          ].join(" ")}
           ref={carouselRef}
           onScroll={checkScrollability}
         >
           <div className="absolute right-0 z-[1000] h-auto w-[5%] overflow-hidden bg-gradient-to-l"></div>
 
-          <div className="flex flex-row justify-start gap-4 pl-4 max-w-[calc(100%-256px)] mx-auto">
-            {cards.reverse().map((card, index) => (
+          <div
+            className={[
+              "flex flex-row justify-start gap-3 pl-4 mx-auto",
+              "md:gap-4 md:max-w-[calc(100%-256px)]",
+            ].join(" ")}
+          >
+            {cards.map((card, index) => (
               <motion.div
                 initial={{
                   opacity: 0,
@@ -117,27 +125,37 @@ export const Carousel = ({ project, initialScroll = 0 }: CarouselProps) => {
                   },
                 }}
                 key={"card" + index}
-                className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
+                className={[
+                  "last:pr-[5%] rounded-3xl snap-start",
+                  "md:last:pr-[33%]",
+                ].join(" ")}
               >
                 <Card card={card} index={index} layout={true} />
               </motion.div>
             ))}
           </div>
         </div>
-        <div className="flex justify-end gap-2 mr-10">
+
+        <div className={["flex justify-end gap-2 mr-4", "md:mr-10"].join(" ")}>
           <button
-            className="relative z-30 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+            className={[
+              "relative z-30 h-9 w-9 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50",
+              "md:h-10 md:w-10",
+            ].join(" ")}
             onClick={scrollLeft}
             disabled={!canScrollLeft}
           >
-            <FaArrowLeft className="h-6 w-6 text-gray-500" />
+            <FaArrowLeft className="h-5 w-5 text-gray-500 md:h-6 md:w-6" />
           </button>
           <button
-            className="relative z-30 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+            className={[
+              "relative z-30 h-9 w-9 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50",
+              "md:h-10 md:w-10",
+            ].join(" ")}
             onClick={scrollRight}
             disabled={!canScrollRight}
           >
-            <FaArrowRight className="h-6 w-6 text-gray-500" />
+            <FaArrowRight className="h-5 w-5 text-gray-500 md:h-6 md:w-6" />
           </button>
         </div>
       </div>
@@ -150,7 +168,7 @@ export const Card = ({
   index,
   layout = false,
 }: {
-  card: Card;
+  card: CardType;
   index: number;
   layout?: boolean;
 }) => {
@@ -220,6 +238,7 @@ export const Card = ({
               exit={{ opacity: 0 }}
               className="bg-black/80 backdrop-blur-lg h-full w-full fixed inset-0"
             />
+
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -229,34 +248,42 @@ export const Card = ({
               className="h-screen w-screen relative"
             >
               <button
-                className="absolute top-6 right-6 h-8 w-8 bg-black/50 hover:bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center z-50"
+                className="absolute top-3 right-3 md:top-6 md:right-6 h-8 w-8 bg-black/50 hover:bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center z-50"
                 onClick={handleClose}
               >
-                <FaX className="h-6 w-6 text-white" />
+                <FaX className="h-3 w-3 text-white md:h-6 md:w-6" />
               </button>
+
               <button
-                className="absolute top-1/2 left-6 -translate-y-1/2 /
-                h-12 w-12 bg-black border-2 border-white rounded-full flex items-center justify-center z-50"
+                className={[
+                  "absolute top-1/2 left-3 -translate-y-1/2 h-10 w-10 bg-black/70 border border-white/70 rounded-full flex items-center justify-center z-50",
+                  "md:left-6 md:h-12 md:w-12 md:bg-black md:border-2 md:border-white",
+                ].join(" ")}
                 onClick={handlePrev}
               >
-                <FaArrowLeft className="h-6 w-6 text-white" />
+                <FaArrowLeft className="h-5 w-5 text-white md:h-6 md:w-6" />
               </button>
+
               <button
-                className="absolute top-1/2 -translate-y-1/2 right-6 h-12 w-12 \
-                bg-black border-2 border-white rounded-full flex items-center justify-center z-50"
+                className={[
+                  "absolute top-1/2 right-3 -translate-y-1/2 h-10 w-10 bg-black/70 border border-white/70 rounded-full flex items-center justify-center z-50",
+                  "md:right-6 md:h-12 md:w-12 md:bg-black md:border-2 md:border-white",
+                ].join(" ")}
                 onClick={handleNext}
               >
-                <FaArrowRight className="h-6 w-6 text-white" />
+                <FaArrowRight className="h-5 w-5 text-white md:h-6 md:w-6" />
               </button>
 
               <div
-                className="absolute top-0 left-0 z-50 p-6 bg-gradient-to-r
-                via-creatBG from-creatBG to-transparent"
+                className={[
+                  "absolute top-0 left-0 z-50 p-4 bg-gradient-to-r via-creatBG from-creatBG to-transparent",
+                  "md:p-6",
+                ].join(" ")}
               >
-                <motion.p className="text-base font-medium text-white">
+                <motion.p className="text-sm md:text-base font-medium text-white">
                   {currentCard.category}
                 </motion.p>
-                <motion.p className="text-2xl md:text-4xl font-semibold text-white mt-1">
+                <motion.p className="text-xl md:text-4xl font-semibold text-white mt-1">
                   {handleDisplayName(currentCard.title)}
                 </motion.p>
               </div>
@@ -268,6 +295,8 @@ export const Card = ({
                     alt={currentCard.title}
                     fill
                     className="object-contain"
+                    sizes="100vw"
+                    priority
                   />
                 </div>
               </div>
@@ -275,20 +304,26 @@ export const Card = ({
           </div>
         )}
       </AnimatePresence>
+
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}
-        className="rounded-3xl bg-gray-100 w-96 md:w-[512px] aspect-[3/4] overflow-hidden flex flex-col items-start justify-start relative z-10 cursor-pointer"
+        className={[
+          "rounded-3xl bg-gray-100 aspect-[3/4] overflow-hidden flex flex-col items-start justify-start relative z-10 cursor-pointer snap-start",
+          "w-72 md:w-[512px]",
+        ].join(" ")}
       >
         <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
+
         <div className="relative z-40 px-4 py-2 border-red-500">
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
-            className="text-white text-xl md:text-3xl font-semibold max-w-xs text-left [text-wrap:balance] font-sans mt-2"
+            className="text-white text-lg md:text-3xl font-semibold max-w-xs text-left [text-wrap:balance] font-sans mt-2"
           >
             {handleDisplayName(card.title)}
           </motion.p>
         </div>
+
         <Image
           src={card.src}
           fill
