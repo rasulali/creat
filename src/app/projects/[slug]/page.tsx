@@ -3,7 +3,7 @@ import { Suspense, useEffect, useState } from "react";
 import { createClient } from "../../../../utils/supabase/client";
 import Nav from "@/components/navbar";
 import TextAnim from "@/components/animatedText";
-import { Carousel } from "@/components/carousel";
+import { ProjectLightbox } from "@/components/projectLightbox";
 import { motion } from "motion/react";
 import Footer from "@/components/footer";
 import { ParagraphAnimation } from "@/components/paragraphAnim";
@@ -68,7 +68,7 @@ const Content = () => {
       <StructuredData project={project} />
       <Nav isTransparent={true} />
       <section className="flex flex-col relative">
-        <div className="relative z-10 w-full h-full grid md:[grid-template-rows:1fr_4fr_1fr]">
+        <div className="relative z-10 w-full h-[80vh] grid md:[grid-template-rows:1fr_4fr_1fr]">
           <div
             className="row-span-1 row-start-2 flex flex-col justify-center
             md:gap-y-8 gap-y-3 px-6 pt-16 md:pt-0"
@@ -167,7 +167,7 @@ const Content = () => {
           </div>
         </div>
         <div className="px-6">
-          <Carousel project={project} />
+          <ProjectLightbox project={project} />
         </div>
       </section>
       <Footer />

@@ -89,7 +89,7 @@ export default function Home() {
 
   const partnersInView = useInView(partnersRef, {
     once: true,
-    amount: screenSize.width <= 768 ? 0.1 : 0.5,
+    amount: screenSize.width >= 768 ? 0.5 : 0.1,
   });
 
   useEffect(() => {
@@ -402,44 +402,42 @@ export default function Home() {
             </div>
             <div
               ref={partnersRef}
-              className="flex flex-wrap gap-x-10 md:gap-x-16 gap-y-10 md:gap-y-16 items-center justify-center md:mt-32 mt-6 py-3 md:py-4"
+              className="flex flex-wrap gap-6 md:gap-12 items-center justify-center md:mt-32 mt-6 py-3 md:py-4"
             >
               {partners.map((partner, index) => {
-                const isMd = screenSize.width >= 768;
-                const itemWidth = isMd ? 240 : 120;
-                const gapX = isMd ? 16 : 10;
-                const totalPadding = isMd ? 256 : 0;
-                const availableWidth = screenSize.width - totalPadding;
-                const approxItemsPerRow = (() => {
-                  let n = 0;
-                  while (true) {
-                    const needed = (n + 1) * itemWidth + n * gapX;
-                    if (needed > availableWidth) {
-                      return Math.max(1, n);
-                    }
-                    n++;
-                  }
-                })();
-                const rowIndex = Math.floor(index / approxItemsPerRow);
-                const direction = rowIndex % 2 === 0 ? 1 : -1;
+                const isMobile = screenSize.width < 768;
+                const partnerWidth = isMobile ? 160 : 240;
+                const gap = isMobile ? 24 : 48;
+                const padding = isMobile ? 24 : 112;
+                const containerWidth = Math.min(screenSize.width, 1920);
+                const availableWidth = containerWidth - padding * 2;
+                const calculatedPartnersPerRow = Math.floor(
+                  (availableWidth + gap) / (partnerWidth + gap),
+                );
+                const partnersPerRow = Math.max(
+                  2,
+                  Math.min(6, calculatedPartnersPerRow),
+                );
 
-                const initialOffset = 0;
-                const animateOffset = direction * (isMd ? 24 : 12);
+                const rowIndex = Math.floor(index / partnersPerRow);
+                const isOddRow = rowIndex % 2 === 1;
+                const shiftAmount = isMobile ? 12 : 20;
+                const slideOffset = shiftAmount * (isOddRow ? -1 : 1);
 
                 return (
                   <motion.div
-                    initial={{ x: initialOffset }}
-                    animate={{
-                      x: partnersInView ? animateOffset : initialOffset,
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 100,
-                      damping: 20,
-                      mass: 0.5,
-                    }}
                     key={index}
                     className="w-fit h-fit z-10 relative"
+                    initial={{ x: 0, opacity: 0 }}
+                    animate={{
+                      x: partnersInView ? slideOffset : 0,
+                      opacity: partnersInView ? 1 : 0,
+                    }}
+                    transition={{
+                      duration: 0.6,
+                      delay: index * 0.03,
+                      ease: "easeOut",
+                    }}
                   >
                     <motion.div
                       onClick={() => {
@@ -492,7 +490,7 @@ export default function Home() {
                           }}
                           className="absolute w-full h-full rounded-[6px] md:rounded-[13px] bg-creatBright/50 -z-10 shadow-drop-shadow-lg-creatBright backdrop-blur"
                         />
-                        <div className="w-[120px] md:w-[240px] h-[60px] md:h-[120px] drop-shadow-lg">
+                        <div className="w-[160px] md:w-[240px] h-[80px] md:h-[120px] drop-shadow-lg">
                           <img
                             src={partner.logo}
                             alt={partner.name}
@@ -526,9 +524,8 @@ export default function Home() {
                           className="absolute w-full h-1/5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-md z-10"
                         />
                         <div
-                          style={{ width: itemWidth }}
-                          className={`px-2.5 md:px-4 py-1 md:py-2 rounded-full \
-bg-white/50 backdrop-blur h-fit drop-shadow overflow-hidden`}
+                          className="px-2.5 md:px-4 py-1 md:py-2 rounded-full \
+bg-white/50 backdrop-blur h-fit drop-shadow overflow-hidden md:w-[240px] w-[120px]"
                         >
                           <div className="w-full overflow-hidden h-full">
                             <motion.h1
