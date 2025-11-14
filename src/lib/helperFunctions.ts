@@ -31,7 +31,8 @@ export const createProjectSlug = (name: string, id: number): string => {
     .replace(/-+/g, "-")
     .replace(/^-+|-+$/g, "");
 
-  return `${slugifiedName}-${id}`;
+  if (slugifiedName) return `${slugifiedName}-${id}`;
+  else return `${id}`;
 };
 
 export const categories: Record<string, Category> = {
@@ -139,45 +140,18 @@ export const handleDisplayName = (name: string) => {
   return displayName;
 };
 
-/**
- * Formats a date string from "2024-11-24 19:27:32.65693+00" to "24 Nov, 2024"
- * Handles empty strings, null values, undefined, and promises
- *
- * @param dateInput - The date input in various possible formats
- * @returns A formatted date string or empty string if input is invalid
- */
 export const formatDate = (
-  dateInput:
-    | string
-    | Date
-    | null
-    | undefined
-    | Promise<string | Date | null | undefined>,
+  dateInput: string | Date | null | undefined,
 ): string => {
-  try {
-    // Handle promise inputs
-    if (dateInput instanceof Promise) {
-      const resolvedDate = dateInput;
-      return formatDate(resolvedDate);
-    }
+  if (!dateInput) return "";
 
-    // Return empty string for null/undefined/empty inputs
-    if (!dateInput) return "";
+  const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
 
-    // Convert to Date object if it's a string
-    const date =
-      typeof dateInput === "string" ? new Date(dateInput) : dateInput;
+  if (isNaN(date.getTime())) return "";
 
-    // Check if date is valid
-    if (isNaN(date.getTime())) return "";
+  const day = date.getDate();
+  const month = date.toLocaleString("en", { month: "short" }).toLowerCase();
+  const year = date.getFullYear();
 
-    // Format the date
-    const day = date.getDate();
-    const month = date.toLocaleString("en", { month: "short" }).toLowerCase();
-    const year = date.getFullYear();
-
-    return `${day} ${month}, ${year}`;
-  } catch (error) {
-    return "";
-  }
+  return `${day} ${month}, ${year}`;
 };
